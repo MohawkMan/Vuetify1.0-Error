@@ -1,0 +1,14 @@
+﻿.headline-underline:after {
+    background-color: #85cddb;
+    content: '';
+    display: block;
+    height: 4px;
+    margin: 30px auto 0;
+    position: relative;
+    width: 0;
+    transition: 1.5s cubic-bezier(.87,-.41,.19,1.44)
+}
+
+.headline-underline.animate:after {
+    width: 150px
+}
