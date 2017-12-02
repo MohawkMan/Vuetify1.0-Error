@@ -105,7 +105,7 @@ export default {
     }
   },
   components: {
-    'app-login': Login
+    'app-login': Login // TEST
   }
 }
 </script>
