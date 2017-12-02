@@ -8,9 +8,11 @@ namespace VBL.Data
     public interface ITrackedEntity
     {
         DateTime? DtCreated { get; set; }
-        string UserIdCreated { get; set; }
+        int? UserIdCreated { get; set; }
+        DateTime? DtModified { get; set; }
+        int? UserIdModified { get; set; }
+
         [Timestamp]
-        byte[] DtModified { get; set; }
-        string UserIdModified { get; set; }
+        byte[] RowVersion { get; set; }
     }
 }

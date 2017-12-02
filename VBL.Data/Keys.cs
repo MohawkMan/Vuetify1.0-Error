@@ -9,13 +9,16 @@ namespace VBL.Data
     {
         public void AssignKeys(ModelBuilder builder)
         {
-            builder.Entity<UserPhoneNumber>()
-                .HasKey(k => new { k.PhoneNumberId, k.UserId });
+            builder.Entity<UserPhone>()
+                .HasKey(k => new { k.PhoneId, k.UserId });
 
             builder.Entity<UserEmail>()
                 .HasKey(k => new { k.EmailId, k.UserId });
 
-            builder.Entity<OrganizationUser>()
+            builder.Entity<OrganizationLocation>()
+                .HasKey(k => new { k.OrganizationId, k.LocationId });
+
+            builder.Entity<OrganizationMember>()
                 .HasKey(k => new { k.OrganizationId, k.UserId });
         }
     }

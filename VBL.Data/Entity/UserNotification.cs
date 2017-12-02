@@ -10,7 +10,7 @@ namespace VBL.Data
         public string Message { get; set; }
         public string OnClick { get; set; }
         public bool Seen { get; set; }
-        public string UserId { get; set; }
+        public int UserId { get; set; }
         public ApplicationUser User { get; set; }
     }
 }

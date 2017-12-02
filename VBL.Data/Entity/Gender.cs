@@ -5,12 +5,11 @@ using System.Text;
 
 namespace VBL.Data
 {
-    public partial class Email : TrackedEntityBase
+    public partial class Gender
     {
-        [Key]
-        public string Address { get; set; }
-
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
         public bool IsPublic { get; set; }
-        public bool IsVerified { get; set; }
     }
 }

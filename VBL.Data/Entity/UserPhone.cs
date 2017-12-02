@@ -4,13 +4,14 @@ using System.Text;
 
 namespace VBL.Data
 {
-    public partial class UserEmail : TrackedEntityBase
+    public partial class UserPhone: TrackedEntityBase
     {
         public int UserId { get; set; }
-        public string EmailId { get; set; }
+        public string PhoneId { get; set; }
         public bool IsPublic { get; set; }
 
         public ApplicationUser User { get; set; }
-        public Email Email { get; set; }
+        public Phone Phone { get; set; }
+
     }
 }

@@ -31,23 +31,23 @@ namespace VBL.Data
                 .IsRequired(false);
             #endregion
 
-            #region OrganizationUser
-            builder.Entity<OrganizationUser>().HasOne(a => a.UserCreated)
+            #region OrganizationMember
+            builder.Entity<OrganizationMember>().HasOne(a => a.UserCreated)
                 .WithMany()
                 .HasForeignKey(a => a.UserIdCreated)
                 .IsRequired(false);
-            builder.Entity<OrganizationUser>().HasOne(a => a.UserModified)
+            builder.Entity<OrganizationMember>().HasOne(a => a.UserModified)
                 .WithMany()
                 .HasForeignKey(a => a.UserIdModified)
                 .IsRequired(false);
             #endregion
 
-            #region PhoneNumber
-            builder.Entity<PhoneNumber>().HasOne(a => a.UserCreated)
+            #region Phone
+            builder.Entity<Phone>().HasOne(a => a.UserCreated)
                 .WithMany()
                 .HasForeignKey(a => a.UserIdCreated)
                 .IsRequired(false);
-            builder.Entity<PhoneNumber>().HasOne(a => a.UserModified)
+            builder.Entity<Phone>().HasOne(a => a.UserModified)
                 .WithMany()
                 .HasForeignKey(a => a.UserIdModified)
                 .IsRequired(false);
@@ -94,23 +94,20 @@ namespace VBL.Data
                 .IsRequired(true);
             #endregion
 
-            #region UserPhoneNumber
-            builder.Entity<UserPhoneNumber>().HasOne(a => a.UserCreated)
+            #region UserPhone
+            builder.Entity<UserPhone>().HasOne(a => a.UserCreated)
                 .WithMany()
                 .HasForeignKey(a => a.UserIdCreated)
                 .IsRequired(false);
-            builder.Entity<UserPhoneNumber>().HasOne(a => a.UserModified)
+            builder.Entity<UserPhone>().HasOne(a => a.UserModified)
                 .WithMany()
                 .HasForeignKey(a => a.UserIdModified)
                 .IsRequired(false);
-            builder.Entity<UserPhoneNumber>().HasOne(a => a.User)
-                .WithMany(u => u.UserPhoneNumbers)
+            builder.Entity<UserPhone>().HasOne(a => a.User)
+                .WithMany(u => u.UserPhones)
                 .HasForeignKey(a => a.UserId)
                 .IsRequired(true);
             #endregion
-
-
-
         }
     }
 }

@@ -17,12 +17,109 @@ namespace VBL.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.0.0-rtm-26452")
+                .HasAnnotation("ProductVersion", "2.0.1-rtm-125")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ClaimType");
+
+                    b.Property<string>("ClaimValue");
+
+                    b.Property<int>("RoleId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("RoleClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ClaimType");
+
+                    b.Property<string>("ClaimValue");
+
+                    b.Property<int>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
+                {
+                    b.Property<string>("ProviderKey");
+
+                    b.Property<string>("LoginProvider");
+
+                    b.Property<string>("ProviderDisplayName");
+
+                    b.Property<int>("UserId");
+
+                    b.HasKey("ProviderKey", "LoginProvider");
+
+                    b.HasAlternateKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserLogins");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
+                {
+                    b.Property<int>("RoleId");
+
+                    b.Property<int>("UserId");
+
+                    b.HasKey("RoleId", "UserId");
+
+                    b.HasAlternateKey("UserId", "RoleId");
+
+                    b.ToTable("UserRoles");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
+                {
+                    b.Property<int>("UserId");
+
+                    b.Property<string>("LoginProvider");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("UserTokens");
+                });
+
+            modelBuilder.Entity("VBL.Data.AgeType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("IsPublic");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AgeTypes");
+                });
+
+            modelBuilder.Entity("VBL.Data.ApplicationRole", b =>
+                {
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("ConcurrencyStamp")
@@ -41,110 +138,24 @@ namespace VBL.Data.Migrations
                         .HasName("RoleNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
-                    b.ToTable("AspNetRoles");
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("ClaimType");
-
-                    b.Property<string>("ClaimValue");
-
-                    b.Property<string>("RoleId")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("AspNetRoleClaims");
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("ClaimType");
-
-                    b.Property<string>("ClaimValue");
-
-                    b.Property<string>("UserId")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("AspNetUserClaims");
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
-                {
-                    b.Property<string>("LoginProvider");
-
-                    b.Property<string>("ProviderKey");
-
-                    b.Property<string>("ProviderDisplayName");
-
-                    b.Property<string>("UserId")
-                        .IsRequired();
-
-                    b.HasKey("LoginProvider", "ProviderKey");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("AspNetUserLogins");
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
-                {
-                    b.Property<string>("UserId");
-
-                    b.Property<string>("RoleId");
-
-                    b.HasKey("UserId", "RoleId");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("AspNetUserRoles");
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
-                {
-                    b.Property<string>("UserId");
-
-                    b.Property<string>("LoginProvider");
-
-                    b.Property<string>("Name");
-
-                    b.Property<string>("Value");
-
-                    b.HasKey("UserId", "LoginProvider", "Name");
-
-                    b.ToTable("AspNetUserTokens");
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("VBL.Data.ApplicationUser", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("AccessFailedCount");
 
-                    b.Property<bool>("Active");
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
+                    b.Property<DateTime?>("Dob");
+
                     b.Property<DateTime?>("DtCreated");
 
-                    b.Property<byte[]>("DtModified")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
+                    b.Property<DateTime?>("DtModified");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256);
@@ -154,6 +165,8 @@ namespace VBL.Data.Migrations
                     b.Property<string>("FirstName");
 
                     b.Property<string>("Gender");
+
+                    b.Property<bool>("IsActive");
 
                     b.Property<string>("LastLoginProvider");
 
@@ -177,13 +190,17 @@ namespace VBL.Data.Migrations
 
                     b.Property<string>("RegistrationProvider");
 
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
                     b.Property<string>("SecurityStamp");
 
                     b.Property<bool>("TwoFactorEnabled");
 
-                    b.Property<string>("UserIdCreated");
+                    b.Property<int?>("UserIdCreated");
 
-                    b.Property<string>("UserIdModified");
+                    b.Property<int?>("UserIdModified");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
@@ -202,7 +219,25 @@ namespace VBL.Data.Migrations
 
                     b.HasIndex("UserIdModified");
 
-                    b.ToTable("AspNetUsers");
+                    b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("VBL.Data.Division", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description");
+
+                    b.Property<bool>("IsPublic");
+
+                    b.Property<string>("Name");
+
+                    b.Property<byte>("Order");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Divisions");
                 });
 
             modelBuilder.Entity("VBL.Data.Email", b =>
@@ -212,17 +247,19 @@ namespace VBL.Data.Migrations
 
                     b.Property<DateTime?>("DtCreated");
 
-                    b.Property<byte[]>("DtModified")
+                    b.Property<DateTime?>("DtModified");
+
+                    b.Property<bool>("IsPublic");
+
+                    b.Property<bool>("IsVerified");
+
+                    b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate();
 
-                    b.Property<bool>("Public");
+                    b.Property<int?>("UserIdCreated");
 
-                    b.Property<string>("UserIdCreated");
-
-                    b.Property<string>("UserIdModified");
-
-                    b.Property<bool>("Verified");
+                    b.Property<int?>("UserIdModified");
 
                     b.HasKey("Address");
 
@@ -233,30 +270,82 @@ namespace VBL.Data.Migrations
                     b.ToTable("Emails");
                 });
 
+            modelBuilder.Entity("VBL.Data.Gender", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description");
+
+                    b.Property<bool>("IsPublic");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Genders");
+                });
+
+            modelBuilder.Entity("VBL.Data.Location", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime?>("DtCreated");
+
+                    b.Property<DateTime?>("DtModified");
+
+                    b.Property<bool>("IsPublic");
+
+                    b.Property<string>("Name");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.Property<int?>("UserCreatedId");
+
+                    b.Property<int?>("UserIdCreated");
+
+                    b.Property<int?>("UserIdModified");
+
+                    b.Property<int?>("UserModifiedId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserCreatedId");
+
+                    b.HasIndex("UserModifiedId");
+
+                    b.ToTable("Locations");
+                });
+
             modelBuilder.Entity("VBL.Data.Organization", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("ApplicationUserId");
+                    b.Property<int?>("ApplicationUserId");
 
                     b.Property<string>("Description");
 
                     b.Property<DateTime?>("DtCreated");
 
-                    b.Property<byte[]>("DtModified")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
+                    b.Property<DateTime?>("DtModified");
 
                     b.Property<bool>("IsActive");
 
+                    b.Property<bool>("IsPublic");
+
                     b.Property<string>("Name");
 
-                    b.Property<bool>("Public");
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
 
-                    b.Property<string>("UserIdCreated");
+                    b.Property<int?>("UserIdCreated");
 
-                    b.Property<string>("UserIdModified");
+                    b.Property<int?>("UserIdModified");
 
                     b.HasKey("Id");
 
@@ -269,25 +358,40 @@ namespace VBL.Data.Migrations
                     b.ToTable("Organizations");
                 });
 
-            modelBuilder.Entity("VBL.Data.OrganizationUser", b =>
+            modelBuilder.Entity("VBL.Data.OrganizationLocation", b =>
                 {
                     b.Property<int>("OrganizationId");
 
-                    b.Property<string>("UserId");
+                    b.Property<int>("LocationId");
+
+                    b.HasKey("OrganizationId", "LocationId");
+
+                    b.HasIndex("LocationId");
+
+                    b.ToTable("OrganizationLocations");
+                });
+
+            modelBuilder.Entity("VBL.Data.OrganizationMember", b =>
+                {
+                    b.Property<int>("OrganizationId");
+
+                    b.Property<int>("UserId");
 
                     b.Property<DateTime?>("DtCreated");
 
-                    b.Property<byte[]>("DtModified")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
+                    b.Property<DateTime?>("DtModified");
 
                     b.Property<bool>("IsActive");
 
                     b.Property<int>("Role");
 
-                    b.Property<string>("UserIdCreated");
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
 
-                    b.Property<string>("UserIdModified");
+                    b.Property<int?>("UserIdCreated");
+
+                    b.Property<int?>("UserIdModified");
 
                     b.HasKey("OrganizationId", "UserId");
 
@@ -297,29 +401,31 @@ namespace VBL.Data.Migrations
 
                     b.HasIndex("UserIdModified");
 
-                    b.ToTable("OrganizationUsers");
+                    b.ToTable("OrganizationMembers");
                 });
 
-            modelBuilder.Entity("VBL.Data.PhoneNumber", b =>
+            modelBuilder.Entity("VBL.Data.Phone", b =>
                 {
                     b.Property<string>("Number")
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime?>("DtCreated");
 
-                    b.Property<byte[]>("DtModified")
+                    b.Property<DateTime?>("DtModified");
+
+                    b.Property<bool>("IsPublic");
+
+                    b.Property<bool>("IsSMS");
+
+                    b.Property<bool>("IsVerified");
+
+                    b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate();
 
-                    b.Property<bool>("Public");
+                    b.Property<int?>("UserIdCreated");
 
-                    b.Property<bool>("SMS");
-
-                    b.Property<string>("UserIdCreated");
-
-                    b.Property<string>("UserIdModified");
-
-                    b.Property<bool>("Verified");
+                    b.Property<int?>("UserIdModified");
 
                     b.HasKey("Number");
 
@@ -327,24 +433,28 @@ namespace VBL.Data.Migrations
 
                     b.HasIndex("UserIdModified");
 
-                    b.ToTable("PhoneNumbers");
+                    b.ToTable("Phones");
                 });
 
             modelBuilder.Entity("VBL.Data.UserEmail", b =>
                 {
                     b.Property<string>("EmailId");
 
-                    b.Property<string>("UserId");
+                    b.Property<int>("UserId");
 
                     b.Property<DateTime?>("DtCreated");
 
-                    b.Property<byte[]>("DtModified")
+                    b.Property<DateTime?>("DtModified");
+
+                    b.Property<bool>("IsPublic");
+
+                    b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate();
 
-                    b.Property<string>("UserIdCreated");
+                    b.Property<int?>("UserIdCreated");
 
-                    b.Property<string>("UserIdModified");
+                    b.Property<int?>("UserIdModified");
 
                     b.HasKey("EmailId", "UserId");
 
@@ -364,22 +474,23 @@ namespace VBL.Data.Migrations
 
                     b.Property<DateTime?>("DtCreated");
 
-                    b.Property<byte[]>("DtModified")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
+                    b.Property<DateTime?>("DtModified");
 
                     b.Property<string>("Message");
 
                     b.Property<string>("OnClick");
 
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
                     b.Property<bool>("Seen");
 
-                    b.Property<string>("UserId")
-                        .IsRequired();
+                    b.Property<int>("UserId");
 
-                    b.Property<string>("UserIdCreated");
+                    b.Property<int?>("UserIdCreated");
 
-                    b.Property<string>("UserIdModified");
+                    b.Property<int?>("UserIdModified");
 
                     b.HasKey("Id");
 
@@ -392,23 +503,30 @@ namespace VBL.Data.Migrations
                     b.ToTable("UserNotifications");
                 });
 
-            modelBuilder.Entity("VBL.Data.UserPhoneNumber", b =>
+            modelBuilder.Entity("VBL.Data.UserPhone", b =>
                 {
-                    b.Property<string>("PhoneNumberId");
+                    b.Property<string>("PhoneId");
 
-                    b.Property<string>("UserId");
+                    b.Property<int>("UserId");
 
                     b.Property<DateTime?>("DtCreated");
 
-                    b.Property<byte[]>("DtModified")
+                    b.Property<DateTime?>("DtModified");
+
+                    b.Property<bool>("IsPublic");
+
+                    b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate();
 
-                    b.Property<string>("UserIdCreated");
+                    b.Property<int?>("UserIdCreated");
 
-                    b.Property<string>("UserIdModified");
+                    b.Property<int?>("UserIdModified");
 
-                    b.HasKey("PhoneNumberId", "UserId");
+                    b.HasKey("PhoneId", "UserId");
+
+                    b.HasIndex("PhoneId")
+                        .IsUnique();
 
                     b.HasIndex("UserId");
 
@@ -416,18 +534,18 @@ namespace VBL.Data.Migrations
 
                     b.HasIndex("UserIdModified");
 
-                    b.ToTable("UserPhoneNumbers");
+                    b.ToTable("UserPhones");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
+                    b.HasOne("VBL.Data.ApplicationRole")
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
                     b.HasOne("VBL.Data.ApplicationUser")
                         .WithMany()
@@ -435,7 +553,7 @@ namespace VBL.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
                     b.HasOne("VBL.Data.ApplicationUser")
                         .WithMany()
@@ -443,9 +561,9 @@ namespace VBL.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
+                    b.HasOne("VBL.Data.ApplicationRole")
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -456,7 +574,7 @@ namespace VBL.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
                     b.HasOne("VBL.Data.ApplicationUser")
                         .WithMany()
@@ -486,6 +604,17 @@ namespace VBL.Data.Migrations
                         .HasForeignKey("UserIdModified");
                 });
 
+            modelBuilder.Entity("VBL.Data.Location", b =>
+                {
+                    b.HasOne("VBL.Data.ApplicationUser", "UserCreated")
+                        .WithMany()
+                        .HasForeignKey("UserCreatedId");
+
+                    b.HasOne("VBL.Data.ApplicationUser", "UserModified")
+                        .WithMany()
+                        .HasForeignKey("UserModifiedId");
+                });
+
             modelBuilder.Entity("VBL.Data.Organization", b =>
                 {
                     b.HasOne("VBL.Data.ApplicationUser")
@@ -501,15 +630,28 @@ namespace VBL.Data.Migrations
                         .HasForeignKey("UserIdModified");
                 });
 
-            modelBuilder.Entity("VBL.Data.OrganizationUser", b =>
+            modelBuilder.Entity("VBL.Data.OrganizationLocation", b =>
+                {
+                    b.HasOne("VBL.Data.Location", "Location")
+                        .WithMany()
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("VBL.Data.Organization", "Organization")
+                        .WithMany()
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("VBL.Data.OrganizationMember", b =>
                 {
                     b.HasOne("VBL.Data.Organization", "Organization")
-                        .WithMany("OrganizationUser")
+                        .WithMany("OrganizationMembers")
                         .HasForeignKey("OrganizationId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("VBL.Data.ApplicationUser", "User")
-                        .WithMany("OrganizationUsers")
+                        .WithMany("OrganizationMembers")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
 
@@ -522,7 +664,7 @@ namespace VBL.Data.Migrations
                         .HasForeignKey("UserIdModified");
                 });
 
-            modelBuilder.Entity("VBL.Data.PhoneNumber", b =>
+            modelBuilder.Entity("VBL.Data.Phone", b =>
                 {
                     b.HasOne("VBL.Data.ApplicationUser", "UserCreated")
                         .WithMany()
@@ -570,15 +712,15 @@ namespace VBL.Data.Migrations
                         .HasForeignKey("UserIdModified");
                 });
 
-            modelBuilder.Entity("VBL.Data.UserPhoneNumber", b =>
+            modelBuilder.Entity("VBL.Data.UserPhone", b =>
                 {
-                    b.HasOne("VBL.Data.PhoneNumber", "PhoneNumber")
-                        .WithMany()
-                        .HasForeignKey("PhoneNumberId")
+                    b.HasOne("VBL.Data.Phone", "Phone")
+                        .WithOne("UserPhone")
+                        .HasForeignKey("VBL.Data.UserPhone", "PhoneId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("VBL.Data.ApplicationUser", "User")
-                        .WithMany("UserPhoneNumbers")
+                        .WithMany("UserPhones")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
 

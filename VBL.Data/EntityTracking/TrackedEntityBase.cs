@@ -8,12 +8,14 @@ namespace VBL.Data
     public partial class TrackedEntityBase : ITrackedEntity
     {
         public DateTime? DtCreated { get; set; }
-        public string UserIdCreated { get; set; }
+        public int? UserIdCreated { get; set; }
         public ApplicationUser UserCreated { get; set; }
 
-        [Timestamp]
-        public byte[] DtModified { get; set; }
-        public string UserIdModified { get; set; }
+        public DateTime? DtModified { get; set; }
+        public int? UserIdModified { get; set; }
         public ApplicationUser UserModified { get; set; }
+
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
     }
 }

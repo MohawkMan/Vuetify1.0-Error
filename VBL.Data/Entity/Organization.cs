@@ -10,8 +10,13 @@ namespace VBL.Data
         public string Name { get; set; }
         public string Description { get; set; }
         public bool IsActive { get; set; }
-        public bool Public { get; set; }
+        public bool IsPublic { get; set; }
 
-        public List<OrganizationUser> OrganizationUser { get; } = new List<OrganizationUser>();
+        public List<OrganizationMember> OrganizationMembers { get; set; }
+
+        public Organization()
+        {
+            OrganizationMembers = new List<OrganizationMember>();
+        }
     }
 }

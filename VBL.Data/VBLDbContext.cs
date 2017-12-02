@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace VBL.Data
 {
-    public partial class VBLDbContext : IdentityDbContext<ApplicationUser>
+    public partial class VBLDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, int>
     {
         private readonly HttpContext Context;
         public VBLDbContext(DbContextOptions<VBLDbContext> options, IHttpContextAccessor contextAccessor = null) : base(options)
@@ -22,6 +23,7 @@ namespace VBL.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+            IdentityRename(builder);
             AssignKeys(builder);
             BuildRelationships(builder);
         }
@@ -36,9 +38,13 @@ namespace VBL.Data
             return base.SaveChangesAsync(cancellationToken);
         }
 
-        private void AddTracking(string userId = null)
+        private void AddTracking(int userId = 0)
         {
-            var id = string.IsNullOrWhiteSpace(userId) ? Context?.User?.FindFirstValue(ClaimTypes.NameIdentifier) : userId;
+            if(userId == 0)
+            {
+                IdentityOptions _options = new IdentityOptions();
+                int.TryParse(Context?.User?.FindFirstValue(_options.ClaimsIdentity.UserIdClaimType), out userId);
+            }
 
             var entities = ChangeTracker.Entries().Where(x => x.Entity is ITrackedEntity && (x.State == EntityState.Added || x.State == EntityState.Modified));
             if (!entities.Any())
@@ -50,13 +56,15 @@ namespace VBL.Data
                 {
                     if (!((ITrackedEntity)entity.Entity).DtCreated.HasValue)
                         ((ITrackedEntity)entity.Entity).DtCreated = DateTime.UtcNow;
-                    ((ITrackedEntity)entity.Entity).UserIdCreated = id;
+
+                    if(userId > 0)
+                        ((ITrackedEntity)entity.Entity).UserIdCreated = userId;
                 }
 
-                //((ITrackedEntity)entity.Entity).DtModified = DateTime.UtcNow;
-                ((ITrackedEntity)entity.Entity).UserIdModified = id;
+                ((ITrackedEntity)entity.Entity).DtModified = DateTime.UtcNow;
+                if (userId > 0)
+                    ((ITrackedEntity)entity.Entity).UserIdModified = userId;
             }
         }
-
     }
 }

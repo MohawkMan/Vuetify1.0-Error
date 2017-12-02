@@ -4,10 +4,10 @@ using System.Text;
 
 namespace VBL.Data
 {
-    public partial class OrganizationUser : TrackedEntityBase
+    public partial class OrganizationMember : TrackedEntityBase
     {
         public int OrganizationId { get; set; }
-        public string UserId { get; set; }
+        public int UserId { get; set; }
         public OranizationUserRoles Role { get; set; }
         public bool IsActive { get; set; }
         
