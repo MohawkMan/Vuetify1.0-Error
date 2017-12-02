@@ -29,6 +29,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "VBL.Vue", "VBL.Vue\", "{91F
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "8800"
+		SlnRelativePath = "VBL.Vue\"
 	EndProjectSection
 EndProject
 Global
