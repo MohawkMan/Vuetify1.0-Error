@@ -1,0 +1,12 @@
+// Shared
+export const SET_LOADING = 'SET_LOADING'
+export const SET_ERROR = 'SET_ERROR'
+export const SET_NAV = 'SET_NAV'
+// Options
+export const SET_AGETYPEOPTIONS = 'SET_AGETYPEOPTIONS'
+export const SET_GENDEROPTIONS = 'SET_GENDEROPTIONS'
+export const SET_DIVISIONOPTIONS = 'SET_DIVISIONOPTIONS'
+export const SET_LOCATIONOPTIONS = 'SET_LOCATIONOPTIONS'
+
+// User
+export const SET_USER = 'SET_USER'

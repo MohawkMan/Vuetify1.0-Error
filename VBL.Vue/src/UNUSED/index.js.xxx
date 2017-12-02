@@ -1,0 +1,27 @@
+import Vue from 'vue'
+
+import * as api from './api'
+// Http/Ajax
+import VueAxios from 'vue-axios'
+import axios from 'axios'
+Vue.use(VueAxios, axios)
+axios.defaults.baseURL = api.baseURL
+
+// Auth
+import VueAuthenticate from 'vue-authenticate'
+Vue.use(VueAuthenticate, {
+  baseUrl: api.baseURL,
+  loginUrl: '/Account/Login',
+  signupUrl: '/Account/Register'
+})
+
+export default {
+  User: {
+    login (username, password) {
+      return Vue.$auth.login({username, password})
+    },
+    get () {
+      return axios.get('/api/Me')
+    }
+  }
+}
