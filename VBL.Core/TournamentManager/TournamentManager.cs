@@ -27,22 +27,33 @@ namespace VBL.Core
 
         public async Task<List<AgeType>> GetAllAgeTypesAsync()
         {
-            return await _db.AgeTypes.ToListAsync();
+            return await _db.AgeTypes
+                .Where(w => w.IsPublic)
+                .OrderBy(o => o.Name)
+                .ToListAsync();
         }
 
         public async Task<List<Gender>> GetAllGendersAsync()
         {
-            return await _db.Genders.ToListAsync();
+            return await _db.Genders
+                .Where(w => w.IsPublic)
+                .OrderBy(o => o.Name)
+                .ToListAsync();
         }
 
         public async Task<List<Division>> GetAllDivisionsAsync()
         {
-            return await _db.Divisions.ToListAsync();
+            return await _db.Divisions
+                .Where(w => w.IsPublic)
+                .OrderBy(o => o.Order)
+                .ToListAsync();
         }
 
         public async Task<List<LocationDTO>> GetAllLocationsAsync()
         {
             return await _db.Locations
+                .Where(w => w.IsPublic)
+                .OrderBy(o => o.Name)
                 .ProjectTo<LocationDTO>()
                 .ToListAsync();
         }
@@ -53,6 +64,7 @@ namespace VBL.Core
                 return await _db.OrganizationLocations
                     .Where(w => w.OrganizationId == organizationId)
                     .ProjectTo<LocationDTO>()
+                    .OrderBy(o => o.Name)
                     .ToListAsync();
 
             return await GetAllLocationsAsync();

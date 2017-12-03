@@ -2,14 +2,16 @@
   <v-container>
     <v-layout row wrap>
       <v-flex>
-        <tournament-edit></tournament-edit>
+        <tournament-edit 
+          :tournament="tournament"></tournament-edit>
       </v-flex>
     </v-layout>
   </v-container>
 </template>
 
 <script>
-import Edit from '../../../components/Tournament_Edit.vue'
+import Tournament from '../../../classes/Tournament'
+import Edit from '../../../components/Tournament/Edit/Tournament.vue'
 
 export default {
   data () {
@@ -19,6 +21,9 @@ export default {
   },
   components: {
     'tournament-edit': Edit
+  },
+  created () {
+    this.tournament = new Tournament()
   }
 }
 </script>

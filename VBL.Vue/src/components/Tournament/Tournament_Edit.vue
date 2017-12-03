@@ -12,15 +12,23 @@
                             required
                         ></v-text-field>
                     </v-toolbar>
-                    <v-container>
-                            <template v-for="(item,i) in tournament.divisions">
-                                <v-layout row wrap :key="i">
-                                    <v-flex>
-
-                                    </v-flex>
-                                </v-layout>
-                            </template>
-                    </v-container>
+                    <v-data-table
+                      :headers="tournament.divisionHeaders"
+                      :items="tournament.divisions"
+                      hide-actions
+                    >
+                      <template slot="items" slot-scope="props">
+                        <td>{{ props.item.ageName}}</td>
+                        <td>{{ props.item.ageName}}</td>
+                        <td>{{ props.item.ageName}}</td>
+                        <td>{{ props.item.ageName}}</td>
+                      </template>
+                      <template slot="no-data">
+                        <v-alert :value="true" color="error" icon="warning">
+                          Sorry, nothing to display here :(
+                        </v-alert>
+                      </template>
+                    </v-data-table>
                     <v-btn @click="addDivision" :disabled="loading">
                         Add Division
                     </v-btn>
@@ -38,10 +46,10 @@
 </template>
 
 <script>
-import * as actions from '../store/ActionTypes'
-import Tournament from '../classes/Tournament'
-import Division from '../classes/TournamentDivision'
-import DivisionEdit from '../components/Tournament/Division.vue'
+import * as actions from '../../store/ActionTypes'
+import Tournament from '../../classes/Tournament'
+import Division from '../../classes/TournamentDivision'
+import DivisionEdit from '../../components/Tournament/Division.vue'
 
 export default {
   data () {

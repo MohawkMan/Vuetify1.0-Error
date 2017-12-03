@@ -19,6 +19,7 @@
           <v-container grid-list-lg>
             <v-layout row wrap>
               <v-flex xs12 sm10 offset-sm1>
+                <!-- Start What -->
                 <v-card>
                   <v-toolbar dense flat>
                     <v-toolbar-title>
@@ -29,41 +30,46 @@
                     <v-layout row wrap>
                       <v-flex xs6 sm4>
                         <v-select
-                          v-model="division.ageTypeId"
+                          v-model="division.ageType"
                           :items="ageTypeOptions"
                           item-text="name"
                           item-value="id"
                           label="Age Group"
                           autocomplete
+                          return-object
                         >
                         </v-select>
                       </v-flex>
                       <v-flex xs6 sm4>
                         <v-select
-                          v-model="division.genderId"
+                          v-model="division.gender"
                           :items="genderOptions"
                           item-text="name"
+                          prepend-icon="wc"
                           item-value="id"
                           label="Gender"
                           autocomplete
+                          return-object
                         >
                         </v-select>
                       </v-flex>
                       <v-flex xs6 sm4>
                         <v-select
-                          v-model="division.divisionId"
+                          v-model="division.division"
                           :items="divisionOptions"
                           item-text="name"
                           item-value="id"
+                          prepend-icon="assignment"
                           label="Division"
                           autocomplete
+                          return-object	
                         >
                         </v-select>
                       </v-flex>
                     </v-layout>
                   </v-container>
                 </v-card>
-                
+                <!-- Start When  -->
                 <v-card>
                   <v-toolbar dense flat>
                     <v-toolbar-title>
@@ -164,7 +170,7 @@
                     </v-layout>
                   </v-container>
                 </v-card>
-
+                <!-- Start Where  -->
                 <v-card>
                   <v-toolbar dense flat>
                     <v-toolbar-title>
@@ -179,14 +185,16 @@
                           item-text="name"
                           item-value="id"
                           label="Location"
+                          prepend-icon="place"
                           autocomplete
-                          v-model="division.locationId"
+                          return-object
+                          v-model="division.location"
                         ></v-select>
                       </v-flex>
                     </v-layout>
                   </v-container>
                 </v-card>
-
+                <!-- Start Registration  -->
                 <v-card>
                   <v-toolbar dense flat>
                     <v-toolbar-title>
@@ -194,13 +202,14 @@
                     </v-toolbar-title>
                   </v-toolbar>
                   <v-container>
+                    <!-- Start Row 1  -->
                     <v-layout row wrap>
                       <v-flex xs6 sm3>
                         <v-text-field
                           v-model="division.entryFee"
                           label="Entry Fee"
                           type="number"
-                          prefix="$"
+                          prepend-icon="attach_money"
                           @blur="formatCurrency"
                         ></v-text-field>
                       </v-flex>
@@ -208,10 +217,12 @@
                         <v-text-field
                           :label="shortText ? 'Max teams' : 'Max number of teams'"
                           type="number"
+                          prepend-icon="group"
                           v-model="division.maxTeams"
                         ></v-text-field>
                       </v-flex>
                     </v-layout>
+                    <!-- Start Row 2  -->
                     <v-layout row wrap>
                       <v-flex xs6 sm3>
                         <v-menu
@@ -233,7 +244,13 @@
                             readonly
                             v-model="division.registrationStartDate"
                           ></v-text-field>
-                          <v-date-picker no-title scrollable actions v-model="division.registrationStartDate">
+                          <v-date-picker 
+                            no-title
+                            scrollable
+                            actions
+                            v-model="division.registrationStartDate"
+                            :allowed-dates="regAllowedDates"
+                          >
                             <template slot-scope="{ save, cancel }">
                               <v-card-actions>
                                 <v-spacer></v-spacer>
@@ -294,7 +311,13 @@
                             readonly
                             v-model="division.registrationEndDate"
                           ></v-text-field>
-                          <v-date-picker no-title scrollable actions v-model="division.registrationEndDate">
+                          <v-date-picker
+                            no-title
+                            scrollable
+                            actions
+                            v-model="division.registrationEndDate"
+                            :allowed-dates="regAllowedDates">
+                          >
                             <template slot-scope="{ save, cancel }">
                               <v-card-actions>
                                 <v-spacer></v-spacer>
@@ -309,7 +332,7 @@
                         <v-menu
                           lazy
                           :close-on-content-click="false"
-                          v-model="regStartT"
+                          v-model="regEndT"
                           transition="scale-transition"
                           offset-y
                           full-width
@@ -336,8 +359,6 @@
                         </v-menu>
                       </v-flex>
                     </v-layout>
-                    <v-layout row wrap>
-                    </v-layout>                
                   </v-container>
                 </v-card>
 
@@ -407,6 +428,10 @@ export default {
     },
     formatCurrency () {
       this.division.entryFee = parseFloat(this.division.entryFee).toFixed(2)
+    },
+    regAllowedDates (date) {
+      if (!this.division.startDate) return true
+      return date <= this.division.startDate
     }
   }
 }

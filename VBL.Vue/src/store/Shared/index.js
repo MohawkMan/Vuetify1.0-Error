@@ -2,16 +2,17 @@ import Vue from 'vue'
 import * as mutations from '../MutationTypes'
 import * as actions from '../ActionTypes'
 import vbl from '../../VolleyballLife'
+import selectOptions from './SelectOptions.json'
 
 export default {
   state: {
     loading: false,
     error: null,
     nav: 'public',
-    ageTypeOptions: null,
-    genderOptions: null,
-    divisionOptions: null,
-    locationOptions: null
+    ageTypeOptions: selectOptions.ageTypeOptions,
+    genderOptions: selectOptions.genderOptions,
+    divisionOptions: selectOptions.divisionOptions,
+    locationOptions: selectOptions.locationOptions
   },
   mutations: {
     [mutations.SET_LOADING] (state, payload) {

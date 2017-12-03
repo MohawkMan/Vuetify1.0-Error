@@ -1,0 +1,265 @@
+{
+  "ageTypeOptions": [
+      {
+          "id": 1,
+          "name": "Adult",
+          "isPublic": true
+      },
+      {
+          "id": 2,
+          "name": "Juniors",
+          "isPublic": true
+      }
+  ],
+  "genderOptions": [
+      {
+          "id": 1,
+          "name": "Coed",
+          "description": null,
+          "isPublic": true
+      },
+      {
+          "id": 2,
+          "name": "Female",
+          "description": null,
+          "isPublic": true
+      },
+      {
+          "id": 3,
+          "name": "Female Singles",
+          "description": null,
+          "isPublic": true
+      },
+      {
+          "id": 4,
+          "name": "Male",
+          "description": null,
+          "isPublic": true
+      },
+      {
+          "id": 5,
+          "name": "Male Singles",
+          "description": null,
+          "isPublic": true
+      },
+      {
+          "id": 6,
+          "name": "Mixed",
+          "description": null,
+          "isPublic": true
+      }
+  ],
+  "divisionOptions": [
+      {
+          "id": 11,
+          "name": "10U",
+          "description": null,
+          "order": 0,
+          "isPublic": true
+      },
+      {
+          "id": 10,
+          "name": "12U",
+          "description": null,
+          "order": 0,
+          "isPublic": true
+      },
+      {
+          "id": 13,
+          "name": "12U Rec*",
+          "description": null,
+          "order": 0,
+          "isPublic": true
+      },
+      {
+          "id": 9,
+          "name": "14U",
+          "description": null,
+          "order": 0,
+          "isPublic": true
+      },
+      {
+          "id": 12,
+          "name": "14U Rec*",
+          "description": null,
+          "order": 0,
+          "isPublic": true
+      },
+      {
+          "id": 8,
+          "name": "16U",
+          "description": null,
+          "order": 0,
+          "isPublic": true
+      },
+      {
+          "id": 7,
+          "name": "18U",
+          "description": null,
+          "order": 0,
+          "isPublic": true
+      },
+      {
+          "id": 14,
+          "name": "18U/16U Elite",
+          "description": null,
+          "order": 0,
+          "isPublic": true
+      },
+      {
+          "id": 3,
+          "name": "A",
+          "description": null,
+          "order": 0,
+          "isPublic": true
+      },
+      {
+          "id": 2,
+          "name": "AA",
+          "description": null,
+          "order": 0,
+          "isPublic": true
+      },
+      {
+          "id": 1,
+          "name": "AAA",
+          "description": null,
+          "order": 0,
+          "isPublic": true
+      },
+      {
+          "id": 5,
+          "name": "B",
+          "description": null,
+          "order": 0,
+          "isPublic": true
+      },
+      {
+          "id": 4,
+          "name": "BB",
+          "description": null,
+          "order": 0,
+          "isPublic": true
+      },
+      {
+          "id": 15,
+          "name": "Masters",
+          "description": null,
+          "order": 0,
+          "isPublic": true
+      },
+      {
+          "id": 6,
+          "name": "Unrated",
+          "description": null,
+          "order": 0,
+          "isPublic": true
+      }
+  ],
+  "locationOptions": [
+      {
+          "id": 1,
+          "name": "Beach Blvd, Huntington Beach"
+      },
+      {
+          "id": 24,
+          "name": "Belmont Shore, Long Beach"
+      },
+      {
+          "id": 23,
+          "name": "Central Beach, Coronado"
+      },
+      {
+          "id": 22,
+          "name": "Doheny State Beach"
+      },
+      {
+          "id": 21,
+          "name": "East Beach, Santa Barbara"
+      },
+      {
+          "id": 20,
+          "name": "East Beach, Santa Barbara (Jrs.)"
+      },
+      {
+          "id": 19,
+          "name": "Hermosa Beach Pier"
+      },
+      {
+          "id": 18,
+          "name": "Huntington Beach Pier"
+      },
+      {
+          "id": 17,
+          "name": "Huntington State Beach (Newland)"
+      },
+      {
+          "id": 16,
+          "name": "Laguna Beach"
+      },
+      {
+          "id": 15,
+          "name": "Long Beach (Downtown)"
+      },
+      {
+          "id": 14,
+          "name": "Manhattan Beach Pier"
+      },
+      {
+          "id": 13,
+          "name": "Marine Street, Manhattan Beach"
+      },
+      {
+          "id": 12,
+          "name": "Marine Street, Manhattan Beach (Jrs.)"
+      },
+      {
+          "id": 11,
+          "name": "Mission Beach, San Diego"
+      },
+      {
+          "id": 10,
+          "name": "Monterey Bay (Waterfront Park)"
+      },
+      {
+          "id": 9,
+          "name": "Ocean Beach, San Diego"
+      },
+      {
+          "id": 8,
+          "name": "Ocean Beach, San Diego (Jrs.)"
+      },
+      {
+          "id": 7,
+          "name": "Ocean Park, Santa Monica"
+      },
+      {
+          "id": 6,
+          "name": "Pacific Palisades"
+      },
+      {
+          "id": 5,
+          "name": "Pismo Beach"
+      },
+      {
+          "id": 4,
+          "name": "Rosecrans, Manhattan Beach"
+      },
+      {
+          "id": 3,
+          "name": "Santa Cruz"
+      },
+      {
+          "id": 2,
+          "name": "Santa Monica North"
+      },
+      {
+          "id": 25,
+          "name": "Will Rogers State Beach"
+      },
+      {
+          "id": 26,
+          "name": "Zuma Beach, Malibu"
+      }
+  ]
+}

@@ -28,6 +28,7 @@ import {
   VSelect,
   VDatePicker,
   VTimePicker,
+  VDataTable,
   transitions
 } from 'vuetify'
 import '../node_modules/vuetify/src/stylus/app.styl'
@@ -58,6 +59,7 @@ Vue.use(Vuetify, {
     VSelect,
     VDatePicker,
     VTimePicker,
+    VDataTable,
     transitions
   },
   theme: {
@@ -104,7 +106,8 @@ import { store } from './store'
 
 Vue.config.productionTip = false
 
-import { usPhone } from './Filters'
+import { usDollars, usPhone } from './Filters'
+Vue.filter('usDollars', usDollars)
 Vue.filter('usPhone', usPhone)
 
 /* eslint-disable no-new */
