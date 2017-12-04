@@ -23,7 +23,16 @@ namespace VBL.Data.Mapping
     {
         public TournamentDivisionProfile()
         {
-            CreateMap<TournamentDivision, TournamentDivisionDTO>();
+            CreateMap<TournamentDivision, TournamentDivisionDTO>()
+                .ReverseMap()
+                .ForMember(s => s.AgeTypeId, opt => opt.MapFrom(d => d.AgeType.Id))
+                .ForMember(s =>s.AgeType, opt => opt.Ignore())
+                .ForMember(s => s.GenderId, opt => opt.MapFrom(d => d.Gender.Id))
+                .ForMember(s => s.Gender, opt => opt.Ignore())
+                .ForMember(s => s.DivisionId, opt => opt.MapFrom(d => d.Division.Id))
+                .ForMember(s => s.Division, opt => opt.Ignore())
+                .ForMember(s => s.LocationId, opt => opt.MapFrom(d => d.Location.Id))
+                .ForMember(s => s.Location, opt => opt.Ignore());
         }
     }
 }

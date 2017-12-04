@@ -30,9 +30,9 @@ namespace VBL.Data
         //Collections
         public List<UserPhone> UserPhones { get; set; } = new List<UserPhone>();
         public List<UserEmail> UserEmails { get; set; } = new List<UserEmail>();
-        public List<OrganizationMember> OrganizationMembers { get; set; } = new List<OrganizationMember>();
+        public List<OrganizationMember> OrganizationMemberships { get; set; } = new List<OrganizationMember>();
         public List<UserNotification> Notifications { get; set; } = new List<UserNotification>();
 
-        public List<Organization> UserOrganizations => OrganizationMembers.Select(ou => ou.Organization).ToList();
+        //public List<Organization> UserOrganizations => OrganizationMemberships.Select(ou => ou.Organization).ToList();
     }
 }

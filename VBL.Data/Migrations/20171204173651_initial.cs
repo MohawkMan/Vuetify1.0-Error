@@ -40,6 +40,20 @@ namespace VBL.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "FacebookProfiles",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    Email = table.Column<string>(nullable: true),
+                    FirstName = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FacebookProfiles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Genders",
                 columns: table => new
                 {
@@ -181,23 +195,21 @@ namespace VBL.Data.Migrations
                     IsPublic = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true),
-                    UserCreatedId = table.Column<int>(nullable: true),
                     UserIdCreated = table.Column<int>(nullable: true),
-                    UserIdModified = table.Column<int>(nullable: true),
-                    UserModifiedId = table.Column<int>(nullable: true)
+                    UserIdModified = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Locations", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Locations_Users_UserCreatedId",
-                        column: x => x.UserCreatedId,
+                        name: "FK_Locations_Users_UserIdCreated",
+                        column: x => x.UserIdCreated,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Locations_Users_UserModifiedId",
-                        column: x => x.UserModifiedId,
+                        name: "FK_Locations_Users_UserIdModified",
+                        column: x => x.UserIdModified,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -209,7 +221,6 @@ namespace VBL.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ApplicationUserId = table.Column<int>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     DtCreated = table.Column<DateTime>(nullable: true),
                     DtModified = table.Column<DateTime>(nullable: true),
@@ -223,12 +234,6 @@ namespace VBL.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Organizations", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Organizations_Users_ApplicationUserId",
-                        column: x => x.ApplicationUserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Organizations_Users_UserIdCreated",
                         column: x => x.UserIdCreated,
@@ -268,6 +273,36 @@ namespace VBL.Data.Migrations
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Phones_Users_UserIdModified",
+                        column: x => x.UserIdModified,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SanctioningBodies",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    DtCreated = table.Column<DateTime>(nullable: true),
+                    DtModified = table.Column<DateTime>(nullable: true),
+                    Name = table.Column<string>(nullable: true),
+                    RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true),
+                    UserIdCreated = table.Column<int>(nullable: true),
+                    UserIdModified = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SanctioningBodies", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SanctioningBodies_Users_UserIdCreated",
+                        column: x => x.UserIdCreated,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_SanctioningBodies_Users_UserIdModified",
                         column: x => x.UserIdModified,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -401,6 +436,45 @@ namespace VBL.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "EmailMessages",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Body = table.Column<string>(nullable: true),
+                    DtCreated = table.Column<DateTime>(nullable: true),
+                    DtModified = table.Column<DateTime>(nullable: true),
+                    FromEmailAddress = table.Column<string>(nullable: true),
+                    FromEmailId = table.Column<int>(nullable: true),
+                    RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true),
+                    Subject = table.Column<string>(nullable: true),
+                    UserIdCreated = table.Column<int>(nullable: true),
+                    UserIdModified = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EmailMessages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_EmailMessages_Emails_FromEmailAddress",
+                        column: x => x.FromEmailAddress,
+                        principalTable: "Emails",
+                        principalColumn: "Address",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_EmailMessages_Users_UserIdCreated",
+                        column: x => x.UserIdCreated,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_EmailMessages_Users_UserIdModified",
+                        column: x => x.UserIdModified,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserEmails",
                 columns: table => new
                 {
@@ -447,7 +521,12 @@ namespace VBL.Data.Migrations
                 columns: table => new
                 {
                     OrganizationId = table.Column<int>(nullable: false),
-                    LocationId = table.Column<int>(nullable: false)
+                    LocationId = table.Column<int>(nullable: false),
+                    DtCreated = table.Column<DateTime>(nullable: true),
+                    DtModified = table.Column<DateTime>(nullable: true),
+                    RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true),
+                    UserIdCreated = table.Column<int>(nullable: true),
+                    UserIdModified = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -464,6 +543,18 @@ namespace VBL.Data.Migrations
                         principalTable: "Organizations",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_OrganizationLocations_Users_UserIdCreated",
+                        column: x => x.UserIdCreated,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_OrganizationLocations_Users_UserIdModified",
+                        column: x => x.UserIdModified,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -551,6 +642,357 @@ namespace VBL.Data.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Tournaments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    DtCreated = table.Column<DateTime>(nullable: true),
+                    DtModified = table.Column<DateTime>(nullable: true),
+                    IsOrganizationApproved = table.Column<bool>(nullable: false),
+                    IsPublic = table.Column<bool>(nullable: false),
+                    IsSanctioningBodyApproved = table.Column<bool>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    OrganizationId = table.Column<int>(nullable: false),
+                    RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true),
+                    SanctioningBodyId = table.Column<int>(nullable: false),
+                    StatusId = table.Column<int>(nullable: false),
+                    UserIdCreated = table.Column<int>(nullable: true),
+                    UserIdModified = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tournaments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Tournaments_Organizations_OrganizationId",
+                        column: x => x.OrganizationId,
+                        principalTable: "Organizations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Tournaments_SanctioningBodies_SanctioningBodyId",
+                        column: x => x.SanctioningBodyId,
+                        principalTable: "SanctioningBodies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Tournaments_Users_UserIdCreated",
+                        column: x => x.UserIdCreated,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Tournaments_Users_UserIdModified",
+                        column: x => x.UserIdModified,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TournamentDivisions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    AgeTypeId = table.Column<int>(nullable: true),
+                    DivisionId = table.Column<int>(nullable: true),
+                    DtCreated = table.Column<DateTime>(nullable: true),
+                    DtModified = table.Column<DateTime>(nullable: true),
+                    GenderId = table.Column<int>(nullable: true),
+                    Info = table.Column<string>(nullable: true),
+                    IsSanctioningBodyApproved = table.Column<bool>(nullable: false),
+                    LocationId = table.Column<int>(nullable: true),
+                    MaxTeams = table.Column<int>(nullable: true),
+                    MinTeams = table.Column<int>(nullable: true),
+                    NumAllowedOnRoster = table.Column<byte>(nullable: false),
+                    NumOfPlayers = table.Column<byte>(nullable: false),
+                    RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true),
+                    SanctioningBodyId = table.Column<int>(nullable: true),
+                    TournamentId = table.Column<int>(nullable: false),
+                    UserIdCreated = table.Column<int>(nullable: true),
+                    UserIdModified = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TournamentDivisions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TournamentDivisions_AgeTypes_AgeTypeId",
+                        column: x => x.AgeTypeId,
+                        principalTable: "AgeTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_TournamentDivisions_Divisions_DivisionId",
+                        column: x => x.DivisionId,
+                        principalTable: "Divisions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_TournamentDivisions_Genders_GenderId",
+                        column: x => x.GenderId,
+                        principalTable: "Genders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_TournamentDivisions_Locations_LocationId",
+                        column: x => x.LocationId,
+                        principalTable: "Locations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_TournamentDivisions_Tournaments_TournamentId",
+                        column: x => x.TournamentId,
+                        principalTable: "Tournaments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_TournamentDivisions_Users_UserIdCreated",
+                        column: x => x.UserIdCreated,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_TournamentDivisions_Users_UserIdModified",
+                        column: x => x.UserIdModified,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TournamentDays",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CheckInTime = table.Column<string>(nullable: true),
+                    Date = table.Column<DateTime>(nullable: false),
+                    DtCreated = table.Column<DateTime>(nullable: true),
+                    DtModified = table.Column<DateTime>(nullable: true),
+                    PlayTime = table.Column<string>(nullable: true),
+                    RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true),
+                    TournamentDivisionId = table.Column<int>(nullable: false),
+                    UserIdCreated = table.Column<int>(nullable: true),
+                    UserIdModified = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TournamentDays", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TournamentDays_TournamentDivisions_TournamentDivisionId",
+                        column: x => x.TournamentDivisionId,
+                        principalTable: "TournamentDivisions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_TournamentDays_Users_UserIdCreated",
+                        column: x => x.UserIdCreated,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_TournamentDays_Users_UserIdModified",
+                        column: x => x.UserIdModified,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TournamentRegistrationEmails",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    DtCreated = table.Column<DateTime>(nullable: true),
+                    DtModified = table.Column<DateTime>(nullable: true),
+                    EmailMessageId = table.Column<int>(nullable: false),
+                    FromEmailAddress = table.Column<string>(nullable: true),
+                    FromEmailId = table.Column<int>(nullable: true),
+                    IsDefault = table.Column<bool>(nullable: false),
+                    OrganizationId = table.Column<int>(nullable: false),
+                    RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true),
+                    TournamentDivisionId = table.Column<int>(nullable: true),
+                    UserIdCreated = table.Column<int>(nullable: true),
+                    UserIdModified = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TournamentRegistrationEmails", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TournamentRegistrationEmails_EmailMessages_EmailMessageId",
+                        column: x => x.EmailMessageId,
+                        principalTable: "EmailMessages",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_TournamentRegistrationEmails_Emails_FromEmailAddress",
+                        column: x => x.FromEmailAddress,
+                        principalTable: "Emails",
+                        principalColumn: "Address",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_TournamentRegistrationEmails_Organizations_OrganizationId",
+                        column: x => x.OrganizationId,
+                        principalTable: "Organizations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_TournamentRegistrationEmails_TournamentDivisions_TournamentDivisionId",
+                        column: x => x.TournamentDivisionId,
+                        principalTable: "TournamentDivisions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_TournamentRegistrationEmails_Users_UserIdCreated",
+                        column: x => x.UserIdCreated,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_TournamentRegistrationEmails_Users_UserIdModified",
+                        column: x => x.UserIdModified,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TournamentRegistrationWindows",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    DtCreated = table.Column<DateTime>(nullable: true),
+                    DtEnd = table.Column<DateTime>(nullable: true),
+                    DtModified = table.Column<DateTime>(nullable: true),
+                    DtStart = table.Column<DateTime>(nullable: true),
+                    Fee = table.Column<double>(nullable: false),
+                    IsEarly = table.Column<bool>(nullable: false),
+                    IsLate = table.Column<bool>(nullable: false),
+                    RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true),
+                    TournamentDivisionId = table.Column<int>(nullable: false),
+                    UserIdCreated = table.Column<int>(nullable: true),
+                    UserIdModified = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TournamentRegistrationWindows", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TournamentRegistrationWindows_TournamentDivisions_TournamentDivisionId",
+                        column: x => x.TournamentDivisionId,
+                        principalTable: "TournamentDivisions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_TournamentRegistrationWindows_Users_UserIdCreated",
+                        column: x => x.UserIdCreated,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_TournamentRegistrationWindows_Users_UserIdModified",
+                        column: x => x.UserIdModified,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TournamentTeam",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    DtCreated = table.Column<DateTime>(nullable: true),
+                    DtModified = table.Column<DateTime>(nullable: true),
+                    Finish = table.Column<int>(nullable: true),
+                    Name = table.Column<string>(nullable: true),
+                    Points = table.Column<double>(nullable: true),
+                    RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true),
+                    Seed = table.Column<int>(nullable: true),
+                    TournamentDivisionId = table.Column<int>(nullable: false),
+                    UserIdCreated = table.Column<int>(nullable: true),
+                    UserIdModified = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TournamentTeam", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TournamentTeam_TournamentDivisions_TournamentDivisionId",
+                        column: x => x.TournamentDivisionId,
+                        principalTable: "TournamentDivisions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_TournamentTeam_Users_UserIdCreated",
+                        column: x => x.UserIdCreated,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_TournamentTeam_Users_UserIdModified",
+                        column: x => x.UserIdModified,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TournamentTeamMember",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    DtCreated = table.Column<DateTime>(nullable: true),
+                    DtModified = table.Column<DateTime>(nullable: true),
+                    PointLockDt = table.Column<DateTime>(nullable: true),
+                    Points = table.Column<double>(nullable: true),
+                    RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true),
+                    TournamentTeamId = table.Column<int>(nullable: false),
+                    UserIdCreated = table.Column<int>(nullable: true),
+                    UserIdModified = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TournamentTeamMember", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TournamentTeamMember_TournamentTeam_TournamentTeamId",
+                        column: x => x.TournamentTeamId,
+                        principalTable: "TournamentTeam",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_TournamentTeamMember_Users_UserIdCreated",
+                        column: x => x.UserIdCreated,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_TournamentTeamMember_Users_UserIdModified",
+                        column: x => x.UserIdModified,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EmailMessages_FromEmailAddress",
+                table: "EmailMessages",
+                column: "FromEmailAddress");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EmailMessages_UserIdCreated",
+                table: "EmailMessages",
+                column: "UserIdCreated");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EmailMessages_UserIdModified",
+                table: "EmailMessages",
+                column: "UserIdModified");
+
             migrationBuilder.CreateIndex(
                 name: "IX_Emails_UserIdCreated",
                 table: "Emails",
@@ -562,19 +1004,29 @@ namespace VBL.Data.Migrations
                 column: "UserIdModified");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Locations_UserCreatedId",
+                name: "IX_Locations_UserIdCreated",
                 table: "Locations",
-                column: "UserCreatedId");
+                column: "UserIdCreated");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Locations_UserModifiedId",
+                name: "IX_Locations_UserIdModified",
                 table: "Locations",
-                column: "UserModifiedId");
+                column: "UserIdModified");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrganizationLocations_LocationId",
                 table: "OrganizationLocations",
                 column: "LocationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrganizationLocations_UserIdCreated",
+                table: "OrganizationLocations",
+                column: "UserIdCreated");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrganizationLocations_UserIdModified",
+                table: "OrganizationLocations",
+                column: "UserIdModified");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrganizationMembers_UserId",
@@ -590,11 +1042,6 @@ namespace VBL.Data.Migrations
                 name: "IX_OrganizationMembers_UserIdModified",
                 table: "OrganizationMembers",
                 column: "UserIdModified");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Organizations_ApplicationUserId",
-                table: "Organizations",
-                column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Organizations_UserIdCreated",
@@ -627,6 +1074,161 @@ namespace VBL.Data.Migrations
                 column: "NormalizedName",
                 unique: true,
                 filter: "[NormalizedName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SanctioningBodies_UserIdCreated",
+                table: "SanctioningBodies",
+                column: "UserIdCreated");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SanctioningBodies_UserIdModified",
+                table: "SanctioningBodies",
+                column: "UserIdModified");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TournamentDays_TournamentDivisionId",
+                table: "TournamentDays",
+                column: "TournamentDivisionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TournamentDays_UserIdCreated",
+                table: "TournamentDays",
+                column: "UserIdCreated");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TournamentDays_UserIdModified",
+                table: "TournamentDays",
+                column: "UserIdModified");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TournamentDivisions_AgeTypeId",
+                table: "TournamentDivisions",
+                column: "AgeTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TournamentDivisions_DivisionId",
+                table: "TournamentDivisions",
+                column: "DivisionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TournamentDivisions_GenderId",
+                table: "TournamentDivisions",
+                column: "GenderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TournamentDivisions_LocationId",
+                table: "TournamentDivisions",
+                column: "LocationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TournamentDivisions_TournamentId",
+                table: "TournamentDivisions",
+                column: "TournamentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TournamentDivisions_UserIdCreated",
+                table: "TournamentDivisions",
+                column: "UserIdCreated");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TournamentDivisions_UserIdModified",
+                table: "TournamentDivisions",
+                column: "UserIdModified");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TournamentRegistrationEmails_EmailMessageId",
+                table: "TournamentRegistrationEmails",
+                column: "EmailMessageId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TournamentRegistrationEmails_FromEmailAddress",
+                table: "TournamentRegistrationEmails",
+                column: "FromEmailAddress");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TournamentRegistrationEmails_OrganizationId",
+                table: "TournamentRegistrationEmails",
+                column: "OrganizationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TournamentRegistrationEmails_TournamentDivisionId",
+                table: "TournamentRegistrationEmails",
+                column: "TournamentDivisionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TournamentRegistrationEmails_UserIdCreated",
+                table: "TournamentRegistrationEmails",
+                column: "UserIdCreated");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TournamentRegistrationEmails_UserIdModified",
+                table: "TournamentRegistrationEmails",
+                column: "UserIdModified");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TournamentRegistrationWindows_TournamentDivisionId",
+                table: "TournamentRegistrationWindows",
+                column: "TournamentDivisionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TournamentRegistrationWindows_UserIdCreated",
+                table: "TournamentRegistrationWindows",
+                column: "UserIdCreated");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TournamentRegistrationWindows_UserIdModified",
+                table: "TournamentRegistrationWindows",
+                column: "UserIdModified");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tournaments_OrganizationId",
+                table: "Tournaments",
+                column: "OrganizationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tournaments_SanctioningBodyId",
+                table: "Tournaments",
+                column: "SanctioningBodyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tournaments_UserIdCreated",
+                table: "Tournaments",
+                column: "UserIdCreated");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tournaments_UserIdModified",
+                table: "Tournaments",
+                column: "UserIdModified");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TournamentTeam_TournamentDivisionId",
+                table: "TournamentTeam",
+                column: "TournamentDivisionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TournamentTeam_UserIdCreated",
+                table: "TournamentTeam",
+                column: "UserIdCreated");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TournamentTeam_UserIdModified",
+                table: "TournamentTeam",
+                column: "UserIdModified");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TournamentTeamMember_TournamentTeamId",
+                table: "TournamentTeamMember",
+                column: "TournamentTeamId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TournamentTeamMember_UserIdCreated",
+                table: "TournamentTeamMember",
+                column: "UserIdCreated");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TournamentTeamMember_UserIdModified",
+                table: "TournamentTeamMember",
+                column: "UserIdModified");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserClaims_UserId",
@@ -715,13 +1317,7 @@ namespace VBL.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AgeTypes");
-
-            migrationBuilder.DropTable(
-                name: "Divisions");
-
-            migrationBuilder.DropTable(
-                name: "Genders");
+                name: "FacebookProfiles");
 
             migrationBuilder.DropTable(
                 name: "OrganizationLocations");
@@ -731,6 +1327,18 @@ namespace VBL.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "RoleClaims");
+
+            migrationBuilder.DropTable(
+                name: "TournamentDays");
+
+            migrationBuilder.DropTable(
+                name: "TournamentRegistrationEmails");
+
+            migrationBuilder.DropTable(
+                name: "TournamentRegistrationWindows");
+
+            migrationBuilder.DropTable(
+                name: "TournamentTeamMember");
 
             migrationBuilder.DropTable(
                 name: "UserClaims");
@@ -754,19 +1362,43 @@ namespace VBL.Data.Migrations
                 name: "UserTokens");
 
             migrationBuilder.DropTable(
-                name: "Locations");
+                name: "EmailMessages");
 
             migrationBuilder.DropTable(
-                name: "Organizations");
-
-            migrationBuilder.DropTable(
-                name: "Emails");
+                name: "TournamentTeam");
 
             migrationBuilder.DropTable(
                 name: "Phones");
 
             migrationBuilder.DropTable(
                 name: "Roles");
+
+            migrationBuilder.DropTable(
+                name: "Emails");
+
+            migrationBuilder.DropTable(
+                name: "TournamentDivisions");
+
+            migrationBuilder.DropTable(
+                name: "AgeTypes");
+
+            migrationBuilder.DropTable(
+                name: "Divisions");
+
+            migrationBuilder.DropTable(
+                name: "Genders");
+
+            migrationBuilder.DropTable(
+                name: "Locations");
+
+            migrationBuilder.DropTable(
+                name: "Tournaments");
+
+            migrationBuilder.DropTable(
+                name: "Organizations");
+
+            migrationBuilder.DropTable(
+                name: "SanctioningBodies");
 
             migrationBuilder.DropTable(
                 name: "Users");

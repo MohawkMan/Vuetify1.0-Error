@@ -6,6 +6,7 @@ export default class Tournament {
     this.id = 0
     this.name = ''
     this.isPublic = false
+    this.organizationId = null
     this.divisions = []
   }
 

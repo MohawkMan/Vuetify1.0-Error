@@ -19,7 +19,8 @@ namespace VBL.Data.Mapping
             CreateMap<Email, EmailDTO>()
                 .ForMember(d => d.Address, opt => opt.MapFrom(s => s.Address))
                 .ForMember(d => d.Public, opt => opt.MapFrom(s => s.IsPublic))
-                .ForMember(d => d.Verified, opt => opt.MapFrom(s => s.IsVerified));
+                .ForMember(d => d.Verified, opt => opt.MapFrom(s => s.IsVerified))
+                .ReverseMap();
         }
     }
 }

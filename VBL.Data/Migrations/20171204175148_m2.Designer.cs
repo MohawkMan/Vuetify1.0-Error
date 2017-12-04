@@ -11,8 +11,8 @@ using VBL.Data;
 namespace VBL.Data.Migrations
 {
     [DbContext(typeof(VBLDbContext))]
-    [Migration("20171201193843_initial")]
-    partial class initial
+    [Migration("20171204175148_m2")]
+    partial class m2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -271,6 +271,58 @@ namespace VBL.Data.Migrations
                     b.ToTable("Emails");
                 });
 
+            modelBuilder.Entity("VBL.Data.EmailMessage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Body");
+
+                    b.Property<DateTime?>("DtCreated");
+
+                    b.Property<DateTime?>("DtModified");
+
+                    b.Property<string>("FromEmailAddress");
+
+                    b.Property<int?>("FromEmailId");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.Property<string>("Subject");
+
+                    b.Property<int?>("UserIdCreated");
+
+                    b.Property<int?>("UserIdModified");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FromEmailAddress");
+
+                    b.HasIndex("UserIdCreated");
+
+                    b.HasIndex("UserIdModified");
+
+                    b.ToTable("EmailMessages");
+                });
+
+            modelBuilder.Entity("VBL.Data.FacebookProfile", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Email");
+
+                    b.Property<string>("FirstName");
+
+                    b.Property<string>("LastName");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FacebookProfiles");
+                });
+
             modelBuilder.Entity("VBL.Data.Gender", b =>
                 {
                     b.Property<int>("Id")
@@ -304,19 +356,15 @@ namespace VBL.Data.Migrations
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate();
 
-                    b.Property<int?>("UserCreatedId");
-
                     b.Property<int?>("UserIdCreated");
 
                     b.Property<int?>("UserIdModified");
 
-                    b.Property<int?>("UserModifiedId");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("UserCreatedId");
+                    b.HasIndex("UserIdCreated");
 
-                    b.HasIndex("UserModifiedId");
+                    b.HasIndex("UserIdModified");
 
                     b.ToTable("Locations");
                 });
@@ -325,8 +373,6 @@ namespace VBL.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<int?>("ApplicationUserId");
 
                     b.Property<string>("Description");
 
@@ -350,8 +396,6 @@ namespace VBL.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ApplicationUserId");
-
                     b.HasIndex("UserIdCreated");
 
                     b.HasIndex("UserIdModified");
@@ -365,9 +409,25 @@ namespace VBL.Data.Migrations
 
                     b.Property<int>("LocationId");
 
+                    b.Property<DateTime?>("DtCreated");
+
+                    b.Property<DateTime?>("DtModified");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.Property<int?>("UserIdCreated");
+
+                    b.Property<int?>("UserIdModified");
+
                     b.HasKey("OrganizationId", "LocationId");
 
                     b.HasIndex("LocationId");
+
+                    b.HasIndex("UserIdCreated");
+
+                    b.HasIndex("UserIdModified");
 
                     b.ToTable("OrganizationLocations");
                 });
@@ -435,6 +495,332 @@ namespace VBL.Data.Migrations
                     b.HasIndex("UserIdModified");
 
                     b.ToTable("Phones");
+                });
+
+            modelBuilder.Entity("VBL.Data.SanctioningBody", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime?>("DtCreated");
+
+                    b.Property<DateTime?>("DtModified");
+
+                    b.Property<string>("Name");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.Property<int?>("UserIdCreated");
+
+                    b.Property<int?>("UserIdModified");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserIdCreated");
+
+                    b.HasIndex("UserIdModified");
+
+                    b.ToTable("SanctioningBodies");
+                });
+
+            modelBuilder.Entity("VBL.Data.Tournament", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime?>("DtCreated");
+
+                    b.Property<DateTime?>("DtModified");
+
+                    b.Property<bool>("IsOrganizationApproved");
+
+                    b.Property<bool>("IsPublic");
+
+                    b.Property<bool>("IsSanctioningBodyApproved");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("OrganizationId");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.Property<int?>("SanctioningBodyId");
+
+                    b.Property<int>("StatusId");
+
+                    b.Property<int?>("UserIdCreated");
+
+                    b.Property<int?>("UserIdModified");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrganizationId");
+
+                    b.HasIndex("SanctioningBodyId");
+
+                    b.HasIndex("UserIdCreated");
+
+                    b.HasIndex("UserIdModified");
+
+                    b.ToTable("Tournaments");
+                });
+
+            modelBuilder.Entity("VBL.Data.TournamentDay", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("CheckInTime");
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<DateTime?>("DtCreated");
+
+                    b.Property<DateTime?>("DtModified");
+
+                    b.Property<string>("PlayTime");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.Property<int>("TournamentDivisionId");
+
+                    b.Property<int?>("UserIdCreated");
+
+                    b.Property<int?>("UserIdModified");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TournamentDivisionId");
+
+                    b.HasIndex("UserIdCreated");
+
+                    b.HasIndex("UserIdModified");
+
+                    b.ToTable("TournamentDays");
+                });
+
+            modelBuilder.Entity("VBL.Data.TournamentDivision", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("AgeTypeId");
+
+                    b.Property<int?>("DivisionId");
+
+                    b.Property<DateTime?>("DtCreated");
+
+                    b.Property<DateTime?>("DtModified");
+
+                    b.Property<int?>("GenderId");
+
+                    b.Property<string>("Info");
+
+                    b.Property<bool>("IsSanctioningBodyApproved");
+
+                    b.Property<int?>("LocationId");
+
+                    b.Property<int?>("MaxTeams");
+
+                    b.Property<int?>("MinTeams");
+
+                    b.Property<byte>("NumAllowedOnRoster");
+
+                    b.Property<byte>("NumOfPlayers");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.Property<int?>("SanctioningBodyId");
+
+                    b.Property<int>("TournamentId");
+
+                    b.Property<int?>("UserIdCreated");
+
+                    b.Property<int?>("UserIdModified");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AgeTypeId");
+
+                    b.HasIndex("DivisionId");
+
+                    b.HasIndex("GenderId");
+
+                    b.HasIndex("LocationId");
+
+                    b.HasIndex("TournamentId");
+
+                    b.HasIndex("UserIdCreated");
+
+                    b.HasIndex("UserIdModified");
+
+                    b.ToTable("TournamentDivisions");
+                });
+
+            modelBuilder.Entity("VBL.Data.TournamentRegistrationEmail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime?>("DtCreated");
+
+                    b.Property<DateTime?>("DtModified");
+
+                    b.Property<int>("EmailMessageId");
+
+                    b.Property<string>("FromEmailAddress");
+
+                    b.Property<int?>("FromEmailId");
+
+                    b.Property<bool>("IsDefault");
+
+                    b.Property<int>("OrganizationId");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.Property<int?>("TournamentDivisionId");
+
+                    b.Property<int?>("UserIdCreated");
+
+                    b.Property<int?>("UserIdModified");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmailMessageId");
+
+                    b.HasIndex("FromEmailAddress");
+
+                    b.HasIndex("OrganizationId");
+
+                    b.HasIndex("TournamentDivisionId");
+
+                    b.HasIndex("UserIdCreated");
+
+                    b.HasIndex("UserIdModified");
+
+                    b.ToTable("TournamentRegistrationEmails");
+                });
+
+            modelBuilder.Entity("VBL.Data.TournamentRegistrationWindow", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime?>("DtCreated");
+
+                    b.Property<DateTime?>("DtEnd");
+
+                    b.Property<DateTime?>("DtModified");
+
+                    b.Property<DateTime?>("DtStart");
+
+                    b.Property<double>("Fee");
+
+                    b.Property<bool>("IsEarly");
+
+                    b.Property<bool>("IsLate");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.Property<int>("TournamentDivisionId");
+
+                    b.Property<int?>("UserIdCreated");
+
+                    b.Property<int?>("UserIdModified");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TournamentDivisionId");
+
+                    b.HasIndex("UserIdCreated");
+
+                    b.HasIndex("UserIdModified");
+
+                    b.ToTable("TournamentRegistrationWindows");
+                });
+
+            modelBuilder.Entity("VBL.Data.TournamentTeam", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime?>("DtCreated");
+
+                    b.Property<DateTime?>("DtModified");
+
+                    b.Property<int?>("Finish");
+
+                    b.Property<string>("Name");
+
+                    b.Property<double?>("Points");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.Property<int?>("Seed");
+
+                    b.Property<int>("TournamentDivisionId");
+
+                    b.Property<int?>("UserIdCreated");
+
+                    b.Property<int?>("UserIdModified");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TournamentDivisionId");
+
+                    b.HasIndex("UserIdCreated");
+
+                    b.HasIndex("UserIdModified");
+
+                    b.ToTable("TournamentTeam");
+                });
+
+            modelBuilder.Entity("VBL.Data.TournamentTeamMember", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime?>("DtCreated");
+
+                    b.Property<DateTime?>("DtModified");
+
+                    b.Property<DateTime?>("PointLockDt");
+
+                    b.Property<double?>("Points");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.Property<int>("TournamentTeamId");
+
+                    b.Property<int?>("UserIdCreated");
+
+                    b.Property<int?>("UserIdModified");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TournamentTeamId");
+
+                    b.HasIndex("UserIdCreated");
+
+                    b.HasIndex("UserIdModified");
+
+                    b.ToTable("TournamentTeamMember");
                 });
 
             modelBuilder.Entity("VBL.Data.UserEmail", b =>
@@ -605,23 +991,34 @@ namespace VBL.Data.Migrations
                         .HasForeignKey("UserIdModified");
                 });
 
+            modelBuilder.Entity("VBL.Data.EmailMessage", b =>
+                {
+                    b.HasOne("VBL.Data.Email", "FromEmail")
+                        .WithMany()
+                        .HasForeignKey("FromEmailAddress");
+
+                    b.HasOne("VBL.Data.ApplicationUser", "UserCreated")
+                        .WithMany()
+                        .HasForeignKey("UserIdCreated");
+
+                    b.HasOne("VBL.Data.ApplicationUser", "UserModified")
+                        .WithMany()
+                        .HasForeignKey("UserIdModified");
+                });
+
             modelBuilder.Entity("VBL.Data.Location", b =>
                 {
                     b.HasOne("VBL.Data.ApplicationUser", "UserCreated")
                         .WithMany()
-                        .HasForeignKey("UserCreatedId");
+                        .HasForeignKey("UserIdCreated");
 
                     b.HasOne("VBL.Data.ApplicationUser", "UserModified")
                         .WithMany()
-                        .HasForeignKey("UserModifiedId");
+                        .HasForeignKey("UserIdModified");
                 });
 
             modelBuilder.Entity("VBL.Data.Organization", b =>
                 {
-                    b.HasOne("VBL.Data.ApplicationUser")
-                        .WithMany("UserOrganizations")
-                        .HasForeignKey("ApplicationUserId");
-
                     b.HasOne("VBL.Data.ApplicationUser", "UserCreated")
                         .WithMany()
                         .HasForeignKey("UserIdCreated");
@@ -642,6 +1039,14 @@ namespace VBL.Data.Migrations
                         .WithMany()
                         .HasForeignKey("OrganizationId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("VBL.Data.ApplicationUser", "UserCreated")
+                        .WithMany()
+                        .HasForeignKey("UserIdCreated");
+
+                    b.HasOne("VBL.Data.ApplicationUser", "UserModified")
+                        .WithMany()
+                        .HasForeignKey("UserIdModified");
                 });
 
             modelBuilder.Entity("VBL.Data.OrganizationMember", b =>
@@ -652,7 +1057,7 @@ namespace VBL.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("VBL.Data.ApplicationUser", "User")
-                        .WithMany("OrganizationMembers")
+                        .WithMany("OrganizationMemberships")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
 
@@ -667,6 +1072,162 @@ namespace VBL.Data.Migrations
 
             modelBuilder.Entity("VBL.Data.Phone", b =>
                 {
+                    b.HasOne("VBL.Data.ApplicationUser", "UserCreated")
+                        .WithMany()
+                        .HasForeignKey("UserIdCreated");
+
+                    b.HasOne("VBL.Data.ApplicationUser", "UserModified")
+                        .WithMany()
+                        .HasForeignKey("UserIdModified");
+                });
+
+            modelBuilder.Entity("VBL.Data.SanctioningBody", b =>
+                {
+                    b.HasOne("VBL.Data.ApplicationUser", "UserCreated")
+                        .WithMany()
+                        .HasForeignKey("UserIdCreated");
+
+                    b.HasOne("VBL.Data.ApplicationUser", "UserModified")
+                        .WithMany()
+                        .HasForeignKey("UserIdModified");
+                });
+
+            modelBuilder.Entity("VBL.Data.Tournament", b =>
+                {
+                    b.HasOne("VBL.Data.Organization", "Organization")
+                        .WithMany()
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("VBL.Data.SanctioningBody", "SanctioningBody")
+                        .WithMany()
+                        .HasForeignKey("SanctioningBodyId");
+
+                    b.HasOne("VBL.Data.ApplicationUser", "UserCreated")
+                        .WithMany()
+                        .HasForeignKey("UserIdCreated");
+
+                    b.HasOne("VBL.Data.ApplicationUser", "UserModified")
+                        .WithMany()
+                        .HasForeignKey("UserIdModified");
+                });
+
+            modelBuilder.Entity("VBL.Data.TournamentDay", b =>
+                {
+                    b.HasOne("VBL.Data.TournamentDivision", "TournamentDivision")
+                        .WithMany("Days")
+                        .HasForeignKey("TournamentDivisionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("VBL.Data.ApplicationUser", "UserCreated")
+                        .WithMany()
+                        .HasForeignKey("UserIdCreated");
+
+                    b.HasOne("VBL.Data.ApplicationUser", "UserModified")
+                        .WithMany()
+                        .HasForeignKey("UserIdModified");
+                });
+
+            modelBuilder.Entity("VBL.Data.TournamentDivision", b =>
+                {
+                    b.HasOne("VBL.Data.AgeType", "AgeType")
+                        .WithMany()
+                        .HasForeignKey("AgeTypeId");
+
+                    b.HasOne("VBL.Data.Division", "Division")
+                        .WithMany()
+                        .HasForeignKey("DivisionId");
+
+                    b.HasOne("VBL.Data.Gender", "Gender")
+                        .WithMany()
+                        .HasForeignKey("GenderId");
+
+                    b.HasOne("VBL.Data.Location", "Location")
+                        .WithMany()
+                        .HasForeignKey("LocationId");
+
+                    b.HasOne("VBL.Data.Tournament", "Tournament")
+                        .WithMany("Divisions")
+                        .HasForeignKey("TournamentId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("VBL.Data.ApplicationUser", "UserCreated")
+                        .WithMany()
+                        .HasForeignKey("UserIdCreated");
+
+                    b.HasOne("VBL.Data.ApplicationUser", "UserModified")
+                        .WithMany()
+                        .HasForeignKey("UserIdModified");
+                });
+
+            modelBuilder.Entity("VBL.Data.TournamentRegistrationEmail", b =>
+                {
+                    b.HasOne("VBL.Data.EmailMessage", "EmailMessage")
+                        .WithMany()
+                        .HasForeignKey("EmailMessageId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("VBL.Data.Email", "FromEmail")
+                        .WithMany()
+                        .HasForeignKey("FromEmailAddress");
+
+                    b.HasOne("VBL.Data.Organization", "Organization")
+                        .WithMany()
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("VBL.Data.TournamentDivision", "TournamentDivision")
+                        .WithMany()
+                        .HasForeignKey("TournamentDivisionId");
+
+                    b.HasOne("VBL.Data.ApplicationUser", "UserCreated")
+                        .WithMany()
+                        .HasForeignKey("UserIdCreated");
+
+                    b.HasOne("VBL.Data.ApplicationUser", "UserModified")
+                        .WithMany()
+                        .HasForeignKey("UserIdModified");
+                });
+
+            modelBuilder.Entity("VBL.Data.TournamentRegistrationWindow", b =>
+                {
+                    b.HasOne("VBL.Data.TournamentDivision")
+                        .WithMany("RegistrationWindows")
+                        .HasForeignKey("TournamentDivisionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("VBL.Data.ApplicationUser", "UserCreated")
+                        .WithMany()
+                        .HasForeignKey("UserIdCreated");
+
+                    b.HasOne("VBL.Data.ApplicationUser", "UserModified")
+                        .WithMany()
+                        .HasForeignKey("UserIdModified");
+                });
+
+            modelBuilder.Entity("VBL.Data.TournamentTeam", b =>
+                {
+                    b.HasOne("VBL.Data.TournamentDivision", "TournamentDivision")
+                        .WithMany("Teams")
+                        .HasForeignKey("TournamentDivisionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("VBL.Data.ApplicationUser", "UserCreated")
+                        .WithMany()
+                        .HasForeignKey("UserIdCreated");
+
+                    b.HasOne("VBL.Data.ApplicationUser", "UserModified")
+                        .WithMany()
+                        .HasForeignKey("UserIdModified");
+                });
+
+            modelBuilder.Entity("VBL.Data.TournamentTeamMember", b =>
+                {
+                    b.HasOne("VBL.Data.TournamentTeam")
+                        .WithMany("Players")
+                        .HasForeignKey("TournamentTeamId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("VBL.Data.ApplicationUser", "UserCreated")
                         .WithMany()
                         .HasForeignKey("UserIdCreated");

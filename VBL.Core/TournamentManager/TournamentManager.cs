@@ -25,6 +25,39 @@ namespace VBL.Core
             _logger = logger;
         }
 
+        public async Task<TournamentDTO> GetTournamentAsync(int id)
+        {
+            return await _db.Tournaments
+                .Where(w => w.Id == id)
+                .ProjectTo<TournamentDTO>()
+                .FirstOrDefaultAsync();
+        }
+        public async Task<TournamentDTO> CreateTournamentAsync(TournamentDTO dto)
+        {
+            var tourney = _mapper.Map<Tournament>(dto);
+            _db.Tournaments.Add(tourney);
+            await _db.SaveChangesAsync();
+
+            foreach(var division in tourney.Divisions)
+            {
+                if (!_db.Entry(division).Reference(r => r.AgeType).IsLoaded)
+                    await _db.Entry(division).Reference(r => r.AgeType).LoadAsync();
+
+                if (!_db.Entry(division).Reference(r => r.Gender).IsLoaded)
+                    await _db.Entry(division).Reference(r => r.Gender).LoadAsync();
+
+                if (!_db.Entry(division).Reference(r => r.Division).IsLoaded)
+                    await _db.Entry(division).Reference(r => r.Division).LoadAsync();
+
+                if (!_db.Entry(division).Reference(r => r.Location).IsLoaded)
+                    await _db.Entry(division).Reference(r => r.Location).LoadAsync();
+            }
+
+
+                return _mapper.Map<TournamentDTO>(tourney);
+        }
+
+        #region Select Options
         public async Task<List<OptionDTO>> GetAllAgeTypeOptionsAsync()
         {
             return await _db.AgeTypes
@@ -72,5 +105,6 @@ namespace VBL.Core
 
             return await GetAllLocationOptionsAsync();
         }
+        #endregion
     }
 }

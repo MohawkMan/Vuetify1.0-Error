@@ -73,6 +73,10 @@ namespace VBL.Data
                 .WithMany()
                 .HasForeignKey(a => a.UserIdModified)
                 .IsRequired(false);
+            builder.Entity<OrganizationMember>().HasOne(a => a.User)
+                .WithMany(u => u.OrganizationMemberships)
+                .HasForeignKey(a => a.UserId)
+                .IsRequired(true);
             #endregion
 
             #region Phone

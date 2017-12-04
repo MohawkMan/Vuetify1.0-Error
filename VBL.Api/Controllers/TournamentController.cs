@@ -9,7 +9,7 @@ using AutoMapper;
 using Microsoft.Extensions.Logging;
 using VBL.Data;
 using VBL.Data.Mapping;
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace VBL.Api.Controllers
 {
@@ -29,7 +29,54 @@ namespace VBL.Api.Controllers
             _logger = logger;
         }
 
-        //GET age/gender/division/location for an organizer
+        /// <summary>
+        /// Get select options for Age, Gender, Division, and Location
+        /// </summary>
+        [AllowAnonymous]
+        [HttpGet("{id}")]
+        [ProducesResponseType(typeof(TournamentDTO), 200)]
+        public async Task<IActionResult> GetTournament([FromRoute] int id)
+        {
+            try
+            {
+                _logger.LogInformation($"GetTournament Id: {id}");
+                var tourney = await _tournamentManager.GetTournamentAsync(id);
+
+                return Ok(tourney);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(-1, e, "ERROR: ");
+                return BadRequest(e.Message);
+            }
+        }
+
+        /// <summary>
+        /// Get select options for Age, Gender, Division, and Location
+        /// </summary>
+        [AllowAnonymous]
+        [HttpPost()]
+        [ProducesResponseType(typeof(TournamentDTO), 200)]
+        public async Task<IActionResult> AddTournament([FromBody] TournamentDTO dto)
+        {
+            try
+            {
+                _logger.LogInformation($"AddTournament: {dto}");
+                var tourney = await _tournamentManager.CreateTournamentAsync(dto);
+
+                return Ok(tourney);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(-1, e, "ERROR: ");
+                return BadRequest(e.Message);
+            }
+        }
+
+
+        /// <summary>
+        /// Get select options for Age, Gender, Division, and Location
+        /// </summary>
         [HttpGet("Selects/{organizationId?}")]
         [ProducesResponseType(typeof(TournamentSelectItems), 200)]
         public async Task<IActionResult> GetSelectItemsAsync([FromRoute] int? organizationId = null)

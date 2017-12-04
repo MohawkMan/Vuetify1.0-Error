@@ -8,7 +8,7 @@ namespace VBL.Data.Mapping
     public partial class TournamentDayDTO
     {
         public int Id { get; set; }
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
         public string CheckInTime { get; set; }
         public string PlayTime { get; set; }
     }
@@ -17,7 +17,9 @@ namespace VBL.Data.Mapping
     {
         public TournamentDayProfile()
         {
-            CreateMap<TournamentDay, TournamentDayProfile>();
+            CreateMap<TournamentDay, TournamentDayDTO>()
+                .ForMember(d => d.Date, opt => opt.MapFrom(s => s.Date.ToString("yyyy-MM-dd")))
+                .ReverseMap();
         }
     }
 }

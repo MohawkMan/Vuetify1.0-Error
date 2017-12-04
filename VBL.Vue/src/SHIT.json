@@ -1,48 +1,92 @@
 {
   "id": 0,
-  "name": "",
+  "name": "My First Tourney",
+  "isPublic": false,
+  "organizationId": 4,
   "divisions": [
     {
       "id": 0,
+      "minTeams": null,
+      "maxTeams": null,
       "ageType": {
         "id": 2,
-        "name": "Juniors",
-        "isPublic": true
+        "name": "Juniors"
       },
       "gender": {
         "id": 2,
-        "name": "Female",
-        "description": null,
-        "isPublic": true
+        "name": "Female"
       },
       "division": {
         "id": 10,
-        "name": "12U",
-        "description": null,
-        "order": 0,
-        "isPublic": true
+        "name": "12U"
       },
       "days": [
         {
           "id": 0,
           "date": "2017-12-30",
           "dateFormatted": null,
-          "checkInTime": null,
-          "playTime": null
+          "checkInTime": "8:00am",
+          "playTime": "8:45am"
         }
       ],
       "location": {
         "id": 17,
         "name": "Huntington State Beach (Newland)"
       },
-      "entryFee": "60.00",
-      "maxTeams": "100",
-      "registrationStartDate": "2017-12-09",
-      "registrationStartTime": null,
-      "registrationEndDate": "2017-12-29",
-      "registrationEndTime": null,
-      "info": "",
-      "tournamentRegistrationEmailId": null
+      "registrationWindows": [
+        {
+          "id": 0,
+          "fee": "60.00",
+          "startDate": "2017-12-09",
+          "startTime": "12:00am",
+          "endDate": "2017-12-29",
+          "endTime": "5:00pm",
+          "isEarly": false,
+          "isLate": false
+        }
+      ]
+    },
+    {
+      "id": 0,
+      "minTeams": null,
+      "maxTeams": null,
+      "ageType": {
+        "id": 2,
+        "name": "Juniors"
+      },
+      "gender": {
+        "id": 2,
+        "name": "Female"
+      },
+      "division": {
+        "id": 9,
+        "name": "14U"
+      },
+      "days": [
+        {
+          "id": 0,
+          "date": "2017-12-30",
+          "dateFormatted": null,
+          "checkInTime": "8:00am",
+          "playTime": "8:45am"
+        }
+      ],
+      "location": {
+        "id": 17,
+        "name": "Huntington State Beach (Newland)"
+      },
+      "registrationWindows": [
+        {
+          "id": 0,
+          "fee": "60.00",
+          "startDate": "2017-12-09",
+          "startTime": "12:00am",
+          "endDate": "2017-12-29",
+          "endTime": "5:00pm",
+          "isEarly": false,
+          "isLate": false
+        }
+      ]
     }
   ]
 }

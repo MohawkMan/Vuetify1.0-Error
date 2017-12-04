@@ -28,7 +28,7 @@ namespace VBL.Data
         public Division Division { get; set; }
         public List<TournamentDay> Days { get; set; } = new List<TournamentDay>();
         public Location Location { get; set; }
-        public List<TournamentRegistrationWindow> RegistrationInfo { get; set; } = new List<TournamentRegistrationWindow>();
+        public List<TournamentRegistrationWindow> RegistrationWindows { get; set; } = new List<TournamentRegistrationWindow>();
         public List<TournamentTeam> Teams { get; set; } = new List<TournamentTeam>();
     }
 }

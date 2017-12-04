@@ -11,7 +11,7 @@ namespace VBL.Data
         public int StatusId { get; set; }
 
         public int OrganizationId { get; set; }
-        public int SanctioningBodyId { get; set; }
+        public int? SanctioningBodyId { get; set; }
 
         public bool IsPublic { get; set; }
         public bool IsOrganizationApproved { get; set; }

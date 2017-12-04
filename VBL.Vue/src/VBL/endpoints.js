@@ -7,10 +7,5 @@ export default {
   },
   shared: {
     getSelectOptions: (organizationId) => organizationId ? '/Tournament/Selects/' + organizationId : '/Tournament/Selects'
-  },
-  tournament: {
-    getSelectOptions: (organizationId) => organizationId ? '/Tournament/Selects/' + organizationId : '/Tournament/Selects',
-    getById: (id) => '/tournament/' + id,
-    create: '/tournament'
   }
 }

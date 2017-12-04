@@ -11,9 +11,10 @@ using VBL.Data;
 namespace VBL.Data.Migrations
 {
     [DbContext(typeof(VBLDbContext))]
-    partial class VBLDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171204173651_initial")]
+    partial class initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -547,7 +548,7 @@ namespace VBL.Data.Migrations
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate();
 
-                    b.Property<int?>("SanctioningBodyId");
+                    b.Property<int>("SanctioningBodyId");
 
                     b.Property<int>("StatusId");
 
@@ -1100,7 +1101,8 @@ namespace VBL.Data.Migrations
 
                     b.HasOne("VBL.Data.SanctioningBody", "SanctioningBody")
                         .WithMany()
-                        .HasForeignKey("SanctioningBodyId");
+                        .HasForeignKey("SanctioningBodyId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("VBL.Data.ApplicationUser", "UserCreated")
                         .WithMany()

@@ -15,10 +15,18 @@ namespace VBL.Data.Mapping
     {
         public OptionProfile()
         {
-            CreateMap<AgeType, OptionDTO>();
-            CreateMap<Gender, OptionDTO>();
-            CreateMap<Division, OptionDTO>();
-            CreateMap<Location, OptionDTO>();
+            CreateMap<AgeType, OptionDTO>()
+                .ReverseMap()
+                .ForMember(s => s.Name, opt => opt.Ignore());
+            CreateMap<Gender, OptionDTO>()
+                .ReverseMap()
+                .ForMember(s => s.Name, opt => opt.Ignore());
+            CreateMap<Division, OptionDTO>()
+                .ReverseMap()
+                .ForMember(s => s.Name, opt => opt.Ignore());
+            CreateMap<Location, OptionDTO>()
+                .ReverseMap()
+                .ForMember(s => s.Name, opt => opt.Ignore());
         }
     }
 }
