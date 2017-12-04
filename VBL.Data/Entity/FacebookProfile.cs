@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace VBL.Data.Entities
+namespace VBL.Data
 {
     public partial class FacebookProfile
     {

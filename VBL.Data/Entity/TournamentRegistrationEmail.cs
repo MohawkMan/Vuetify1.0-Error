@@ -7,9 +7,9 @@ namespace VBL.Data
     public partial class TournamentRegistrationEmail : TrackedEntityBase
     {
         public int Id { get; set; }
+        public int? TournamentDivisionId { get; set; }
         public int? FromEmailId { get; set; }
         public int OrganizationId { get; set; }
-        public int? TournamentDivisionId { get; set; }
         public int EmailMessageId { get; set; }
         public bool IsDefault { get; set; }
 

@@ -1,0 +1,48 @@
+{
+  "id": 0,
+  "name": "",
+  "divisions": [
+    {
+      "id": 0,
+      "ageType": {
+        "id": 2,
+        "name": "Juniors",
+        "isPublic": true
+      },
+      "gender": {
+        "id": 2,
+        "name": "Female",
+        "description": null,
+        "isPublic": true
+      },
+      "division": {
+        "id": 10,
+        "name": "12U",
+        "description": null,
+        "order": 0,
+        "isPublic": true
+      },
+      "days": [
+        {
+          "id": 0,
+          "date": "2017-12-30",
+          "dateFormatted": null,
+          "checkInTime": null,
+          "playTime": null
+        }
+      ],
+      "location": {
+        "id": 17,
+        "name": "Huntington State Beach (Newland)"
+      },
+      "entryFee": "60.00",
+      "maxTeams": "100",
+      "registrationStartDate": "2017-12-09",
+      "registrationStartTime": null,
+      "registrationEndDate": "2017-12-29",
+      "registrationEndTime": null,
+      "info": "",
+      "tournamentRegistrationEmailId": null
+    }
+  ]
+}

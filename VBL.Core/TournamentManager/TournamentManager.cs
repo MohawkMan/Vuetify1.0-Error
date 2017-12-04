@@ -25,49 +25,52 @@ namespace VBL.Core
             _logger = logger;
         }
 
-        public async Task<List<AgeType>> GetAllAgeTypesAsync()
+        public async Task<List<OptionDTO>> GetAllAgeTypeOptionsAsync()
         {
             return await _db.AgeTypes
                 .Where(w => w.IsPublic)
                 .OrderBy(o => o.Name)
+                .ProjectTo<OptionDTO>()
                 .ToListAsync();
         }
 
-        public async Task<List<Gender>> GetAllGendersAsync()
+        public async Task<List<OptionDTO>> GetAllGenderOptionsAsync()
         {
             return await _db.Genders
                 .Where(w => w.IsPublic)
                 .OrderBy(o => o.Name)
+                .ProjectTo<OptionDTO>()
                 .ToListAsync();
         }
 
-        public async Task<List<Division>> GetAllDivisionsAsync()
+        public async Task<List<OptionDTO>> GetAllDivisionOptionsAsync()
         {
             return await _db.Divisions
                 .Where(w => w.IsPublic)
                 .OrderBy(o => o.Order)
+                .ProjectTo<OptionDTO>()
                 .ToListAsync();
         }
 
-        public async Task<List<LocationDTO>> GetAllLocationsAsync()
+        public async Task<List<OptionDTO>> GetAllLocationOptionsAsync()
         {
             return await _db.Locations
                 .Where(w => w.IsPublic)
                 .OrderBy(o => o.Name)
-                .ProjectTo<LocationDTO>()
+                .ProjectTo<OptionDTO>()
                 .ToListAsync();
         }
 
-        public async Task<List<LocationDTO>> GetOrganizationLocationsAsync(int? organizationId)
+        public async Task<List<OptionDTO>> GetOrganizationLocationOptionsAsync(int? organizationId)
         {
             if(organizationId.HasValue)
                 return await _db.OrganizationLocations
                     .Where(w => w.OrganizationId == organizationId)
-                    .ProjectTo<LocationDTO>()
+                    .ProjectTo<OptionDTO>()
                     .OrderBy(o => o.Name)
                     .ToListAsync();
 
-            return await GetAllLocationsAsync();
+            return await GetAllLocationOptionsAsync();
         }
     }
 }

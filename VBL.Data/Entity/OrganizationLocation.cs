@@ -4,7 +4,7 @@ using System.Text;
 
 namespace VBL.Data
 {
-    public partial class OrganizationLocation
+    public partial class OrganizationLocation : TrackedEntityBase
     {
         public int OrganizationId { get; set; }
         public int LocationId { get; set; }

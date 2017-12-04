@@ -10,12 +10,21 @@
           <td>{{ props.item.gender ? props.item.gender.name : '' }}</td>
           <td>{{ props.item.division ? props.item.division.name : '' }}</td>
           <td>{{ props.item.location ? props.item.location.name : '' }}</td>
-          <td>{{ props.item.entryFee | usDollars }}</td>
           <td>
-            <v-btn fab small dark color="color3" @click="editDivision(props.index, props.item)">
+            <v-btn 
+              fab
+              small 
+              dark 
+              color="color3"
+              @click="editDivision(props.index, props.item)">
               <v-icon>edit</v-icon>
             </v-btn>
-            <v-btn fab small dark color="red darken-4">
+            <v-btn 
+              fab 
+              small 
+              dark 
+              color="red darken-4"
+              @click="deleteDivision(props.index)">
               <v-icon>delete</v-icon>
             </v-btn>
           </td>
@@ -24,21 +33,35 @@
           <v-container>
             <v-layout row wrap>
               <v-flex>
-                <v-btn @click.native.stop="addDivision">
-                  Add Division
+                <v-btn
+                  color="color5 color1--text"
+                  @click.native.stop="addDivision">
+                  Add A Division
                 </v-btn>
               </v-flex>
             </v-layout>
           </v-container>
         </template>
+        <template slot="footer">
+          <td colspan="100%" class="text-xs-center">
+            <v-btn 
+              color="color5 color1--text"
+              @click.native.stop="addDivision"
+              v-if="divisions.length > 0">
+              <v-icon class="mr-2">playlist_add</v-icon>
+              Add Another Division
+            </v-btn>
+          </td>
+        </template>
       </v-data-table>
       <v-dialog v-model="editDialog"
         fullscreen 
         transition="dialog-bottom-transition" 
+        :leave="test"
         overlay="false">
         <division-edit
           v-if="selectedDivision"
-          :division="selectedDivision.division"
+          :division="selectedDivision"
           @save="saveDivision"
           @cancel="cancelEdit"
         ></division-edit>
@@ -56,6 +79,7 @@ export default {
   data () {
     return {
       selectedDivision: null,
+      selectedIndex: -1,
       editDialog: false
     }
   },
@@ -65,37 +89,44 @@ export default {
     },
     divisionHeaders () {
       return [
-        {text: 'Type', value: 'ageName', align: 'left'},
-        {text: 'Gender', value: 'genderName', align: 'left'},
-        {text: 'Division', value: 'divisionName', align: 'left'},
-        {text: 'Location', value: 'locationName', align: 'left'},
-        {text: 'Entry', value: 'entryFee', align: 'left'}
+        {text: 'Type', value: 'age.name', align: 'left'},
+        {text: 'Gender', value: 'gender.name', align: 'left'},
+        {text: 'Division', value: 'division.name', align: 'left'},
+        {text: 'Location', value: 'location.name', align: 'left'}
       ]
     }
   },
   methods: {
+    test () {
+      alert('here')
+    },
     addDivision () {
-      this.editDivision({
-        index: -1,
-        division: new Division()
-      })
+      let d = new Division()
+      if (this.divisions.length > 0) {
+        d = JSON.parse(JSON.stringify(this.divisions[this.divisions.length - 1]))
+        d.gender = null
+        d.division = null
+      }
+      this.editDivision(-1, d)
+    },
+    deleteDivision (index) {
+      this.divisions.splice(index, 1)
     },
     editDivision (index, division) {
       if (division) {
+        this.selectedIndex = index
         this.selectedDivision = division
         this.editDialog = true
       }
     },
     cancelEdit () {
       this.editDialog = false
-      // this.selectedDivision = null
     },
     saveDivision () {
-      // PLAY WITH THIS AND TEST FIND INDEX
-      if (this.selectedDivision.index === -1) {
-        this.divisions.push(this.selectedDivision.division)
+      if (this.selectedIndex === -1) {
+        this.divisions.push(this.selectedDivision)
       } else {
-        this.divisions[this.selectedDivision.index] = this.selectedDivision.division
+        this.divisions[this.selectedIndex] = this.selectedDivision
       }
       this.cancelEdit()
     }

@@ -39,10 +39,10 @@ namespace VBL.Api.Controllers
                 _logger.LogInformation($"GetSelectItemsAsync organizationId: {organizationId}");
                 var result = new TournamentSelectItems
                 {
-                    AgeTypeOptions = await _tournamentManager.GetAllAgeTypesAsync(),
-                    GenderOptions = await _tournamentManager.GetAllGendersAsync(),
-                    DivisionOptions = await _tournamentManager.GetAllDivisionsAsync(),
-                    LocationOptions = await _tournamentManager.GetOrganizationLocationsAsync(organizationId)
+                    AgeTypeOptions = await _tournamentManager.GetAllAgeTypeOptionsAsync(),
+                    GenderOptions = await _tournamentManager.GetAllGenderOptionsAsync(),
+                    DivisionOptions = await _tournamentManager.GetAllDivisionOptionsAsync(),
+                    LocationOptions = await _tournamentManager.GetOrganizationLocationOptionsAsync(organizationId)
                 };
 
                 return Ok(result);
@@ -56,9 +56,9 @@ namespace VBL.Api.Controllers
     }
      public class TournamentSelectItems
     {
-        public List<AgeType> AgeTypeOptions { get; set; }
-        public List<Gender> GenderOptions { get; set; }
-        public List<Division> DivisionOptions { get; set; }
-        public List<LocationDTO> LocationOptions { get; set; }
+        public List<OptionDTO> AgeTypeOptions { get; set; }
+        public List<OptionDTO> GenderOptions { get; set; }
+        public List<OptionDTO> DivisionOptions { get; set; }
+        public List<OptionDTO> LocationOptions { get; set; }
     }
 }

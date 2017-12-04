@@ -20,12 +20,45 @@ namespace VBL.Data
                 .IsRequired(false);
             #endregion
 
+            #region EmailMessage
+            builder.Entity<EmailMessage>().HasOne(a => a.UserCreated)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdCreated)
+                .IsRequired(false);
+            builder.Entity<EmailMessage>().HasOne(a => a.UserModified)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdModified)
+                .IsRequired(false);
+            #endregion
+
+            #region Location
+            builder.Entity<Location>().HasOne(a => a.UserCreated)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdCreated)
+                .IsRequired(false);
+            builder.Entity<Location>().HasOne(a => a.UserModified)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdModified)
+                .IsRequired(false);
+            #endregion
+
             #region Organization
             builder.Entity<Organization>().HasOne(a => a.UserCreated)
                 .WithMany()
                 .HasForeignKey(a => a.UserIdCreated)
                 .IsRequired(false);
             builder.Entity<Organization>().HasOne(a => a.UserModified)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdModified)
+                .IsRequired(false);
+            #endregion
+
+            #region OrganizationLocation
+            builder.Entity<OrganizationLocation>().HasOne(a => a.UserCreated)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdCreated)
+                .IsRequired(false);
+            builder.Entity<OrganizationLocation>().HasOne(a => a.UserModified)
                 .WithMany()
                 .HasForeignKey(a => a.UserIdModified)
                 .IsRequired(false);
@@ -48,6 +81,94 @@ namespace VBL.Data
                 .HasForeignKey(a => a.UserIdCreated)
                 .IsRequired(false);
             builder.Entity<Phone>().HasOne(a => a.UserModified)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdModified)
+                .IsRequired(false);
+            #endregion
+
+            #region SanctioningBody
+            builder.Entity<SanctioningBody>().HasOne(a => a.UserCreated)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdCreated)
+                .IsRequired(false);
+            builder.Entity<SanctioningBody>().HasOne(a => a.UserModified)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdModified)
+                .IsRequired(false);
+            #endregion
+
+            #region Tournament
+            builder.Entity<Tournament>().HasOne(a => a.UserCreated)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdCreated)
+                .IsRequired(false);
+            builder.Entity<Tournament>().HasOne(a => a.UserModified)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdModified)
+                .IsRequired(false);
+            #endregion
+
+            #region TournamentDay
+            builder.Entity<TournamentDay>().HasOne(a => a.UserCreated)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdCreated)
+                .IsRequired(false);
+            builder.Entity<TournamentDay>().HasOne(a => a.UserModified)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdModified)
+                .IsRequired(false);
+            #endregion
+
+            #region TournamentDivision
+            builder.Entity<TournamentDivision>().HasOne(a => a.UserCreated)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdCreated)
+                .IsRequired(false);
+            builder.Entity<TournamentDivision>().HasOne(a => a.UserModified)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdModified)
+                .IsRequired(false);
+            #endregion
+
+            #region TournamentRegistrationEmail
+            builder.Entity<TournamentRegistrationEmail>().HasOne(a => a.UserCreated)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdCreated)
+                .IsRequired(false);
+            builder.Entity<TournamentRegistrationEmail>().HasOne(a => a.UserModified)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdModified)
+                .IsRequired(false);
+            #endregion
+
+            #region TournamentRegistrationWindow
+            builder.Entity<TournamentRegistrationWindow>().HasOne(a => a.UserCreated)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdCreated)
+                .IsRequired(false);
+            builder.Entity<TournamentRegistrationWindow>().HasOne(a => a.UserModified)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdModified)
+                .IsRequired(false);
+            #endregion
+
+            #region TournamentTeam
+            builder.Entity<TournamentTeam>().HasOne(a => a.UserCreated)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdCreated)
+                .IsRequired(false);
+            builder.Entity<TournamentTeam>().HasOne(a => a.UserModified)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdModified)
+                .IsRequired(false);
+            #endregion
+
+            #region TournamentTeamMember
+            builder.Entity<TournamentTeamMember>().HasOne(a => a.UserCreated)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdCreated)
+                .IsRequired(false);
+            builder.Entity<TournamentTeamMember>().HasOne(a => a.UserModified)
                 .WithMany()
                 .HasForeignKey(a => a.UserIdModified)
                 .IsRequired(false);

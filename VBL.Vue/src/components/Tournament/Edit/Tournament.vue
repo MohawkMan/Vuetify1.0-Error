@@ -16,9 +16,39 @@
                     required
                 ></v-text-field>
             </v-toolbar>
-            <division-list
-              :divisions="tournament.divisions"
-            ></division-list>
+            <v-container>
+              <v-layout row wrap>
+                <v-flex xs10 offset-xs1>
+                  Start Date: {{tournament.startDate}}
+                </v-flex>
+              </v-layout>
+              <v-layout row wrap>
+                <v-flex xs10 offset-xs1>
+                  <division-list
+                    :divisions="tournament.divisions"
+                  ></division-list>
+                </v-flex>
+              </v-layout>
+              <v-layout row>
+                <v-flex>
+                  <v-btn
+                    color="green --darken3"
+                    dark
+                    large
+                    absolute
+                    bottom
+                    right
+                    fab
+                    @click="save"
+                    >
+                    <v-tooltip left>
+                      <v-icon slot="activator">save</v-icon>
+                      <span>Save</span>
+                    </v-tooltip>
+                  </v-btn>
+                </v-flex>
+              </v-layout>
+            </v-container>
           </v-card>
         </v-form>
       </v-flex>
@@ -41,6 +71,9 @@ export default {
     }
   },
   methods: {
+    save () {
+      console.log(JSON.stringify(this.tournament))
+    }
   },
   components: {
     'division-list': DivisionList

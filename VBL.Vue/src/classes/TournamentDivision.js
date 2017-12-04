@@ -1,38 +1,23 @@
 import Day from './TournamentDay'
+import RegWindow from './TournamentRegistrationWindow'
+import moment from 'moment'
 
 export default class TournamentDivision {
   constructor (dto) {
     this.id = 0
+    this.minTeams = null
+    this.maxTeams = null
+
     this.ageType = null
     this.gender = null
     this.division = null
     this.days = [new Day()]
     this.location = null
-    this.entryFee = null
-    this.maxTeams = null
-    this.registrationStartDate = null
-    this.registrationStartTime = null
-    this.registrationEndDate = null
-    this.registrationEndTime = null
-    this.info = ''
-    this.tournamentRegistrationEmailId = null
+    this.registrationWindows = [new RegWindow()]
   }
 
   get startDate () {
-    if (this.days.length === 0) return undefined
-    return this.days[0].date
-  }
-
-  get ageName () {
-    return this.ageType ? this.ageType.name : ''
-  }
-  get genderName () {
-    return this.genderType ? this.genderType.name : ''
-  }
-  get divisionName () {
-    return this.divisionType ? this.divisionType.name : ''
-  }
-  get locationName () {
-    return this.locationType ? this.locationType.name : ''
+    if (this.days.length === 0) return null
+    return moment(this.days[0].date)
   }
 }

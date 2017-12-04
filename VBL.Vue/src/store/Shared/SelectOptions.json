@@ -2,158 +2,99 @@
   "ageTypeOptions": [
       {
           "id": 1,
-          "name": "Adult",
-          "isPublic": true
+          "name": "Adult"
       },
       {
           "id": 2,
-          "name": "Juniors",
-          "isPublic": true
+          "name": "Juniors"
       }
   ],
   "genderOptions": [
       {
           "id": 1,
-          "name": "Coed",
-          "description": null,
-          "isPublic": true
+          "name": "Coed"
       },
       {
           "id": 2,
-          "name": "Female",
-          "description": null,
-          "isPublic": true
+          "name": "Female"
       },
       {
           "id": 3,
-          "name": "Female Singles",
-          "description": null,
-          "isPublic": true
+          "name": "Female Singles"
       },
       {
           "id": 4,
-          "name": "Male",
-          "description": null,
-          "isPublic": true
+          "name": "Male"
       },
       {
           "id": 5,
-          "name": "Male Singles",
-          "description": null,
-          "isPublic": true
+          "name": "Male Singles"
       },
       {
           "id": 6,
-          "name": "Mixed",
-          "description": null,
-          "isPublic": true
+          "name": "Mixed"
       }
   ],
   "divisionOptions": [
       {
           "id": 11,
-          "name": "10U",
-          "description": null,
-          "order": 0,
-          "isPublic": true
+          "name": "10U"
       },
       {
           "id": 10,
-          "name": "12U",
-          "description": null,
-          "order": 0,
-          "isPublic": true
+          "name": "12U"
       },
       {
           "id": 13,
-          "name": "12U Rec*",
-          "description": null,
-          "order": 0,
-          "isPublic": true
+          "name": "12U Rec*"
       },
       {
           "id": 9,
-          "name": "14U",
-          "description": null,
-          "order": 0,
-          "isPublic": true
+          "name": "14U"
       },
       {
           "id": 12,
-          "name": "14U Rec*",
-          "description": null,
-          "order": 0,
-          "isPublic": true
+          "name": "14U Rec*"
       },
       {
           "id": 8,
-          "name": "16U",
-          "description": null,
-          "order": 0,
-          "isPublic": true
+          "name": "16U"
       },
       {
           "id": 7,
-          "name": "18U",
-          "description": null,
-          "order": 0,
-          "isPublic": true
+          "name": "18U"
       },
       {
           "id": 14,
-          "name": "18U/16U Elite",
-          "description": null,
-          "order": 0,
-          "isPublic": true
+          "name": "18U/16U Elite"
       },
       {
           "id": 3,
-          "name": "A",
-          "description": null,
-          "order": 0,
-          "isPublic": true
+          "name": "A"
       },
       {
           "id": 2,
-          "name": "AA",
-          "description": null,
-          "order": 0,
-          "isPublic": true
+          "name": "AA"
       },
       {
           "id": 1,
-          "name": "AAA",
-          "description": null,
-          "order": 0,
-          "isPublic": true
+          "name": "AAA"
       },
       {
           "id": 5,
-          "name": "B",
-          "description": null,
-          "order": 0,
-          "isPublic": true
+          "name": "B"
       },
       {
           "id": 4,
-          "name": "BB",
-          "description": null,
-          "order": 0,
-          "isPublic": true
+          "name": "BB"
       },
       {
           "id": 15,
-          "name": "Masters",
-          "description": null,
-          "order": 0,
-          "isPublic": true
+          "name": "Masters"
       },
       {
           "id": 6,
-          "name": "Unrated",
-          "description": null,
-          "order": 0,
-          "isPublic": true
+          "name": "Unrated"
       }
   ],
   "locationOptions": [

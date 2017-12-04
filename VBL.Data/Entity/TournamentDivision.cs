@@ -9,41 +9,26 @@ namespace VBL.Data
     public partial class TournamentDivision : TrackedEntityBase
     {
         public int Id { get; set; }
-        public byte AgeTypeId { get; set; }
-        public byte GenderId { get; set; }
-        public byte DivisionId { get; set; }
-        public int LocationId { get; set; }
-        public List<TournamentDay> Days { get; set; }
-
-        public int SanctioningBodyId { get; set; }
-        public bool IsSanctioningBodyApproved { get; set; }
-
-        public int MinTeams { get; set; }
-        public int MaxTeams { get; set; }
-
+        public int TournamentId { get; set; }
+        public int? AgeTypeId { get; set; }
+        public int? GenderId { get; set; }
+        public int? DivisionId { get; set; }
+        public int? LocationId { get; set; }
+        public int? MinTeams { get; set; }
+        public int? MaxTeams { get; set; }
+        public string Info { get; set; }
         public byte NumOfPlayers { get; set; } = 2;
         public byte NumAllowedOnRoster { get; set; } = 2;
+        public int? SanctioningBodyId { get; set; }
+        public bool IsSanctioningBodyApproved { get; set; }
 
-        public double EntryFee { get; set; }
-        public double EarlyEntryFee { get; set; }
-        public double LateEntryFee { get; set; }
-
-        public DateTime EarlyRegistrationStartDt { get; set; }
-        public DateTime RegistrationStartDt { get; set; }
-        public DateTime RegistrationLateDt { get; set; }
-        public DateTime RegistrationEndDt { get; set; }
-        public DateTime RefundEndDt { get; set; }
-
-        public string Info { get; set; }
-        public int? TournamentRegistrationEmailId { get; set; }
-        //Registration info and checks
-
-        public List<Team> Teams { get; set; } = new List<Team>();
-
+        public Tournament Tournament { get; set; }
         public AgeType AgeType { get; set; }
         public Gender Gender { get; set; }
         public Division Division { get; set; }
+        public List<TournamentDay> Days { get; set; } = new List<TournamentDay>();
         public Location Location { get; set; }
-        public TournamentRegistrationEmail TournamentRegistrationEmail { get; set; }
+        public List<TournamentRegistrationWindow> RegistrationInfo { get; set; } = new List<TournamentRegistrationWindow>();
+        public List<TournamentTeam> Teams { get; set; } = new List<TournamentTeam>();
     }
 }
