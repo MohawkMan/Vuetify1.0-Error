@@ -76,7 +76,6 @@
 </template>
 
 <script>
-import PageTitle from '../../../Components/Utils/PageTitle.vue'
 import * as actions from '../../../store/ActionTypes'
 import { mapGetters } from 'vuex'
 
@@ -91,9 +90,6 @@ export default {
     ...mapGetters([
       'loading'
     ])
-  },
-  components: {
-    'page-title': PageTitle
   },
   methods: {
     login () {

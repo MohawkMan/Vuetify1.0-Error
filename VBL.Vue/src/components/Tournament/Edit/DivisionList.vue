@@ -16,6 +16,7 @@
               small 
               dark 
               color="color3"
+              :loading="busy"
               @click="editDivision(props.index, props.item)">
               <v-icon>edit</v-icon>
             </v-btn>
@@ -24,6 +25,7 @@
               small 
               dark 
               color="red darken-4"
+              :loading="busy"
               @click="deleteDivision(props.index)">
               <v-icon>delete</v-icon>
             </v-btn>
@@ -35,6 +37,7 @@
               <v-flex>
                 <v-btn
                   color="color5 color1--text"
+                  :loading="busy"
                   @click.native.stop="addDivision">
                   Add A Division
                 </v-btn>
@@ -47,6 +50,7 @@
             <v-btn 
               color="color5 color1--text"
               @click.native.stop="addDivision"
+              :loading="busy"
               v-if="divisions.length > 0">
               <v-icon class="mr-2">playlist_add</v-icon>
               Add Another Division
@@ -75,7 +79,7 @@ import Division from '../../../classes/TournamentDivision'
 import DivisionEdit from './Division.vue'
 
 export default {
-  props: ['divisions'],
+  props: ['divisions', 'busy'],
   data () {
     return {
       selectedDivision: null,

@@ -43,7 +43,7 @@
                     <v-flex xs6 sm4>
                       <v-select
                         v-model="division.gender"
-                        :items="genderOptions"
+                        :items="genders"
                         item-text="name"
                         prepend-icon="wc"
                         item-value="id"
@@ -57,7 +57,7 @@
                     <v-flex xs6 sm4>
                       <v-select
                         v-model="division.division"
-                        :items="divisionOptions"
+                        :items="divisions"
                         item-text="name"
                         item-value="id"
                         prepend-icon="assignment"
@@ -113,10 +113,16 @@
                           label="Tournament Date"
                           prepend-icon="event"
                           readonly
-                          v-model="division.days[0].date"
+                          v-model="division.days[0].dateFormatted"
                           required
+                          @blur="division.days[0].date = parseDate(division.days[0].dateFormatted)"
                         ></v-text-field>
-                        <v-date-picker no-title scrollable actions v-model="division.days[0].date">
+                        <v-date-picker 
+                          no-title
+                          scrollable 
+                          actions 
+                          v-model="division.days[0].date"
+                          @input="division.days[0].dateFormatted = formatDate($event)">
                           <template slot-scope="{ save, cancel }">
                             <v-card-actions>
                               <v-spacer></v-spacer>
@@ -239,6 +245,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import RegWindow from './RegistrationWindow.vue'
+import * as actions from '../../../store/ActionTypes'
 
 export default {
   props: ['division'],
@@ -256,6 +263,16 @@ export default {
       'divisionOptions',
       'locationOptions'
     ]),
+    genders () {
+      if (!this.division.ageType) return this.genderOptions
+
+      return this.genderOptions.filter((opt) => { return opt.ageTypeId === this.division.ageType.id })
+    },
+    divisions () {
+      if (!this.division.ageType) return this.divisionOptions
+
+      return this.divisionOptions.filter((opt) => { return opt.ageTypeId === this.division.ageType.id })
+    },
     title () {
       return this.division && this.division.id > 0 ? 'Edit Division' : 'Add New Division'
     },
@@ -273,10 +290,57 @@ export default {
     },
     cancel () {
       this.$emit('cancel')
+    },
+    selectAge (ageTypeId) {
+      console.log('selectAge Id: ' + ageTypeId)
+      if (this.division.ageType && this.division.ageType.Id === ageTypeId) return
+
+      this.division.ageType = this.ageTypeOptions.find((opt) => { return opt.id === ageTypeId })
+    },
+    formatDate (date) {
+      if (!date) return null
+
+      const [year, month, day] = date.split('-')
+      return `${month}/${day}/${year}`
+    },
+    parseDate (date) {
+      if (!date) return null
+
+      const [month, day, year] = date.split('/')
+      return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
+    }
+  },
+  watch: {
+    'division.ageType': {
+      handler: function (val) {
+        var vm = this
+        if (vm.division.gender && vm.division.gender.ageTypeId !== val.id) {
+          vm.division.gender = null
+        }
+        if (vm.division.division && vm.division.division.ageTypeId !== val.id) {
+          vm.division.division = null
+        }
+      },
+      deep: true
+    },
+    'division.gender': {
+      handler: function (val) {
+        this.selectAge(val.ageTypeId)
+      },
+      deep: true
+    },
+    'division.division': {
+      handler: function (val) {
+        this.selectAge(val.ageTypeId)
+      },
+      deep: true
     }
   },
   components: {
     'registration-window': RegWindow
+  },
+  created () {
+    this.$store.dispatch(actions.LOAD_SELECT_OPTIONS)
   }
 }
 </script>

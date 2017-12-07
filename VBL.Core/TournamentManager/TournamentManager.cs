@@ -25,6 +25,20 @@ namespace VBL.Core
             _logger = logger;
         }
 
+        public async Task<List<TournamentDTO>> GetTournamentListAsync(bool publicOnly = true, int? organizationId = null)
+        {
+            var query = _db.Tournaments
+                 .ProjectTo<TournamentDTO>();
+
+            if (publicOnly)
+                query = query.Where(w => w.IsPublic);
+
+            if (organizationId.HasValue)
+                query = query.Where(w => w.OrganizationId == organizationId);
+
+            return await query.ToListAsync();
+        }
+
         public async Task<TournamentDTO> GetTournamentAsync(int id)
         {
             return await _db.Tournaments
@@ -56,55 +70,5 @@ namespace VBL.Core
 
                 return _mapper.Map<TournamentDTO>(tourney);
         }
-
-        #region Select Options
-        public async Task<List<OptionDTO>> GetAllAgeTypeOptionsAsync()
-        {
-            return await _db.AgeTypes
-                .Where(w => w.IsPublic)
-                .OrderBy(o => o.Name)
-                .ProjectTo<OptionDTO>()
-                .ToListAsync();
-        }
-
-        public async Task<List<OptionDTO>> GetAllGenderOptionsAsync()
-        {
-            return await _db.Genders
-                .Where(w => w.IsPublic)
-                .OrderBy(o => o.Name)
-                .ProjectTo<OptionDTO>()
-                .ToListAsync();
-        }
-
-        public async Task<List<OptionDTO>> GetAllDivisionOptionsAsync()
-        {
-            return await _db.Divisions
-                .Where(w => w.IsPublic)
-                .OrderBy(o => o.Order)
-                .ProjectTo<OptionDTO>()
-                .ToListAsync();
-        }
-
-        public async Task<List<OptionDTO>> GetAllLocationOptionsAsync()
-        {
-            return await _db.Locations
-                .Where(w => w.IsPublic)
-                .OrderBy(o => o.Name)
-                .ProjectTo<OptionDTO>()
-                .ToListAsync();
-        }
-
-        public async Task<List<OptionDTO>> GetOrganizationLocationOptionsAsync(int? organizationId)
-        {
-            if(organizationId.HasValue)
-                return await _db.OrganizationLocations
-                    .Where(w => w.OrganizationId == organizationId)
-                    .ProjectTo<OptionDTO>()
-                    .OrderBy(o => o.Name)
-                    .ToListAsync();
-
-            return await GetAllLocationOptionsAsync();
-        }
-        #endregion
     }
 }

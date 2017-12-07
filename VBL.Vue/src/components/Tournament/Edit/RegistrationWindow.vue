@@ -12,6 +12,12 @@
           @blur="formatCurrency"
         ></v-text-field>
       </v-flex>
+      <v-flex xs6 sm3>
+        <v-radio-group v-model="window.feeIsPerTeam" row>
+          <v-radio label="Per Team" :value="true" ></v-radio>
+          <v-radio label="Per Player" :value="false"></v-radio>
+        </v-radio-group>
+      </v-flex>
     </v-layout>
     <!-- Start Row 2  -->
     <v-layout row wrap>
@@ -33,7 +39,8 @@
             label="Registration Open Date"
             prepend-icon="event"
             readonly
-            v-model="window.startDate"
+            v-model="window.startDateFormatted"
+            @blur="window.startDate = parseDate(window.startDateFormatted)"
           ></v-text-field>
           <v-date-picker 
             no-title
@@ -41,7 +48,8 @@
             actions
             v-model="window.startDate"
             :allowed-dates="regAllowedOpen"
-          >
+            @input="window.startDateFormatted = formatDate($event)"
+            >
             <template slot-scope="{ save, cancel }">
               <v-card-actions>
                 <v-spacer></v-spacer>
@@ -100,13 +108,15 @@
             label="Registration Close Date"
             prepend-icon="event"
             readonly
-            v-model="window.endDate"
+            v-model="window.endDateFormatted"
+            @blur="window.endDate = parseDate(window.endDateFormatted)"
           ></v-text-field>
           <v-date-picker
             no-title
             scrollable
             actions
             v-model="window.endDate"
+            @input="window.endDateFormatted = formatDate($event)"
             :allowed-dates="regAllowedClose">
           >
             <template slot-scope="{ save, cancel }">
@@ -180,6 +190,18 @@ export default {
       if (!this.beforeDate) return true
       if (!this.window.startDate) return true
       return moment(date) <= moment(this.beforeDate) && moment(date) >= moment(this.window.startDate)
+    },
+    formatDate (date) {
+      if (!date) return null
+
+      const [year, month, day] = date.split('-')
+      return `${month}/${day}/${year}`
+    },
+    parseDate (date) {
+      if (!date) return null
+
+      const [month, day, year] = date.split('/')
+      return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
     }
   }
 }

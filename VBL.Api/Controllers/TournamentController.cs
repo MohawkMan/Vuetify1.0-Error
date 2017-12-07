@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using VBL.Data;
 using VBL.Data.Mapping;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Configuration;
 
 namespace VBL.Api.Controllers
 {
@@ -21,16 +22,57 @@ namespace VBL.Api.Controllers
         private readonly TournamentManager _tournamentManager;
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
+        private readonly IConfiguration _configuration;
+        private readonly ApplicationUserManager _userManager;
 
-        public TournamentController(TournamentManager tournamentManager, IMapper mapper, ILogger<TournamentController> logger)
+        public TournamentController(TournamentManager tournamentManager, IMapper mapper, ILogger<TournamentController> logger, IConfiguration configuration, ApplicationUserManager userManager)
         {
             _tournamentManager = tournamentManager;
             _mapper = mapper;
             _logger = logger;
+            _configuration = configuration;
+            _userManager = userManager;
         }
 
         /// <summary>
-        /// Get select options for Age, Gender, Division, and Location
+        /// Get Tournament List
+        /// </summary>
+        [AllowAnonymous]
+        [HttpGet("list/{organizationId?}")]
+        [ProducesResponseType(typeof(TournamentDTO), 200)]
+        public async Task<IActionResult> GetAllTournaments([FromRoute] int? organizationId)
+        {
+            try
+            {
+                _logger.LogInformation($"GetAllTournaments");
+                List<TournamentDTO> list;
+                if(organizationId.HasValue)
+                {
+                    _logger.LogInformation($"GetAllTournaments - organizationId:{organizationId}");
+                    var publicOnly = true;
+                    if(User != null)
+                    {
+                        var userId = Convert.ToInt32(User.UserId(_configuration["JwtIssuer"]));
+                        publicOnly = !await _userManager.IsOrganizationMember(userId, organizationId.Value);
+                    }
+                    list = await _tournamentManager.GetTournamentListAsync(publicOnly, organizationId);
+
+                    return Ok(list);
+                }
+
+                list = await _tournamentManager.GetTournamentListAsync(true, organizationId);
+
+                return Ok(list);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(-1, e, "ERROR: ");
+                return BadRequest(e.Message);
+            }
+        }
+
+        /// <summary>
+        /// Get Tournament Details
         /// </summary>
         [AllowAnonymous]
         [HttpGet("{id}")]
@@ -55,7 +97,7 @@ namespace VBL.Api.Controllers
         /// Get select options for Age, Gender, Division, and Location
         /// </summary>
         [AllowAnonymous]
-        [HttpPost()]
+        [HttpPut()]
         [ProducesResponseType(typeof(TournamentDTO), 200)]
         public async Task<IActionResult> AddTournament([FromBody] TournamentDTO dto)
         {
@@ -101,11 +143,11 @@ namespace VBL.Api.Controllers
             }
         }
     }
-     public class TournamentSelectItems
+    public class TournamentSelectItems
     {
         public List<OptionDTO> AgeTypeOptions { get; set; }
-        public List<OptionDTO> GenderOptions { get; set; }
-        public List<OptionDTO> DivisionOptions { get; set; }
+        public List<Option2DTO> GenderOptions { get; set; }
+        public List<Option2DTO> DivisionOptions { get; set; }
         public List<OptionDTO> LocationOptions { get; set; }
     }
 }

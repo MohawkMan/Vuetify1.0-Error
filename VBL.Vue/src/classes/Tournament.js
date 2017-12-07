@@ -1,17 +1,22 @@
-import TournamentDivision from './TournamentDivision'
+import Division from './TournamentDivision'
 import moment from 'moment'
+import uniq from 'lodash.uniq'
 
 export default class Tournament {
   constructor (dto) {
     this.id = 0
     this.name = ''
     this.isPublic = false
-    this.organizationId = null
+    this.organizationId = 0
     this.divisions = []
+    if (dto) {
+      this.update(dto)
+    }
   }
 
-  addDivision (dto) {
-    this.divisions.push(new TournamentDivision(dto))
+  update (dto) {
+    Object.assign(this, dto)
+    this.divisions = dto.divisions.map(d => new Division(d))
   }
   get divisionHeaders () {
     return [
@@ -24,7 +29,12 @@ export default class Tournament {
   get startDate () {
     if (this.divisions.length === 0) return null
 
-    let dates = this.divisions.map(d => new Date(d.startDate))
-    return moment(Math.min(...dates)).format('MM/DD/YYYY')
+    return moment.min(this.divisions.map(d => d.startDate))
+  }
+  get divisionsString () {
+    return uniq(this.divisions.map(d => d.gender.name + ' ' + d.division.name)).join(', ')
+  }
+  get locationsString () {
+    return uniq(this.divisions.map(d => d.location.name)).join(', ')
   }
 }

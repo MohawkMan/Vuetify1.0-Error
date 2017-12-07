@@ -10,6 +10,12 @@ namespace VBL.Data.Mapping
         public int Id { get; set; }
         public string Name { get; set; }
     }
+    public partial class Option2DTO
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int AgeTypeId { get; set; }
+    }
 
     public class OptionProfile: Profile
     {
@@ -18,10 +24,10 @@ namespace VBL.Data.Mapping
             CreateMap<AgeType, OptionDTO>()
                 .ReverseMap()
                 .ForMember(s => s.Name, opt => opt.Ignore());
-            CreateMap<Gender, OptionDTO>()
+            CreateMap<Gender, Option2DTO>()
                 .ReverseMap()
                 .ForMember(s => s.Name, opt => opt.Ignore());
-            CreateMap<Division, OptionDTO>()
+            CreateMap<Division, Option2DTO>()
                 .ReverseMap()
                 .ForMember(s => s.Name, opt => opt.Ignore());
             CreateMap<Location, OptionDTO>()

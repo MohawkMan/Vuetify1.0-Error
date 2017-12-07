@@ -56,5 +56,13 @@ namespace VBL.Core
             }
             return false;
         }
+        public async Task<bool> IsOrganizationMember(int userId, int organizationId)
+        {
+            return await _db.OrganizationMembers
+                .Where(w => w.UserId == userId)
+                .Where(w => w.OrganizationId == organizationId)
+                .Where(w => w.IsActive)
+                .AnyAsync();
+        }
     }
 }

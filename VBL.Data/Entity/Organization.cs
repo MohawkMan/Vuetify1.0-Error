@@ -8,15 +8,11 @@ namespace VBL.Data
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public string UserName { get; set; }
         public string Description { get; set; }
         public bool IsActive { get; set; }
         public bool IsPublic { get; set; }
 
-        public List<OrganizationMember> OrganizationMembers { get; set; }
-
-        public Organization()
-        {
-            OrganizationMembers = new List<OrganizationMember>();
-        }
+        public List<OrganizationMember> OrganizationMembers { get; set; } = new List<OrganizationMember>();
     }
 }

@@ -9,6 +9,7 @@ namespace VBL.Data
         public int Id { get; set; }
         public int TournamentDivisionId { get; set; }
         public double Fee { get; set; }
+        public bool FeeIsPerTeam { get; set; } = true;
         public DateTime? DtStart { get; set; }
         public DateTime? DtEnd { get; set; }
         public bool IsEarly { get; set; }

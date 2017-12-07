@@ -30,15 +30,7 @@ namespace VBL.Api.Controllers
         [HttpGet("Init")]
         public async Task<IActionResult> Init()
         {
-            var admin = new ApplicationUser()
-            {
-                FirstName = "Test",
-                LastName = "Tester",
-                PhoneNumber = "2141112222",
-                Email = "Jon@VolleyballLife.com",
-                UserName = "2141112222"
-            };
-            var x = await _userManager.CreateAsync(admin, "volley13");
+            await _db.EnsureSeedData(_userManager, _roleManager);
             return Ok("Created");
         }
 

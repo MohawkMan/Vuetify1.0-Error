@@ -3,24 +3,41 @@
     <public-nav v-if="nav == 'public'"></public-nav>
     <private-nav v-if="nav == 'private'"></private-nav>
     <v-content>
-      <router-view></router-view>
+      <v-container fill-height v-if="loading">
+        <v-layout row wrap align-center>
+          <v-flex xs8 offset-xs2>
+            <v-layout row wrap text-xs-center>
+              <v-flex xs12>
+                <h3>Loading</h3>
+              </v-flex>
+              <v-flex xs12>
+                <v-progress-linear v-bind:indeterminate="true"></v-progress-linear>
+              </v-flex>
+            </v-layout>
+          </v-flex>
+        </v-layout>
+      </v-container>
+      <router-view v-else></router-view>
     </v-content>
   </v-app>
 </template>
 
 <script>
-  import PublicNav from './components/Nav/Public.vue'
-  import PrivateNav from './components/Nav/Private.vue'
+  import PublicNav from './Nav/Public.vue'
+  import PrivateNav from './Nav/Private.vue'
   import * as actions from './store/ActionTypes'
+  import { mapGetters } from 'vuex'
 
   export default {
     data: () => ({
       buttons: false
     }),
     computed: {
-      nav () {
-        return this.$store.getters.nav
-      }
+      ...mapGetters([
+        'nav',
+        'user',
+        'loading'
+      ])
     },
     components: {
       'public-nav': PublicNav,

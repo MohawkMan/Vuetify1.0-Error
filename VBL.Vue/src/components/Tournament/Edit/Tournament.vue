@@ -1,8 +1,5 @@
 <template>
   <v-container>
-    <v-layout row>
-      <h2>Create a new tournament</h2>
-    </v-layout>
     <v-layout row wrap>
       <v-flex>
         <v-form>
@@ -26,6 +23,7 @@
                 <v-flex xs10 offset-xs1>
                   <division-list
                     :divisions="tournament.divisions"
+                    :busy="saving"
                   ></division-list>
                 </v-flex>
               </v-layout>
@@ -39,6 +37,7 @@
                     bottom
                     right
                     fab
+                    :loading="saving"
                     @click="save"
                     >
                     <v-tooltip left>
@@ -58,11 +57,14 @@
 
 <script>
 import DivisionList from './DivisionList.vue'
+import * as actions from '../../../store/ActionTypes'
+import vbl from '../../../VolleyballLife'
 
 export default {
   props: ['tournament'],
   data () {
     return {
+      saving: false
     }
   },
   computed: {
@@ -72,11 +74,24 @@ export default {
   },
   methods: {
     save () {
+      this.saving = true
       console.log(JSON.stringify(this.tournament))
+      this.axios.put(vbl.tournament.create, this.tournament)
+        .then((response) => {
+          console.log(response.data)
+          this.saving = false
+        })
+        .catch((response) => {
+          console.log(`Error => response: {response.data}`)
+          this.saving = false
+        })
     }
   },
   components: {
     'division-list': DivisionList
+  },
+  created () {
+    this.$store.dispatch(actions.LOAD_SELECT_OPTIONS)
   }
 }
 </script>

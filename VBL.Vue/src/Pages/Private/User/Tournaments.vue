@@ -112,7 +112,6 @@
         this.right = !val
       }
     },
-
     computed: {
       activeFab () {
         switch (this.tabs) {

@@ -227,6 +227,8 @@ namespace VBL.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int>("AgeTypeId");
+
                     b.Property<string>("Description");
 
                     b.Property<bool>("IsPublic");
@@ -327,11 +329,15 @@ namespace VBL.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int>("AgeTypeId");
+
                     b.Property<string>("Description");
 
                     b.Property<bool>("IsPublic");
 
                     b.Property<string>("Name");
+
+                    b.Property<byte>("Order");
 
                     b.HasKey("Id");
 
@@ -393,6 +399,8 @@ namespace VBL.Data.Migrations
 
                     b.Property<int?>("UserIdModified");
 
+                    b.Property<string>("UserName");
+
                     b.HasKey("Id");
 
                     b.HasIndex("UserIdCreated");
@@ -443,7 +451,7 @@ namespace VBL.Data.Migrations
 
                     b.Property<bool>("IsActive");
 
-                    b.Property<int>("Role");
+                    b.Property<string>("Role");
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
@@ -724,6 +732,8 @@ namespace VBL.Data.Migrations
                     b.Property<DateTime?>("DtStart");
 
                     b.Property<double>("Fee");
+
+                    b.Property<bool>("FeeIsPerTeam");
 
                     b.Property<bool>("IsEarly");
 

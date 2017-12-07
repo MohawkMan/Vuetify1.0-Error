@@ -14,6 +14,16 @@ export default class TournamentDivision {
     this.days = [new Day()]
     this.location = null
     this.registrationWindows = [new RegWindow()]
+
+    if (dto) {
+      this.update(dto)
+    }
+  }
+
+  update (dto) {
+    Object.assign(this, dto)
+    this.days = dto.days.map(d => new Day(d))
+    this.registrationWindows = dto.registrationWindows.map(r => new RegWindow(r))
   }
 
   get startDate () {

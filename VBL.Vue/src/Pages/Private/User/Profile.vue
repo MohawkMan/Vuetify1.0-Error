@@ -1,20 +1,6 @@
 <template>
-  <v-container fill-height v-if="loading">
-    <v-layout row wrap align-center>
-      <v-flex xs8 offset-xs2>
-        <v-layout row wrap text-xs-center>
-          <v-flex xs12>
-            <h3>Loading</h3>
-          </v-flex>
-          <v-flex xs12>
-            <v-progress-linear v-bind:indeterminate="true"></v-progress-linear>
-          </v-flex>
-        </v-layout>
-      </v-flex>
-    </v-layout>
-  </v-container>
-  <v-container v-else>
-    <page-title :title="'My Profile'"></page-title>
+  <v-container>
+    <page-title title="My Profile"></page-title>
     <v-layout row wrap>
       <v-flex xs12 sm8 offset-sm2>
         <h1>{{fullname}}</h1>
@@ -212,9 +198,7 @@
 </template>
 
 <script>
-import PageTitle from '../../../Components/Utils/PageTitle.vue'
 import { mapGetters } from 'vuex'
-import * as actions from '../../../store/ActionTypes'
 
 export default {
   data () {
@@ -230,14 +214,6 @@ export default {
     fullname () {
       let middle = this.user.middleName ? ' ' + this.user.middleName + ' ' : ' '
       return this.user.firstName + middle + this.user.lastName
-    }
-  },
-  components: {
-    'page-title': PageTitle
-  },
-  created () {
-    if (!this.user) {
-      this.$store.dispatch(actions.LOAD_USER)
     }
   }
 }

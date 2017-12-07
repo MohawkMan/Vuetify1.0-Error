@@ -61,7 +61,6 @@
 </template>
 
 <script>
-import PageTitle from '../../../Components/Utils/PageTitle.vue'
 import { validationMixin } from 'vuelidate'
 import { required, minLength, email, sameAs } from 'vuelidate/lib/validators'
 
@@ -101,9 +100,6 @@ export default {
       return errors
     },
     valid () { return !this.$v.$invalid }
-  },
-  components: {
-    'page-title': PageTitle
   },
   methods: {
     submit () {

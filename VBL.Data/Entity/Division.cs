@@ -12,5 +12,6 @@ namespace VBL.Data
         public string Description { get; set; }
         public byte Order { get; set; }
         public bool IsPublic { get; set; }
+        public int AgeTypeId { get; set; }
     }
 }

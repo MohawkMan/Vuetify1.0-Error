@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace VBL.Data.Mapping
@@ -15,6 +16,7 @@ namespace VBL.Data.Mapping
         public bool Active { get; set; }
         public List<PhoneDTO> Phones { get; set; } = new List<PhoneDTO>();
         public List<EmailDTO> Emails { get; set; } = new List<EmailDTO>();
+        public List<PageDTO> Pages { get; set; } = new List<PageDTO>();
     }
 
     public class ApplicationUserProfile : Profile
@@ -23,7 +25,8 @@ namespace VBL.Data.Mapping
         {
             CreateMap<ApplicationUser, ApplicationUserDTO>()
                 .ForMember(d => d.Phones, o => o.MapFrom(s => s.UserPhones))
-                .ForMember(d => d.Emails, o => o.MapFrom(s => s.UserEmails));
+                .ForMember(d => d.Emails, o => o.MapFrom(s => s.UserEmails))
+                .ForMember(d => d.Pages, o => o.MapFrom(s => s.OrganizationMemberships.Where(w => w.IsActive)));
         }
     }
 

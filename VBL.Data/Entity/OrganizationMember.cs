@@ -8,7 +8,7 @@ namespace VBL.Data
     {
         public int OrganizationId { get; set; }
         public int UserId { get; set; }
-        public OranizationUserRoles Role { get; set; }
+        public string Role { get; set; }
         public bool IsActive { get; set; }
         
         public Organization Organization { get; set; }

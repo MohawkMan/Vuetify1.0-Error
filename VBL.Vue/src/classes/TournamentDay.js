@@ -5,5 +5,13 @@ export default class TournamentDay {
     this.dateFormatted = null
     this.checkInTime = null
     this.playTime = null
+
+    if (dto) {
+      this.update(dto)
+    }
+  }
+
+  update (dto) {
+    Object.assign(this, dto)
   }
 }

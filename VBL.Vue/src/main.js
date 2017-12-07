@@ -112,6 +112,11 @@ import { usDollars, usPhone } from './Filters'
 Vue.filter('usDollars', usDollars)
 Vue.filter('usPhone', usPhone)
 
+import PageTitle from './components/Utils/PageTitle.vue'
+Vue.component('page-title', PageTitle)
+import Loading from './components/Utils/Loading.vue'
+Vue.component('loading-data', Loading)
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

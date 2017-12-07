@@ -39,8 +39,8 @@ namespace VBL.Data
             if (await db.AgeTypes.AnyAsync())
                 return false;
 
-            db.AgeTypes.Add(new AgeType { Name = "Adult" });
             db.AgeTypes.Add(new AgeType { Name = "Juniors" });
+            db.AgeTypes.Add(new AgeType { Name = "Adult" });
             await db.SaveChangesAsync();
 
             return true;
@@ -50,12 +50,13 @@ namespace VBL.Data
             if (await db.Genders.AnyAsync())
                 return false;
 
-            db.Genders.Add(new Gender { Name = "Coed" });
-            db.Genders.Add(new Gender { Name = "Female" });
-            db.Genders.Add(new Gender { Name = "Female Singles" });
-            db.Genders.Add(new Gender { Name = "Male" });
-            db.Genders.Add(new Gender { Name = "Male Singles" });
-            db.Genders.Add(new Gender { Name = "Mixed" });
+            db.Genders.Add(new Gender { Name = "Mens", AgeTypeId = 2, Order = 1 });
+            db.Genders.Add(new Gender { Name = "Womens", AgeTypeId = 2, Order = 2 });
+            db.Genders.Add(new Gender { Name = "Coed", AgeTypeId = 2, Order = 3 });
+            db.Genders.Add(new Gender { Name = "Boys", AgeTypeId = 1, Order = 4 });
+            db.Genders.Add(new Gender { Name = "Girls", AgeTypeId = 1, Order = 5 });
+            db.Genders.Add(new Gender { Name = "Coed", AgeTypeId = 1, Order = 6 });
+            db.Genders.Add(new Gender { Name = "Boys or Coed", AgeTypeId = 1, Order = 7 });
             await db.SaveChangesAsync();
 
             return true;
@@ -65,21 +66,26 @@ namespace VBL.Data
             if (await db.Divisions.AnyAsync())
                 return false;
 
-            db.Divisions.Add(new Division { Name = "AAA" });
-            db.Divisions.Add(new Division { Name = "AA" });
-            db.Divisions.Add(new Division { Name = "A" });
-            db.Divisions.Add(new Division { Name = "BB" });
-            db.Divisions.Add(new Division { Name = "B" });
-            db.Divisions.Add(new Division { Name = "Unrated" });
-            db.Divisions.Add(new Division { Name = "18U" });
-            db.Divisions.Add(new Division { Name = "16U" });
-            db.Divisions.Add(new Division { Name = "14U" });
-            db.Divisions.Add(new Division { Name = "12U" });
-            db.Divisions.Add(new Division { Name = "10U" });
-            db.Divisions.Add(new Division { Name = "14U Rec*" });
-            db.Divisions.Add(new Division { Name = "12U Rec*" });
-            db.Divisions.Add(new Division { Name = "18U/16U Elite" });
-            db.Divisions.Add(new Division { Name = "Masters" });
+            db.Divisions.Add(new Division { Name = "AAA", AgeTypeId = 2, Order = 1 });
+            db.Divisions.Add(new Division { Name = "AA", AgeTypeId = 2, Order =  2});
+            db.Divisions.Add(new Division { Name = "A", AgeTypeId = 2, Order =  3});
+            db.Divisions.Add(new Division { Name = "BB", AgeTypeId = 2, Order =  4});
+            db.Divisions.Add(new Division { Name = "B", AgeTypeId = 2, Order =  5});
+            db.Divisions.Add(new Division { Name = "Unrated", AgeTypeId = 2, Order =  6});
+            db.Divisions.Add(new Division { Name = "Masters", AgeTypeId = 2, Order =  7});
+            db.Divisions.Add(new Division { Name = "Senoirs", AgeTypeId = 2, Order =  8});
+
+            db.Divisions.Add(new Division { Name = "10U", AgeTypeId = 1, Order =  1});
+            db.Divisions.Add(new Division { Name = "12U", AgeTypeId = 1, Order =  2});
+            db.Divisions.Add(new Division { Name = "14U", AgeTypeId = 1, Order =  3});
+            db.Divisions.Add(new Division { Name = "16U", AgeTypeId = 1, Order =  4});
+            db.Divisions.Add(new Division { Name = "18U", AgeTypeId = 1, Order =  5});
+            db.Divisions.Add(new Division { Name = "17+/Open", AgeTypeId = 1, Order =  6});
+            db.Divisions.Add(new Division { Name = "12U Rec*", AgeTypeId = 1, Order =  8});
+            db.Divisions.Add(new Division { Name = "14U Rec*", AgeTypeId = 1, Order = 9 });
+            db.Divisions.Add(new Division { Name = "16U Rec*", AgeTypeId = 1, Order = 10 });
+            db.Divisions.Add(new Division { Name = "18U Rec*", AgeTypeId = 1, Order = 11 });
+            db.Divisions.Add(new Division { Name = "18U/16U Elite", AgeTypeId = 1, Order =  12});
             await db.SaveChangesAsync();
 
             return true;

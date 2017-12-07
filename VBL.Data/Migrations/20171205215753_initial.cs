@@ -29,6 +29,7 @@ namespace VBL.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    AgeTypeId = table.Column<int>(nullable: false),
                     Description = table.Column<string>(nullable: true),
                     IsPublic = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(nullable: true),
@@ -59,9 +60,11 @@ namespace VBL.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    AgeTypeId = table.Column<int>(nullable: false),
                     Description = table.Column<string>(nullable: true),
                     IsPublic = table.Column<bool>(nullable: false),
-                    Name = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: true),
+                    Order = table.Column<byte>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -229,7 +232,8 @@ namespace VBL.Data.Migrations
                     Name = table.Column<string>(nullable: true),
                     RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true),
                     UserIdCreated = table.Column<int>(nullable: true),
-                    UserIdModified = table.Column<int>(nullable: true)
+                    UserIdModified = table.Column<int>(nullable: true),
+                    UserName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -566,7 +570,7 @@ namespace VBL.Data.Migrations
                     DtCreated = table.Column<DateTime>(nullable: true),
                     DtModified = table.Column<DateTime>(nullable: true),
                     IsActive = table.Column<bool>(nullable: false),
-                    Role = table.Column<int>(nullable: false),
+                    Role = table.Column<string>(nullable: true),
                     RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true),
                     UserIdCreated = table.Column<int>(nullable: true),
                     UserIdModified = table.Column<int>(nullable: true)
@@ -656,7 +660,7 @@ namespace VBL.Data.Migrations
                     Name = table.Column<string>(nullable: true),
                     OrganizationId = table.Column<int>(nullable: false),
                     RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true),
-                    SanctioningBodyId = table.Column<int>(nullable: false),
+                    SanctioningBodyId = table.Column<int>(nullable: true),
                     StatusId = table.Column<int>(nullable: false),
                     UserIdCreated = table.Column<int>(nullable: true),
                     UserIdModified = table.Column<int>(nullable: true)
@@ -675,7 +679,7 @@ namespace VBL.Data.Migrations
                         column: x => x.SanctioningBodyId,
                         principalTable: "SanctioningBodies",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Tournaments_Users_UserIdCreated",
                         column: x => x.UserIdCreated,

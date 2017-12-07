@@ -7,7 +7,8 @@
       v-model="drawer"
     >
       <v-list dense>
-        <template v-for="(item, i) in items">
+        <template v-for="(item, i) in sideItems">
+          <!-- Headings -->
           <v-layout
             row
             v-if="item.heading"
@@ -19,10 +20,8 @@
                 {{ item.heading }}
               </v-subheader>
             </v-flex>
-            <v-flex xs6 class="text-xs-center">
-              <a href="#!" class="body-2 black--text">EDIT</a>
-            </v-flex>
           </v-layout>
+          <!-- item.children -->
           <v-list-group v-else-if="item.children" v-model="item.model" no-action :key="i">
             <v-list-tile slot="item" router :to="item.to">
               <v-list-tile-action>
@@ -49,7 +48,9 @@
               </v-list-tile-content>
             </v-list-tile>
           </v-list-group>
+          <!-- Divider -->
           <v-divider v-else-if="item.divider" :inset="item.inset" :key="i" class="my-4"></v-divider>
+          <!-- Item -->
           <v-list-tile v-else router :to="item.to" :key="i">
             <v-list-tile-action>
               <v-icon>{{ item.icon }}</v-icon>
@@ -61,6 +62,7 @@
             </v-list-tile-content>
           </v-list-tile>
         </template>
+        <v-divider></v-divider>
         <v-list-tile @click="logout">
             <v-list-tile-action>
             <v-icon>exit_to_app</v-icon>
@@ -97,7 +99,7 @@
             <span>{{ userFullName }}</span>
           </v-btn>
           <v-list>
-            <v-list-tile v-for="item in myItems" :key="item.text" router :to="item.to">
+            <v-list-tile v-for="item in topItems" :key="item.text" router :to="item.to">
               <v-list-tile-action>
                 <v-icon>{{ item.icon }}</v-icon>
               </v-list-tile-action>
@@ -125,7 +127,7 @@
 </template>
 
 <script>
-  import * as actions from '../../store/ActionTypes'
+  import * as actions from '../store/ActionTypes'
 
   export default {
     data: () => ({
@@ -136,18 +138,36 @@
       user () {
         return this.$store.getters.user
       },
-      items () {
-        return [
+      sideItems () {
+        let items = [
         { icon: 'people', text: 'Players', to: { name: 'players' } },
         { icon: 'format_list_numbered', text: 'Rankings', to: { name: 'rankings' } },
         { icon: 'date_range', text: 'Tournaments', to: { name: 'tournaments' } },
         { icon: 'apps', text: 'Organizations', to: { name: 'organizations' } },
         { divider: true },
-        { icon: 'account_circle', text: this.userFullName, to: { name: 'me' } },
-        { icon: 'date_range', text: 'My Tournaments', to: { name: 'my-tournaments' } }
+        { icon: 'account_circle', text: this.userFullName, to: { name: 'me' } }
+        // { icon: 'date_range', text: 'My Tournaments', to: { name: 'my-tournaments' } }
         ]
+
+        if (this.user.pages && this.user.pages.length > 0) {
+          // items.push({ heading: 'Shortcuts' })
+          let pageRoutes = this.user.pages
+            .filter(page => page.isPublic)
+            .map(page => {
+              return {
+                icon: 'dashboard',
+                text: page.name,
+                to: {
+                  name: 'organization-home',
+                  params: {username: page.userName}
+                }
+              }
+            })
+          items.push(...pageRoutes)
+        }
+        return items
       },
-      myItems () {
+      topItems () {
         return [
           { icon: 'account_circle', text: 'My Profile', to: { name: 'me' } },
           { icon: 'date_range', text: 'My Tournaments', to: { name: 'my-tournaments' } }

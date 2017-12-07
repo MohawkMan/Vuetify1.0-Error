@@ -12,8 +12,8 @@ namespace VBL.Data.Mapping
         public int? MaxTeams { get; set; }
 
         public OptionDTO AgeType { get; set; }
-        public OptionDTO Gender { get; set; }
-        public OptionDTO Division { get; set; }
+        public Option2DTO Gender { get; set; }
+        public Option2DTO Division { get; set; }
         public List<TournamentDayDTO> Days { get; set; } = new List<TournamentDayDTO>();
         public OptionDTO Location { get; set; }
         public List<TournamentRegistrationWindowDTO> RegistrationWindows { get; set; } = new List<TournamentRegistrationWindowDTO>();

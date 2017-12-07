@@ -11,6 +11,7 @@ export default {
   tournament: {
     getSelectOptions: (organizationId) => organizationId ? '/Tournament/Selects/' + organizationId : '/Tournament/Selects',
     getById: (id) => '/tournament/' + id,
-    create: '/tournament'
+    create: '/tournament',
+    getAll: '/tournament/list'
   }
 }

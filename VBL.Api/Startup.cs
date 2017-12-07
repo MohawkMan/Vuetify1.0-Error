@@ -24,6 +24,8 @@ using Microsoft.Extensions.PlatformAbstractions;
 using System.IO;
 using VBL.Data.Mapping;
 using VBL.Core;
+using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace VBL.Api
 {
@@ -119,6 +121,7 @@ namespace VBL.Api
             services.AddSingleton<IConfiguration>(Configuration);
             services.AddScoped<ApplicationUserManager, ApplicationUserManager>();
             services.AddScoped<TournamentManager, TournamentManager>();
+            services.AddScoped<OrganizationManager, OrganizationManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -145,7 +148,7 @@ namespace VBL.Api
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "VBL API V1");
             });
 
-            EnsureSeeded(app, false);
+            //EnsureSeeded(app, false);
         }
 
         private static string SwaggerSchemaIdStrategy(Type currentClass)
@@ -161,13 +164,16 @@ namespace VBL.Api
             using (var serviceScope = applicationBuilder.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
                 var db = serviceScope.ServiceProvider.GetService<VBLDbContext>();
-                var userManager = serviceScope.ServiceProvider.GetService<UserManager<ApplicationUser>>();
-                var roleManager = serviceScope.ServiceProvider.GetService<RoleManager<ApplicationRole>>();
-                if (autoMigrateDatabase)
+                if((db.Database.GetService<IDatabaseCreator>() as RelationalDatabaseCreator).Exists())
                 {
-                    db.Database.Migrate();
+                    var userManager = serviceScope.ServiceProvider.GetService<UserManager<ApplicationUser>>();
+                    var roleManager = serviceScope.ServiceProvider.GetService<RoleManager<ApplicationRole>>();
+                    if (autoMigrateDatabase)
+                    {
+                        db.Database.Migrate();
+                    }
+                    db.EnsureSeedData(userManager, roleManager).Wait();
                 }
-                db.EnsureSeedData(userManager, roleManager).Wait();
             }
         }
     }

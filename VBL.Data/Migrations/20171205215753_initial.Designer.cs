@@ -11,8 +11,8 @@ using VBL.Data;
 namespace VBL.Data.Migrations
 {
     [DbContext(typeof(VBLDbContext))]
-    [Migration("20171204175148_m2")]
-    partial class m2
+    [Migration("20171205215753_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -228,6 +228,8 @@ namespace VBL.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int>("AgeTypeId");
+
                     b.Property<string>("Description");
 
                     b.Property<bool>("IsPublic");
@@ -328,11 +330,15 @@ namespace VBL.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int>("AgeTypeId");
+
                     b.Property<string>("Description");
 
                     b.Property<bool>("IsPublic");
 
                     b.Property<string>("Name");
+
+                    b.Property<byte>("Order");
 
                     b.HasKey("Id");
 
@@ -394,6 +400,8 @@ namespace VBL.Data.Migrations
 
                     b.Property<int?>("UserIdModified");
 
+                    b.Property<string>("UserName");
+
                     b.HasKey("Id");
 
                     b.HasIndex("UserIdCreated");
@@ -444,7 +452,7 @@ namespace VBL.Data.Migrations
 
                     b.Property<bool>("IsActive");
 
-                    b.Property<int>("Role");
+                    b.Property<string>("Role");
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()

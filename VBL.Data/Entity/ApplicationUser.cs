@@ -33,6 +33,6 @@ namespace VBL.Data
         public List<OrganizationMember> OrganizationMemberships { get; set; } = new List<OrganizationMember>();
         public List<UserNotification> Notifications { get; set; } = new List<UserNotification>();
 
-        //public List<Organization> UserOrganizations => OrganizationMemberships.Select(ou => ou.Organization).ToList();
+        //public List<Organization> UserOrganizations => OrganizationMemberships.Where(w => w.IsActive).Select(ou => ou.Organization).ToList();
     }
 }
