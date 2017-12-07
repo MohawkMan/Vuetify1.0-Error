@@ -21,25 +21,26 @@
               </v-subheader>
             </v-flex>
           </v-layout>
-          <!-- item.children -->
-          <v-list-group v-else-if="item.children" v-model="item.model" no-action :key="i">
-            <v-list-tile slot="item" router :to="item.to">
+          <!-- Items with children -->
+          <v-list-group v-else-if="item.children" v-model="item.model" :key="i">
+            <v-list-tile slot="item">
               <v-list-tile-action>
-                <v-icon>{{ item.model ? item.icon : item['icon-alt'] }}</v-icon>
+                <v-icon>{{ item.icon }}</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
-                <v-list-tile-title>
-                  {{ item.text }}
-                </v-list-tile-title>
+                <v-list-tile-title router :to="item.to">{{ item.text }}</v-list-tile-title>
               </v-list-tile-content>
+              <v-list-tile-action>
+                <v-icon>keyboard_arrow_down</v-icon>
+              </v-list-tile-action>
             </v-list-tile>
             <v-list-tile
               v-for="(child, i) in item.children"
               :key="i"
-              router :to="item.to"
+              router :to="child.to"
             >
-              <v-list-tile-action v-if="child.icon">
-                <v-icon>{{ child.icon }}</v-icon>
+              <v-list-tile-action>
+                <v-icon v-if="child.icon">{{ child.icon }}</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
                 <v-list-tile-title>
@@ -157,10 +158,11 @@
               return {
                 icon: 'dashboard',
                 text: page.name,
-                to: {
-                  name: 'organization-home',
-                  params: {username: page.userName}
-                }
+                to: { name: 'organization-home', params: {username: page.userName} },
+                children: [
+                  { icon: 'dashboard', text: 'Dashboard', to: { name: 'organization-home', params: {username: page.userName} } },
+                  { icon: 'date_range', text: 'Tournaments', to: { name: 'organization-tournaments', params: {username: page.userName} } }
+                ]
               }
             })
           items.push(...pageRoutes)

@@ -18,7 +18,7 @@ import TourneyBrochure from '@/Pages/Public/TournamentBrochure.vue'
 import Profile from '@/Pages/Private/User/Profile'
 import MyTournaments from '@/Pages/Private/User/Tournaments'
 import OrgHome from '@/Pages/Private/Organization/Home.vue'
-import OrgTourneys from '@/Pages/Private/Organization/TournamentList.vue'
+// import OrgTourneys from '@/Pages/Private/Organization/TournamentList.vue'
 import TournamentCreator from '@/Pages/Private/Organization/TournamentCreate.vue'
 
 Vue.use(Router)
@@ -83,7 +83,7 @@ const router = new Router({
     {
       path: '/:username/tournaments',
       name: 'organization-tournaments',
-      component: OrgTourneys,
+      component: Tournaments,
       beforeEnter: AuthGuard,
       props: true
     },
@@ -95,7 +95,7 @@ const router = new Router({
       props: true
     },
     {
-      path: '/tournament/:tournamentId',
+      path: '/:username/tournament/:tournamentId',
       name: 'tournament-brochure',
       component: TourneyBrochure,
       props: (route) => { return {tournamentId: route.params.tournamentId, mode: 'view'} }

@@ -1,33 +1,54 @@
 <template>
-  <v-container v-if="!loading">
+  <v-container v-if="!loading" grid-list-md>
     <v-layout row>
       <v-flex xs12 sm10 offset-sm1>
         <v-card>
-          <v-card-media
-            class="white--text"
-            height='200px'
-            src="http://volleyoc.wdfiles.com/local--files/octoberseries/big%20TD%20meeting2.jpg"
-          >
-            <v-container fill-height fluid>
-              <v-layout>
-                <v-flex xs12 md6>
-                  <div class="titleCard">
-                    <h1><span class="blue--text">Volley</span><span class="orange--text">OC</span> {{tourney.name}}</h1>
-                    <div>{{tourney.startDate | formatDate}}</div>
-                  </div>
-                </v-flex>  
-              </v-layout>
-            </v-container>
-          </v-card-media>
+          <v-container>
+            <v-layout row>
+              <v-flex xs12>
+                <v-card
+                  flat
+                  img="http://volleyoc.wdfiles.com/local--files/octoberseries/big%20TD%20meeting2.jpg"
+                  height="200px"
+                  class="pa-3"
+                >
+                  <v-toolbar
+                    floating
+                    dense prominent extended
+                    style="background-color: rgba(0, 0, 0, .7);"
+                  >
+                    <v-toolbar-title class="white--text">
+                      <h2>
+                        <span class="blue--text">Volley</span><span class="orange--text">OC</span> {{tourney.name}}
+                      </h2>
+                    </v-toolbar-title>
+                  </v-toolbar>
+                </v-card>
+                <v-card flat>
+                  <v-toolbar flat dense color="color4">
+                    <v-toolbar-title>
+                        {{tourney.startDate | formatDate}}
+                    </v-toolbar-title>
+                  </v-toolbar>
+                </v-card>
+              </v-flex>
+            </v-layout>
+            <v-layout row>
+              <v-flex xs12>
+                <v-card>
+                  <v-toolbar dense color="color5">
+                    <v-toolbar-title>Divisions</v-toolbar-title>
+                  </v-toolbar>
+                  <division-list :divisions="tourney.divisions"></division-list>
+                </v-card>
+              </v-flex>
+            </v-layout>
+          </v-container>
 
-          <v-card-title v-if="mode === 'view'">
+          <v-card-title>
+            <div v-html="test"></div>
             <v-btn :to="{name: 'tournament-register', params: {tournamentId: tourney.id}}">
               Register
-            </v-btn>
-          </v-card-title>
-          <v-card-title v-else>
-            <v-btn :to="{name: 'tournament-brochure', params: {tournamentId: tourney.id}}">
-              Back
             </v-btn>
           </v-card-title>
 
@@ -41,13 +62,15 @@
 import vbl from '../../VolleyballLife'
 import Tourney from '../../classes/Tournament'
 import moment from 'moment'
+import Divisions from '../../components/Tournament/DivisionList.vue'
 
 export default {
   props: ['tournamentId', 'mode'],
   data () {
     return {
       tourney: null,
-      loading: true
+      loading: true,
+      test: '<span class="red--text">Testing</span>'
     }
   },
   methods: {
@@ -68,6 +91,9 @@ export default {
     formatDate (date) {
       return moment(date).format('dddd, MMMM Do YYYY')
     }
+  },
+  components: {
+    'division-list': Divisions
   },
   created () {
     this.fetchTourney()

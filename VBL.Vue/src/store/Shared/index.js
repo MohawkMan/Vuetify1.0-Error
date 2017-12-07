@@ -48,7 +48,7 @@ export default {
         if (!state.optionsLoaded) {
           console.log('loading options')
           commit(mutations.SET_LOADING, true) // set loading = true
-          Vue.prototype.axios.get(vbl.shared.getSelectOptions())
+          Vue.prototype.axios.get(vbl.tournament.getSelectOptions())
           .then((response) => {
             commit(mutations.SET_AGETYPEOPTIONS, response.data.ageTypeOptions)
             commit(mutations.SET_GENDEROPTIONS, response.data.genderOptions)

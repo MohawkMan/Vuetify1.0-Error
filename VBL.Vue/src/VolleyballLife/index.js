@@ -5,13 +5,11 @@ export default {
     register: '/account/register',
     getCurrent: '/Me'
   },
-  shared: {
-    getSelectOptions: (organizationId) => organizationId ? '/Tournament/Selects/' + organizationId : '/Tournament/Selects'
-  },
   tournament: {
-    getSelectOptions: (organizationId) => organizationId ? '/Tournament/Selects/' + organizationId : '/Tournament/Selects',
-    getById: (id) => '/tournament/' + id,
+    getSelectOptions: (organizationId) => organizationId ? `/Tournament/Selects/${organizationId}` : '/Tournament/Selects',
+    getById: (id) => `/tournament/${id}`,
     create: '/tournament',
-    getAll: '/tournament/list'
+    getAll: '/tournament/list',
+    getByOrganizationId: (organizationId) => `/tournament/list/${organizationId}`
   }
 }

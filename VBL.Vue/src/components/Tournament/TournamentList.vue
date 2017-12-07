@@ -4,14 +4,22 @@
     :items="rows"
     >
     <template slot="items" slot-scope="props">
-      <tr>
+      <tr style="cursor: pointer">
         <td @click="gotoDetails(props.item.id)">{{ props.item.date | formatDate }}</td>
         <td @click="gotoDetails(props.item.id)">{{ props.item.name }}</td>
         <td @click="gotoDetails(props.item.id)">{{ props.item.divisions }}</td>
         <td @click="gotoDetails(props.item.id)">{{ props.item.locations }}</td>
         <td>
-          <v-btn small :to="'/tournament/' + props.item.id + '/register'">
+          <v-btn small :to="`/tournament/${props.item.id}/register`" v-if="mode==='public'">
             Register
+          </v-btn>
+          <v-btn 
+            small
+            dark
+            fab
+            color="color3"
+            v-if="mode==='admin'">
+            <v-icon>edit</v-icon>
           </v-btn>
         </td>
       </tr>
@@ -27,7 +35,7 @@ import { mapGetters } from 'vuex'
 import moment from 'moment'
 
 export default {
-  props: ['tourneys', 'loading'],
+  props: ['tourneys', 'loading', 'mode'],
   data () {
     return {
       agefilter: '',
@@ -65,7 +73,8 @@ export default {
   },
   methods: {
     gotoDetails (id) {
-      this.$router.push({name: 'tournament-brochure', params: {tournamentId: id}})
+      this.$router.push(`tournament/${id}`)
+      // this.$router.push({name: 'tournament-brochure', params: {tournamentId: id}})
     }
   },
   filters: {
