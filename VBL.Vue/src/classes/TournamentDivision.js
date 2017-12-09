@@ -1,12 +1,15 @@
 import Day from './TournamentDay'
 import RegWindow from './TournamentRegistrationWindow'
 import moment from 'moment'
+import uniq from 'lodash.uniq'
 
 export default class TournamentDivision {
   constructor (dto) {
     this.id = 0
     this.minTeams = null
     this.maxTeams = null
+    this.numOfPlayers = 2
+    this.numAllowedOnRoster = 2
 
     this.ageType = null
     this.gender = null
@@ -26,8 +29,28 @@ export default class TournamentDivision {
     this.registrationWindows = dto.registrationWindows.map(r => new RegWindow(r))
   }
 
+  get name () {
+    return `${this.gender.name} ${this.division.name}`
+  }
+  get dayCount () {
+    return uniq(this.days.map(d => d.date)).length
+  }
   get startDate () {
     if (this.days.length === 0) return null
-    return moment(this.days[0].date)
+    return moment.min(this.days.map(d => moment(d.date)))
+  }
+  get endDate () {
+    if (this.days.length === 0) return null
+    return moment.max(this.days.map(d => moment(d.date)))
+  }
+  get currentEntryFee () {
+    if (this.registrationWindows.length === 0) return null
+
+    return this.registrationWindows.find((w) => { return w.isCurrent }).fee
+  }
+  get currentEntryFeeString () {
+    if (this.registrationWindows.length === 0) return null
+
+    return this.registrationWindows.find((w) => { return w.isCurrent }).feeString
   }
 }

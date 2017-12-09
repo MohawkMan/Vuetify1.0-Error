@@ -10,6 +10,8 @@ namespace VBL.Data.Mapping
         public int Id { get; set; }
         public int? MinTeams { get; set; }
         public int? MaxTeams { get; set; }
+        public byte NumOfPlayers { get; set; }
+        public byte NumAllowedOnRoster { get; set; }
 
         public OptionDTO AgeType { get; set; }
         public Option2DTO Gender { get; set; }

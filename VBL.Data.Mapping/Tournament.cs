@@ -11,6 +11,7 @@ namespace VBL.Data.Mapping
         public string Name { get; set; }
         public bool IsPublic { get; set; }
         public int OrganizationId { get; set; }
+        public OrganizationDTOSkinny Organization { get; set; }
         public List<TournamentDivisionDTO> Divisions { get; set; }
     }
 
@@ -19,7 +20,8 @@ namespace VBL.Data.Mapping
         public TournamentProfile()
         {
             CreateMap<Tournament, TournamentDTO>()
-                .ReverseMap();
+                .ReverseMap()
+                .ForMember(s => s.Organization, opt => opt.Ignore());
         }
     }
 }

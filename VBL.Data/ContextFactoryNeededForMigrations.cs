@@ -8,14 +8,9 @@ using System.Text;
 
 namespace VBL.Data
 {
+    /*
     public class ContextFactoryNeededForMigrations : IDesignTimeDbContextFactory<VBLDbContext>
     {
-        //private readonly IHttpContextAccessor _contextAccessor;
-        //public ContextFactoryNeededForMigrations(IHttpContextAccessor contextAccessor)
-        //{
-        //    _contextAccessor = contextAccessor;
-        //}
-
         private const string ConnectionString = "Server=(localdb)\\mssqllocaldb;Database=VBL_db;Trusted_Connection=True;MultipleActiveResultSets=true";
         public VBLDbContext CreateDbContext(string[] args)
         {
@@ -26,4 +21,5 @@ namespace VBL.Data
         }
 
     }
+    */
 }

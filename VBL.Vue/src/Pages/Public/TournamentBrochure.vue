@@ -4,7 +4,8 @@
       <v-flex xs12 sm10 offset-sm1>
         <v-card>
           <v-container>
-            <v-layout row>
+            <!-- Card 1 Title, Photo, Date -->
+            <v-layout row wrap>
               <v-flex xs12>
                 <v-card
                   flat
@@ -29,11 +30,26 @@
                     <v-toolbar-title>
                         {{tourney.startDate | formatDate}}
                     </v-toolbar-title>
+                    <v-spacer></v-spacer>
+                    <v-toolbar-title>
+                        {{tourney.locationsString}}
+                    </v-toolbar-title>
                   </v-toolbar>
                 </v-card>
               </v-flex>
             </v-layout>
-            <v-layout row>
+            <!-- Card 2 -->
+            <v-layout row wrap>
+              <v-flex xs12>
+                <v-card>
+                  <v-card-title>
+                    Hosted by: <router-link to="../" class="primary--text">{{tourney.organization.name}}</router-link>
+                  </v-card-title>
+                </v-card>
+              </v-flex>
+            </v-layout>
+            <!-- Card 3 Divisions -->
+            <v-layout row wrap>
               <v-flex xs12>
                 <v-card>
                   <v-toolbar dense color="color5">
@@ -43,6 +59,19 @@
                 </v-card>
               </v-flex>
             </v-layout>
+            <!-- Card 4 Registration -->
+            <v-layout row wrap>
+              <v-flex xs12>
+                <v-card>
+                  <tournament-registration
+                    v-if="registering"
+                    :tourney="tourney"
+                    :registration="registration"
+                    ></tournament-registration>
+                </v-card>
+              </v-flex>
+            </v-layout>
+
           </v-container>
 
           <v-card-title>
@@ -63,12 +92,15 @@ import vbl from '../../VolleyballLife'
 import Tourney from '../../classes/Tournament'
 import moment from 'moment'
 import Divisions from '../../components/Tournament/DivisionList.vue'
+import RegistrationUI from '../../components/Tournament/Registration.vue'
 
 export default {
   props: ['tournamentId', 'mode'],
   data () {
     return {
       tourney: null,
+      registering: true,
+      registration: null,
       loading: true,
       test: '<span class="red--text">Testing</span>'
     }
@@ -79,12 +111,19 @@ export default {
       this.axios.get(vbl.tournament.getById(this.tournamentId))
         .then((response) => {
           this.tourney = new Tourney(response.data)
+          this.registration = this.tourney.newRegistration()
+          this.registration.setDivision(this.tourney.divisions[1])
+
           this.loading = false
         })
         .catch((response) => {
-          console.log(response.data)
+          console.log('Error fetchTourney')
+          console.log(response)
           this.loading = false
         })
+    },
+    register (divisionId) {
+
     }
   },
   filters: {
@@ -93,7 +132,8 @@ export default {
     }
   },
   components: {
-    'division-list': Divisions
+    'division-list': Divisions,
+    'tournament-registration': RegistrationUI
   },
   created () {
     this.fetchTourney()

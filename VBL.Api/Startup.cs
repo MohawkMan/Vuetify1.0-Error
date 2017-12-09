@@ -26,23 +26,34 @@ using VBL.Data.Mapping;
 using VBL.Core;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using System.Reflection;
 
 namespace VBL.Api
 {
     public class Startup
     {
         public IConfiguration Configuration { get; }
-        public Startup(IConfiguration configuration)
+        public IHostingEnvironment Environment { get; }
+        public Startup(IConfiguration configuration, IHostingEnvironment environment)
         {
             Configuration = configuration;
+            Environment = environment;
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var devConnection = Configuration.GetConnectionString("DevConnection");
+            var prodConnection = Configuration.GetConnectionString("ProdConnection");
+
+            var connectionInUse = prodConnection;
+
+            if (!Environment.IsDevelopment())
+                connectionInUse = prodConnection;
+
             //Db Context
             services.AddDbContext<VBLDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(connectionInUse, b => b.MigrationsAssembly(typeof(VBLDbContext).GetTypeInfo().Assembly.GetName().Name)));
 
             //Identity
             services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
@@ -147,8 +158,6 @@ namespace VBL.Api
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "VBL API V1");
             });
-
-            //EnsureSeeded(app, false);
         }
 
         private static string SwaggerSchemaIdStrategy(Type currentClass)

@@ -21,4 +21,10 @@ export default class TournamentRegistrationWindow {
   update (dto) {
     Object.assign(this, dto)
   }
+  get feeString () {
+    return `$ ${parseFloat(this.fee).toFixed(2)}/${this.feeIsPerTeam ? 'per team' : 'per player'}`
+  }
+  get isCurrent () {
+    return true
+  }
 }

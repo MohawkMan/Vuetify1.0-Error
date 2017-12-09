@@ -13,6 +13,7 @@
   "dependencies": {
     "axios": "^0.17.1",
     "lodash": "^4.17.4",
+    "lodash.sum": "^4.0.2",
     "lodash.uniq": "^4.5.0",
     "moment": "^2.19.3",
     "v-money": "^0.8.1",

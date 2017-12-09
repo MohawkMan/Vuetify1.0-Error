@@ -7,7 +7,7 @@
       <td>{{ props.item.ageType.name }}</td>
       <td>{{ props.item.gender.name }}</td>
       <td>{{ props.item.division.name }}</td>
-      <td>{{ props.item.registrationWindows[0].fee | usDollars }}</td>
+      <td>{{ props.item.currentEntryFeeString }}</td>
     </template>
     <template slot="no-data">
       <v-container>
@@ -30,7 +30,7 @@ export default {
         {text: 'Type', value: 'ageType.name', align: 'left'},
         {text: 'Gender', value: 'gender.name', align: 'left'},
         {text: 'Division', value: 'division.name', align: 'left'},
-        {text: 'Entry Fee', value: 'location.name', align: 'left'}
+        {text: 'Entry Fee', value: 'currentEntryFee', align: 'left'}
       ]
     }
   }

@@ -60,7 +60,8 @@ export default {
           })
           .catch((response) => {
             // Error
-            console.log(response.data)
+            console.log('Error loading select options')
+            console.log(response)
             commit(mutations.SET_LOADING, false) // set loading = false
             reject()
           })

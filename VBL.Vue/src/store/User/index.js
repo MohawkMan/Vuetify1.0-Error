@@ -31,7 +31,8 @@ export default {
           })
           .catch((response) => {
             // Error
-            console.log(response.data)
+            console.log('Error logging in user')
+            console.log(response)
             commit(mutations.SET_LOADING, false)
             reject()
           })
@@ -68,6 +69,11 @@ export default {
         commit(mutations.SET_USER, response.data)
         commit(mutations.SET_NAV, 'private')
         commit(mutations.SET_LOADING, false)
+      })
+      .catch((response) => {
+        // Error
+        console.log('Error loading user')
+        console.log(response)
       })
     }
   },

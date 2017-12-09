@@ -16,12 +16,21 @@ namespace VBL.Data.Mapping
         public List<OrganizationMemberDTO> OrganizationMembers { get; set; } = new List<OrganizationMemberDTO>();
     }
 
+    public partial class OrganizationDTOSkinny
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string UserName { get; set; }
+    }
+
     public class OrganizationProfile : Profile
     {
         public OrganizationProfile()
         {
             CreateMap<Organization, OrganizationDTO>()
                 .ReverseMap();
+
+            CreateMap<Organization, OrganizationDTOSkinny>();
         }
     }
 }

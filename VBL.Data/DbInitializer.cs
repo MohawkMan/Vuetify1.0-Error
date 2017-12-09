@@ -1,7 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,22 +8,33 @@ using System.Threading.Tasks;
 
 namespace VBL.Data
 {
-    public static class Seeding
+    public class DbInitializer
     {
-        public static async Task SeedUsers(IServiceProvider services)
+        public static async Task Initialize (VBLDbContext db, UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager, ILogger<DbInitializer> logger)
         {
-            var roleManager = services.GetRequiredService<RoleManager<ApplicationRole>>();
-            var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+            db.Database.EnsureCreated();
+            await SeedUsers(userManager, roleManager);
 
-            var roles = new List<string>() { "MohakMan", "Admin" };
+            var a = SeedAgeTypes(db);
+            var b = SeedGenders(db);
+            var c = SeedDivisions(db);
+            var d = SeedLocations(db);
 
-            foreach(var role in roles)
+            if(a || b || c || d)
+                await db.SaveChangesAsync();
+        }
+
+        public static async Task SeedUsers(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
+        {
+            var roles = new List<string>() { "MohawkMan", "Admin" };
+
+            foreach (var role in roles)
             {
                 if (!await roleManager.RoleExistsAsync(role))
                     await roleManager.CreateAsync(new ApplicationRole(role));
             }
 
-            if (await userManager.FindByNameAsync("2146748568") != null)
+            if (await userManager.FindByNameAsync("2146748568") == null)
             {
                 var me = new ApplicationUser()
                 {
@@ -36,48 +45,12 @@ namespace VBL.Data
                     UserName = "2146748568"
                 };
 
-                var x = await userManager.CreateAsync(me, "volley13");
-                var result = await userManager.AddToRoleAsync(me, "MohawkMan");
+                var user = await userManager.CreateAsync(me, "volley13");
+                if(user.Succeeded)
+                    await userManager.AddToRoleAsync(me, "MohawkMan");
             }
         }
-        public static void SeedData(IServiceProvider services)
-        {
-            var db = services.GetRequiredService<VBLDbContext>();
-            db.Database.EnsureCreated();
-
-            db.SeedAgeTypes();
-            db.SeedGenders();
-            db.SeedDivisions();
-            db.SeedLocations();
-            db.SaveChanges();
-            db.Dispose();
-        }
-        public static async Task EnsureSeedData(this VBLDbContext db, UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
-        {
-            if(!await db.Users.AnyAsync(a => a.UserName == "2146748568"))
-            {
-                var admin = new ApplicationUser()
-                {
-                    FirstName = "Jon",
-                    LastName = "Alvarez",
-                    PhoneNumber = "2146748568",
-                    Email = "Jon@VolleyballLife.com",
-                    UserName = "2146748568"
-                };
-
-                var x = await userManager.CreateAsync(admin, "volley13");
-                var y = await roleManager.CreateAsync(new ApplicationRole("MohawkMan"));
-                var z = await roleManager.CreateAsync(new ApplicationRole("Admin"));
-
-                var result = await userManager.AddToRoleAsync(admin, "MohawkMan");
-            }
-
-            //await db.SeedAgeTypes();
-            //await db.SeedGenders();
-            //await db.SeedDivisions();
-            //await db.SeedLocations();
-        }
-        public static bool SeedAgeTypes(this VBLDbContext db)
+        public static bool SeedAgeTypes(VBLDbContext db)
         {
             if (db.AgeTypes.Any())
                 return false;
@@ -87,7 +60,7 @@ namespace VBL.Data
 
             return true;
         }
-        public static bool SeedGenders(this VBLDbContext db)
+        public static bool SeedGenders(VBLDbContext db)
         {
             if (db.Genders.Any())
                 return false;
@@ -102,35 +75,35 @@ namespace VBL.Data
 
             return true;
         }
-        public static bool SeedDivisions(this VBLDbContext db)
+        public static bool SeedDivisions(VBLDbContext db)
         {
             if (db.Divisions.Any())
                 return false;
 
             db.Divisions.Add(new Division { Name = "AAA", AgeTypeId = 2, Order = 1 });
-            db.Divisions.Add(new Division { Name = "AA", AgeTypeId = 2, Order =  2});
-            db.Divisions.Add(new Division { Name = "A", AgeTypeId = 2, Order =  3});
-            db.Divisions.Add(new Division { Name = "BB", AgeTypeId = 2, Order =  4});
-            db.Divisions.Add(new Division { Name = "B", AgeTypeId = 2, Order =  5});
-            db.Divisions.Add(new Division { Name = "Unrated", AgeTypeId = 2, Order =  6});
-            db.Divisions.Add(new Division { Name = "Masters", AgeTypeId = 2, Order =  7});
-            db.Divisions.Add(new Division { Name = "Senoirs", AgeTypeId = 2, Order =  8});
+            db.Divisions.Add(new Division { Name = "AA", AgeTypeId = 2, Order = 2 });
+            db.Divisions.Add(new Division { Name = "A", AgeTypeId = 2, Order = 3 });
+            db.Divisions.Add(new Division { Name = "BB", AgeTypeId = 2, Order = 4 });
+            db.Divisions.Add(new Division { Name = "B", AgeTypeId = 2, Order = 5 });
+            db.Divisions.Add(new Division { Name = "Unrated", AgeTypeId = 2, Order = 6 });
+            db.Divisions.Add(new Division { Name = "Masters", AgeTypeId = 2, Order = 7 });
+            db.Divisions.Add(new Division { Name = "Senoirs", AgeTypeId = 2, Order = 8 });
 
-            db.Divisions.Add(new Division { Name = "10U", AgeTypeId = 1, Order =  1});
-            db.Divisions.Add(new Division { Name = "12U", AgeTypeId = 1, Order =  2});
-            db.Divisions.Add(new Division { Name = "14U", AgeTypeId = 1, Order =  3});
-            db.Divisions.Add(new Division { Name = "16U", AgeTypeId = 1, Order =  4});
-            db.Divisions.Add(new Division { Name = "18U", AgeTypeId = 1, Order =  5});
-            db.Divisions.Add(new Division { Name = "17+/Open", AgeTypeId = 1, Order =  6});
-            db.Divisions.Add(new Division { Name = "12U Rec*", AgeTypeId = 1, Order =  8});
+            db.Divisions.Add(new Division { Name = "10U", AgeTypeId = 1, Order = 1 });
+            db.Divisions.Add(new Division { Name = "12U", AgeTypeId = 1, Order = 2 });
+            db.Divisions.Add(new Division { Name = "14U", AgeTypeId = 1, Order = 3 });
+            db.Divisions.Add(new Division { Name = "16U", AgeTypeId = 1, Order = 4 });
+            db.Divisions.Add(new Division { Name = "18U", AgeTypeId = 1, Order = 5 });
+            db.Divisions.Add(new Division { Name = "17+/Open", AgeTypeId = 1, Order = 6 });
+            db.Divisions.Add(new Division { Name = "12U Rec*", AgeTypeId = 1, Order = 8 });
             db.Divisions.Add(new Division { Name = "14U Rec*", AgeTypeId = 1, Order = 9 });
             db.Divisions.Add(new Division { Name = "16U Rec*", AgeTypeId = 1, Order = 10 });
             db.Divisions.Add(new Division { Name = "18U Rec*", AgeTypeId = 1, Order = 11 });
-            db.Divisions.Add(new Division { Name = "18U/16U Elite", AgeTypeId = 1, Order =  12});
+            db.Divisions.Add(new Division { Name = "18U/16U Elite", AgeTypeId = 1, Order = 12 });
 
             return true;
         }
-        public static bool SeedLocations(this VBLDbContext db)
+        public static bool SeedLocations(VBLDbContext db)
         {
             if (db.Locations.Any())
                 return false;

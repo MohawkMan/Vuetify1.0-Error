@@ -1,32 +1,45 @@
 <template>
-    <v-app>
-        <div>
-            <p>Dashboard</p>
-        </div>
-        <v-container>
-            <v-layout row>
-                <v-flex>
-                    <v-card>
-                        <v-card-text>
-                            Results: {{ result }}<br>
-                            Auth: {{ isAuthenticated }}<br>
-                        </v-card-text>
-                        <v-card-actions>
-                            <v-btn @click="fetch('test1')">
-                                Fetch Test 1
-                            </v-btn>
-                            <v-btn @click="fetch('test2')">
-                                Fetch Test 2
-                            </v-btn>
-                            <v-btn @click="login">
-                                Sign In
-                            </v-btn>
-                        </v-card-actions>
-                    </v-card>
-                </v-flex>
-            </v-layout>
-        </v-container>
-    </v-app>
+  <v-container grid-list-md>
+    <v-layout row wrap>
+      <v-flex xs12>
+        Welcome to VolleyballLife.com
+        <p>Welcome to VolleyballLife.com</p>
+        <p>Welcome to VolleyballLife.com</p>
+        <p>Welcome to VolleyballLife.com</p>
+        <p>Welcome to VolleyballLife.com</p>
+        <p>Welcome to VolleyballLife.com</p>
+        <p>Welcome to VolleyballLife.com</p>
+        <p>Welcome to VolleyballLife.com</p>
+        <p>Welcome to VolleyballLife.com</p>
+        <p>Welcome to VolleyballLife.com</p>
+        <p>Welcome to VolleyballLife.com</p>
+      </v-flex>
+      <v-flex xs12>
+        <v-parallax src="/static/sunset-volleyball4.jpg"></v-parallax>
+      </v-flex>
+      <v-flex xs12>
+        <p>Welcome to VolleyballLife.com</p>
+        <p>Welcome to VolleyballLife.com</p>
+        <p>Welcome to VolleyballLife.com</p>
+        <p>Welcome to VolleyballLife.com</p>
+        <p>Welcome to VolleyballLife.com</p>
+        <p>Welcome to VolleyballLife.com</p>
+        <p>Welcome to VolleyballLife.com</p>
+        <p>Welcome to VolleyballLife.com</p>
+        <p>Welcome to VolleyballLife.com</p>
+        <p>Welcome to VolleyballLife.com</p>
+        <p>Welcome to VolleyballLife.com</p>
+        <p>Welcome to VolleyballLife.com</p>
+        <p>Welcome to VolleyballLife.com</p>
+        <p>Welcome to VolleyballLife.com</p>
+        <p>Welcome to VolleyballLife.com</p>
+        <p>Welcome to VolleyballLife.com</p>
+        <p>Welcome to VolleyballLife.com</p>
+        <p>Welcome to VolleyballLife.com</p>
+        <p>Welcome to VolleyballLife.com</p>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
