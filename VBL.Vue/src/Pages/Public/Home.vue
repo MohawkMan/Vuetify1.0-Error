@@ -21,7 +21,7 @@
       </v-flex>
     </v-layout>
     <v-layout row wrap>
-      <v-flex xs12 text-xs-center class="display-4 color2--text">
+      <v-flex xs12 text-xs-center :class="xsClass" class="color2--text">
         Welcome to Volleyball Life
       </v-flex>
     </v-layout>
@@ -61,6 +61,12 @@ export default {
     tourneys: []
   }),
   computed: {
+    xsClass () {
+      return {
+        'display-2': this.$vuetify.breakpoint.xs,
+        'display-4': !this.$vuetify.breakpoint.xs
+      }
+    },
     isAuthenticated () {
       return this.$auth.isAuthenticated()
     }
