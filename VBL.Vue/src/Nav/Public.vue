@@ -82,14 +82,6 @@
           <v-icon class="mr-1">account_circle</v-icon>
           Join
         </v-btn>
-        <v-btn icon large>
-          <v-avatar size="32px" tile>
-            <img
-              src="https://vuetifyjs.com/static/doc-images/logo.svg"
-              alt="Vuetify"
-            >
-          </v-avatar>
-        </v-btn>
       </div>
     </v-toolbar>
   </div>

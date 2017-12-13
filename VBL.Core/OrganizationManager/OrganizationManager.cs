@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VBL.Data;
@@ -22,6 +25,13 @@ namespace VBL.Core
             _logger = logger;
         }
 
+        public async Task<OrganizationDTO> GetOrganizationAsync(int id)
+        {
+            return await _db.Organizations
+                .Where(w => w.Id == id)
+                .ProjectTo<OrganizationDTO>()
+                .FirstOrDefaultAsync();
+        }
         public async Task<OrganizationDTO> CreateOrganizationAsync(OrganizationDTO dto)
         {
             var newOrg = _mapper.Map<Organization>(dto);

@@ -32,7 +32,28 @@ namespace VBL.Api.Controllers
         }
 
         /// <summary>
-        /// Get select options for Age, Gender, Division, and Location
+        /// Create a new Organization
+        /// </summary>
+        [AllowAnonymous]
+        [HttpGet("{organizationId}")]
+        [ProducesResponseType(typeof(OrganizationDTO), 200)]
+        public async Task<IActionResult> GetOrganization([FromRoute] int organizationId)
+        {
+            try
+            {
+                _logger.LogInformation($"GetOrganization Id: {organizationId}");
+
+                var organization = await _organizationManager.GetOrganizationAsync(organizationId);
+                return Ok(organization);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(-1, e, "ERROR: ");
+                return BadRequest(e.Message);
+            }
+        }
+        /// <summary>
+        /// Create a new Organization
         /// </summary>
         [HttpPut("Create")]
         [ProducesResponseType(typeof(OrganizationDTO), 200)]
@@ -54,7 +75,7 @@ namespace VBL.Api.Controllers
             }
         }
         /// <summary>
-        /// Get select options for Age, Gender, Division, and Location
+        /// Add a member to an organization
         /// </summary>
         [HttpPut("member")]
         [ProducesResponseType(typeof(OrganizationMemberDTO), 200)]

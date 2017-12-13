@@ -30,5 +30,6 @@ namespace VBL.Data
         public Location Location { get; set; }
         public List<TournamentRegistrationWindow> RegistrationWindows { get; set; } = new List<TournamentRegistrationWindow>();
         public List<TournamentTeam> Teams { get; set; } = new List<TournamentTeam>();
+        //public TournamentRegistrationInfo RegistrationFields { get; set; }
     }
 }

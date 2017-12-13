@@ -19,6 +19,7 @@ namespace VBL.Data.Mapping
         public List<TournamentDayDTO> Days { get; set; } = new List<TournamentDayDTO>();
         public OptionDTO Location { get; set; }
         public List<TournamentRegistrationWindowDTO> RegistrationWindows { get; set; } = new List<TournamentRegistrationWindowDTO>();
+        //public TournamentRegistrationInfoDTO RegistrationFields { get; set; }
     }
 
     public class TournamentDivisionProfile : Profile

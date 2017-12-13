@@ -46,7 +46,7 @@ namespace VBL.Api
             var devConnection = Configuration.GetConnectionString("DevConnection");
             var prodConnection = Configuration.GetConnectionString("ProdConnection");
 
-            var connectionInUse = prodConnection;
+            var connectionInUse = devConnection;
 
             if (!Environment.IsDevelopment())
                 connectionInUse = prodConnection;

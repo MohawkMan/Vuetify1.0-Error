@@ -53,4 +53,7 @@ export default class TournamentDivision {
 
     return this.registrationWindows.find((w) => { return w.isCurrent }).feeString
   }
+  get divisionsString () {
+    return `${this.gender.name}  ${this.division.name}`
+  }
 }

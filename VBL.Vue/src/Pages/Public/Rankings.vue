@@ -1,6 +1,17 @@
 <template>
-  <div>Rankings</div>
+  <v-container fill-height>
+    <v-layout row wrap align-center>
+      <v-flex xs8 offset-xs2>
+        <v-layout row wrap text-xs-center>
+          <v-flex xs12 class="display-4">
+            Coming Soon!
+          </v-flex>
+        </v-layout>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
+
 
 <script>
 export default {

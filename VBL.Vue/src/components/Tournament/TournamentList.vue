@@ -5,12 +5,12 @@
     >
     <template slot="items" slot-scope="props">
       <tr style="cursor: pointer">
-        <td @click="gotoDetails(props.item.id)">{{ props.item.date | formatDate }}</td>
-        <td @click="gotoDetails(props.item.id)">{{ props.item.name }}</td>
-        <td @click="gotoDetails(props.item.id)">{{ props.item.divisions }}</td>
-        <td @click="gotoDetails(props.item.id)">{{ props.item.locations }}</td>
+        <td @click="gotoDetails(props.item.link)">{{ props.item.date | formatDate }}</td>
+        <td @click="gotoDetails(props.item.link)" v-html="props.item.name"></td>
+        <td @click="gotoDetails(props.item.link)">{{ props.item.divisions }}</td>
+        <td @click="gotoDetails(props.item.link)">{{ props.item.locations }}</td>
         <td>
-          <v-btn small :to="`/tournament/${props.item.id}/register`" v-if="mode==='public'">
+          <v-btn small :to="`${props.item.link}/register`" v-if="mode==='public'">
             Register
           </v-btn>
           <v-btn 
@@ -58,7 +58,8 @@ export default {
           date: t.startDate,
           name: t.name,
           divisions: t.divisionsString,
-          locations: t.locationsString
+          locations: t.locationsString,
+          link: `${t.organization.userName}/tournament/${t.id}`
         }
       })
     },
@@ -72,8 +73,8 @@ export default {
     }
   },
   methods: {
-    gotoDetails (id) {
-      this.$router.push(`tournament/${id}`)
+    gotoDetails (link) {
+      this.$router.push(link)
       // this.$router.push({name: 'tournament-brochure', params: {tournamentId: id}})
     }
   },

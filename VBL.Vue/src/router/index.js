@@ -98,13 +98,25 @@ const router = new Router({
       path: '/:username/tournament/:tournamentId',
       name: 'tournament-brochure',
       component: TourneyBrochure,
-      props: (route) => { return {tournamentId: route.params.tournamentId, mode: 'view'} }
+      props: (route) => { return {tournamentId: route.params.tournamentId, mode: 'information'} }
     },
     {
-      path: '/tournament/:tournamentId/register',
+      path: '/:username/tournament/:tournamentId/register',
       name: 'tournament-register',
       component: TourneyBrochure,
       props: (route) => { return {tournamentId: route.params.tournamentId, mode: 'register'} }
+    },
+    {
+      path: '/:username/tournament/:tournamentId/location',
+      name: 'tournament-location',
+      component: TourneyBrochure,
+      props: (route) => { return {tournamentId: route.params.tournamentId, mode: 'location'} }
+    },
+    {
+      path: '/:username/tournament/:tournamentId/teams',
+      name: 'tournament-teams',
+      component: TourneyBrochure,
+      props: (route) => { return {tournamentId: route.params.tournamentId, mode: 'teams'} }
     }
   ],
   mode: 'history'

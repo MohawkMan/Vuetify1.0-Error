@@ -6,9 +6,13 @@ export default class TournamentRegistrationPlayer {
     this.phone = null
     this.email = null
     this.dob = null
+    this.dobFormatted = null
     this.city = null
     this.state = null
     this.cbva = null
     this.usav = null
+  }
+  get fullname () {
+    return `${this.firstName} ${this.lastName}`
   }
 }

@@ -119,6 +119,7 @@ namespace VBL.Api.Controllers
         /// <summary>
         /// Get select options for Age, Gender, Division, and Location
         /// </summary>
+        [AllowAnonymous]
         [HttpGet("Selects/{organizationId?}")]
         [ProducesResponseType(typeof(TournamentSelectItems), 200)]
         public async Task<IActionResult> GetSelectItemsAsync([FromRoute] int? organizationId = null)

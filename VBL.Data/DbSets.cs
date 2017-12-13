@@ -23,8 +23,9 @@ namespace VBL.Data
         public DbSet<Tournament> Tournaments { get; set; }
         public DbSet<TournamentDay> TournamentDays { get; set; }
         public DbSet<TournamentDivision> TournamentDivisions { get; set; }
-        public DbSet<TournamentRegistrationWindow> TournamentRegistrationWindows { get; set; }
         public DbSet<TournamentRegistrationEmail> TournamentRegistrationEmails { get; set; }
+        public DbSet<TournamentRegistrationInfo> TournamentRegistrationInfo { get; set; }
+        public DbSet<TournamentRegistrationWindow> TournamentRegistrationWindows { get; set; }
         public DbSet<UserEmail> UserEmails { get; set; }
         public DbSet<UserNotification> UserNotifications { get; set; }
         public DbSet<UserPhone> UserPhones { get; set; }

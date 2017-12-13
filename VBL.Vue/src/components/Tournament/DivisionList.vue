@@ -8,6 +8,9 @@
       <td>{{ props.item.gender.name }}</td>
       <td>{{ props.item.division.name }}</td>
       <td>{{ props.item.currentEntryFeeString }}</td>
+      <td>
+        <v-btn @click="registerClick(props.item)">Register</v-btn>
+      </td>
     </template>
     <template slot="no-data">
       <v-container>
@@ -32,6 +35,11 @@ export default {
         {text: 'Division', value: 'division.name', align: 'left'},
         {text: 'Entry Fee', value: 'currentEntryFee', align: 'left'}
       ]
+    }
+  },
+  methods: {
+    registerClick (division) {
+      this.$emit('registerClick', division)
     }
   }
 }

@@ -8,5 +8,6 @@ export default (to, from, next) => {
     console.log('beforeEach loading user')
     store.dispatch(actions.LOAD_USER)
   }
+  console.log('next')
   next()
 }

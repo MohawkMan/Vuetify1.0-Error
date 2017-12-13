@@ -54,7 +54,7 @@ export default class Tournament {
     return moment.min(this.divisions.map(d => d.startDate))
   }
   get divisionsString () {
-    return uniq(this.divisions.map(d => d.gender.name + ' ' + d.division.name)).join(', ')
+    return uniq(this.divisions.map(d => d.divisionsString)).join(', ')
   }
   get locationCount () {
     return uniq(this.divisions.map(d => d.location.name)).length

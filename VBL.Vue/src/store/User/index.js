@@ -64,6 +64,7 @@ export default {
     },
     [actions.LOAD_USER] ({commit, state}) {
       commit(mutations.SET_LOADING, true) // set loading = true
+      commit(mutations.SET_ERROR, null)
       Vue.prototype.axios.get(vbl.user.getCurrent)
       .then((response) => {
         commit(mutations.SET_USER, response.data)
@@ -74,6 +75,8 @@ export default {
         // Error
         console.log('Error loading user')
         console.log(response)
+        commit(mutations.SET_ERROR, response.message)
+        commit(mutations.SET_LOADING, false)
       })
     }
   },

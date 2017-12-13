@@ -32,6 +32,9 @@ import {
   VToolTip,
   VParallax,
   VStepper,
+  VCarousel,
+  VAlert,
+  VTabs,
   transitions
 } from 'vuetify'
 import '../node_modules/vuetify/src/stylus/app.styl'
@@ -66,6 +69,9 @@ Vue.use(Vuetify, {
     VToolTip,
     VParallax,
     VStepper,
+    VCarousel,
+    VAlert,
+    VTabs,
     transitions
   },
   theme: {

@@ -145,6 +145,17 @@ namespace VBL.Data
                 .IsRequired(false);
             #endregion
 
+            #region TournamentRegistrationInfo
+            builder.Entity<TournamentRegistrationInfo>().HasOne(a => a.UserCreated)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdCreated)
+                .IsRequired(false);
+            builder.Entity<TournamentRegistrationInfo>().HasOne(a => a.UserModified)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdModified)
+                .IsRequired(false);
+            #endregion
+
             #region TournamentRegistrationWindow
             builder.Entity<TournamentRegistrationWindow>().HasOne(a => a.UserCreated)
                 .WithMany()
