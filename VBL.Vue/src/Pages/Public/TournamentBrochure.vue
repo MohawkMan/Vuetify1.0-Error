@@ -15,7 +15,7 @@
   </v-container>
   <v-container v-else grid-list-sm>
     <v-layout row>
-      <v-flex xs12 sm10 offset-sm1>
+      <v-flex sm12 md10 offset-md1>
         <v-card color="grey lighten-1">
                 <!-- Pic and Title -->
                 <v-card

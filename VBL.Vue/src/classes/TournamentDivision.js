@@ -56,4 +56,10 @@ export default class TournamentDivision {
   get divisionsString () {
     return `${this.gender.name}  ${this.division.name}`
   }
+  get currentRegistrationWindow () {
+    return this.registrationWindows.find((w) => { return w.isCurrent })
+  }
+  get addOn () {
+    return this.registrationWindows.find((w) => { return w.isCurrent }).addOn
+  }
 }

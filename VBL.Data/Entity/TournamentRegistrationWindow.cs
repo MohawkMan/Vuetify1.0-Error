@@ -14,5 +14,7 @@ namespace VBL.Data
         public DateTime? DtEnd { get; set; }
         public bool IsEarly { get; set; }
         public bool IsLate { get; set; }
+        public bool CanPayAtEvent { get; set; } = false;
+        public bool CanProcessPayment { get; set; } = true;
     }
 }

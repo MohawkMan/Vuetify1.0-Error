@@ -12,6 +12,16 @@ export default class TournamentRegistrationWindow {
     this.endTime = null
     this.isEarly = false
     this.isLate = false
+    this.canPayAtEvent = false
+    this.canProcessPayment = true
+
+    this.addOn = {
+      name: 'VolleyOC T-Shirt',
+      price: '20',
+      description: 'The VolleyOC winter series tank top. Grab one before they are gone... might as well grab 2 so you and your partner can match!',
+      imageUrl: '/static/VollyOCShirt1.jpg',
+      quantityInStock: 30
+    }
 
     if (dto) {
       this.update(dto)

@@ -9,7 +9,7 @@
       Select your division
     </v-stepper-step>
     <v-stepper-content :step="1">
-      <v-card flat>
+      <v-card color="grey lighten-4">
         <v-card-text>
           <h3>Select your division</h3>
           <v-radio-group v-model="registration.division">
@@ -25,8 +25,8 @@
         Player {{i+1}}
       </v-stepper-step>
       <v-stepper-content :step="i+2" :key="i">
-        <v-card flat>
-          <v-card-text>
+        <v-card color="grey lighten-4">
+          <v-card-text class="pt-0">
             <registration-fields
               v-if="registration.division"
               :fields="registration.division.registrationFields"
@@ -39,15 +39,16 @@
         </v-card>
       </v-stepper-content>
     </template>
-    <!-- Payment -->
+    <!-- AddOn and Payment -->
     <v-stepper-step 
       :step="paymentStep"
       :complete="currentStep > paymentStep"
-      :editable="currentStep > paymentStep"
+      editable
       >
       Payment Info
     </v-stepper-step>
     <v-stepper-content :step="paymentStep">
+      <registration-addon v-if="addOn" :addOn="addOn"></registration-addon>
       <v-card flat>
         <v-card-text>
           Payment Info
@@ -97,6 +98,7 @@
 <script>
 import RegFields from './RegistrationFields.vue'
 import RegFieldsReview from './RegistrationFieldsReview.vue'
+import AddOn from './AddOn.vue'
 
 export default {
   props: ['tourney', 'registration'],
@@ -113,6 +115,13 @@ export default {
     },
     reviewStep () {
       return this.paymentStep + 1
+    },
+    addOn () {
+      return this.registration.division
+      ? this.registration.division.currentRegistrationWindow
+      ? this.registration.division.currentRegistrationWindow.addOn
+      : null
+      : null
     }
   },
   methods: {
@@ -125,7 +134,8 @@ export default {
   },
   components: {
     'registration-fields': RegFields,
-    'registration-fields-review': RegFieldsReview
+    'registration-fields-review': RegFieldsReview,
+    'registration-addon': AddOn
   },
   watch: {
     'registration.division': function () {

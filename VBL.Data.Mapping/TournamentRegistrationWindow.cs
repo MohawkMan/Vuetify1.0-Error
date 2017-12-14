@@ -18,6 +18,8 @@ namespace VBL.Data.Mapping
         public string EndTime { get; set; }
         public bool IsEarly { get; set; }
         public bool IsLate { get; set; }
+        public bool CanPayAtEvent { get; set; }
+        public bool CanProcessPayment { get; set; }
     }
 
     public class TournamentRegistrationWindowProfile : Profile
