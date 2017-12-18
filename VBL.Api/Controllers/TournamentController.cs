@@ -143,6 +143,24 @@ namespace VBL.Api.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+        [AllowAnonymous]
+        [HttpPut("register")]
+        public async Task<IActionResult> Register([FromBody]TournamentRegistrationDTO dto)
+        {
+            try
+            {
+                _logger.LogInformation($"Register TournamentRegistrationDTO: {dto}");
+                var result = await _tournamentManager.Register(dto);
+
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(-1, e, "ERROR: ");
+                return BadRequest(e.Message);
+            }
+        }
     }
     public class TournamentSelectItems
     {

@@ -19,6 +19,8 @@ namespace VBL.Data.Mapping
         public List<TournamentDayDTO> Days { get; set; } = new List<TournamentDayDTO>();
         public OptionDTO Location { get; set; }
         public List<TournamentRegistrationWindowDTO> RegistrationWindows { get; set; } = new List<TournamentRegistrationWindowDTO>();
+        public List<TournamentTeamDTO> Teams { get; set; } = new List<TournamentTeamDTO>();
+
         //public TournamentRegistrationInfoDTO RegistrationFields { get; set; }
     }
 
@@ -29,7 +31,7 @@ namespace VBL.Data.Mapping
             CreateMap<TournamentDivision, TournamentDivisionDTO>()
                 .ReverseMap()
                 .ForMember(s => s.AgeTypeId, opt => opt.MapFrom(d => d.AgeType.Id))
-                .ForMember(s =>s.AgeType, opt => opt.Ignore())
+                .ForMember(s => s.AgeType, opt => opt.Ignore())
                 .ForMember(s => s.GenderId, opt => opt.MapFrom(d => d.Gender.Id))
                 .ForMember(s => s.Gender, opt => opt.Ignore())
                 .ForMember(s => s.DivisionId, opt => opt.MapFrom(d => d.Division.Id))

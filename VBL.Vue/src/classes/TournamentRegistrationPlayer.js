@@ -1,5 +1,6 @@
 export default class TournamentRegistrationPlayer {
   constructor () {
+    this.id = 0
     this.vblId = null
     this.firstName = null
     this.lastName = null
@@ -11,6 +12,7 @@ export default class TournamentRegistrationPlayer {
     this.state = null
     this.cbva = null
     this.usav = null
+    this.valid = false
   }
   get fullname () {
     return `${this.firstName} ${this.lastName}`

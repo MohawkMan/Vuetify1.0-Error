@@ -25,6 +25,19 @@ namespace VBL.Core
             _logger = logger;
         }
 
+        public async Task<TournamentDTO> Register(TournamentRegistrationDTO dto)
+        {
+            var registration = _mapper.Map<TournamentRegistration>(dto);
+            _db.TournamentRegistrations.Add(registration);
+            await _db.SaveChangesAsync();
+            var team = _mapper.Map<TournamentTeam>(registration);
+            _db.TournamentTeams.Add(team);
+            await _db.SaveChangesAsync();
+            var division = await _db.TournamentDivisions.FindAsync(registration.TournamentDivisionId);
+            //send emails
+
+            return await GetTournamentAsync(division.TournamentId);
+        }
         public async Task<List<TournamentDTO>> GetTournamentListAsync(bool publicOnly = true, int? organizationId = null)
         {
             var query = _db.Tournaments
@@ -38,7 +51,6 @@ namespace VBL.Core
 
             return await query.ToListAsync();
         }
-
         public async Task<TournamentDTO> GetTournamentAsync(int id)
         {
             return await _db.Tournaments

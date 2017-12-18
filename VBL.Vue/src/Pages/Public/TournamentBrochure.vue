@@ -15,7 +15,7 @@
   </v-container>
   <v-container v-else grid-list-sm>
     <v-layout row>
-      <v-flex sm12 md10 offset-md1>
+      <v-flex xs12 sm12 md10 offset-md1>
         <v-card color="grey lighten-1">
                 <!-- Pic and Title -->
                 <v-card
@@ -36,15 +36,26 @@
                   </v-toolbar>
                 </v-card>
                 <!-- Date Bar -->
-                <v-toolbar flat dense color="color4">
-                  <v-toolbar-title :class="xsClass">
+                <v-toolbar
+                  v-if="!$vuetify.breakpoint.xs"
+                  flat
+                  dense
+                  color="color4">
+                  <v-toolbar-title>
                       {{startDate}}
                   </v-toolbar-title>
                   <v-spacer></v-spacer>
-                  <v-toolbar-title v-if="!$vuetify.breakpoint.xs">
-                      {{tourney.locationsString}}
+                  <v-toolbar-title>
+                    {{tourney.locationsString}}
                   </v-toolbar-title>
                 </v-toolbar>
+                <v-card v-else color="color4">
+                  <v-card-title>
+                    {{startDate}}
+                    <br>
+                    {{tourney.locationsString}}
+                  </v-card-title>
+                </v-card>
                 <!-- tabs -->
                 <v-tabs 
                   fixed
@@ -68,7 +79,7 @@
                     </v-tabs-item>
                     <v-tabs-item href="#teams" ripple>
                       <v-icon>group</v-icon>
-                      <span class="hidden-xs-only">Registered Teams</span>
+                      <span class="hidden-xs-only">Teams</span>
                     </v-tabs-item>
                   </v-tabs-bar>
                   <v-tabs-items>
@@ -87,7 +98,9 @@
                         <v-toolbar dense color="color5">
                           <v-toolbar-title>Divisions</v-toolbar-title>
                         </v-toolbar>
-                        <division-list :divisions="tourney.divisions" @registerClick="register"></division-list>
+                        <!--
+                        -->
+                        <division-list :divisions="tourney.divisions" @registerClick="register" mode="list"></division-list>
                       </v-card>
                     </v-tabs-content>
                     <v-tabs-content id="location">
@@ -99,6 +112,8 @@
                     </v-tabs-content>
                     <v-tabs-content id="register">
                       <v-card>
+                        <!--
+                        -->
                         <tournament-registration
                           v-if="registering"
                           :tourney="tourney"

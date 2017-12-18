@@ -1,8 +1,8 @@
 <template>
   <v-container>
     <!-- Name -->
-    <v-layout>
-      <v-flex xs12 md4>
+    <v-layout row wrap>
+      <v-flex xs12 sm6 md4>
         <v-text-field
           name="firstName"
           label="First Name"
@@ -11,7 +11,7 @@
           :rules="[() => $v.player.firstName.required || 'A first name is required']"
         ></v-text-field>
       </v-flex>
-      <v-flex xs12 md4>
+      <v-flex xs12 sm6 md4>
         <v-text-field
           name="lastName"
           label="Last Name"
@@ -22,8 +22,8 @@
       </v-flex>
     </v-layout>
     <!-- Phone/Email -->
-    <v-layout>
-      <v-flex xs12 md4>
+    <v-layout row wrap>
+      <v-flex xs12 sm6 md4>
         <v-text-field
           name="phone"
           label="Phone"
@@ -37,7 +37,7 @@
           ]"
         ></v-text-field>
       </v-flex>
-      <v-flex xs12 md4>
+      <v-flex xs12 sm6 md4>
         <v-text-field
           name="email"
           label="Email"
@@ -51,8 +51,8 @@
       </v-flex>
     </v-layout>
     <!-- City State -->
-    <v-layout>
-      <v-flex xs12 md4>
+    <v-layout row wrap>
+      <v-flex xs12 sm6 md4>
         <v-text-field
           name="city"
           label="City"
@@ -61,17 +61,16 @@
           :rules="[() => $v.player.city.required || 'A city is required']"
         ></v-text-field>
       </v-flex>
-      <v-flex xs12 md4>
+      <v-flex xs12 sm6 md4>
         <v-select
-          v-bind:items="states"
-          v-model="player.state"
           label="State"
-          single-line
-          autocomplete
+          v-bind:items="states"
           item-text="name"
           item-value="abbreviation"
-          return-object
-          :hint="player.state ? `${player.state.name}, ${player.state.abbreviation}` : ''"
+          v-model="player.state"
+          single-line
+          autocomplete
+          :hint="player.state"
           persistent-hint
           required
           :rules="[() => $v.player.state.required || 'A state is required']"
@@ -79,9 +78,10 @@
       </v-flex>
     </v-layout>
     <!-- DOB -->
-    <v-layout>
-      <v-flex xs12 md4>
+    <v-layout row wrap>
+      <v-flex xs12 sm6 md4 ref="datePickerFlex">
         <v-menu
+          ref="dateMenu"
           lazy
           :close-on-content-click="false"
           v-model="dobPicker"
@@ -91,8 +91,10 @@
           :nudge-right="40"
           max-width="290px"
           min-width="290px"
+          @input="test"
         >
           <v-text-field
+            ref="dateTextField"
             slot="activator"
             label="Birthdate"
             readonly
@@ -102,6 +104,7 @@
             @blur="player.dob = parseDate(player.dobFormatted)"
           ></v-text-field>
           <v-date-picker
+            ref="datePicker"
             no-title
             scrollable
             actions
@@ -120,8 +123,8 @@
       </v-flex>
     </v-layout>
     <!-- CBVA/USAV -->
-    <v-layout>
-      <v-flex xs12 md4>
+    <v-layout row wrap>
+      <v-flex xs12 sm6 md4>
         <v-text-field
           name="cbva"
           label="CBVA Number"
@@ -130,7 +133,7 @@
           persistent-hint
         ></v-text-field>
       </v-flex>
-      <v-flex xs12 md4>
+      <v-flex xs12 sm6 md4>
         <v-text-field
           name="usav"
           label="USAV Number"
@@ -140,8 +143,6 @@
         ></v-text-field>
       </v-flex>
     </v-layout>
-    <v-btn color="color2 white--text" @click.native="$emit('next')" :disabled="$v.$invalid">Continue</v-btn>
-    <v-btn flat @click.native="$emit('back')">Back</v-btn>
   </v-container>
 </template>
 
@@ -185,10 +186,15 @@ export default {
 
       const [month, day, year] = date.split('/')
       return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
+    },
+    test () {
+      // console.log(this.$refs.datePicker)
+      // this.$refs.datePicker.activePicker = 'YEAR'
     }
   },
   watch: {
     '$v.$invalid': function () {
+      this.player.valid = !this.$v.$invalid
       this.$v.$invalid ? this.$emit('invalid') : this.$emit('valid')
     }
   }

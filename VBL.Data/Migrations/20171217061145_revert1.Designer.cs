@@ -11,9 +11,10 @@ using VBL.Data;
 namespace VBL.Data.Migrations
 {
     [DbContext(typeof(VBLDbContext))]
-    partial class VBLDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171217061145_revert1")]
+    partial class revert1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -277,29 +278,21 @@ namespace VBL.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime?>("DTSent");
+                    b.Property<string>("Body");
 
                     b.Property<DateTime?>("DtCreated");
 
                     b.Property<DateTime?>("DtModified");
 
-                    b.Property<string>("From");
-
                     b.Property<string>("FromEmailAddress");
 
-                    b.Property<string>("HtmlMessage");
-
-                    b.Property<string>("PlainTextMessage");
-
-                    b.Property<string>("ReplyTo");
+                    b.Property<int?>("FromEmailId");
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate();
 
                     b.Property<string>("Subject");
-
-                    b.Property<string>("To");
 
                     b.Property<int?>("UserIdCreated");
 
@@ -680,44 +673,6 @@ namespace VBL.Data.Migrations
                     b.ToTable("TournamentDivisions");
                 });
 
-            modelBuilder.Entity("VBL.Data.TournamentRegistration", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("AddOnQty");
-
-                    b.Property<bool>("Confirmed");
-
-                    b.Property<DateTime?>("DtCreated");
-
-                    b.Property<DateTime?>("DtModified");
-
-                    b.Property<string>("PaymentType");
-
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
-
-                    b.Property<string>("TeamName");
-
-                    b.Property<int>("TournamentDivisionId");
-
-                    b.Property<int?>("UserIdCreated");
-
-                    b.Property<int?>("UserIdModified");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TournamentDivisionId");
-
-                    b.HasIndex("UserIdCreated");
-
-                    b.HasIndex("UserIdModified");
-
-                    b.ToTable("TournamentRegistrations");
-                });
-
             modelBuilder.Entity("VBL.Data.TournamentRegistrationEmail", b =>
                 {
                     b.Property<int>("Id")
@@ -796,56 +751,6 @@ namespace VBL.Data.Migrations
                     b.ToTable("TournamentRegistrationInfo");
                 });
 
-            modelBuilder.Entity("VBL.Data.TournamentRegistrationPlayer", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("CbvaNumber");
-
-                    b.Property<string>("City");
-
-                    b.Property<DateTime>("Dob");
-
-                    b.Property<DateTime?>("DtCreated");
-
-                    b.Property<DateTime?>("DtModified");
-
-                    b.Property<string>("Email");
-
-                    b.Property<string>("FirstName");
-
-                    b.Property<string>("LastName");
-
-                    b.Property<string>("Phone");
-
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
-
-                    b.Property<string>("State");
-
-                    b.Property<int?>("TournamentRegistrationId");
-
-                    b.Property<string>("UsavNumber");
-
-                    b.Property<int?>("UserIdCreated");
-
-                    b.Property<int?>("UserIdModified");
-
-                    b.Property<int>("VblId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TournamentRegistrationId");
-
-                    b.HasIndex("UserIdCreated");
-
-                    b.HasIndex("UserIdModified");
-
-                    b.ToTable("TournamentRegistrationPlayers");
-                });
-
             modelBuilder.Entity("VBL.Data.TournamentRegistrationWindow", b =>
                 {
                     b.Property<int>("Id")
@@ -890,82 +795,6 @@ namespace VBL.Data.Migrations
                     b.HasIndex("UserIdModified");
 
                     b.ToTable("TournamentRegistrationWindows");
-                });
-
-            modelBuilder.Entity("VBL.Data.TournamentTeam", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime?>("DtCreated");
-
-                    b.Property<DateTime?>("DtModified");
-
-                    b.Property<int?>("Finish");
-
-                    b.Property<string>("Name");
-
-                    b.Property<double?>("Points");
-
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
-
-                    b.Property<int?>("Seed");
-
-                    b.Property<int>("TournamentDivisionId");
-
-                    b.Property<int>("TournamentRegistrationId");
-
-                    b.Property<int?>("UserIdCreated");
-
-                    b.Property<int?>("UserIdModified");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TournamentDivisionId");
-
-                    b.HasIndex("TournamentRegistrationId");
-
-                    b.HasIndex("UserIdCreated");
-
-                    b.HasIndex("UserIdModified");
-
-                    b.ToTable("TournamentTeams");
-                });
-
-            modelBuilder.Entity("VBL.Data.TournamentTeamMember", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime?>("DtCreated");
-
-                    b.Property<DateTime?>("DtModified");
-
-                    b.Property<DateTime?>("PointLockDt");
-
-                    b.Property<double?>("Points");
-
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
-
-                    b.Property<int>("TournamentTeamId");
-
-                    b.Property<int?>("UserIdCreated");
-
-                    b.Property<int?>("UserIdModified");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TournamentTeamId");
-
-                    b.HasIndex("UserIdCreated");
-
-                    b.HasIndex("UserIdModified");
-
-                    b.ToTable("TournamentTeamMembers");
                 });
 
             modelBuilder.Entity("VBL.Data.UserEmail", b =>
@@ -1305,22 +1134,6 @@ namespace VBL.Data.Migrations
                         .HasForeignKey("UserIdModified");
                 });
 
-            modelBuilder.Entity("VBL.Data.TournamentRegistration", b =>
-                {
-                    b.HasOne("VBL.Data.TournamentDivision", "TournamentDivision")
-                        .WithMany()
-                        .HasForeignKey("TournamentDivisionId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("VBL.Data.ApplicationUser", "UserCreated")
-                        .WithMany()
-                        .HasForeignKey("UserIdCreated");
-
-                    b.HasOne("VBL.Data.ApplicationUser", "UserModified")
-                        .WithMany()
-                        .HasForeignKey("UserIdModified");
-                });
-
             modelBuilder.Entity("VBL.Data.TournamentRegistrationEmail", b =>
                 {
                     b.HasOne("VBL.Data.EmailMessage", "EmailMessage")
@@ -1361,63 +1174,11 @@ namespace VBL.Data.Migrations
                         .HasForeignKey("UserIdModified");
                 });
 
-            modelBuilder.Entity("VBL.Data.TournamentRegistrationPlayer", b =>
-                {
-                    b.HasOne("VBL.Data.TournamentRegistration")
-                        .WithMany("Players")
-                        .HasForeignKey("TournamentRegistrationId");
-
-                    b.HasOne("VBL.Data.ApplicationUser", "UserCreated")
-                        .WithMany()
-                        .HasForeignKey("UserIdCreated");
-
-                    b.HasOne("VBL.Data.ApplicationUser", "UserModified")
-                        .WithMany()
-                        .HasForeignKey("UserIdModified");
-                });
-
             modelBuilder.Entity("VBL.Data.TournamentRegistrationWindow", b =>
                 {
                     b.HasOne("VBL.Data.TournamentDivision")
                         .WithMany("RegistrationWindows")
                         .HasForeignKey("TournamentDivisionId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("VBL.Data.ApplicationUser", "UserCreated")
-                        .WithMany()
-                        .HasForeignKey("UserIdCreated");
-
-                    b.HasOne("VBL.Data.ApplicationUser", "UserModified")
-                        .WithMany()
-                        .HasForeignKey("UserIdModified");
-                });
-
-            modelBuilder.Entity("VBL.Data.TournamentTeam", b =>
-                {
-                    b.HasOne("VBL.Data.TournamentDivision", "TournamentDivision")
-                        .WithMany()
-                        .HasForeignKey("TournamentDivisionId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("VBL.Data.TournamentRegistration", "TournamentRegistration")
-                        .WithMany()
-                        .HasForeignKey("TournamentRegistrationId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("VBL.Data.ApplicationUser", "UserCreated")
-                        .WithMany()
-                        .HasForeignKey("UserIdCreated");
-
-                    b.HasOne("VBL.Data.ApplicationUser", "UserModified")
-                        .WithMany()
-                        .HasForeignKey("UserIdModified");
-                });
-
-            modelBuilder.Entity("VBL.Data.TournamentTeamMember", b =>
-                {
-                    b.HasOne("VBL.Data.TournamentTeam")
-                        .WithMany("Players")
-                        .HasForeignKey("TournamentTeamId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("VBL.Data.ApplicationUser", "UserCreated")

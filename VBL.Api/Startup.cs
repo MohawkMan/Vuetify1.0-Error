@@ -27,6 +27,7 @@ using VBL.Core;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using System.Reflection;
+using Hangfire;
 
 namespace VBL.Api
 {
@@ -54,6 +55,9 @@ namespace VBL.Api
             //Db Context
             services.AddDbContext<VBLDbContext>(options =>
                 options.UseSqlServer(connectionInUse, b => b.MigrationsAssembly(typeof(VBLDbContext).GetTypeInfo().Assembly.GetName().Name)));
+
+            //Hangfire
+            services.AddHangfire(h => h.UseSqlServerStorage(prodConnection));
 
             //Identity
             services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
@@ -151,6 +155,22 @@ namespace VBL.Api
             });
 
             app.UseAuthentication();
+            
+            //Hangfire
+            app.UseHangfireServer(new BackgroundJobServerOptions
+            {
+                Queues = new[] { "critical", "default", "email" }
+            });
+            app.UseHangfireDashboard("/hangfire");
+            /*
+            app.UseHangfireDashboard("/hangfire", new DashboardOptions()
+            {
+                Authorization = new[] 
+                {
+                    new HangfireDashAuthorizeFilter()
+                }
+            });
+            */
 
             app.UseMvc();
             app.UseSwagger();

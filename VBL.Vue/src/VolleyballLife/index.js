@@ -4,6 +4,7 @@ export default {
 //    ? 'https://volleyballlife-api.azurewebsites.net/api/v1.0'
 //    : 'https://localhost:44351/api/v1.0',
   baseURL: 'https://api.volleyballlife.com/api/v1.0',
+//  baseURL: 'https://localhost:44351/api/v1.0',
   user: {
     login: '/account/Login',
     register: '/account/register',
@@ -14,6 +15,7 @@ export default {
     getById: (id) => `/tournament/${id}`,
     create: '/tournament',
     getAll: '/tournament/list',
-    getByOrganizationId: (organizationId) => `/tournament/list/${organizationId}`
+    getByOrganizationId: (organizationId) => `/tournament/list/${organizationId}`,
+    register: '/tournament/register'
   }
 }

@@ -1,0 +1,43 @@
+{
+  "id": 0,
+  "tournamentDivisionId": 4,
+  "players": [
+    {
+      "vblId": null,
+      "firstName": "as",
+      "lastName": "AS",
+      "phone": "1231321331",
+      "email": "ASD@SDF.SDF",
+      "dob": "2017-12-10",
+      "dobFormatted": "12/10/2017",
+      "city": "asdasd",
+      "state": {
+        "name": "California",
+        "abbreviation": "CA"
+      },
+      "cbva": null,
+      "usav": null,
+      "valid": true
+    },
+    {
+      "vblId": null,
+      "firstName": "asd",
+      "lastName": "gdfgdfg",
+      "phone": "2342354564",
+      "email": "xzc@sdf.hdgfh",
+      "dob": "2017-12-31",
+      "dobFormatted": "12/31/2017",
+      "city": "sdf",
+      "state": {
+        "name": "California",
+        "abbreviation": "CA"
+      },
+      "cbva": null,
+      "usav": null,
+      "valid": true
+    }
+  ],
+  "confirmed": true,
+  "paymentType": "event",
+  "addOnQty": 1
+}

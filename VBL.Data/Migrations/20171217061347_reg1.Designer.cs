@@ -11,9 +11,10 @@ using VBL.Data;
 namespace VBL.Data.Migrations
 {
     [DbContext(typeof(VBLDbContext))]
-    partial class VBLDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171217061347_reg1")]
+    partial class reg1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -277,29 +278,21 @@ namespace VBL.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime?>("DTSent");
+                    b.Property<string>("Body");
 
                     b.Property<DateTime?>("DtCreated");
 
                     b.Property<DateTime?>("DtModified");
 
-                    b.Property<string>("From");
-
                     b.Property<string>("FromEmailAddress");
 
-                    b.Property<string>("HtmlMessage");
-
-                    b.Property<string>("PlainTextMessage");
-
-                    b.Property<string>("ReplyTo");
+                    b.Property<int?>("FromEmailId");
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate();
 
                     b.Property<string>("Subject");
-
-                    b.Property<string>("To");
 
                     b.Property<int?>("UserIdCreated");
 
@@ -698,8 +691,6 @@ namespace VBL.Data.Migrations
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate();
-
-                    b.Property<string>("TeamName");
 
                     b.Property<int>("TournamentDivisionId");
 

@@ -134,6 +134,17 @@ namespace VBL.Data
                 .IsRequired(false);
             #endregion
 
+            #region TournamentRegistration
+            builder.Entity<TournamentRegistration>().HasOne(a => a.UserCreated)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdCreated)
+                .IsRequired(false);
+            builder.Entity<TournamentRegistration>().HasOne(a => a.UserModified)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdModified)
+                .IsRequired(false);
+            #endregion
+
             #region TournamentRegistrationEmail
             builder.Entity<TournamentRegistrationEmail>().HasOne(a => a.UserCreated)
                 .WithMany()
@@ -151,6 +162,17 @@ namespace VBL.Data
                 .HasForeignKey(a => a.UserIdCreated)
                 .IsRequired(false);
             builder.Entity<TournamentRegistrationInfo>().HasOne(a => a.UserModified)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdModified)
+                .IsRequired(false);
+            #endregion
+
+            #region TournamentRegistrationPlayer
+            builder.Entity<TournamentRegistrationPlayer>().HasOne(a => a.UserCreated)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdCreated)
+                .IsRequired(false);
+            builder.Entity<TournamentRegistrationPlayer>().HasOne(a => a.UserModified)
                 .WithMany()
                 .HasForeignKey(a => a.UserIdModified)
                 .IsRequired(false);
