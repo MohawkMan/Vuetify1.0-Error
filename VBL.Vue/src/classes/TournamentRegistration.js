@@ -35,6 +35,7 @@ export default class TournamentRegistration {
   get dto () {
     return {
       id: 0,
+      tournamentId: this.tournamentId,
       tournamentDivisionId: this.division.id,
       players: this.players,
       confirmed: this.confirmed,

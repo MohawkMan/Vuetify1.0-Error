@@ -210,7 +210,9 @@ export default {
       console.log(this.registration.dto)
       this.axios.put(vbl.tournament.register, this.registration.dto)
         .then((response) => {
-          console.log(response.data)
+          var tourney = response.data
+          console.log(tourney)
+          this.$emit('registered')
           this.processing = false
         })
         .catch((response) => {
