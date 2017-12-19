@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <page-title title="Create New Tournament"></page-title>
+    <page-title :title="mode + ' Tournament'"></page-title>
     <v-layout row wrap>
       <v-flex>
         <tournament-edit 
@@ -19,13 +19,15 @@ export default {
   props: ['username'],
   data () {
     return {
-      tournament: null
+      tournament: null,
+      mode: null
     }
   },
   computed: {
     ...mapGetters([
       'user',
-      'loading'
+      'loading',
+      'selectedTourney'
     ]),
     pageInfo () {
       return this.user.pages.find((page) => {
@@ -37,8 +39,18 @@ export default {
     'tournament-edit': Edit
   },
   created () {
-    this.tournament = new Tournament()
-    this.tournament.organizationId = this.pageInfo.id
+    if (this.$route.name === 'tournament-edit') {
+      this.mode = 'Edit'
+      if (this.selectedTourney) {
+        this.tournament = this.selectedTourney
+      } else {
+        // this.fetchTourney
+      }
+    } else {
+      this.mode = 'Create New'
+      this.tournament = new Tournament()
+      this.tournament.organizationId = this.pageInfo.id
+    }
   }
 }
 </script>

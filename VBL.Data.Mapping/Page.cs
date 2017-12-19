@@ -9,7 +9,7 @@ namespace VBL.Data.Mapping
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string UserName { get; set; }
+        public string Username { get; set; }
         public bool IsPublic { get; set; }
     }
 
@@ -20,7 +20,7 @@ namespace VBL.Data.Mapping
             CreateMap<OrganizationMember, PageDTO>()
                 .ForMember(s => s.Id, opt => opt.MapFrom(d => d.OrganizationId))
                 .ForMember(s => s.Name, opt => opt.MapFrom(d => d.Organization.Name))
-                .ForMember(s => s.UserName, opt => opt.MapFrom(d => d.Organization.UserName))
+                .ForMember(s => s.Username, opt => opt.MapFrom(d => d.Organization.UserName))
                 .ForMember(s => s.IsPublic, opt => opt.MapFrom(d => d.Organization.IsPublic))
                 ;
         }

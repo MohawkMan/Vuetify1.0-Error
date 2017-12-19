@@ -51,6 +51,17 @@ namespace VBL.Core
 
             return await query.ToListAsync();
         }
+        public async Task<List<TournamentDTO>> GetTournamentListAsync(bool publicOnly, string organizationUsername)
+        {
+            var query = _db.Tournaments
+                .Where(w=>w.Organization.UserName == organizationUsername)
+                .ProjectTo<TournamentDTO>();
+
+            if (publicOnly)
+                query = query.Where(w => w.IsPublic);
+
+            return await query.ToListAsync();
+        }
         public async Task<TournamentDTO> GetTournamentAsync(int id)
         {
             return await _db.Tournaments

@@ -10,7 +10,7 @@
         <td @click="gotoDetails(props.item.link)">{{ props.item.divisions }}</td>
         <td @click="gotoDetails(props.item.link)">{{ props.item.locations }}</td>
         <td>
-          <v-btn small :to="`${props.item.link}/register`" v-if="mode==='public'">
+          <v-btn small :to="`${props.item.link}/register`" v-if="!admin">
             Register
           </v-btn>
           <v-btn 
@@ -18,9 +18,15 @@
             dark
             fab
             color="color3"
-            v-if="mode==='admin'">
+            v-if="admin"
+            @click="edit(props.item.id)"
+            >
             <v-icon>edit</v-icon>
           </v-btn>
+        </td>
+        <td v-if="admin">
+          <v-icon v-if="props.item.public">visibility</v-icon>
+          <v-icon v-else>visibility_off</v-icon>
         </td>
       </tr>
     </template>
@@ -33,9 +39,10 @@
 <script>
 import { mapGetters } from 'vuex'
 import moment from 'moment'
+import * as mutations from '../../store/MutationTypes'
 
 export default {
-  props: ['tourneys', 'loading', 'mode'],
+  props: ['tourneys', 'loading'],
   data () {
     return {
       agefilter: '',
@@ -46,11 +53,18 @@ export default {
   },
   computed: {
     ...mapGetters([
+      'user',
       'ageTypeOptions',
       'genderOptions',
       'divisionOptions',
       'locationOptions'
     ]),
+    pageName () {
+      return this.$route.params.username
+    },
+    admin () {
+      return this.user.isPageAdmin(this.pageName)
+    },
     rows () {
       return this.tourneys.map((t) => {
         return {
@@ -59,7 +73,8 @@ export default {
           name: t.name,
           divisions: t.divisionsString,
           locations: t.locationsString,
-          link: `${t.organization.userName}/tournament/${t.id}`
+          link: `/${t.organization.userName}/tournament/${t.id}`,
+          public: t.isPublic
         }
       })
     },
@@ -75,7 +90,11 @@ export default {
   methods: {
     gotoDetails (link) {
       this.$router.push(link)
-      // this.$router.push({name: 'tournament-brochure', params: {tournamentId: id}})
+    },
+    edit (id) {
+      let tournament = this.tourneys.find(t => t.id === id)
+      this.$store.commit(mutations.SET_SELECTED_TOURNAMENT, tournament)
+      this.$router.push({name: 'tournament-edit', params: {username: this.pageName, tournamentId: id}})
     }
   },
   filters: {

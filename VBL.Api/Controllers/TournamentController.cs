@@ -46,11 +46,11 @@ namespace VBL.Api.Controllers
             {
                 _logger.LogInformation($"GetAllTournaments");
                 List<TournamentDTO> list;
-                if(organizationId.HasValue)
+                if (organizationId.HasValue)
                 {
                     _logger.LogInformation($"GetAllTournaments - organizationId:{organizationId}");
                     var publicOnly = true;
-                    if(User != null)
+                    if (User != null)
                     {
                         var userId = Convert.ToInt32(User.UserId(_configuration["JwtIssuer"]));
                         publicOnly = !await _userManager.IsOrganizationMember(userId, organizationId.Value);
@@ -61,6 +61,43 @@ namespace VBL.Api.Controllers
                 }
 
                 list = await _tournamentManager.GetTournamentListAsync(true, organizationId);
+
+                return Ok(list);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(-1, e, "ERROR: ");
+                return BadRequest(e.Message);
+            }
+        }
+
+        /// <summary>
+        /// Get Tournament List
+        /// </summary>
+        [AllowAnonymous]
+        [HttpGet("{organizationUsername}/list")]
+        [ProducesResponseType(typeof(TournamentDTO), 200)]
+        public async Task<IActionResult> GetOrganizationTournaments([FromRoute] string organizationUsername)
+        {
+            try
+            {
+                _logger.LogInformation($"GetOrganizationTournaments");
+                List<TournamentDTO> list;
+                if (!string.IsNullOrWhiteSpace(organizationUsername))
+                {
+                    _logger.LogInformation($"GetOrganizationTournaments - username: {organizationUsername}");
+                    var publicOnly = true;
+                    if (User != null)
+                    {
+                        var userId = Convert.ToInt32(User.UserId(_configuration["JwtIssuer"]));
+                        publicOnly = !await _userManager.IsOrganizationMember(userId, organizationUsername);
+                    }
+                    list = await _tournamentManager.GetTournamentListAsync(publicOnly, organizationUsername);
+
+                    return Ok(list);
+                }
+
+                list = await _tournamentManager.GetTournamentListAsync(true, organizationUsername);
 
                 return Ok(list);
             }

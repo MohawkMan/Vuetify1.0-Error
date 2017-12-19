@@ -85,18 +85,16 @@
             <v-tabs-items>
               <v-tabs-content id="information">
                 <v-card>
-                  <v-card-title>
+                  <v-card-text>
                     <u>Age</u>
                     <p>All teams must compete in the age division they will compete in during summer 2018. Age cut-off is September 1st like SCVA and CBVA. Occasionally, exceptions can be made but teams out of age division will not receive playoff entry or points.</p>
-                    <br>
                     <u>Format</u>
-                    <p>Pool play (3,4, and 5 team pools). Top 3 teams will advanced to single-elim playoffs.</p>
-                    <br>
+                    <p>Pool play (3, 4, and 5 team pools). Top 3 teams will advanced to single-elim playoffs.</p>
                     <u>Prizes</u>
-                    <p><a href="http://jolynclothing.com/collections" >Jolyn Swimsuits</a> for Open division winners, Paul Mitchell products for 1st and 2nd, Medals for 1st, 2nd, and 3rd place all divisions.</p>
+                    <p><a href="http://jolynclothing.com/collections" target="_blank">Jolyn Swimsuits</a> for Open division winners, Paul Mitchell products for 1st and 2nd, Medals for 1st, 2nd, and 3rd place all divisions.</p>
                     <u>Weather Issues</u>
                     <p>Tournament will only be cancelled in the unlikely event of heavy rain, wind, and day-long unplayable conditions. Ed will email throughout the week with weather info if things are dicey, and the tournament may be altered to run more quickly if afternoon rain is imminent. If there is a window of playable weather on tournament day, we'll run during that window by altering start time.</p>
-                  </v-card-title>
+                  </v-card-text>
                 </v-card>
                 <v-card>
                   <v-toolbar dense color="color5">

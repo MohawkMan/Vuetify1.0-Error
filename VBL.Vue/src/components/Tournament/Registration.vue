@@ -153,6 +153,20 @@
         >Complete</v-btn>
         <v-btn flat @click.native="onBack" :disabled="processing">Back</v-btn>      
     </v-stepper-content>
+    <v-dialog v-model="successDialog" max-width="350">
+      <v-card>
+        <v-card-title class="headline color3 white--text">
+          Boom! You are registered!
+        </v-card-title>
+        <v-card-text>
+          See ya on the beach.
+        </v-card-text>
+        <v-card-text>
+          See ya on the beach.
+        </v-card-text>
+      </v-card>
+    </v-dialog>
+
   </v-stepper>  
 </template>
 
@@ -168,7 +182,8 @@ export default {
     return {
       currentStep: 1,
       processing: false,
-      addOnComplete: false
+      addOnComplete: false,
+      successDialog: true
     }
   },
   computed: {

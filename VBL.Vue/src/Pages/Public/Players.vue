@@ -6,6 +6,9 @@
           <v-flex xs12 class="display-4">
             Coming Soon!
           </v-flex>
+          <v-flex xs12>
+            <h2>(As soon as the 2018 season starts ;-)</h2>
+          </v-flex>
         </v-layout>
       </v-flex>
     </v-layout>

@@ -88,7 +88,7 @@
         <router-link to="/" tag="span" class="hidden-xs-only" style="cursor: pointer">Volleyball Life</router-link>
       </v-toolbar-title>
       <div class="d-flex align-center" style="margin-left: auto">
-        <v-badge color="red" overlap v-model="hasNotifications">
+        <v-badge color="red" overlap v-model="hasNotifications" v-if="false">
           <span slot="badge">3</span>
           <v-avatar class="color3">
             <v-icon>notifications</v-icon>
@@ -158,10 +158,10 @@
               return {
                 icon: 'dashboard',
                 text: page.name,
-                to: { name: 'organization-home', params: {username: page.userName} },
+                to: { name: 'organization-home', params: {username: page.username} },
                 children: [
-                  { icon: 'dashboard', text: 'Dashboard', to: { name: 'organization-home', params: {username: page.userName} } },
-                  { icon: 'date_range', text: 'Tournaments', to: { name: 'organization-tournaments', params: {username: page.userName} } }
+                  { icon: 'dashboard', text: 'Dashboard', to: { name: 'organization-home', params: {username: page.username} } },
+                  { icon: 'date_range', text: 'Tournaments', to: { name: 'organization-tournaments', params: {username: page.username} } }
                 ]
               }
             })

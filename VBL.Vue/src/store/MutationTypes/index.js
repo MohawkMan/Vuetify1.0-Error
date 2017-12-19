@@ -11,3 +11,6 @@ export const SET_OPTIONS_LOADED = 'SET_OPTIONS_LOADED'
 
 // User
 export const SET_USER = 'SET_USER'
+
+// Tournament
+export const SET_SELECTED_TOURNAMENT = 'SET_SELECTED_TOURNAMENT'

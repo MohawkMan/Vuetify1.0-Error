@@ -16,6 +16,7 @@ export default {
     create: '/tournament',
     getAll: '/tournament/list',
     getByOrganizationId: (organizationId) => `/tournament/list/${organizationId}`,
+    getByOrganizationUserName: (username) => `/tournament/${username}/list`,
     register: '/tournament/register'
   }
 }

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import * as mutations from '../MutationTypes'
 import * as actions from '../ActionTypes'
 import vbl from '../../VolleyballLife'
+import User from '../../classes/User'
 
 export default {
   state: {
@@ -9,7 +10,7 @@ export default {
   },
   mutations: {
     [mutations.SET_USER] (state, payload) {
-      state.user = payload
+      state.user = new User(payload)
     }
   },
   actions: {

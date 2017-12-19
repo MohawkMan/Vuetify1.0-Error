@@ -13,6 +13,7 @@ import Organizations from '@/Pages/Public/Organizations'
 import Join from '@/Pages/Public/Account/Register'
 import SignIn from '@/Pages/Public/Account/Login'
 import TourneyBrochure from '@/Pages/Public/TournamentBrochure.vue'
+import Privacy from '@/Pages/Public/Privacy.vue'
 
 // Private Views
 import Profile from '@/Pages/Private/User/Profile'
@@ -69,6 +70,11 @@ const router = new Router({
       beforeEnter: AuthGuard
     },
     {
+      path: '/privacy',
+      name: 'privacy',
+      component: Privacy
+    },
+    {
       path: '/my/tournaments',
       name: 'my-tournaments',
       component: MyTournaments,
@@ -81,10 +87,15 @@ const router = new Router({
       beforeEnter: AuthGuard
     },
     {
+      path: '/:username/tournaments/:id/edit',
+      name: 'tournament-edit',
+      component: TournamentCreator,
+      beforeEnter: AuthGuard
+    },
+    {
       path: '/:username/tournaments',
       name: 'organization-tournaments',
       component: Tournaments,
-      beforeEnter: AuthGuard,
       props: true
     },
     {

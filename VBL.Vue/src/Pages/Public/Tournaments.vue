@@ -44,13 +44,13 @@ export default {
       })
     },
     mode () {
-      if (!this.username) return 'public'
+      if (!this.user) return 'public'
       return 'admin'
     },
     fetchUrl () {
       if (!this.username) return vbl.tournament.getAll
 
-      return vbl.tournament.getByOrganizationId(this.pageInfo.id)
+      return vbl.tournament.getByOrganizationUserName(this.username)
     }
   },
   methods: {
