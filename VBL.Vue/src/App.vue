@@ -32,6 +32,26 @@
       </v-container>
       <router-view v-else></router-view>
     </v-content>
+    <v-footer class="mt-5 pa-3">
+      <v-container text-xs-center fluid>
+        <v-layout row>
+          <v-flex xs12>
+            <v-btn flat to="/privacy">
+              Privacy
+            </v-btn>
+            <v-btn flat href="mailto:Support@VolleyballLife.com">
+              Contact
+            </v-btn>
+          </v-flex>
+        </v-layout>
+        <v-layout row>
+          <v-flex xs12>© {{ new Date().getFullYear() }} Volleyball Life. All rights reserved.</v-flex>
+        </v-layout>
+        <v-layout row>
+          <v-flex xs12 style="font-size: x-small;">Powered by Mohawk Man Technologies LLC</v-flex>
+        </v-layout>
+      </v-container>
+    </v-footer>
   </v-app>
 </template>
 

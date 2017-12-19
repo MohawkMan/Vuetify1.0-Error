@@ -63,7 +63,7 @@ export default {
       return this.$route.params.username
     },
     admin () {
-      return this.user.isPageAdmin(this.pageName)
+      return this.user ? this.user.isPageAdmin(this.pageName) : false
     },
     rows () {
       return this.tourneys.map((t) => {
