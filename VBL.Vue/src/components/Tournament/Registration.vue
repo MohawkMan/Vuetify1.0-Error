@@ -183,7 +183,7 @@ export default {
       currentStep: 1,
       processing: false,
       addOnComplete: false,
-      successDialog: true
+      successDialog: false
     }
   },
   computed: {

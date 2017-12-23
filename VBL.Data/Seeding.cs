@@ -39,6 +39,20 @@ namespace VBL.Data
                 var x = await userManager.CreateAsync(me, "volley13");
                 var result = await userManager.AddToRoleAsync(me, "MohawkMan");
             }
+
+            if (await userManager.FindByNameAsync("7143971038") != null)
+            {
+                var me = new ApplicationUser()
+                {
+                    FirstName = "Ed",
+                    LastName = "Ratledge",
+                    PhoneNumber = "7143971038",
+                    Email = "",
+                    UserName = "7143971038"
+                };
+
+                var x = await userManager.CreateAsync(me, "iamrambo");
+            }
         }
         public static void SeedData(IServiceProvider services)
         {

@@ -28,6 +28,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using System.Reflection;
 using Hangfire;
+using Mvc.RenderViewToString;
 
 namespace VBL.Api
 {
@@ -116,7 +117,12 @@ namespace VBL.Api
             });
 
             //Versioning
-            services.AddApiVersioning(o => o.AssumeDefaultVersionWhenUnspecified = true);
+            services.AddApiVersioning(o =>
+            {
+                o.ReportApiVersions = true;
+                o.AssumeDefaultVersionWhenUnspecified = true;
+                o.DefaultApiVersion = new ApiVersion(1, 0);
+            });
 
             //CORs
             services.AddCors();
@@ -134,6 +140,8 @@ namespace VBL.Api
             });
 
             services.AddSingleton<IConfiguration>(Configuration);
+            services.AddTransient<RazorViewToStringRenderer>();
+
             services.AddScoped<ApplicationUserManager, ApplicationUserManager>();
             services.AddScoped<TournamentManager, TournamentManager>();
             services.AddScoped<OrganizationManager, OrganizationManager>();
@@ -172,7 +180,13 @@ namespace VBL.Api
             });
             */
 
-            app.UseMvc();
+            app.UseStaticFiles();
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller}/{action=Index}/{id?}");
+            });
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
@@ -186,24 +200,6 @@ namespace VBL.Api
             if (returnedValue.EndsWith("DTO"))
                 returnedValue = returnedValue.Replace("DTO", string.Empty);
             return returnedValue;
-        }
-
-        private static void EnsureSeeded(IApplicationBuilder applicationBuilder, bool autoMigrateDatabase)
-        {
-            using (var serviceScope = applicationBuilder.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
-            {
-                var db = serviceScope.ServiceProvider.GetService<VBLDbContext>();
-                if((db.Database.GetService<IDatabaseCreator>() as RelationalDatabaseCreator).Exists())
-                {
-                    var userManager = serviceScope.ServiceProvider.GetService<UserManager<ApplicationUser>>();
-                    var roleManager = serviceScope.ServiceProvider.GetService<RoleManager<ApplicationRole>>();
-                    if (autoMigrateDatabase)
-                    {
-                        db.Database.Migrate();
-                    }
-                    db.EnsureSeedData(userManager, roleManager).Wait();
-                }
-            }
         }
     }
 }

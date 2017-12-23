@@ -11,6 +11,9 @@ using VBL.Data;
 using VBL.Data.Mapping;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
+using VBL.Api.Pages;
+using VBL.Api.Pages.Email;
+using Mvc.RenderViewToString;
 
 namespace VBL.Api.Controllers
 {
@@ -24,14 +27,16 @@ namespace VBL.Api.Controllers
         private readonly ILogger _logger;
         private readonly IConfiguration _configuration;
         private readonly ApplicationUserManager _userManager;
+        private readonly RazorViewToStringRenderer _helper;
 
-        public TournamentController(TournamentManager tournamentManager, IMapper mapper, ILogger<TournamentController> logger, IConfiguration configuration, ApplicationUserManager userManager)
+        public TournamentController(TournamentManager tournamentManager, IMapper mapper, ILogger<TournamentController> logger, IConfiguration configuration, ApplicationUserManager userManager, RazorViewToStringRenderer helper)
         {
             _tournamentManager = tournamentManager;
             _mapper = mapper;
             _logger = logger;
             _configuration = configuration;
             _userManager = userManager;
+            _helper = helper;
         }
 
         /// <summary>
@@ -197,6 +202,30 @@ namespace VBL.Api.Controllers
                 _logger.LogError(-1, e, "ERROR: ");
                 return BadRequest(e.Message);
             }
+        }
+
+        [AllowAnonymous]
+        [HttpPut("test")]
+        public async Task<IActionResult> Test()
+        {
+            var model = new EmailViewModel
+            {
+                UserName = "User",
+                SenderName = "Sender",
+                UserData1 = 1,
+                UserData2 = 2
+            };
+
+            var result = "";
+            try
+            {
+                result = await _helper.RenderViewToStringAsync("Views/EmailTemplate.cshtml", model);
+            }
+            catch (Exception e)
+            {
+
+            }
+            return Ok(result);
         }
     }
     public class TournamentSelectItems

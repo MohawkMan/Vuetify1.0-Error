@@ -37,11 +37,19 @@ namespace VBL.Api.Controllers
         [HttpGet("test")]
         public async Task<IActionResult> test()
         {
-            _db.Emails.Add(new Email
+            if (await _userManager.FindByNameAsync("7143971038") == null)
             {
-                Address = "test"
-            });
-            await _db.SaveChangesAsync();
+                var me = new ApplicationUser()
+                {
+                    FirstName = "Ed",
+                    LastName = "Ratledge",
+                    PhoneNumber = "7143971038",
+                    Email = "",
+                    UserName = "7143971038"
+                };
+
+                var x = await _userManager.CreateAsync(me, "Iamrambo1");
+            }
             return Ok();
         }
     }
