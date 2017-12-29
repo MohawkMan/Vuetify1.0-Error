@@ -20,7 +20,7 @@ namespace VBL.Data.Mapping
         {
             CreateMap<UserPhone, PhoneDTO>()
                 .ForMember(d => d.Number, opt => opt.MapFrom(s => s.PhoneId))
-                .ForMember(d => d.Public, opt => opt.MapFrom(s => s.Phone.IsPublic))
+                .ForMember(d => d.Public, opt => opt.MapFrom(s => s.IsPublic))
                 .ForMember(d => d.SMS, opt => opt.MapFrom(s => s.Phone.IsSMS))
                 .ForMember(d => d.Verified, opt => opt.MapFrom(s => s.Phone.IsVerified))
                 .ReverseMap();

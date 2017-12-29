@@ -9,6 +9,7 @@ namespace VBL.Data
         public int UserId { get; set; }
         public string EmailId { get; set; }
         public bool IsPublic { get; set; }
+        public bool IsPrimary { get; set; }
 
         public ApplicationUser User { get; set; }
         public Email Email { get; set; }

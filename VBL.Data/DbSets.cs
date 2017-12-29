@@ -20,6 +20,7 @@ namespace VBL.Data
         public DbSet<OrganizationMember> OrganizationMembers { get; set; }
         public DbSet<Phone> Phones { get; set; }
         public DbSet<SanctioningBody> SanctioningBodies { get; set; }
+        public DbSet<SparkPostEmailTemplate> SparkPostEmailTemplates { get; set; }
         public DbSet<Tournament> Tournaments { get; set; }
         public DbSet<TournamentDay> TournamentDays { get; set; }
         public DbSet<TournamentDivision> TournamentDivisions { get; set; }

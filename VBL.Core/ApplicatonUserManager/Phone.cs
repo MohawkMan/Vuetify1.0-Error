@@ -31,9 +31,9 @@ namespace VBL.Core
                 Phone = new Phone
                 {
                     Number = dto.Number,
-                    IsSMS = dto.SMS,
-                    IsPublic = dto.Public
-                }
+                    IsSMS = dto.SMS
+                },
+                IsPublic = dto.Public
             };
             user.UserPhones.Add(result);
             await IdentityManager.UpdateAsync(user);
@@ -60,7 +60,7 @@ namespace VBL.Core
             if (phone == null)
                 throw new Exception($"User with Id: {user.Id} does not have Phone: {dto.Number}");
 
-            phone.Phone.IsPublic = dto.Public;
+            phone.IsPublic = dto.Public;
             phone.Phone.IsSMS = dto.SMS;
 
             await _db.SaveChangesAsync();

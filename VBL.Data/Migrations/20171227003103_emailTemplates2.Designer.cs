@@ -11,9 +11,10 @@ using VBL.Data;
 namespace VBL.Data.Migrations
 {
     [DbContext(typeof(VBLDbContext))]
-    partial class VBLDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171227003103_emailTemplates2")]
+    partial class emailTemplates2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -607,8 +608,6 @@ namespace VBL.Data.Migrations
 
                     b.Property<int>("StatusId");
 
-                    b.Property<int?>("TournamentDirectorUserId");
-
                     b.Property<int?>("UserIdCreated");
 
                     b.Property<int?>("UserIdModified");
@@ -620,8 +619,6 @@ namespace VBL.Data.Migrations
                     b.HasIndex("SanctioningBodyId");
 
                     b.HasIndex("SparkPostEmailTemplateId");
-
-                    b.HasIndex("TournamentDirectorUserId");
 
                     b.HasIndex("UserIdCreated");
 
@@ -1037,8 +1034,6 @@ namespace VBL.Data.Migrations
 
                     b.Property<DateTime?>("DtModified");
 
-                    b.Property<bool>("IsPrimary");
-
                     b.Property<bool>("IsPublic");
 
                     b.Property<byte[]>("RowVersion")
@@ -1105,8 +1100,6 @@ namespace VBL.Data.Migrations
                     b.Property<DateTime?>("DtCreated");
 
                     b.Property<DateTime?>("DtModified");
-
-                    b.Property<bool>("IsPrimary");
 
                     b.Property<bool>("IsPublic");
 
@@ -1325,10 +1318,6 @@ namespace VBL.Data.Migrations
                     b.HasOne("VBL.Data.SparkPostEmailTemplate", "SparkPostEmailTemplate")
                         .WithMany()
                         .HasForeignKey("SparkPostEmailTemplateId");
-
-                    b.HasOne("VBL.Data.ApplicationUser", "TournamentDirector")
-                        .WithMany()
-                        .HasForeignKey("TournamentDirectorUserId");
 
                     b.HasOne("VBL.Data.ApplicationUser", "UserCreated")
                         .WithMany()

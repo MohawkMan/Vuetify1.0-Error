@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Hangfire;
 
 namespace VBL.Core
 {
-    public interface IEmailSender
+    public class AppKeysConfig
     {
-        //void SendEmail(int emailId);
+        public string Jwt { get; set; }
+        public string SparkPost { get; set; }
     }
 }

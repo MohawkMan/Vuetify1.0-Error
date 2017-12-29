@@ -45,7 +45,7 @@
           </v-flex>
         </v-layout>
         <v-layout row>
-          <v-flex xs12>© {{ new Date().getFullYear() }} Volleyball Life. All rights reserved.</v-flex>
+          <v-flex xs12>© {{ new Date().getFullYear() }} VolleyballLife.com. All rights reserved.</v-flex>
         </v-layout>
         <v-layout row>
           <v-flex xs12 style="font-size: x-small;">Powered by Mohawk Man Technologies LLC</v-flex>

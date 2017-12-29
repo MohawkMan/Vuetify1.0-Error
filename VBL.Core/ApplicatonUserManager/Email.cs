@@ -31,9 +31,9 @@ namespace VBL.Core
                 Email = new Email
                 {
                     Address = dto.Address,
-                    IsPublic = dto.Public
-                }
-            };
+                },
+                IsPublic = dto.Public
+           };
             user.UserEmails.Add(result);
             await IdentityManager.UpdateAsync(user);
             return _mapper.Map<EmailDTO>(result);
@@ -59,7 +59,7 @@ namespace VBL.Core
             if (email == null)
                 throw new Exception($"User with Id: {user.Id} does not have Email: {dto.Address}");
 
-            email.Email.IsPublic = dto.Public;
+            email.IsPublic = dto.Public;
 
             await _db.SaveChangesAsync();
             return _mapper.Map<EmailDTO>(email);

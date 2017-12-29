@@ -12,6 +12,7 @@ using VBL.Core;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace VBL.Api.Controllers
 {
@@ -27,14 +28,14 @@ namespace VBL.Api.Controllers
         private readonly ApplicationUserManager _userManager;
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
-        private readonly IConfiguration _configuration;
+        private readonly VblConfig _config;
 
-        public MeController(ApplicationUserManager userManager, IMapper mapper, ILogger<MeController> logger, IConfiguration configuration)
+        public MeController(ApplicationUserManager userManager, IMapper mapper, ILogger<MeController> logger, IOptions<VblConfig> config)
         {
             _userManager = userManager;
             _mapper = mapper;
             _logger = logger;
-            _configuration = configuration;
+            _config = config.Value;
         }
 
         /// <summary>
@@ -46,7 +47,7 @@ namespace VBL.Api.Controllers
         {
             try
             {
-                var myId = Convert.ToInt32(User.UserId(_configuration["JwtIssuer"]));
+                var myId = Convert.ToInt32(User.UserId(_config.Jwt.Issuer));
                 var me = await _userManager.GetMe(myId);
                 return Ok(me);
             }

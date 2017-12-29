@@ -11,9 +11,7 @@ using VBL.Data;
 using VBL.Data.Mapping;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
-using VBL.Api.Pages;
-using VBL.Api.Pages.Email;
-using Mvc.RenderViewToString;
+using Microsoft.Extensions.Options;
 
 namespace VBL.Api.Controllers
 {
@@ -25,18 +23,16 @@ namespace VBL.Api.Controllers
         private readonly TournamentManager _tournamentManager;
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
-        private readonly IConfiguration _configuration;
+        private readonly VblConfig _config;
         private readonly ApplicationUserManager _userManager;
-        private readonly RazorViewToStringRenderer _helper;
 
-        public TournamentController(TournamentManager tournamentManager, IMapper mapper, ILogger<TournamentController> logger, IConfiguration configuration, ApplicationUserManager userManager, RazorViewToStringRenderer helper)
+        public TournamentController(TournamentManager tournamentManager, IMapper mapper, ILogger<TournamentController> logger, IOptions<VblConfig> config, ApplicationUserManager userManager)
         {
             _tournamentManager = tournamentManager;
             _mapper = mapper;
             _logger = logger;
-            _configuration = configuration;
+            _config = config.Value;
             _userManager = userManager;
-            _helper = helper;
         }
 
         /// <summary>
@@ -57,7 +53,7 @@ namespace VBL.Api.Controllers
                     var publicOnly = true;
                     if (User != null)
                     {
-                        var userId = Convert.ToInt32(User.UserId(_configuration["JwtIssuer"]));
+                        var userId = Convert.ToInt32(User.UserId(_config.Jwt.Issuer));
                         publicOnly = !await _userManager.IsOrganizationMember(userId, organizationId.Value);
                     }
                     list = await _tournamentManager.GetTournamentListAsync(publicOnly, organizationId);
@@ -94,7 +90,7 @@ namespace VBL.Api.Controllers
                     var publicOnly = true;
                     if (User != null)
                     {
-                        var userId = Convert.ToInt32(User.UserId(_configuration["JwtIssuer"]));
+                        var userId = Convert.ToInt32(User.UserId(_config.Jwt.Issuer));
                         publicOnly = !await _userManager.IsOrganizationMember(userId, organizationUsername);
                     }
                     list = await _tournamentManager.GetTournamentListAsync(publicOnly, organizationUsername);
@@ -208,24 +204,8 @@ namespace VBL.Api.Controllers
         [HttpPut("test")]
         public async Task<IActionResult> Test()
         {
-            var model = new EmailViewModel
-            {
-                UserName = "User",
-                SenderName = "Sender",
-                UserData1 = 1,
-                UserData2 = 2
-            };
 
-            var result = "";
-            try
-            {
-                result = await _helper.RenderViewToStringAsync("Views/EmailTemplate.cshtml", model);
-            }
-            catch (Exception e)
-            {
-
-            }
-            return Ok(result);
+            return Ok();
         }
     }
     public class TournamentSelectItems

@@ -251,7 +251,7 @@
           <td>
             <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
               <tr>
-                <td bgcolor="#152a69" style="padding: 30px 40px 30px 40px; text-align: left;">
+                <td bgcolor="#152a69" style="padding: 20px; text-align: left;">
                   <img src="https://volleyballlife.com/images/vbl-sm.png" width="200px" alt="alt_text" border="0" style="height: auto; font-family: sans-serif; font-size: 15px; line-height: 20px; color: #152a69;">
                 </td>
               </tr>
@@ -269,7 +269,7 @@
               <tr>
                 <td style="padding: 40px 40px 20px 40px; text-align: left;">
                   <h1 style="margin: 0; font-family: 'Roboto', sans-serif; font-size: 20px; line-height: 26px; color: #152a69; font-weight: bold;">
-                    Yayyyy {{firstName}}!
+                    Yayyyy {{firstname}}!
                   </h1>
                 </td>
               </tr>
@@ -294,61 +294,49 @@
                   <table cellspacing="0" cellpadding="0" border="0" width="100%">
                     <tr>
                       <td width="25%" class="stack-column" style="max-width: 25%; padding: 0px 10px 0px 0px; font-family: 'Roboto', sans-serif; font-size: 15px; line-height: 20px; color: #152a69; text-align: right; font-weight:normal;">
-                        </tdtd>
                         Team:
                       </td>
                       <td width="75%" class="stack-column" style="font-family: 'Roboto', sans-serif; font-size: 15px; line-height: 20px; color: #152a69; text-align: left; font-weight:normal;">
-                        </tdtd>
                         {{teamname}}
                       </td>
                     </tr>
                     <tr>
                       <td width="25%" class="stack-column" style="padding: 0px 10px 0px 0px; font-family: 'Roboto', sans-serif; font-size: 15px; line-height: 20px; color: #152a69; text-align: right; font-weight:normal;">
-                        </tdtd>
                         Date:
                       </td>
                       <td width="75%" class="stack-column" style="font-family: 'Roboto', sans-serif; font-size: 15px; line-height: 20px; color: #152a69; text-align: left; font-weight:normal;">
-                        </tdtd>
                         {{date}}
                       </td>
                     </tr>
                     <tr>
                       <td width="25%" class="stack-column" style="padding: 0px 10px 0px 0px; font-family: 'Roboto', sans-serif; font-size: 15px; line-height: 20px; color: #152a69; text-align: right; font-weight:normal;">
-                        </tdtd>
                         Check-in:
                       </td>
                       <td width="75%" class="stack-column" style="font-family: 'Roboto', sans-serif; font-size: 15px; line-height: 20px; color: #152a69; text-align: left; font-weight:normal;">
-                        </tdtd>
                         {{checkin}}
                       </td>
                     </tr>
                     <tr>
                       <td width="25%" class="stack-column" style="padding: 0px 10px 0px 0px; font-family: 'Roboto', sans-serif; font-size: 15px; line-height: 20px; color: #152a69; text-align: right; font-weight:normal;">
-                        </tdtd>
                         First serve:
                       </td>
                       <td width="75%" class="stack-column" style="font-family: 'Roboto', sans-serif; font-size: 15px; line-height: 20px; color: #152a69; text-align: left; font-weight:normal;">
-                        </tdtd>
                         {{playstarts}}
                       </td>
                     </tr>
                     <tr>
                       <td width="25%" class="stack-column" style="padding: 0px 10px 0px 0px; font-family: 'Roboto', sans-serif; font-size: 15px; line-height: 20px; color: #152a69; text-align: right; font-weight:normal;">
-                        </tdtd>
                         Location:
                       </td>
                       <td width="75%" class="stack-column" style="font-family: 'Roboto', sans-serif; font-size: 15px; line-height: 20px; color: #152a69; text-align: left; font-weight:normal;">
-                        </tdtd>
-                        {{location}}
+                        <a href="https://{{{tournamentlink}}}/location">{{location}}</a>
                       </td>
                     </tr>
                     <tr>
                       <td width="25%" class="stack-column" style="padding: 0px 10px 0px 0px; font-family: 'Roboto', sans-serif; font-size: 15px; line-height: 20px; color: #152a69; text-align: right; font-weight:normal;">
-                        </tdtd>
                         Division:
                       </td>
                       <td width="75%" class="stack-column" style="font-family: 'Roboto', sans-serif; font-size: 15px; line-height: 20px; color: #152a69; text-align: left; font-weight:normal;">
-                        </tdtd>
                         {{division}}
                       </td>
                     </tr>
@@ -372,34 +360,48 @@
                   <table cellspacing="0" cellpadding="0" border="0" width="100%">
                     <tr>
                       <td width="25%" class="stack-column" style="max-width: 25%; padding: 0px 10px 0px 0px; font-family: sans-serif; font-size: 15px; line-height: 20px; color: #152a69; text-align: right; font-weight:normal;">
-                        </tdtd>
                         Name:
                       </td>
                       <td width="75%" class="stack-column" style="font-family: 'Roboto', sans-serif; font-size: 15px; line-height: 20px; color: #152a69; text-align: left; font-weight:normal;">
-                        </tdtd>
                         {{td.fullname}}
                       </td>
                     </tr>
                     <tr>
                       <td width="25%" class="stack-column" style="padding: 0px 10px 0px 0px; font-family: 'Roboto', sans-serif; font-size: 15px; line-height: 20px; color: #152a69; text-align: right; font-weight:normal;">
-                        </tdtd>
                         Email:
                       </td>
                       <td width="75%" class="stack-column" style="font-family: 'Roboto', sans-serif; font-size: 15px; line-height: 20px; color: #152a69; text-align: left; font-weight:normal;">
-                        </tdtd>
                         {{td.email}}
                       </td>
                     </tr>
+                    {{ each td.addEmails }}
                     <tr>
                       <td width="25%" class="stack-column" style="padding: 0px 10px 0px 0px; font-family: 'Roboto', sans-serif; font-size: 15px; line-height: 20px; color: #152a69; text-align: right; font-weight:normal;">
-                        </tdtd>
+
+                      </td>
+                      <td width="75%" class="stack-column" style="font-family: 'Roboto', sans-serif; font-size: 15px; line-height: 20px; color: #152a69; text-align: left; font-weight:normal;">
+                        {{loop_var}}
+                      </td>
+                    </tr>
+                    {{ end }}
+                    <tr>
+                      <td width="25%" class="stack-column" style="padding: 0px 10px 0px 0px; font-family: 'Roboto', sans-serif; font-size: 15px; line-height: 20px; color: #152a69; text-align: right; font-weight:normal;">
                         Phone:
                       </td>
                       <td width="75%" class="stack-column" style="font-family: 'Roboto', sans-serif; font-size: 15px; line-height: 20px; color: #152a69; text-align: left; font-weight:normal;">
-                        </tdtd>
                         {{td.phone}}
                       </td>
                     </tr>
+                    {{ each td.addPhones }}
+                    <tr>
+                      <td width="25%" class="stack-column" style="padding: 0px 10px 0px 0px; font-family: 'Roboto', sans-serif; font-size: 15px; line-height: 20px; color: #152a69; text-align: right; font-weight:normal;">
+
+                      </td>
+                      <td width="75%" class="stack-column" style="font-family: 'Roboto', sans-serif; font-size: 15px; line-height: 20px; color: #152a69; text-align: left; font-weight:normal;">
+                        {{loop_var}}
+                      </td>
+                    </tr>
+                    {{ end }}
                   </table>
                 </td>
               </tr>
@@ -462,81 +464,86 @@
               <tr>
                 <td align="center" bgcolor="#446da3" style="padding: 40px; text-align: left;">
                   <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:600px;">
-                    <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:600px;">
-                      <tr>
-                        <td align="center">
-                          <table>
-                            <tr>
-                              <td style="padding: 0 10px;">
-                                <a href="http://facebook.com/beachvblife" target="_blank">
-                                  <img src="https://volleyballlife.com/images/facebook-official.png" width="48" style="display: block; border: 0px;"
-                                  />
-                                </a>
-                              </td>
-                              <td style="padding: 0 10px;">
-                                <a href="http://instagram.com/beachvblife" target="_blank">
-                                  <img src="https://volleyballlife.com/images/instagram-white.png" width="48" style="display: block; border: 0px;" />
-                                </a>
-                              </td>
-                              <td style="padding: 0 10px;">
-                                <a href="http://twitter.com/beachvblife" target="_blank">
-                                  <img src="https://volleyballlife.com/images/twitter.png" width="48" style="display: block; border: 0px;"
-                                  />
-                                </a>
-                              </td>
-                            </tr>
-                          </table>
-
-                    </table>
-                    </td>
-                    </tr>
                     <tr>
-                      <td bgcolor="#92becb" style="padding: 0px 40px 10px 40px; text-align: left;">
-
-                      </td>
-                    </tr>
-                    <tr>
-                      <td bgcolor="#e1dad0" style="padding: 0px 40px 30px 40px; text-align: left;">
-
-                      </td>
-                    </tr>
-                    <!-- HERO : END -->
-
-                    <!-- FOOTER : BEGIN -->
-                    <tr>
-                      <td>
-                        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                      <td align="center">
+                        <table>
                           <tr>
-                            <td style="padding: 40px 40px 10px 40px; font-family: 'Roboto',sans-serif; font-size: 12px; line-height: 18px; color: #92becb; text-align: center; font-weight:normal;">
-                              <p style="margin: 0;">VolleyballLife.com</p>
+                            <td style="padding: 0 10px;">
+                              <a href="http://facebook.com/beachvblife" target="_blank">
+                                <img src="https://volleyballlife.com/images/facebook-official.png" width="48" style="display: block; border: 0px;" />
+                              </a>
+                            </td>
+                            <td style="padding: 0 10px;">
+                              <a href="http://instagram.com/beachvblife" target="_blank">
+                                <img src="https://volleyballlife.com/images/instagram-white.png" width="48" style="display: block; border: 0px;" />
+                              </a>
+                            </td>
+                            <td style="padding: 0 10px;">
+                              <a href="http://twitter.com/beachvblife" target="_blank">
+                                <img src="https://volleyballlife.com/images/twitter.png" width="48" style="display: block; border: 0px;" />
+                              </a>
                             </td>
                           </tr>
-                          <tr>
-                            <td style="padding: 0px 40px 10px 40px; font-family: 'Roboto',sans-serif; font-size: 12px; line-height: 18px; color: #92becb; text-align: center; font-weight:normal;">
-                              <p style="margin: 0;">30 N Gould St Ste N, Sheridan, WY 82801</p>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td style="padding: 0px 40px 10px 40px; font-family: 'Roboto',sans-serif; font-size: 12px; line-height: 18px; color: #92becb; text-align: center; font-weight:normal;">
-                              <p style="margin: 0;">This email was sent to you from %%Company Email Address%%</p>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td style="padding: 0px 40px 40px 40px; font-family: 'Roboto',sans-serif; font-size: 12px; line-height: 18px; color: #92becb; text-align: center; font-weight:normal;">
-                              <p style="margin: 0;">Copyright &copy; 2017
-                                <b>VolleyballLife.com</b>, All Rights Reserved.</p>
-                            </td>
-                          </tr>
-
                         </table>
                       </td>
                     </tr>
-                    <!-- FOOTER : END -->
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td bgcolor="#92becb" style="padding: 0px 40px 10px 40px; text-align: left;">
+
+                </td>
+              </tr>
+              <tr>
+                <td bgcolor="#e1dad0" style="padding: 0px 40px 30px 40px; text-align: left;">
+
+                </td>
+              </tr>
+              <!-- HERO : END -->
+
+              <!-- FOOTER : BEGIN -->
+              <tr>
+                <td>
+                  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                    <tr>
+                      <td style="padding: 40px 40px 10px 40px; font-family: 'Roboto',sans-serif; font-size: 12px; line-height: 18px; color: #92becb; text-align: center; font-weight:normal;">
+                        <p style="margin: 0;">You are receiving this email because you were registered for the above tournament through our website.
+                        </p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 0px 40px 0px 40px; font-family: 'Roboto',sans-serif; font-size: 14px; line-height: 18px; color: #92becb; text-align: center; font-weight:bold;">
+                        <p style="margin: 0;">VolleyballLife.com</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 0px 40px 10px 40px; font-family: 'Roboto',sans-serif; font-size: 10px; line-height: 18px; color: #92becb; text-align: center; font-weight:normal;">
+                        <p style="margin: 0;">Powered by Mohawk Man Technologies LLC</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 0px 40px 10px 40px; font-family: 'Roboto',sans-serif; font-size: 12px; line-height: 18px; color: #92becb; text-align: center; font-weight:normal;">
+                        <p style="margin: 0;">30 N Gould St Ste N, Sheridan, WY 82801</p>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td style="padding: 0px 40px 40px 40px; font-family: 'Roboto',sans-serif; font-size: 12px; line-height: 18px; color: #92becb; text-align: center; font-weight:normal;">
+                        <p style="margin: 0;">Copyright &copy; 2017
+                          <b>VolleyballLife.com</b>, All Rights Reserved.</p>
+                      </td>
+                    </tr>
 
                   </table>
-                  <!-- Email Body : END -->
+                </td>
+              </tr>
+              <!-- FOOTER : END -->
 
-                  <!--[if mso]>
+            </table>
+            <!-- Email Body : END -->
+
+            <!--[if mso]>
             </td>
             </tr>
             </table>

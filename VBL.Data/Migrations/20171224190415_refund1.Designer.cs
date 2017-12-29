@@ -11,9 +11,10 @@ using VBL.Data;
 namespace VBL.Data.Migrations
 {
     [DbContext(typeof(VBLDbContext))]
-    partial class VBLDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171224190415_refund1")]
+    partial class refund1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -251,6 +252,8 @@ namespace VBL.Data.Migrations
 
                     b.Property<DateTime?>("DtModified");
 
+                    b.Property<bool>("IsPublic");
+
                     b.Property<bool>("IsVerified");
 
                     b.Property<byte[]>("RowVersion")
@@ -389,8 +392,6 @@ namespace VBL.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("DefaultEmailNote");
-
                     b.Property<string>("Description");
 
                     b.Property<DateTime?>("DtCreated");
@@ -493,6 +494,8 @@ namespace VBL.Data.Migrations
 
                     b.Property<DateTime?>("DtModified");
 
+                    b.Property<bool>("IsPublic");
+
                     b.Property<bool>("IsSMS");
 
                     b.Property<bool>("IsVerified");
@@ -542,40 +545,6 @@ namespace VBL.Data.Migrations
                     b.ToTable("SanctioningBodies");
                 });
 
-            modelBuilder.Entity("VBL.Data.SparkPostEmailTemplate", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime?>("DtCreated");
-
-                    b.Property<DateTime?>("DtModified");
-
-                    b.Property<string>("For");
-
-                    b.Property<bool>("IsCurrent");
-
-                    b.Property<bool>("IsDraft");
-
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
-
-                    b.Property<string>("TemplateId");
-
-                    b.Property<int?>("UserIdCreated");
-
-                    b.Property<int?>("UserIdModified");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserIdCreated");
-
-                    b.HasIndex("UserIdModified");
-
-                    b.ToTable("SparkPostEmailTemplates");
-                });
-
             modelBuilder.Entity("VBL.Data.Tournament", b =>
                 {
                     b.Property<int>("Id")
@@ -584,8 +553,6 @@ namespace VBL.Data.Migrations
                     b.Property<DateTime?>("DtCreated");
 
                     b.Property<DateTime?>("DtModified");
-
-                    b.Property<string>("EmailNote");
 
                     b.Property<bool>("IsOrganizationApproved");
 
@@ -603,11 +570,7 @@ namespace VBL.Data.Migrations
 
                     b.Property<int?>("SanctioningBodyId");
 
-                    b.Property<int?>("SparkPostEmailTemplateId");
-
                     b.Property<int>("StatusId");
-
-                    b.Property<int?>("TournamentDirectorUserId");
 
                     b.Property<int?>("UserIdCreated");
 
@@ -618,10 +581,6 @@ namespace VBL.Data.Migrations
                     b.HasIndex("OrganizationId");
 
                     b.HasIndex("SanctioningBodyId");
-
-                    b.HasIndex("SparkPostEmailTemplateId");
-
-                    b.HasIndex("TournamentDirectorUserId");
 
                     b.HasIndex("UserIdCreated");
 
@@ -679,10 +638,6 @@ namespace VBL.Data.Migrations
 
                     b.Property<DateTime?>("DtModified");
 
-                    b.Property<DateTime>("DtRefundCutoff");
-
-                    b.Property<string>("EmailNote");
-
                     b.Property<int?>("GenderId");
 
                     b.Property<string>("Info");
@@ -699,15 +654,13 @@ namespace VBL.Data.Migrations
 
                     b.Property<byte>("NumOfPlayers");
 
+                    b.Property<DateTime>("RefundCutoff");
+
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate();
 
                     b.Property<int?>("SanctioningBodyId");
-
-                    b.Property<int?>("SparkPostEmailTemplateId");
-
-                    b.Property<int?>("TournamentDirectorUserId");
 
                     b.Property<int>("TournamentId");
 
@@ -724,10 +677,6 @@ namespace VBL.Data.Migrations
                     b.HasIndex("GenderId");
 
                     b.HasIndex("LocationId");
-
-                    b.HasIndex("SparkPostEmailTemplateId");
-
-                    b.HasIndex("TournamentDirectorUserId");
 
                     b.HasIndex("TournamentId");
 
@@ -983,8 +932,7 @@ namespace VBL.Data.Migrations
 
                     b.HasIndex("TournamentDivisionId");
 
-                    b.HasIndex("TournamentRegistrationId")
-                        .IsUnique();
+                    b.HasIndex("TournamentRegistrationId");
 
                     b.HasIndex("UserIdCreated");
 
@@ -1036,8 +984,6 @@ namespace VBL.Data.Migrations
                     b.Property<DateTime?>("DtCreated");
 
                     b.Property<DateTime?>("DtModified");
-
-                    b.Property<bool>("IsPrimary");
 
                     b.Property<bool>("IsPublic");
 
@@ -1105,8 +1051,6 @@ namespace VBL.Data.Migrations
                     b.Property<DateTime?>("DtCreated");
 
                     b.Property<DateTime?>("DtModified");
-
-                    b.Property<bool>("IsPrimary");
 
                     b.Property<bool>("IsPublic");
 
@@ -1300,17 +1244,6 @@ namespace VBL.Data.Migrations
                         .HasForeignKey("UserIdModified");
                 });
 
-            modelBuilder.Entity("VBL.Data.SparkPostEmailTemplate", b =>
-                {
-                    b.HasOne("VBL.Data.ApplicationUser", "UserCreated")
-                        .WithMany()
-                        .HasForeignKey("UserIdCreated");
-
-                    b.HasOne("VBL.Data.ApplicationUser", "UserModified")
-                        .WithMany()
-                        .HasForeignKey("UserIdModified");
-                });
-
             modelBuilder.Entity("VBL.Data.Tournament", b =>
                 {
                     b.HasOne("VBL.Data.Organization", "Organization")
@@ -1321,14 +1254,6 @@ namespace VBL.Data.Migrations
                     b.HasOne("VBL.Data.SanctioningBody", "SanctioningBody")
                         .WithMany()
                         .HasForeignKey("SanctioningBodyId");
-
-                    b.HasOne("VBL.Data.SparkPostEmailTemplate", "SparkPostEmailTemplate")
-                        .WithMany()
-                        .HasForeignKey("SparkPostEmailTemplateId");
-
-                    b.HasOne("VBL.Data.ApplicationUser", "TournamentDirector")
-                        .WithMany()
-                        .HasForeignKey("TournamentDirectorUserId");
 
                     b.HasOne("VBL.Data.ApplicationUser", "UserCreated")
                         .WithMany()
@@ -1372,14 +1297,6 @@ namespace VBL.Data.Migrations
                     b.HasOne("VBL.Data.Location", "Location")
                         .WithMany()
                         .HasForeignKey("LocationId");
-
-                    b.HasOne("VBL.Data.SparkPostEmailTemplate", "SparkPostEmailTemplate")
-                        .WithMany()
-                        .HasForeignKey("SparkPostEmailTemplateId");
-
-                    b.HasOne("VBL.Data.ApplicationUser", "TournamentDirector")
-                        .WithMany()
-                        .HasForeignKey("TournamentDirectorUserId");
 
                     b.HasOne("VBL.Data.Tournament", "Tournament")
                         .WithMany("Divisions")
@@ -1490,8 +1407,8 @@ namespace VBL.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("VBL.Data.TournamentRegistration", "TournamentRegistration")
-                        .WithOne("TournamentTeam")
-                        .HasForeignKey("VBL.Data.TournamentTeam", "TournamentRegistrationId")
+                        .WithMany()
+                        .HasForeignKey("TournamentRegistrationId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("VBL.Data.ApplicationUser", "UserCreated")

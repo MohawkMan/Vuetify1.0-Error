@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <UserSecretsId>75c5f88f-6c89-4e6b-a40b-ae30e83913ef</UserSecretsId>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -25,12 +26,6 @@
 
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Views\EmailPartial.cshtml" />
-    <None Include="Views\EmailTemplate.cshtml" />
-    <None Include="Views\_EmailLayout.cshtml" />
   </ItemGroup>
 
   <ItemGroup>

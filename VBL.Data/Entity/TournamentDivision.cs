@@ -21,8 +21,16 @@ namespace VBL.Data
         public byte NumAllowedOnRoster { get; set; } = 2;
         public int? SanctioningBodyId { get; set; }
         public bool IsSanctioningBodyApproved { get; set; }
+        public DateTime DtRefundCutoff { get; set; }
+        public int? TournamentDirectorUserId { get; set; }
+        public string EmailNote { get; set; }
+        public int? SparkPostEmailTemplateId { get; set; }
+
+
 
         public Tournament Tournament { get; set; }
+        public ApplicationUser TournamentDirector { get; set; }
+
         public AgeType AgeType { get; set; }
         public Gender Gender { get; set; }
         public Division Division { get; set; }
@@ -30,6 +38,7 @@ namespace VBL.Data
         public Location Location { get; set; }
         public List<TournamentRegistrationWindow> RegistrationWindows { get; set; } = new List<TournamentRegistrationWindow>();
         public List<TournamentTeam> Teams { get; set; } = new List<TournamentTeam>();
+        public SparkPostEmailTemplate SparkPostEmailTemplate { get; set; }
         //public TournamentRegistrationInfo RegistrationFields { get; set; }
     }
 }

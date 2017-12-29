@@ -16,10 +16,10 @@ namespace VBL.Data.Mapping
     {
         public EmailProfile()
         {
-            CreateMap<Email, EmailDTO>()
-                .ForMember(d => d.Address, opt => opt.MapFrom(s => s.Address))
+            CreateMap<UserEmail, EmailDTO>()
+                .ForMember(d => d.Address, opt => opt.MapFrom(s => s.Email.Address))
                 .ForMember(d => d.Public, opt => opt.MapFrom(s => s.IsPublic))
-                .ForMember(d => d.Verified, opt => opt.MapFrom(s => s.IsVerified))
+                .ForMember(d => d.Verified, opt => opt.MapFrom(s => s.Email.IsVerified))
                 .ReverseMap();
         }
     }

@@ -1,0 +1,42 @@
+﻿Yayyyy {{firstname}}!
+You {{teammates}}, are registered for {{organizername}}'s {{tournamentname}}.
+
+Here are the details:
+
+Tournament Information
+Team:        {{teamname}}
+Date:        {{date}}
+Check-in:    {{checkin}}
+First serve: {{playstarts}}
+Location:    {{location}}
+Division:    {{division}}
+
+If you have any questions about the tournament, please don't hesitate to reach out to your tournament director.
+Tournament Director
+Name:  {{td.fullname}}
+Email: {{td.email}}
+{{ each td.addEmails }}
+       {{loop_var}}
+{{ end }}
+Phone: {{td.phone}}
+{{ each td.addPhones }}
+       {{loop_var}}
+{{ end }}
+
+A quick message from your TD, {{td.firstname}}:
+{{td.message}}
+
+Good luck. See ya on the courts!
+
+Refund Policy
+To cancel your registration and receive a refund in this tournament, you must call or email the Tournament Director by {{dtrefund}}.
+
+Refunds for cancellations AFTER {{dtrefund}}, will be at the sole discretion of the Tournament Director.
+
+
+
+You are receiving this email because you were registered for the above tournament through our website.
+VolleyballLife.com
+Powered by Mohawk Man Technologies LLC
+30 N Gould St Ste N, Sheridan, WY 82801
+Copyright © 2017 VolleyballLife.com, All Rights Reserved.

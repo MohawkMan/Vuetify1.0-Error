@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using VBL.Data;
 using Microsoft.AspNetCore.Authorization;
+using VBL.Core;
 
 namespace VBL.Api.Controllers
 {
@@ -18,13 +19,15 @@ namespace VBL.Api.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
+        private readonly EmailManager _emailManager;
         private readonly VBLDbContext _db;
 
-        public MohawkManController(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager, VBLDbContext db)
+        public MohawkManController(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager, VBLDbContext db, EmailManager emailManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _db = db;
+            _emailManager = emailManager;
         }
         [AllowAnonymous]
         [HttpGet("Init")]
@@ -34,22 +37,11 @@ namespace VBL.Api.Controllers
             return Ok("Created");
         }
 
+        [AllowAnonymous]
         [HttpGet("test")]
         public async Task<IActionResult> test()
         {
-            if (await _userManager.FindByNameAsync("7143971038") == null)
-            {
-                var me = new ApplicationUser()
-                {
-                    FirstName = "Ed",
-                    LastName = "Ratledge",
-                    PhoneNumber = "7143971038",
-                    Email = "",
-                    UserName = "7143971038"
-                };
-
-                var x = await _userManager.CreateAsync(me, "Iamrambo1");
-            }
+            await _emailManager.SendTournamentRegistrationEmailsAsync(5);
             return Ok();
         }
     }

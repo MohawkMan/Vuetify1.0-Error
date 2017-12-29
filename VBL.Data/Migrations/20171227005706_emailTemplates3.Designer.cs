@@ -11,9 +11,10 @@ using VBL.Data;
 namespace VBL.Data.Migrations
 {
     [DbContext(typeof(VBLDbContext))]
-    partial class VBLDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171227005706_emailTemplates3")]
+    partial class emailTemplates3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1037,8 +1038,6 @@ namespace VBL.Data.Migrations
 
                     b.Property<DateTime?>("DtModified");
 
-                    b.Property<bool>("IsPrimary");
-
                     b.Property<bool>("IsPublic");
 
                     b.Property<byte[]>("RowVersion")
@@ -1105,8 +1104,6 @@ namespace VBL.Data.Migrations
                     b.Property<DateTime?>("DtCreated");
 
                     b.Property<DateTime?>("DtModified");
-
-                    b.Property<bool>("IsPrimary");
 
                     b.Property<bool>("IsPublic");
 

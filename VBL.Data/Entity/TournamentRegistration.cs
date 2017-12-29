@@ -17,5 +17,6 @@ namespace VBL.Data
         public int AddOnQty { get; set; }
 
         public TournamentDivision TournamentDivision { get; set; }
+        public TournamentTeam TournamentTeam { get; set; }
     }
 }

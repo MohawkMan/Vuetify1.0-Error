@@ -15,6 +15,7 @@ using VBL.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using VBL.Core;
+using Microsoft.Extensions.Options;
 
 namespace VBL.Api.Controllers
 {
@@ -25,15 +26,15 @@ namespace VBL.Api.Controllers
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ApplicationUserManager _userManager;
-        private readonly IConfiguration _configuration;
+        private readonly VblConfig _config;
         private readonly RoleManager<ApplicationRole> _roleManager;
 
-        public AccountController(ApplicationUserManager userManager, SignInManager<ApplicationUser> signInManager, IConfiguration configuration, RoleManager<ApplicationRole> roleManager)
+        public AccountController(ApplicationUserManager userManager, SignInManager<ApplicationUser> signInManager, RoleManager<ApplicationRole> roleManager, IOptions<VblConfig> config)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _configuration = configuration;
             _roleManager = roleManager;
+            _config = config.Value;
         }
 
         [AllowAnonymous]
@@ -101,14 +102,14 @@ namespace VBL.Api.Controllers
         {
             var claims = await GetValidClaims(user);
             var isAdmin = await _userManager.IsInRoleAsync(user, "MohawkMan");
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtKey"]));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.AppKeys.Jwt));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var expires =  isAdmin ? DateTime.Now.AddMonths(6) : DateTime.Now.AddHours(3);
             //var expires = DateTime.Now.AddDays(Convert.ToDouble(_configuration["JwtExpireDays"]));
 
             var token = new JwtSecurityToken(
-                _configuration["JwtIssuer"],
-                _configuration["JwtIssuer"],
+                _config.Jwt.Issuer,
+                _config.Jwt.Issuer,
                 claims,
                 expires: DateTime.Now.AddMonths(6),
                 signingCredentials: creds

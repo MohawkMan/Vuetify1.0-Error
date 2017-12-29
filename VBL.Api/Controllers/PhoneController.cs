@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Options;
 
 namespace VBL.Api.Controllers
 {
@@ -22,14 +23,14 @@ namespace VBL.Api.Controllers
         private readonly ApplicationUserManager _userManager;
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
-        private readonly IConfiguration _configuration;
+        private readonly VblConfig _config;
 
-        public PhoneController(ApplicationUserManager userManager, IMapper mapper, ILogger<MeController> logger, IConfiguration configuration)
+        public PhoneController(ApplicationUserManager userManager, IMapper mapper, ILogger<MeController> logger, IOptions<VblConfig> config)
         {
             _userManager = userManager;
             _mapper = mapper;
             _logger = logger;
-            _configuration = configuration;
+            _config = config.Value;
         }
 
         #region Me
@@ -42,7 +43,7 @@ namespace VBL.Api.Controllers
         {
             try
             {
-                _logger.LogInformation($"UpdatePhone User.ID: {User.UserId(_configuration["JwtIssuer"])}, dto: {JsonConvert.SerializeObject(dto)}");
+                _logger.LogInformation($"UpdatePhone User.ID: {User.UserId(_config.Jwt.Issuer)}, dto: {JsonConvert.SerializeObject(dto)}");
                 var phone = await _userManager.UpdatePhoneAsync(User, dto);
                 return Ok(phone);
             }
@@ -62,7 +63,7 @@ namespace VBL.Api.Controllers
         {
             try
             {
-                _logger.LogInformation($"AddPhone User.ID: {User.UserId(_configuration["JwtIssuer"])}, dto: {JsonConvert.SerializeObject(dto)}");
+                _logger.LogInformation($"AddPhone User.ID: {User.UserId(_config.Jwt.Issuer)}, dto: {JsonConvert.SerializeObject(dto)}");
                 var phone = await _userManager.AddPhoneAsync(User, dto);
                 return Ok(phone);
             }
@@ -82,7 +83,7 @@ namespace VBL.Api.Controllers
         {
             try
             {
-                var userId = Convert.ToInt32(User.UserId(_configuration["JwtIssuer"]));
+                var userId = Convert.ToInt32(User.UserId(_config.Jwt.Issuer));
                 _logger.LogInformation($"DeletePhone User.ID: {userId}, Number: {number}");
                 var result = await _userManager.DeletePhoneAsync(userId, number);
                 return Ok();

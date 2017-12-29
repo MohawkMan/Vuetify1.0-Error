@@ -12,6 +12,8 @@ namespace VBL.Data
         public string Description { get; set; }
         public bool IsActive { get; set; }
         public bool IsPublic { get; set; }
+        public string DefaultEmailNote { get; set; }
+
 
         public List<OrganizationMember> OrganizationMembers { get; set; } = new List<OrganizationMember>();
     }

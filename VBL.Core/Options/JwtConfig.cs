@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Hangfire;
 
 namespace VBL.Core
 {
-    public interface IEmailSender
+    public class JwtConfig
     {
-        //void SendEmail(int emailId);
+        public string Issuer { get; set; }
+        public string ExpireDays { get; set; }
     }
 }

@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Options;
 
 namespace VBL.Api.Controllers
 {
@@ -22,14 +23,14 @@ namespace VBL.Api.Controllers
         private readonly ApplicationUserManager _userManager;
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
-        private readonly IConfiguration _configuration;
+        private readonly VblConfig _config;
 
-        public EmailController(ApplicationUserManager userManager, IMapper mapper, ILogger<MeController> logger, IConfiguration configuration)
+        public EmailController(ApplicationUserManager userManager, IMapper mapper, ILogger<MeController> logger, IOptions<VblConfig> config)
         {
             _userManager = userManager;
             _mapper = mapper;
             _logger = logger;
-            _configuration = configuration;
+            _config = config.Value;
         }
 
         #region Me
@@ -42,7 +43,7 @@ namespace VBL.Api.Controllers
         {
             try
             {
-                _logger.LogInformation($"UpdateEmail User.ID: {User.UserId(_configuration["JwtIssuer"])}, dto: {JsonConvert.SerializeObject(dto)}");
+                _logger.LogInformation($"UpdateEmail User.ID: {User.UserId(_config.Jwt.Issuer)}, dto: {JsonConvert.SerializeObject(dto)}");
                 var email = await _userManager.UpdateEmailAsync(User, dto);
                 return Ok(email);
             }
@@ -62,7 +63,7 @@ namespace VBL.Api.Controllers
         {
             try
             {
-                _logger.LogInformation($"AddEmail User.ID: {User.UserId(_configuration["JwtIssuer"])}, dto: {JsonConvert.SerializeObject(dto)}");
+                _logger.LogInformation($"AddEmail User.ID: {User.UserId(_config.Jwt.Issuer)}, dto: {JsonConvert.SerializeObject(dto)}");
                 var email = await _userManager.AddEmailAsync(User, dto);
                 return Ok(email);
             }
@@ -82,7 +83,7 @@ namespace VBL.Api.Controllers
         {
             try
             {
-                var userId = Convert.ToInt32(User.UserId(_configuration["JwtIssuer"]));
+                var userId = Convert.ToInt32(User.UserId(_config.Jwt.Issuer));
                 _logger.LogInformation($"DeleteEmail User.ID: {userId}, Address: {address}");
                 var result = await _userManager.DeleteEmailAsync(userId, address);
                 return Ok();

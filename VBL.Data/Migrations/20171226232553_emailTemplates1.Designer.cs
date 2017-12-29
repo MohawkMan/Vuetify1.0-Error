@@ -11,9 +11,10 @@ using VBL.Data;
 namespace VBL.Data.Migrations
 {
     [DbContext(typeof(VBLDbContext))]
-    partial class VBLDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171226232553_emailTemplates1")]
+    partial class emailTemplates1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -607,8 +608,6 @@ namespace VBL.Data.Migrations
 
                     b.Property<int>("StatusId");
 
-                    b.Property<int?>("TournamentDirectorUserId");
-
                     b.Property<int?>("UserIdCreated");
 
                     b.Property<int?>("UserIdModified");
@@ -620,8 +619,6 @@ namespace VBL.Data.Migrations
                     b.HasIndex("SanctioningBodyId");
 
                     b.HasIndex("SparkPostEmailTemplateId");
-
-                    b.HasIndex("TournamentDirectorUserId");
 
                     b.HasIndex("UserIdCreated");
 
@@ -983,8 +980,7 @@ namespace VBL.Data.Migrations
 
                     b.HasIndex("TournamentDivisionId");
 
-                    b.HasIndex("TournamentRegistrationId")
-                        .IsUnique();
+                    b.HasIndex("TournamentRegistrationId");
 
                     b.HasIndex("UserIdCreated");
 
@@ -1036,8 +1032,6 @@ namespace VBL.Data.Migrations
                     b.Property<DateTime?>("DtCreated");
 
                     b.Property<DateTime?>("DtModified");
-
-                    b.Property<bool>("IsPrimary");
 
                     b.Property<bool>("IsPublic");
 
@@ -1105,8 +1099,6 @@ namespace VBL.Data.Migrations
                     b.Property<DateTime?>("DtCreated");
 
                     b.Property<DateTime?>("DtModified");
-
-                    b.Property<bool>("IsPrimary");
 
                     b.Property<bool>("IsPublic");
 
@@ -1326,10 +1318,6 @@ namespace VBL.Data.Migrations
                         .WithMany()
                         .HasForeignKey("SparkPostEmailTemplateId");
 
-                    b.HasOne("VBL.Data.ApplicationUser", "TournamentDirector")
-                        .WithMany()
-                        .HasForeignKey("TournamentDirectorUserId");
-
                     b.HasOne("VBL.Data.ApplicationUser", "UserCreated")
                         .WithMany()
                         .HasForeignKey("UserIdCreated");
@@ -1490,8 +1478,8 @@ namespace VBL.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("VBL.Data.TournamentRegistration", "TournamentRegistration")
-                        .WithOne("TournamentTeam")
-                        .HasForeignKey("VBL.Data.TournamentTeam", "TournamentRegistrationId")
+                        .WithMany()
+                        .HasForeignKey("TournamentRegistrationId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("VBL.Data.ApplicationUser", "UserCreated")

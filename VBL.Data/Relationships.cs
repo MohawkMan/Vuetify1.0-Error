@@ -101,6 +101,17 @@ namespace VBL.Data
                 .IsRequired(false);
             #endregion
 
+            #region SparkPostEmailTemplate
+            builder.Entity<SparkPostEmailTemplate>().HasOne(a => a.UserCreated)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdCreated)
+                .IsRequired(false);
+            builder.Entity<SparkPostEmailTemplate>().HasOne(a => a.UserModified)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdModified)
+                .IsRequired(false);
+            #endregion
+
             #region Tournament
             builder.Entity<Tournament>().HasOne(a => a.UserCreated)
                 .WithMany()
@@ -109,6 +120,10 @@ namespace VBL.Data
             builder.Entity<Tournament>().HasOne(a => a.UserModified)
                 .WithMany()
                 .HasForeignKey(a => a.UserIdModified)
+                .IsRequired(false);
+            builder.Entity<Tournament>().HasOne(a => a.TournamentDirector)
+                .WithMany()
+                .HasForeignKey(a => a.TournamentDirectorUserId)
                 .IsRequired(false);
             #endregion
 
@@ -131,6 +146,10 @@ namespace VBL.Data
             builder.Entity<TournamentDivision>().HasOne(a => a.UserModified)
                 .WithMany()
                 .HasForeignKey(a => a.UserIdModified)
+                .IsRequired(false);
+            builder.Entity<TournamentDivision>().HasOne(a => a.TournamentDirector)
+                .WithMany()
+                .HasForeignKey(a => a.TournamentDirectorUserId)
                 .IsRequired(false);
             #endregion
 

@@ -28,7 +28,6 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using System.Reflection;
 using Hangfire;
-using Mvc.RenderViewToString;
 
 namespace VBL.Api
 {
@@ -95,9 +94,9 @@ namespace VBL.Api
 
                 cfg.TokenValidationParameters = new TokenValidationParameters()
                 {
-                    ValidIssuer = Configuration["JwtIssuer"],
-                    ValidAudience = Configuration["JwtIssuer"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JwtKey"]))
+                    ValidIssuer = Configuration["Jwt:Issuer"],
+                    ValidAudience = Configuration["Jwt:Issuer"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["AppKeys:Jwt"]))
                 };
             });
 
@@ -140,11 +139,17 @@ namespace VBL.Api
             });
 
             services.AddSingleton<IConfiguration>(Configuration);
-            services.AddTransient<RazorViewToStringRenderer>();
 
-            services.AddScoped<ApplicationUserManager, ApplicationUserManager>();
-            services.AddScoped<TournamentManager, TournamentManager>();
-            services.AddScoped<OrganizationManager, OrganizationManager>();
+            services.AddScoped<ApplicationUserManager>();
+            services.AddScoped<TournamentManager>();
+            services.AddScoped<OrganizationManager>();
+            services.AddScoped<EmailManager>();
+
+            //App Settings/ Options
+            services.Configure<VblConfig>(Configuration);
+            //services.Configure<JwtConfig>(Configuration.GetSection("Jwt"));
+            //services.Configure<SparkPostConfig>(Configuration.GetSection("SparkPost"));
+            //services.Configure<AppKeysConfig>(Configuration.GetSection("AppKeys"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
