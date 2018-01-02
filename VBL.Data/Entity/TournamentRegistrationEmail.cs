@@ -15,7 +15,5 @@ namespace VBL.Data
 
         public Organization Organization { get; set; }
         public TournamentDivision TournamentDivision { get; set; }
-        public EmailMessage EmailMessage { get; set; }
-        public Email FromEmail { get; set; }
     }
 }

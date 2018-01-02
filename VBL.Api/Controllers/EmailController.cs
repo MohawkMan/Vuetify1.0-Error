@@ -20,12 +20,12 @@ namespace VBL.Api.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     public class EmailController : Controller
     {
-        private readonly ApplicationUserManager _userManager;
+        private readonly VblUserManager _userManager;
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
         private readonly VblConfig _config;
 
-        public EmailController(ApplicationUserManager userManager, IMapper mapper, ILogger<MeController> logger, IOptions<VblConfig> config)
+        public EmailController(VblUserManager userManager, IMapper mapper, ILogger<MeController> logger, IOptions<VblConfig> config)
         {
             _userManager = userManager;
             _mapper = mapper;
@@ -94,13 +94,34 @@ namespace VBL.Api.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+
         #endregion
+        /// <summary>
+        /// Confirm an email address
+        /// </summary>
+        [AllowAnonymous]
+        [HttpPost("Confirm/{emailId}")]
+        public async Task<IActionResult> ConfirmEmail([FromRoute] int emailId, [FromBody] VBLToken token)
+        {
+            try
+            {
+                _logger.LogInformation($"ConfirmEmail UserEmail.Id: {emailId}, Token: {token.access_token}");
+                var result = await _userManager.ConfirmEmailAsync(emailId, token.access_token);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(-1, e, "ERROR: ");
+                return BadRequest(e.Message);
+            }
+        }
 
         /// <summary>
         /// Update a email number for the given userId
         /// </summary>
         [Authorize(Roles = "MohawkMan,Admin")]
-        [HttpPost("{UserId}")]
+        [HttpPost("{userId}")]
         [ProducesResponseType(typeof(EmailDTO), 200)]
         public async Task<IActionResult> UpdateEmail([FromBody] EmailDTO dto, [FromRoute] int userId)
         {
@@ -121,7 +142,7 @@ namespace VBL.Api.Controllers
         /// Add a email number  for the given userId
         /// </summary>
         [Authorize(Roles = "MohawkMan,Admin")]
-        [HttpPut("{UserId}")]
+        [HttpPut("{userId}")]
         [ProducesResponseType(typeof(EmailDTO), 200)]
         public async Task<IActionResult> AddEmail([FromBody] EmailDTO dto, [FromRoute] int userId)
         {
@@ -142,7 +163,7 @@ namespace VBL.Api.Controllers
         /// Delete a email number from the given userId
         /// </summary>
         [Authorize(Roles = "MohawkMan,Admin")]
-        [HttpDelete("{UserId}")]
+        [HttpDelete("{userId}")]
         //[ProducesResponseType(typeof(bool), 200)]
         public async Task<IActionResult> DeleteEmail([FromBody] string address, [FromRoute] int userId)
         {
@@ -158,5 +179,6 @@ namespace VBL.Api.Controllers
                 return BadRequest(e.Message);
             }
         }
+
     }
 }

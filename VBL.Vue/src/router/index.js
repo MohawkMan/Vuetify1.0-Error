@@ -14,6 +14,7 @@ import Join from '@/Pages/Public/Account/Register'
 import SignIn from '@/Pages/Public/Account/Login'
 import TourneyBrochure from '@/Pages/Public/TournamentBrochure.vue'
 import Privacy from '@/Pages/Public/Privacy.vue'
+import EmailConfirm from '@/Pages/Public/Confirm.vue'
 
 // Private Views
 import Profile from '@/Pages/Private/User/Profile'
@@ -73,6 +74,12 @@ const router = new Router({
       path: '/privacy',
       name: 'privacy',
       component: Privacy
+    },
+    {
+      path: '/confirm/:emailId/:token',
+      name: 'confirm',
+      component: EmailConfirm,
+      props: true
     },
     {
       path: '/my/tournaments',

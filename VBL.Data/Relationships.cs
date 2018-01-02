@@ -9,28 +9,6 @@ namespace VBL.Data
     {
         public void BuildRelationships(ModelBuilder builder)
         {
-            #region Email
-            builder.Entity<Email>().HasOne(a => a.UserCreated)
-                .WithMany()
-                .HasForeignKey(a => a.UserIdCreated)
-                .IsRequired(false);
-            builder.Entity<Email>().HasOne(a => a.UserModified)
-                .WithMany()
-                .HasForeignKey(a => a.UserIdModified)
-                .IsRequired(false);
-            #endregion
-
-            #region EmailMessage
-            builder.Entity<EmailMessage>().HasOne(a => a.UserCreated)
-                .WithMany()
-                .HasForeignKey(a => a.UserIdCreated)
-                .IsRequired(false);
-            builder.Entity<EmailMessage>().HasOne(a => a.UserModified)
-                .WithMany()
-                .HasForeignKey(a => a.UserIdModified)
-                .IsRequired(false);
-            #endregion
-
             #region Location
             builder.Entity<Location>().HasOne(a => a.UserCreated)
                 .WithMany()

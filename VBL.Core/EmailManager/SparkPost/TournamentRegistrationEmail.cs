@@ -14,17 +14,17 @@ namespace VBL.Core
         [Queue("email")]
         public async Task SendTournamentRegistrationEmailsAsync(int tournamentRegistrationId)
         {
-            var registration = await LoadRegistration(tournamentRegistrationId);
+            var registration = await LoadTournamentRegistration(tournamentRegistrationId);
             var sprakPostContent = new
             {
-                substitution_data = MapGlobalSubData(registration),
-                recipients = MapRecipients(registration),
+                substitution_data = MapTournamentRegistrationData(registration),
+                recipients = MapTournamentRegistrationRecipients(registration),
                 content = await MapSparkPostTemplate(registration.EmailTemplate, "TournamentRegistration")
             };
             var result = await SparkPostSend(sprakPostContent);
         }
 
-        private object MapGlobalSubData(TournamentRegistration registration)
+        private object MapTournamentRegistrationData(TournamentRegistration registration)
         {
             var tourney = registration.Tournament;
             var division = registration.TournamentDivision;
@@ -54,7 +54,7 @@ namespace VBL.Core
                 }
             };
         }
-        private List<object> MapRecipients(TournamentRegistration registration)
+        private List<object> MapTournamentRegistrationRecipients(TournamentRegistration registration)
         {
             var result = new List<object>();
             foreach(var player in registration.Players)
@@ -72,7 +72,7 @@ namespace VBL.Core
             }
             return result;
         }
-        private async Task<TournamentRegistration> LoadRegistration(int tournamentRegistrationId)
+        private async Task<TournamentRegistration> LoadTournamentRegistration(int tournamentRegistrationId)
         {
             return await _db.TournamentRegistrations
                 .Include(i => i.Players)
@@ -93,7 +93,6 @@ namespace VBL.Core
                 .Include(i => i.TournamentDivision)
                     .ThenInclude(t => t.TournamentDirector)
                         .ThenInclude(t => t.UserEmails)
-                            .ThenInclude(t => t.Email)
                 .Include(i => i.TournamentDivision)
                     .ThenInclude(t => t.TournamentDirector)
                         .ThenInclude(t => t.UserPhones)
@@ -102,7 +101,6 @@ namespace VBL.Core
                     .ThenInclude(t => t.Tournament)
                         .ThenInclude(t => t.TournamentDirector)
                             .ThenInclude(t => t.UserEmails)
-                                .ThenInclude(t => t.Email)
                 .Include(i => i.TournamentDivision)
                     .ThenInclude(t => t.Tournament)
                         .ThenInclude(t => t.TournamentDirector)

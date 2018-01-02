@@ -19,13 +19,15 @@ namespace VBL.Core
         private readonly VBLDbContext _db;
         private readonly ILogger _logger;
         private readonly VblConfig _config;
+        private readonly VblUserManager _userManager;
         private readonly HttpClient _client = new HttpClient();
 
-        public EmailManager(VBLDbContext db, ILogger<EmailManager> logger, IOptions<VblConfig> config)
+        public EmailManager(VBLDbContext db, ILogger<EmailManager> logger, IOptions<VblConfig> config, VblUserManager userManager)
         {
             _db = db;
             _logger = logger;
             _config = config.Value;
+            _userManager = userManager;
         }
         private async Task<object> MapSparkPostTemplate(SparkPostEmailTemplate template, string templateFor)
         {

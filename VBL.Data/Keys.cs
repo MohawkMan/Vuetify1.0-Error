@@ -12,9 +12,6 @@ namespace VBL.Data
             builder.Entity<UserPhone>()
                 .HasKey(k => new { k.PhoneId, k.UserId });
 
-            builder.Entity<UserEmail>()
-                .HasKey(k => new { k.EmailId, k.UserId });
-
             builder.Entity<OrganizationLocation>()
                 .HasKey(k => new { k.OrganizationId, k.LocationId });
 

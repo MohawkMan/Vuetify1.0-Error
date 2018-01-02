@@ -13,22 +13,29 @@ using VBL.Data;
 using VBL.Data.Mapping;
 using AutoMapper.QueryableExtensions;
 using AutoMapper.Configuration;
+using System.ComponentModel.DataAnnotations;
+using Microsoft.Extensions.Options;
 
 namespace VBL.Core
 {
-    public partial class ApplicationUserManager
+    public partial class VblUserManager
     {
         private readonly IMapper _mapper;
         private readonly VBLDbContext _db;
         private readonly ILogger _logger;
+        private readonly VblConfig _config;
         public readonly UserManager<ApplicationUser> IdentityManager;
+        private readonly RoleManager<ApplicationRole> _roleManager;
 
-        public ApplicationUserManager(IMapper mapper, VBLDbContext db, UserManager<ApplicationUser> userManager, ILogger<ApplicationUserManager> logger)
+
+        public VblUserManager(IMapper mapper, VBLDbContext db, UserManager<ApplicationUser> userManager, ILogger<VblUserManager> logger, RoleManager<ApplicationRole> roleManager, IOptions<VblConfig> config)
         {
             _mapper = mapper;
             _db = db;
             _logger = logger;
             IdentityManager = userManager;
+            _roleManager = roleManager;
+            _config = config.Value;
         }
 
         public async Task<ApplicationUserDTO> GetMe(int userId)

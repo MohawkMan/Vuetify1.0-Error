@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using VBL.Data;
 using Microsoft.AspNetCore.Authorization;
 using VBL.Core;
+using Microsoft.EntityFrameworkCore;
 
 namespace VBL.Api.Controllers
 {
@@ -41,8 +42,10 @@ namespace VBL.Api.Controllers
         [HttpGet("test")]
         public async Task<IActionResult> test()
         {
-            await _emailManager.SendTournamentRegistrationEmailsAsync(5);
-            return Ok();
+            var email = await _db.UserEmails.Include(i => i.User).FirstAsync(f => f.Id == 1);
+
+            var result = await _emailManager.MapSiteRegistrationRecipientAsync(email);
+            return Ok(result);
         }
     }
 }

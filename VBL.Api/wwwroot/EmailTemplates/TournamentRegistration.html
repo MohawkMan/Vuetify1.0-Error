@@ -30,7 +30,7 @@
 
   <!-- All other clients get the webfont reference; some will render the font and others will silently fail to the fallbacks. More on that here: http://stylecampaign.com/blog/2015/02/webfont-support-in-email/ -->
   <!--[if !mso]><!-->
-  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
   <!--<![endif]-->
 
   <!-- Web Font / @font-face : END -->
@@ -236,22 +236,20 @@
         -->
     <div style="max-width: 680px; margin: auto;" class="email-container">
       <!--[if mso]>
-            <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="680" align="center">
-            <tr>
-            <td>
-            <![endif]-->
+        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="680" align="center">
+        <tr>
+        <td>
+        <![endif]-->
 
-      <!-- Email Body : BEGIN -->
+      <!-- BODY : BEGIN -->
       <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center" width="100%" style="max-width: 680px;"
         class="email-container">
-
-
         <!-- HEADER : BEGIN -->
         <tr>
           <td>
             <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
               <tr>
-                <td bgcolor="#152a69" style="padding: 20px; text-align: left;">
+                <td bgcolor="#152a69" style="padding: 20px; text-align: center;">
                   <img src="https://volleyballlife.com/images/vbl-sm.png" width="200px" alt="alt_text" border="0" style="height: auto; font-family: sans-serif; font-size: 15px; line-height: 20px; color: #152a69;">
                 </td>
               </tr>
@@ -259,12 +257,9 @@
           </td>
         </tr>
         <!-- HEADER : END -->
-
-
-
-        <!-- HERO : BEGIN -->
-        <tr>
-          <td bgcolor="#ffffff" style="border:1px solid #dddddd;">
+        <!-- CONTENT : BEGIN -->
+        <tr style="border-left:1px solid #dddddd;border-right:1px solid #dddddd;">
+          <td bgcolor="#ffffff">
             <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
               <tr>
                 <td style="padding: 40px 40px 20px 40px; text-align: left;">
@@ -461,93 +456,131 @@
                 </td>
               </tr>
               <!-- End Refund rows -->
+            </table>
+          </td>
+        </tr>
+        <!-- CONTENT : END -->
+        <!-- SOCIAL : BEGIN -->
+        <tr style="border-left:1px solid #dddddd;border-right:1px solid #dddddd;">
+          <td align="center" bgcolor="#446da3" style="padding: 40px; text-align: left;">
+            <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:600px;">
               <tr>
-                <td align="center" bgcolor="#446da3" style="padding: 40px; text-align: left;">
-                  <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:600px;">
+                <td align="center">
+                  <table>
                     <tr>
-                      <td align="center">
-                        <table>
-                          <tr>
-                            <td style="padding: 0 10px;">
-                              <a href="http://facebook.com/beachvblife" target="_blank">
-                                <img src="https://volleyballlife.com/images/facebook-official.png" width="48" style="display: block; border: 0px;" />
-                              </a>
-                            </td>
-                            <td style="padding: 0 10px;">
-                              <a href="http://instagram.com/beachvblife" target="_blank">
-                                <img src="https://volleyballlife.com/images/instagram-white.png" width="48" style="display: block; border: 0px;" />
-                              </a>
-                            </td>
-                            <td style="padding: 0 10px;">
-                              <a href="http://twitter.com/beachvblife" target="_blank">
-                                <img src="https://volleyballlife.com/images/twitter.png" width="48" style="display: block; border: 0px;" />
-                              </a>
-                            </td>
-                          </tr>
-                        </table>
+                      <td style="padding: 0 10px;">
+                        <a href="https://facebook.com/beachvblife" target="_blank">
+                          <img src="https://volleyballlife.com/images/facebook-official.png" width="48" style="display: block; border: 0px;" />
+                        </a>
+                      </td>
+                      <td style="padding: 0 10px;">
+                        <a href="https://instagram.com/beachvblife" target="_blank">
+                          <img src="https://volleyballlife.com/images/instagram-white.png" width="48" style="display: block; border: 0px;" />
+                        </a>
+                      </td>
+                      <td style="padding: 0 10px;">
+                        <a href="https://twitter.com/beachvblife" target="_blank">
+                          <img src="https://volleyballlife.com/images/twitter.png" width="48" style="display: block; border: 0px;" />
+                        </a>
                       </td>
                     </tr>
                   </table>
                 </td>
               </tr>
+            </table>
+          </td>
+        </tr>
+        <!-- SOCIAL : END -->
+        <!-- FEEDBACK : BEGIN -->
+        <tr style="border-left:1px solid #dddddd;border-right:1px solid #dddddd;">
+          <td bgcolor="#189ebb">
+            <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
               <tr>
-                <td bgcolor="#92becb" style="padding: 0px 40px 10px 40px; text-align: left;">
-
+                <td style="padding: 40px 40px 5px 40px; text-align: center;">
+                  <h1 style="margin: 0; font-family: 'Roboto', sans-serif; font-size: 20px; line-height: 24px; color: #ffffff; font-weight: bold;">YOUR FEEDBACK IS IMPORTANT</h1>
                 </td>
               </tr>
               <tr>
-                <td bgcolor="#e1dad0" style="padding: 0px 40px 30px 40px; text-align: left;">
-
+                <td style="padding: 0px 40px 20px 40px; font-family: 'Roboto', sans-serif; font-size: 17px; line-height: 23px; color: #aad4ea; text-align: center; font-weight:normal;">
+                  <p style="margin: 0;">Let us know what you think of our latest updates</p>
                 </td>
               </tr>
-              <!-- HERO : END -->
-
-              <!-- FOOTER : BEGIN -->
               <tr>
-                <td>
-                  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
-                    <tr>
-                      <td style="padding: 40px 40px 10px 40px; font-family: 'Roboto',sans-serif; font-size: 12px; line-height: 18px; color: #92becb; text-align: center; font-weight:normal;">
-                        <p style="margin: 0;">You are receiving this email because you were registered for the above tournament through our website.
-                        </p>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td style="padding: 0px 40px 0px 40px; font-family: 'Roboto',sans-serif; font-size: 14px; line-height: 18px; color: #92becb; text-align: center; font-weight:bold;">
-                        <p style="margin: 0;">VolleyballLife.com</p>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td style="padding: 0px 40px 10px 40px; font-family: 'Roboto',sans-serif; font-size: 10px; line-height: 18px; color: #92becb; text-align: center; font-weight:normal;">
-                        <p style="margin: 0;">Powered by Mohawk Man Technologies LLC</p>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td style="padding: 0px 40px 10px 40px; font-family: 'Roboto',sans-serif; font-size: 12px; line-height: 18px; color: #92becb; text-align: center; font-weight:normal;">
-                        <p style="margin: 0;">30 N Gould St Ste N, Sheridan, WY 82801</p>
-                      </td>
-                    </tr>
+                <td valign="middle" align="center" style="text-align: center; padding: 0px 20px 40px 20px;">
 
+                  <!-- Button : BEGIN -->
+                  <table role="presentation" align="center" cellspacing="0" cellpadding="0" border="0" class="center-on-narrow">
                     <tr>
-                      <td style="padding: 0px 40px 40px 40px; font-family: 'Roboto',sans-serif; font-size: 12px; line-height: 18px; color: #92becb; text-align: center; font-weight:normal;">
-                        <p style="margin: 0;">Copyright &copy; 2017
-                          <b>VolleyballLife.com</b>, All Rights Reserved.</p>
+                      <td style="border-radius: 50px; background: #ffffff; text-align: center;" class="button-td">
+                        <a href="https://{{{ feedbackLink }}}" style="background: #ffffff; border: 15px solid #ffffff; font-family: 'Roboto', sans-serif; font-size: 14px; line-height: 1.1; text-align: center; text-decoration: none; display: block; border-radius: 50px; font-weight: bold;"
+                          class="button-a">
+                          <span style="color:#189ebb;" class="button-link">&nbsp;&nbsp;&nbsp;&nbsp;GIVE FEEDBACK&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        </a>
                       </td>
                     </tr>
-
                   </table>
+                  <!-- Button : END -->
+
                 </td>
               </tr>
-              <!-- FOOTER : END -->
 
             </table>
-            <!-- Email Body : END -->
+          </td>
+        </tr>
+        <!-- FEEDBACK : END -->
+        <!-- DECORATIVE : BEGIN -->
+        <tr style="border-left:1px solid #dddddd;border-right:1px solid #dddddd;">
+          <td bgcolor="#92becb" style="padding: 0px 40px 10px 40px; text-align: left;"></td>
+        </tr>
+        <tr style="border-left:1px solid #dddddd;border-right:1px solid #dddddd;">
+          <td bgcolor="#e1dad0" style="padding: 0px 40px 30px 40px; text-align: left;"></td>
+        </tr>
+        <!-- DECORATIVE : END -->
+        <!-- FOOTER : BEGIN -->
+        <tr style="border-left:1px solid #dddddd;border-right:1px solid #dddddd;">
+          <td>
+            <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+              <tr>
+                <td style="padding: 40px 40px 10px 40px; font-family: 'Roboto',sans-serif; font-size: 12px; line-height: 18px; color: #92becb; text-align: center; font-weight:normal;">
+                  <p style="margin: 0;">
+                    You are receiving this email because you were registered for an account on our website.
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding: 0px 40px 0px 40px; font-family: 'Roboto',sans-serif; font-size: 14px; line-height: 18px; color: #92becb; text-align: center; font-weight:bold;">
+                  <p style="margin: 0;">VolleyballLife.com</p>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding: 0px 40px 10px 40px; font-family: 'Roboto',sans-serif; font-size: 10px; line-height: 18px; color: #92becb; text-align: center; font-weight:normal;">
+                  <p style="margin: 0;">Powered by Mohawk Man Technologies LLC</p>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding: 0px 40px 10px 40px; font-family: 'Roboto',sans-serif; font-size: 12px; line-height: 18px; color: #92becb; text-align: center; font-weight:normal;">
+                  <p style="margin: 0;">30 N Gould St Ste N, Sheridan, WY 82801</p>
+                </td>
+              </tr>
 
-            <!--[if mso]>
-            </td>
-            </tr>
+              <tr>
+                <td style="padding: 0px 40px 40px 40px; font-family: 'Roboto',sans-serif; font-size: 12px; line-height: 18px; color: #92becb; text-align: center; font-weight:normal;">
+                  <p style="margin: 0;">Copyright &copy; 2017
+                    <b>VolleyballLife.com</b>, All Rights Reserved.</p>
+                </td>
+              </tr>
+
             </table>
-            <![endif]-->
+          </td>
+        </tr>
+        <!-- FOOTER : END -->
+      </table>
+      <!-- BODY : END -->
+      <!--[if mso]>
+        </td>
+        </tr>
+        </table>
+      <![endif]-->
     </div>
 
   </center>

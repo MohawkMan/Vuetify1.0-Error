@@ -24,9 +24,9 @@ namespace VBL.Api.Controllers
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
         private readonly VblConfig _config;
-        private readonly ApplicationUserManager _userManager;
+        private readonly VblUserManager _userManager;
 
-        public TournamentController(TournamentManager tournamentManager, IMapper mapper, ILogger<TournamentController> logger, IOptions<VblConfig> config, ApplicationUserManager userManager)
+        public TournamentController(TournamentManager tournamentManager, IMapper mapper, ILogger<TournamentController> logger, IOptions<VblConfig> config, VblUserManager userManager)
         {
             _tournamentManager = tournamentManager;
             _mapper = mapper;

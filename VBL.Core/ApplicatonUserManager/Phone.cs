@@ -10,7 +10,7 @@ using VBL.Data.Mapping;
 
 namespace VBL.Core
 {
-    public partial class ApplicationUserManager
+    public partial class VblUserManager
     {
         public async Task<PhoneDTO> AddPhoneAsync(ApplicationUser user, PhoneDTO dto)
         {

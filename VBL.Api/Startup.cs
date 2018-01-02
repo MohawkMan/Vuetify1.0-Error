@@ -140,7 +140,7 @@ namespace VBL.Api
 
             services.AddSingleton<IConfiguration>(Configuration);
 
-            services.AddScoped<ApplicationUserManager>();
+            services.AddScoped<VblUserManager>();
             services.AddScoped<TournamentManager>();
             services.AddScoped<OrganizationManager>();
             services.AddScoped<EmailManager>();

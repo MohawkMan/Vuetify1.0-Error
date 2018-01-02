@@ -6,12 +6,13 @@ namespace VBL.Data
 {
     public partial class UserEmail : TrackedEntityBase
     {
+        public int Id { get; set; }
         public int UserId { get; set; }
-        public string EmailId { get; set; }
+        public string Address { get; set; }
         public bool IsPublic { get; set; }
+        public bool IsVerified { get; set; }
         public bool IsPrimary { get; set; }
 
         public ApplicationUser User { get; set; }
-        public Email Email { get; set; }
     }
 }
