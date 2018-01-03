@@ -11,6 +11,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace VBL.Core
 {
@@ -52,7 +53,7 @@ namespace VBL.Core
             _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(_config.AppKeys.SparkPost);
 
-            var content = JsonConvert.SerializeObject(contentObj);
+            var content = JsonConvert.SerializeObject(contentObj, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver(), DateFormatString = "yyyy-MM-ddTHH:mm:ssZ" });
             return await _client.PostAsync(_config.SparkPost.SendingUrl, new StringContent(content, Encoding.UTF8, "application/json"));
         }
     }

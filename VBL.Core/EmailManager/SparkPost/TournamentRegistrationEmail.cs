@@ -32,6 +32,7 @@ namespace VBL.Core
             var td = registration.TD;
             return new
             {
+                FeedbackLink = _config.Links.Feedback,
                 organizername = tourney.Organization.Name,
                 tournamentname = tourney.Name,
                 teamname = registration.TournamentTeam.Name,

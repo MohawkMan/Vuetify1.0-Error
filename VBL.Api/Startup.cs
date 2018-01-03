@@ -28,6 +28,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using System.Reflection;
 using Hangfire;
+using Newtonsoft.Json.Serialization;
 
 namespace VBL.Api
 {
@@ -113,6 +114,7 @@ namespace VBL.Api
             })
             .AddJsonOptions(options => {
                 options.SerializerSettings.DateFormatString = "yyyy-MM-ddTHH:mm:ssZ";
+                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             });
 
             //Versioning

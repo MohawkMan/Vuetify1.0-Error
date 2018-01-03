@@ -8,7 +8,7 @@
             <h2>Create New User</h2>
           </v-card-title>
           <v-card-text>
-            <v-form v-model="valid" ref="form" lazy-validation>
+            <v-form ref="form" lazy-validation>
               <v-text-field
                 label="Enter you email"
                 v-model="email"
@@ -20,8 +20,8 @@
               <v-text-field
                 label="Enter a password"
                 v-model="password"
-                hint="At least 8 characters"
-                min="8"
+                hint="At least 6 characters"
+                min="6"
                 :append-icon="hidePassword ? 'visibility' : 'visibility_off'"
                 :append-icon-cb="() => (hidePassword = !hidePassword)"
                 :type="hidePassword ? 'password' : 'text'"
@@ -43,11 +43,28 @@
                 required
               >
               </v-text-field>
+              <v-alert
+                v-if="errors.length > 0"
+                color="error"
+                icon="warning"
+                outline
+                :value="true"
+                transition="scale-transition"
+              >
+                <ul v-if="errors.length > 1">
+                  <li v-for="(error,i) in errors" :key="i">
+                    {{error.description || error}}
+                  </li>
+                </ul>
+                <span v-else>{{errors[0]}}</span>
+              </v-alert>
               <v-layout>
                 <v-flex text-xs-center>
                   <v-btn
                   color="color3"
-                  :disabled="!valid">
+                  :disabled="!valid || submitting"
+                  :loading="submitting"
+                  @click="submit">
                   Join
               </v-btn>
                 </v-flex>
@@ -63,12 +80,13 @@
 <script>
 import { validationMixin } from 'vuelidate'
 import { required, minLength, email, sameAs } from 'vuelidate/lib/validators'
+import vbl from '../../../VolleyballLife'
 
 export default {
   mixins: [validationMixin],
   validations: {
     email: { required, email },
-    password: { required, minLength: minLength(8) },
+    password: { required, minLength: minLength(6) },
     passwordConfirm: { sameAsPassword: sameAs('password') }
   },
   data: () => ({
@@ -76,7 +94,9 @@ export default {
     password: '',
     hidePassword: true,
     passwordConfirm: '',
-    hidePasswordConfirm: true
+    hidePasswordConfirm: true,
+    submitting: false,
+    errors: []
   }),
   computed: {
     emailErrors () {
@@ -90,7 +110,8 @@ export default {
       const errors = []
       if (!this.$v.password.$dirty) return errors
       !this.$v.password.required && errors.push('A password is required')
-      !this.$v.password.minLength && errors.push('Your password must be at least 8 characters')
+      !this.$v.password.minLength && errors.push('Your password must be at least 6 characters')
+      // !/\d/.test(this.password) && errors.push('Your password must have at least one digit (0-9).')
       return errors
     },
     passwordConfirmErrors () {
@@ -104,8 +125,26 @@ export default {
   methods: {
     submit () {
       if (this.$refs.form.validate()) {
-        // do the post
-        alert('valid')
+        this.errors = []
+        this.submitting = true
+        const dto = {
+          email: this.email,
+          password: this.password
+        }
+        this.axios.post(vbl.user.register, dto)
+        .then((response) => {
+          this.$auth.setToken(response)
+          this.$router.push('me')
+        })
+        .catch((error) => {
+          var response = error.response.data
+          if (response.errors) {
+            this.errors = response.errors
+            this.submitting = false
+          } else {
+            this.errors.push(response)
+          }
+        })
       }
     }
   }

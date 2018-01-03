@@ -9,38 +9,44 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using VBL.Data;
+using Hangfire;
 
 
 namespace VBL.Core
 {
     public partial class VblUserManager
     {
-        public async Task<ApplicationUser> CreateAsync(RegisterViewModel model)
+        public async Task<IdentityResultWithUser> CreateAsync(RegisterViewModel model)
         {
             var user = new ApplicationUser
             {
                 UserName = model.Email,
                 Email = model.Email
             };
-            user.UserEmails.Add(new UserEmail
+            var email = new UserEmail
             {
                 Address = model.Email,
                 IsPrimary = true,
                 IsPublic = false,
                 IsVerified = false
-            });
+            };
+            user.UserEmails.Add(email);
             var result = await IdentityManager.CreateAsync(user, model.Password);
 
             if (result.Succeeded)
             {
                 //Send Welcome Email
-                return user;
+                BackgroundJob.Enqueue<EmailManager>(em => em.SendSiteRegistrationEmailAsync(email.Id));
             }
-            throw new Exception(JsonConvert.SerializeObject(result.Errors));
+            return new IdentityResultWithUser
+            {
+                Result = result,
+                User = user
+            };
         }
-        public async Task<VBLToken> GenerateJwtToken(ApplicationUser user)
+        public async Task<VBLToken> GenerateJwtTokenAsync(ApplicationUser user)
         {
-            var claims = await GetValidClaims(user);
+            var claims = await GetValidClaimsAsync(user);
             var isAdmin = await IdentityManager.IsInRoleAsync(user, "MohawkMan");
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.AppKeys.Jwt));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -57,7 +63,7 @@ namespace VBL.Core
 
             return new VBLToken { access_token = new JwtSecurityTokenHandler().WriteToken(token) };
         }
-        private async Task<List<Claim>> GetValidClaims(ApplicationUser user)
+        private async Task<List<Claim>> GetValidClaimsAsync(ApplicationUser user)
         {
             IdentityOptions _options = new IdentityOptions();
             var claims = new List<Claim>
@@ -110,5 +116,11 @@ namespace VBL.Core
     public class VBLToken
     {
         public string access_token { get; set; }
+    }
+
+    public class IdentityResultWithUser
+    {
+        public IdentityResult Result { get; set; }
+        public ApplicationUser User { get; set; }
     }
 }

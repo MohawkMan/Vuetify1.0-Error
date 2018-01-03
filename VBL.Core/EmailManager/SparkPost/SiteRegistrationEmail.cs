@@ -15,13 +15,13 @@ namespace VBL.Core
         {
             var email = await _db.UserEmails.Include(i => i.User).FirstAsync(f => f.Id == userEmailId);
 
-            var sprakPostContent = new
+            var sparkPostContent = new
             {
                 substitution_data = MapSiteRegistrationData(),
                 recipients = await MapSiteRegistrationRecipientAsync(email),
                 content = await MapSparkPostTemplate(null, "NewUser")
             };
-            var result = await SparkPostSend(sprakPostContent);
+            var result = await SparkPostSend(sparkPostContent);
         }
 
         private object MapSiteRegistrationData()
@@ -29,22 +29,23 @@ namespace VBL.Core
             return new
             {
                 FeedbackLink = _config.Links.Feedback
-                //FeedbackLink = "https://volleyballlife.com/feedback"
             };
         }
-        public async Task<object> MapSiteRegistrationRecipientAsync(UserEmail email)
+        public async Task<List<object>> MapSiteRegistrationRecipientAsync(UserEmail email)
         {
             var token = await _userManager.GenerateEmailTokenAsync(email.User, email.Id);
             var confirmLink = $"{_config.Links.EmailConfirmBase}/{email.Id}/{token}";
-            //var confirmLink = $"https://volleyballlife.com/confirm/{email.Id}/{token}";
-            return new
+            return new List<object>
             {
-                address = email.Address,
-                substitution_data = new
+                new
                 {
-                    FirstName = email.User.FirstName,
-                    FirstNameUpper = email.User.FirstName.ToUpper(),
-                    ConfirmLink = confirmLink
+                    address = email.Address,
+                    substitution_data = new
+                    {
+                        FirstName = email.User.FirstName,
+                        FirstNameUpper = email.User.FirstName.ToUpper(),
+                        ConfirmLink = confirmLink
+                    }
                 }
             };
         }

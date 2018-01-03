@@ -20,7 +20,7 @@ CEO | VolleyballLife.com
  	 	 
 YOUR FEEDBACK IS IMPORTANT
 Let us know what you think of our latest updates
-http://{{{ feedbackLink }}}
+https://{{{ feedbackLink }}}
 
 You are receiving this email because you were registered for an account on our website.
 VolleyballLife.com

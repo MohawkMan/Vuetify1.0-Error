@@ -42,10 +42,9 @@ namespace VBL.Api.Controllers
         [HttpGet("test")]
         public async Task<IActionResult> test()
         {
-            var email = await _db.UserEmails.Include(i => i.User).FirstAsync(f => f.Id == 1);
-
-            var result = await _emailManager.MapSiteRegistrationRecipientAsync(email);
-            return Ok(result);
+            //await _emailManager.SendTournamentRegistrationEmailsAsync(5);
+            await _emailManager.SendSiteRegistrationEmailAsync(1);
+            return Ok();
         }
     }
 }

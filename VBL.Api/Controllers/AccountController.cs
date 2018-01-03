@@ -52,7 +52,7 @@ namespace VBL.Api.Controllers
                     var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
                     if (result.Succeeded)
                     {
-                        return Ok(await _userManager.GenerateJwtToken(user));
+                        return Ok(await _userManager.GenerateJwtTokenAsync(user));
                     }
 
                 }
@@ -61,16 +61,21 @@ namespace VBL.Api.Controllers
             return BadRequest("Could not create token");
         }
 
+        [AllowAnonymous]
         [HttpPost("Register")]
         public async Task<object> Register([FromBody] RegisterViewModel model)
         {
             try
             {
                 _logger.LogInformation($"Register dto: {JsonConvert.SerializeObject(model)}");
-                var user = await _userManager.CreateAsync(model);
-                await _signInManager.SignInAsync(user, false);
-                var token = _userManager.GenerateJwtToken(user);
-                return Ok(token);
+                var result = await _userManager.CreateAsync(model);
+                if(result.Result.Succeeded)
+                {
+                    await _signInManager.SignInAsync(result.User, false);
+                    var token = await _userManager.GenerateJwtTokenAsync(result.User);
+                    return Ok(token);
+                }
+                return BadRequest(new { errors = result.Result.Errors });
             }
             catch (Exception e)
             {
