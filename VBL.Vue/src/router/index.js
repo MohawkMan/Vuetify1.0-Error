@@ -23,6 +23,7 @@ import MyTournaments from '@/Pages/Private/User/Tournaments'
 import OrgHome from '@/Pages/Private/Organization/Home.vue'
 // import OrgTourneys from '@/Pages/Private/Organization/TournamentList.vue'
 import TournamentCreator from '@/Pages/Private/Organization/TournamentCreate.vue'
+import ResultsEditor from '@/Pages/Private/Organization/ResultsEdit.vue'
 
 Vue.use(Router)
 
@@ -110,6 +111,13 @@ const router = new Router({
       path: '/:username/admin',
       name: 'organization-home',
       component: OrgHome,
+      beforeEnter: AuthGuard,
+      props: true
+    },
+    {
+      path: '/:username/admin/results',
+      name: 'organization-results-edit',
+      component: ResultsEditor,
       beforeEnter: AuthGuard,
       props: true
     },

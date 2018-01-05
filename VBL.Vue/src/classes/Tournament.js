@@ -63,4 +63,7 @@ export default class Tournament {
   get locationsString () {
     return uniq(this.divisions.map(d => d.location.name)).join(', ')
   }
+  get teamCount () {
+    return sum(this.divisions.teams.length)
+  }
 }

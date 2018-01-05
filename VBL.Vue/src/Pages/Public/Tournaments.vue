@@ -40,7 +40,7 @@ export default {
       if (!this.username) return null
 
       return this.user.pages.find((page) => {
-        return page.userName === this.username
+        return page.username === this.username
       })
     },
     mode () {
