@@ -45,6 +45,7 @@ namespace VBL.Core
                 .ProjectTo<ApplicationUserDTO>()
                 .FirstOrDefaultAsync();
         }
+
         public async Task<bool> IsInRoleAsync(ApplicationUser user, string roleName)
         {
             if (user == null)

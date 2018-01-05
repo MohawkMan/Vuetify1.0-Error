@@ -15,6 +15,7 @@ import SignIn from '@/Pages/Public/Account/Login'
 import TourneyBrochure from '@/Pages/Public/TournamentBrochure.vue'
 import Privacy from '@/Pages/Public/Privacy.vue'
 import EmailConfirm from '@/Pages/Public/Confirm.vue'
+import OrgBrochure from '@/Pages/Public/OrganizationBrochure.vue'
 
 // Private Views
 import Profile from '@/Pages/Private/User/Profile'
@@ -135,6 +136,12 @@ const router = new Router({
       name: 'tournament-teams',
       component: TourneyBrochure,
       props: (route) => { return {tournamentId: route.params.tournamentId, mode: 'teams'} }
+    },
+    {
+      path: '/:username',
+      name: 'organization-brochure',
+      component: OrgBrochure,
+      props: true
     }
   ],
   mode: 'history'

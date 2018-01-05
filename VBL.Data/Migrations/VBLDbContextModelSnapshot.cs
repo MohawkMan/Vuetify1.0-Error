@@ -287,6 +287,8 @@ namespace VBL.Data.Migrations
 
                     b.Property<DateTime?>("DtModified");
 
+                    b.Property<string>("GoogleUrl");
+
                     b.Property<bool>("IsPublic");
 
                     b.Property<string>("Name");
@@ -313,7 +315,7 @@ namespace VBL.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("DefaultEmailNote");
+                    b.Property<string>("Contact");
 
                     b.Property<string>("Description");
 
@@ -321,9 +323,15 @@ namespace VBL.Data.Migrations
 
                     b.Property<DateTime?>("DtModified");
 
+                    b.Property<string>("Facebook");
+
+                    b.Property<string>("Instagram");
+
                     b.Property<bool>("IsActive");
 
                     b.Property<bool>("IsPublic");
+
+                    b.Property<string>("LogoUrl");
 
                     b.Property<string>("Name");
 
@@ -331,11 +339,17 @@ namespace VBL.Data.Migrations
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate();
 
+                    b.Property<string>("Snapchat");
+
+                    b.Property<string>("Twitter");
+
                     b.Property<int?>("UserIdCreated");
 
                     b.Property<int?>("UserIdModified");
 
                     b.Property<string>("UserName");
+
+                    b.Property<string>("WebsiteUrl");
 
                     b.HasKey("Id");
 
@@ -408,34 +422,91 @@ namespace VBL.Data.Migrations
                     b.ToTable("OrganizationMembers");
                 });
 
-            modelBuilder.Entity("VBL.Data.Phone", b =>
+            modelBuilder.Entity("VBL.Data.OrganizationPhoto", b =>
                 {
-                    b.Property<string>("Number")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime?>("DtCreated");
 
                     b.Property<DateTime?>("DtModified");
 
-                    b.Property<bool>("IsSMS");
+                    b.Property<bool>("IsCover");
 
-                    b.Property<bool>("IsVerified");
+                    b.Property<bool>("IsPublic");
+
+                    b.Property<int>("OrganizationId");
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate();
 
+                    b.Property<string>("Url");
+
+                    b.Property<int?>("UserCreatedId");
+
                     b.Property<int?>("UserIdCreated");
 
                     b.Property<int?>("UserIdModified");
 
-                    b.HasKey("Number");
+                    b.Property<int?>("UserModifiedId");
 
-                    b.HasIndex("UserIdCreated");
+                    b.HasKey("Id");
 
-                    b.HasIndex("UserIdModified");
+                    b.HasIndex("OrganizationId");
 
-                    b.ToTable("Phones");
+                    b.HasIndex("UserCreatedId");
+
+                    b.HasIndex("UserModifiedId");
+
+                    b.ToTable("OrganizationPhoto");
+                });
+
+            modelBuilder.Entity("VBL.Data.OrganizationTournamentDefaults", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description");
+
+                    b.Property<DateTime?>("DtCreated");
+
+                    b.Property<DateTime?>("DtModified");
+
+                    b.Property<string>("EmailNote");
+
+                    b.Property<string>("ImageUrl");
+
+                    b.Property<int>("LocationId");
+
+                    b.Property<bool>("OneDay");
+
+                    b.Property<int>("OrganizationId");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.Property<int>("TournamentDirectorUserId");
+
+                    b.Property<int?>("UserCreatedId");
+
+                    b.Property<int?>("UserIdCreated");
+
+                    b.Property<int?>("UserIdModified");
+
+                    b.Property<int?>("UserModifiedId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrganizationId")
+                        .IsUnique();
+
+                    b.HasIndex("UserCreatedId");
+
+                    b.HasIndex("UserModifiedId");
+
+                    b.ToTable("OrganizationTournamentDefaults");
                 });
 
             modelBuilder.Entity("VBL.Data.SanctioningBody", b =>
@@ -510,6 +581,8 @@ namespace VBL.Data.Migrations
                     b.Property<DateTime?>("DtModified");
 
                     b.Property<string>("EmailNote");
+
+                    b.Property<string>("ExternalRegistrationUrl");
 
                     b.Property<bool>("IsOrganizationApproved");
 
@@ -1021,9 +1094,8 @@ namespace VBL.Data.Migrations
 
             modelBuilder.Entity("VBL.Data.UserPhone", b =>
                 {
-                    b.Property<string>("PhoneId");
-
-                    b.Property<int>("UserId");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<DateTime?>("DtCreated");
 
@@ -1033,18 +1105,23 @@ namespace VBL.Data.Migrations
 
                     b.Property<bool>("IsPublic");
 
+                    b.Property<bool>("IsSMS");
+
+                    b.Property<bool>("IsVerified");
+
+                    b.Property<string>("Number");
+
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate();
+
+                    b.Property<int>("UserId");
 
                     b.Property<int?>("UserIdCreated");
 
                     b.Property<int?>("UserIdModified");
 
-                    b.HasKey("PhoneId", "UserId");
-
-                    b.HasIndex("PhoneId")
-                        .IsUnique();
+                    b.HasKey("Id");
 
                     b.HasIndex("UserId");
 
@@ -1175,15 +1252,36 @@ namespace VBL.Data.Migrations
                         .HasForeignKey("UserIdModified");
                 });
 
-            modelBuilder.Entity("VBL.Data.Phone", b =>
+            modelBuilder.Entity("VBL.Data.OrganizationPhoto", b =>
                 {
+                    b.HasOne("VBL.Data.Organization", "Organization")
+                        .WithMany("Photos")
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("VBL.Data.ApplicationUser", "UserCreated")
                         .WithMany()
-                        .HasForeignKey("UserIdCreated");
+                        .HasForeignKey("UserCreatedId");
 
                     b.HasOne("VBL.Data.ApplicationUser", "UserModified")
                         .WithMany()
-                        .HasForeignKey("UserIdModified");
+                        .HasForeignKey("UserModifiedId");
+                });
+
+            modelBuilder.Entity("VBL.Data.OrganizationTournamentDefaults", b =>
+                {
+                    b.HasOne("VBL.Data.Organization")
+                        .WithOne("TournamentDefaults")
+                        .HasForeignKey("VBL.Data.OrganizationTournamentDefaults", "OrganizationId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("VBL.Data.ApplicationUser", "UserCreated")
+                        .WithMany()
+                        .HasForeignKey("UserCreatedId");
+
+                    b.HasOne("VBL.Data.ApplicationUser", "UserModified")
+                        .WithMany()
+                        .HasForeignKey("UserModifiedId");
                 });
 
             modelBuilder.Entity("VBL.Data.SanctioningBody", b =>
@@ -1441,11 +1539,6 @@ namespace VBL.Data.Migrations
 
             modelBuilder.Entity("VBL.Data.UserPhone", b =>
                 {
-                    b.HasOne("VBL.Data.Phone", "Phone")
-                        .WithOne("UserPhone")
-                        .HasForeignKey("VBL.Data.UserPhone", "PhoneId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("VBL.Data.ApplicationUser", "User")
                         .WithMany("UserPhones")
                         .HasForeignKey("UserId")

@@ -5,20 +5,33 @@
       <v-flex xs12 sm6 offset-sm3>
         <v-card>
           <v-card-title class="primary white--text">
-            <h2>Create New User</h2>
+            <h2>Join</h2>
           </v-card-title>
           <v-card-text>
             <v-form ref="form" lazy-validation>
               <v-text-field
-                label="Enter you email"
+                label="First Name"
+                v-model="firstName"
+                @blur="$v.firstName.$touch()"
+                :rules="[() => $v.firstName.required || 'Your first name is required']"
+                required
+              ></v-text-field>
+              <v-text-field
+                label="Last Name"
+                v-model="lastName"
+                @blur="$v.lastName.$touch()"
+                :rules="[() => $v.lastName.required || 'Your last name is required']"
+                required
+              ></v-text-field>
+              <v-text-field
+                label="Email"
                 v-model="email"
                 :error-messages="emailErrors"
-                @input="$v.email.$touch()"
                 @blur="$v.email.$touch()"
                 required
               ></v-text-field>
               <v-text-field
-                label="Enter a password"
+                label="Password"
                 v-model="password"
                 hint="At least 6 characters"
                 min="6"
@@ -26,23 +39,19 @@
                 :append-icon-cb="() => (hidePassword = !hidePassword)"
                 :type="hidePassword ? 'password' : 'text'"
                 :error-messages="passwordErrors"
-                @input="$v.password.$touch()"
                 @blur="$v.password.$touch()"
                 required
-              >
-              </v-text-field>
+              ></v-text-field>
               <v-text-field
-                label="Confirm your password"
+                label="Confirm password"
                 v-model="passwordConfirm"
                 :append-icon="hidePasswordConfirm ? 'visibility' : 'visibility_off'"
                 :append-icon-cb="() => (hidePasswordConfirm = !hidePasswordConfirm)"
                 :type="hidePasswordConfirm ? 'password' : 'text'"
                 :error-messages="passwordConfirmErrors"
-                @input="$v.passwordConfirm.$touch()"
                 @blur="$v.passwordConfirm.$touch()"
                 required
-              >
-              </v-text-field>
+              ></v-text-field>
               <v-alert
                 v-if="errors.length > 0"
                 color="error"
@@ -53,10 +62,22 @@
               >
                 <ul v-if="errors.length > 1">
                   <li v-for="(error,i) in errors" :key="i">
-                    {{error.description || error}}
+                    <span v-if="error.description">
+                      {{error.description}}
+                    </span>
+                    <span v-else>
+                      {{error}}
+                    </span>
                   </li>
                 </ul>
-                <span v-else>{{errors[0]}}</span>
+                <span v-else>
+                    <span v-if="errors[0].description">
+                      {{errors[0].description}}
+                    </span>
+                    <span v-else>
+                      {{errors[0]}}
+                    </span>
+                </span>
               </v-alert>
               <v-layout>
                 <v-flex text-xs-center>
@@ -85,11 +106,15 @@ import vbl from '../../../VolleyballLife'
 export default {
   mixins: [validationMixin],
   validations: {
+    firstName: { required },
+    lastName: { required },
     email: { required, email },
     password: { required, minLength: minLength(6) },
     passwordConfirm: { sameAsPassword: sameAs('password') }
   },
   data: () => ({
+    firstName: '',
+    lastName: '',
     email: '',
     password: '',
     hidePassword: true,
@@ -111,7 +136,7 @@ export default {
       if (!this.$v.password.$dirty) return errors
       !this.$v.password.required && errors.push('A password is required')
       !this.$v.password.minLength && errors.push('Your password must be at least 6 characters')
-      // !/\d/.test(this.password) && errors.push('Your password must have at least one digit (0-9).')
+      !/\d/.test(this.password) && errors.push('Your password must have at least one digit (0-9).')
       return errors
     },
     passwordConfirmErrors () {
@@ -128,6 +153,8 @@ export default {
         this.errors = []
         this.submitting = true
         const dto = {
+          firstName: this.firstName,
+          lastName: this.lastName,
           email: this.email,
           password: this.password
         }

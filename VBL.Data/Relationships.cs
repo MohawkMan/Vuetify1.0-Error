@@ -57,17 +57,6 @@ namespace VBL.Data
                 .IsRequired(true);
             #endregion
 
-            #region Phone
-            builder.Entity<Phone>().HasOne(a => a.UserCreated)
-                .WithMany()
-                .HasForeignKey(a => a.UserIdCreated)
-                .IsRequired(false);
-            builder.Entity<Phone>().HasOne(a => a.UserModified)
-                .WithMany()
-                .HasForeignKey(a => a.UserIdModified)
-                .IsRequired(false);
-            #endregion
-
             #region SanctioningBody
             builder.Entity<SanctioningBody>().HasOne(a => a.UserCreated)
                 .WithMany()

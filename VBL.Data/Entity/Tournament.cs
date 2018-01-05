@@ -26,5 +26,7 @@ namespace VBL.Data
         public ApplicationUser TournamentDirector { get; set; }
         public SanctioningBody SanctioningBody { get; set; }
         public SparkPostEmailTemplate SparkPostEmailTemplate { get; set; }
+
+        public string ExternalRegistrationUrl { get; set; }
     }
 }

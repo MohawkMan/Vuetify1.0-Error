@@ -37,6 +37,7 @@ import {
   VAlert,
   VTabs,
   VExpansionPanel,
+  VChip,
   transitions
 } from 'vuetify'
 import '../node_modules/vuetify/src/stylus/app.styl'
@@ -76,6 +77,7 @@ Vue.use(Vuetify, {
     VAlert,
     VTabs,
     VExpansionPanel,
+    VChip,
     transitions
   },
   theme: {

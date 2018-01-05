@@ -7,10 +7,8 @@ export default {
   email: {
     confirm: (emailId) => `email/confirm/${emailId}`
   },
-  user: {
-    login: '/account/Login',
-    register: '/account/register',
-    getCurrent: '/Me'
+  organization: {
+    get: (usernameOrId) => `/organization/${usernameOrId}`
   },
   tournament: {
     getSelectOptions: (organizationId) => organizationId ? `/Tournament/Selects/${organizationId}` : '/Tournament/Selects',
@@ -20,5 +18,11 @@ export default {
     getByOrganizationId: (organizationId) => `/tournament/list/${organizationId}`,
     getByOrganizationUserName: (username) => `/tournament/${username}/list`,
     register: '/tournament/register'
+  },
+  user: {
+    login: '/account/Login',
+    register: '/account/register',
+    getCurrent: '/Me',
+    phone: '/phone/me'
   }
 }

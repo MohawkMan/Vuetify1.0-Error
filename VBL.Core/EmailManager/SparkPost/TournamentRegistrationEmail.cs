@@ -97,7 +97,6 @@ namespace VBL.Core
                 .Include(i => i.TournamentDivision)
                     .ThenInclude(t => t.TournamentDirector)
                         .ThenInclude(t => t.UserPhones)
-                            .ThenInclude(t => t.Phone)
                 .Include(i => i.TournamentDivision)
                     .ThenInclude(t => t.Tournament)
                         .ThenInclude(t => t.TournamentDirector)
@@ -106,7 +105,6 @@ namespace VBL.Core
                     .ThenInclude(t => t.Tournament)
                         .ThenInclude(t => t.TournamentDirector)
                             .ThenInclude(t => t.UserPhones)
-                                .ThenInclude(t => t.Phone)
                 .FirstOrDefaultAsync(f => f.Id == tournamentRegistrationId);
         }
     }

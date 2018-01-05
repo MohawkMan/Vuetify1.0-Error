@@ -33,19 +33,41 @@ namespace VBL.Api.Controllers
             _config = config.Value;
         }
 
+        [HttpGet("Me")]
+        [ProducesResponseType(typeof(ApplicationUserDTO), 200)]
+        public async Task<IActionResult> GetPhones()
+        {
+            try
+            {
+                var myId = Convert.ToInt32(User.UserId(_config.Jwt.Issuer));
+                _logger.LogInformation($"UpdatePhone User.ID: {myId}");
+                return Ok(await _userManager.GetMe(myId));
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(-1, e, "ERROR: ");
+                return BadRequest(e.Message);
+            }
+        }
+
         #region Me
         /// <summary>
         /// Update a phone number of the current logged in user
         /// </summary>
         [HttpPost("Me")]
-        [ProducesResponseType(typeof(PhoneDTO), 200)]
+        [ProducesResponseType(typeof(ApplicationUserDTO), 200)]
         public async Task<IActionResult> UpdatePhone([FromBody] PhoneDTO dto)
         {
             try
             {
-                _logger.LogInformation($"UpdatePhone User.ID: {User.UserId(_config.Jwt.Issuer)}, dto: {JsonConvert.SerializeObject(dto)}");
+                var myId = Convert.ToInt32(User.UserId(_config.Jwt.Issuer));
+                _logger.LogInformation($"UpdatePhone User.Id: {myId}, dto: {JsonConvert.SerializeObject(dto)}");
+                if(dto.Id == 0)
+                {
+                    return await AddPhone(dto);
+                }
                 var phone = await _userManager.UpdatePhoneAsync(User, dto);
-                return Ok(phone);
+                return Ok(await _userManager.GetMe(myId));
             }
             catch (Exception e)
             {
@@ -58,14 +80,15 @@ namespace VBL.Api.Controllers
         /// Add a phone number to the current logged in user
         /// </summary>
         [HttpPut("Me")]
-        [ProducesResponseType(typeof(PhoneDTO), 200)]
+        [ProducesResponseType(typeof(ApplicationUserDTO), 200)]
         public async Task<IActionResult> AddPhone([FromBody] PhoneDTO dto)
         {
             try
             {
-                _logger.LogInformation($"AddPhone User.ID: {User.UserId(_config.Jwt.Issuer)}, dto: {JsonConvert.SerializeObject(dto)}");
+                var myId = Convert.ToInt32(User.UserId(_config.Jwt.Issuer));
+                _logger.LogInformation($"AddPhone User.ID: {myId}, dto: {JsonConvert.SerializeObject(dto)}");
                 var phone = await _userManager.AddPhoneAsync(User, dto);
-                return Ok(phone);
+                return Ok(await _userManager.GetMe(myId));
             }
             catch (Exception e)
             {
@@ -77,16 +100,16 @@ namespace VBL.Api.Controllers
         /// <summary>
         /// Delete a phone number from the current logged in user
         /// </summary>
-        [HttpDelete("Me")]
-        //[ProducesResponseType(typeof(bool), 200)]
-        public async Task<IActionResult> DeletePhone([FromBody] string number)
+        [HttpDelete("Me/{userPhoneId}")]
+        [ProducesResponseType(typeof(ApplicationUserDTO), 200)]
+        public async Task<IActionResult> DeletePhone([FromRoute] int userPhoneId)
         {
             try
             {
-                var userId = Convert.ToInt32(User.UserId(_config.Jwt.Issuer));
-                _logger.LogInformation($"DeletePhone User.ID: {userId}, Number: {number}");
-                var result = await _userManager.DeletePhoneAsync(userId, number);
-                return Ok();
+                var myId = Convert.ToInt32(User.UserId(_config.Jwt.Issuer));
+                _logger.LogInformation($"DeletePhone User.ID: {myId}, UserPhoneId: {userPhoneId}");
+                var result = await _userManager.DeletePhoneAsync(myId, userPhoneId);
+                return Ok(await _userManager.GetMe(myId));
             }
             catch (Exception e)
             {
@@ -100,15 +123,15 @@ namespace VBL.Api.Controllers
         /// Update a phone number for the given userId
         /// </summary>
         [Authorize(Roles = "MohawkMan,Admin")]
-        [HttpPost("{UserId}")]
-        [ProducesResponseType(typeof(PhoneDTO), 200)]
+        [HttpPost("{userId}")]
+        [ProducesResponseType(typeof(ApplicationUserDTO), 200)]
         public async Task<IActionResult> UpdatePhone([FromBody] PhoneDTO dto, [FromRoute] int userId)
         {
             try
             {
                 _logger.LogInformation($"UpdatePhone User.ID: {userId}, dto: {JsonConvert.SerializeObject(dto)}");
                 var phone = await _userManager.UpdatePhoneAsync(userId, dto);
-                return Ok(phone);
+                return Ok(await _userManager.GetMe(userId));
             }
             catch (Exception e)
             {
@@ -121,15 +144,15 @@ namespace VBL.Api.Controllers
         /// Add a phone number  for the given userId
         /// </summary>
         [Authorize(Roles = "MohawkMan,Admin")]
-        [HttpPut("{UserId}")]
-        [ProducesResponseType(typeof(PhoneDTO), 200)]
+        [HttpPut("{userId}")]
+        [ProducesResponseType(typeof(ApplicationUserDTO), 200)]
         public async Task<IActionResult> AddPhone([FromBody] PhoneDTO dto, [FromRoute] int userId)
         {
             try
             {
                 _logger.LogInformation($"AddPhone User.ID: {userId}, dto: {JsonConvert.SerializeObject(dto)}");
                 var phone = await _userManager.AddPhoneAsync(userId, dto);
-                return Ok(phone);
+                return Ok(await _userManager.GetMe(userId));
             }
             catch (Exception e)
             {
@@ -142,15 +165,15 @@ namespace VBL.Api.Controllers
         /// Delete a phone number from the given userId
         /// </summary>
         [Authorize(Roles = "MohawkMan,Admin")]
-        [HttpDelete("{UserId}")]
-        //[ProducesResponseType(typeof(bool), 200)]
-        public async Task<IActionResult> DeletePhone([FromBody] string number, [FromRoute] int userId)
+        [HttpDelete("{userId}/{userPhoneId}")]
+        [ProducesResponseType(typeof(ApplicationUserDTO), 200)]
+        public async Task<IActionResult> DeletePhone([FromRoute] int userId, [FromRoute] int userPhoneId)
         {
             try
             {
-                _logger.LogInformation($"DeletePhone User.ID: {userId}, Number: {number}");
-                var result = await _userManager.DeletePhoneAsync(userId, number);
-                return Ok();
+                _logger.LogInformation($"DeletePhone User.Id: {userId}, UserPhone.Id: {userPhoneId}");
+                var result = await _userManager.DeletePhoneAsync(userId, userPhoneId);
+                return Ok(await _userManager.GetMe(userId));
             }
             catch (Exception e)
             {

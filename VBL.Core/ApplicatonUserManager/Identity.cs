@@ -20,6 +20,8 @@ namespace VBL.Core
         {
             var user = new ApplicationUser
             {
+                FirstName = model.FirstName,
+                LastName = model.LastName,
                 UserName = model.Email,
                 Email = model.Email
             };
@@ -105,6 +107,10 @@ namespace VBL.Core
 
     public class RegisterViewModel
     {
+        [Required]
+        public string FirstName { get; set; }
+        [Required]
+        public string LastName { get; set; }
         [Required]
         public string Email { get; set; }
 

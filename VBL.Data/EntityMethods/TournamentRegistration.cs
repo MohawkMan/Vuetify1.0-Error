@@ -16,6 +16,6 @@ namespace VBL.Data
         public SparkPostEmailTemplate EmailTemplate => TournamentDivision.SparkPostEmailTemplate ?? Tournament.SparkPostEmailTemplate;
         public string EmailNote => !string.IsNullOrWhiteSpace(TournamentDivision.EmailNote) ? TournamentDivision.EmailNote :
                         !string.IsNullOrWhiteSpace(TournamentDivision.Tournament.EmailNote) ? TournamentDivision.Tournament.EmailNote :
-                        TournamentDivision.Tournament.Organization.DefaultEmailNote;
+                        Organization.TournamentDefaults.EmailNote;
     }
 }

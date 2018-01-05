@@ -58,7 +58,7 @@
                 </v-form>
               </v-flex>
             </v-layout>
-            <v-layout row wrap text-xs-center mt-5>
+            <v-layout v-if="false" row wrap text-xs-center mt-5>
               <v-flex xs12>
                 <h4>New to Volleyball Life?</h4>
               </v-flex>

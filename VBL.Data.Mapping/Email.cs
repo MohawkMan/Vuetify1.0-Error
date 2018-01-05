@@ -8,6 +8,7 @@ namespace VBL.Data.Mapping
 {
     public partial class EmailDTO
     {
+        public int Id { get; set; }
         public string Address { get; set; }
         public bool IsPublic { get; set; }
         public bool IsVerified { get; set; }
@@ -19,6 +20,7 @@ namespace VBL.Data.Mapping
         {
             CreateMap<UserEmail, EmailDTO>()
                 .ReverseMap();
+
         }
     }
 }

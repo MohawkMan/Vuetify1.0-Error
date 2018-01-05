@@ -12,53 +12,7 @@
             <v-layout child-flex wrap>
               <v-flex xs12>
                 <!-- Phone List -->
-                <v-list v-if="user.phones.length > 0">
-                  <v-list-group v-for="(item,i) in user.phones" :key="i">
-                    <v-list-tile slot="item">
-                      <v-list-tile-action>
-                        <v-icon color="color1" v-if="i === 0">
-                          local_phone
-                        </v-icon>
-                      </v-list-tile-action>
-                      <v-list-tile-content>
-                        <v-list-tile-title>
-                          {{item.number | usPhone }}
-                          <v-icon color="success">public</v-icon>
-                          <v-icon color="success">sms</v-icon>
-                        </v-list-tile-title>
-                      </v-list-tile-content>
-                      <v-list-tile-action>
-                        <v-icon color="color3">settings</v-icon>
-                      </v-list-tile-action>
-                    </v-list-tile>
-                    <v-list-tile>
-                      <v-list-tile-content>
-                        <v-list-tile-title>
-                          <v-checkbox v-model="item.public" :label="'Public'" hide-details d-inline-block></v-checkbox>
-                          Public
-                        </v-list-tile-title>
-                        <v-list-tile-sub-title>Testing</v-list-tile-sub-title>
-                      </v-list-tile-content>
-                    </v-list-tile>
-                  </v-list-group>
-                </v-list>
-                <v-list v-else>
-                    <v-list-tile>
-                      <v-list-tile-action>
-                        <v-icon color="color1">
-                          local_phone
-                        </v-icon>
-                      </v-list-tile-action>
-                      <v-list-tile-content>
-                        <v-list-tile-title>
-                          No phone number on file
-                        </v-list-tile-title>
-                      </v-list-tile-content>
-                      <v-list-tile-action>
-                        <v-icon color="color3">add_circle</v-icon>
-                      </v-list-tile-action>
-                    </v-list-tile>
-                </v-list>
+                <phone-list :phonelist="user.phones" ref="phoneList"></phone-list>
                 <v-divider inset></v-divider>
                 <!-- Email List -->
                 <v-list v-if="user.emails.length > 0">
@@ -177,7 +131,7 @@
               <v-icon>add</v-icon>
               <v-icon>close</v-icon>
             </v-btn>
-            <v-btn small>
+            <v-btn small @click="addPhone">
               <v-icon>local_phone</v-icon>
               Add a Phone
             </v-btn>
@@ -199,6 +153,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import PhoneList from '../../../components/Utils/PhoneList.vue'
 
 export default {
   data () {
@@ -214,6 +169,14 @@ export default {
     fullname () {
       let middle = this.user.middleName ? ' ' + this.user.middleName + ' ' : ' '
       return this.user.firstName + middle + this.user.lastName
+    }
+  },
+  components: {
+    'phone-list': PhoneList
+  },
+  methods: {
+    addPhone () {
+      this.$refs.phoneList.addPhone()
     }
   }
 }

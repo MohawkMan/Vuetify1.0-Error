@@ -9,5 +9,6 @@ namespace VBL.Data
         public int Id { get; set; }
         public string Name { get; set; }
         public bool IsPublic { get; set; }
+        public string GoogleUrl { get; set; }
     }
 }

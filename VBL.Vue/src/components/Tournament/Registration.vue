@@ -1,5 +1,5 @@
 <template>
-  <v-stepper v-model="currentStep" vertical>
+  <v-stepper v-if="!tourney.externalRegistrationUrl" v-model="currentStep" vertical>
     <!-- Division -->
     <v-stepper-step 
       :step="1"
@@ -166,8 +166,24 @@
         </v-card-text>
       </v-card>
     </v-dialog>
-
-  </v-stepper>  
+  </v-stepper>
+  <v-container v-else fill-height>
+    <v-layout row wrap align-center>
+      <v-flex xs8 offset-xs2>
+        <v-layout row wrap text-xs-center class="ma-5">
+          <v-flex xs12>
+            <h2>This tournament's registration is on an external website</h2>
+          </v-flex>
+          <v-flex xs12>
+            <v-btn color="color3" dark @click="exreg(tourney.externalRegistrationUrl)">
+              Continue to registration
+              <v-icon class="ml-3">open_in_new</v-icon>
+            </v-btn>
+          </v-flex>
+        </v-layout>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
@@ -234,6 +250,9 @@ export default {
           console.log(`Error => response: ${response}`)
           this.processing = false
         })
+    },
+    exreg (url) {
+      window.open(url)
     }
   },
   components: {

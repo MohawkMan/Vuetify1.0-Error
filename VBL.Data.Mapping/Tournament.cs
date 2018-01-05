@@ -13,6 +13,7 @@ namespace VBL.Data.Mapping
         public int OrganizationId { get; set; }
         public OrganizationDTOSkinny Organization { get; set; }
         public List<TournamentDivisionDTO> Divisions { get; set; }
+        public string ExternalRegistrationUrl { get; set; }
     }
 
     public class TournamentProfile: Profile

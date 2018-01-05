@@ -12,32 +12,47 @@ namespace VBL.Core
 {
     public partial class VblUserManager
     {
+        public async Task<List<PhoneDTO>> GetUserPhoneListAsync(ApplicationUser user)
+        {
+            user = await EnsureUserPhones(user);
+
+            return _mapper.Map<List<PhoneDTO>>(user.UserPhones);
+        }
+        public async Task<List<PhoneDTO>> GetUserPhoneListAsync(int userId)
+        {
+            var applicationUser = await IdentityManager.FindByIdAsync(userId.ToString());
+            return await GetUserPhoneListAsync(applicationUser);
+        }
+        public async Task<List<PhoneDTO>> GetUserPhoneListAsync(ClaimsPrincipal user)
+        {
+            var applicationUser = await IdentityManager.GetUserAsync(user);
+            return await GetUserPhoneListAsync(applicationUser);
+        }
+
         public async Task<PhoneDTO> AddPhoneAsync(ApplicationUser user, PhoneDTO dto)
         {
-            var phone = await _db.UserPhones
-                .Where(w => w.PhoneId == dto.Number)
-                .FirstOrDefaultAsync();
+            if(dto.Id != 0)
+                throw new Exception("Can not add an existing phone");
 
-            if (phone != null)
-            {
-                if (phone.UserId != user.Id)
-                    throw new Exception("Phone belongs to another user.");
+            user = await EnsureUserPhones(user);
 
+            if(user.UserPhones.Any(a => a.Number == dto.Number))
                 throw new Exception("Phone already exists.");
+
+            if(dto.IsPrimary)
+            {
+                foreach(var p in user.UserPhones.Where(w => w.IsPrimary))
+                {
+                    p.IsPrimary = false;
+                }
             }
 
-            var result = new UserPhone
-            {
-                Phone = new Phone
-                {
-                    Number = dto.Number,
-                    IsSMS = dto.SMS
-                },
-                IsPublic = dto.Public
-            };
-            user.UserPhones.Add(result);
+            var newPhone = _mapper.Map<UserPhone>(dto);
+            newPhone.Number = dto.Number;
+            user.UserPhones.Add(newPhone);
+
             await IdentityManager.UpdateAsync(user);
-            return _mapper.Map<PhoneDTO>(result);
+            return _mapper.Map<PhoneDTO>(newPhone);
         }
         public async Task<PhoneDTO> AddPhoneAsync(int userId, PhoneDTO dto)
         {
@@ -52,16 +67,22 @@ namespace VBL.Core
 
         public async Task<PhoneDTO> UpdatePhoneAsync(ApplicationUser user, PhoneDTO dto)
         {
-            var phone = await _db.UserPhones
-                .Include(i => i.Phone)
-                .Where(w => w.PhoneId == dto.Number && w.UserId == user.Id)
-                .FirstOrDefaultAsync();
+            user = await EnsureUserPhones(user);
+
+            var phone = user.UserPhones.Where(w => w.Id == dto.Id).FirstOrDefault();
 
             if (phone == null)
                 throw new Exception($"User with Id: {user.Id} does not have Phone: {dto.Number}");
 
-            phone.IsPublic = dto.Public;
-            phone.Phone.IsSMS = dto.SMS;
+            _mapper.Map(dto, phone);
+
+            if(dto.IsPrimary)
+            {
+                foreach (var p in user.UserPhones.Where(w => w.IsPrimary && w.Id != dto.Id))
+                {
+                    p.IsPrimary = false;
+                }
+            }
 
             await _db.SaveChangesAsync();
             return _mapper.Map<PhoneDTO>(phone);
@@ -77,21 +98,22 @@ namespace VBL.Core
             return await UpdatePhoneAsync(applicationUser, dto);
         }
 
-        public async Task<int> DeletePhoneAsync(int userId, string number)
+        public async Task<int> DeletePhoneAsync(int userId, int userPhoneId)
         {
-            //var userPhone = await _db.UserPhones.FindAsync(number, userId);
-            var phone = await _db.Phones.FindAsync(number);
-            //if (userPhone != null)
-            //{
-            //    _db.UserPhones.Remove(userPhone);
-            //    return await _db.SaveChangesAsync();
-            //}
+            var phone = await _db.UserPhones.FirstOrDefaultAsync(f => f.Id == userPhoneId && f.UserId == userId);
             if (phone != null)
             {
-                _db.Phones.Remove(phone);
+                _db.UserPhones.Remove(phone);
                 return await _db.SaveChangesAsync();
             }
             return 0;
+        }
+
+        private async Task<ApplicationUser> EnsureUserPhones(ApplicationUser user)
+        {
+            if (!_db.Entry(user).Collection(u => u.UserPhones).IsLoaded)
+                await _db.Entry(user).Collection(u => u.UserPhones).LoadAsync();
+            return user;
         }
     }
 }

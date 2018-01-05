@@ -9,9 +9,9 @@ namespace VBL.Data
     {
         public string FullName => $"{FirstName} {LastName}";
         public UserEmail PrimaryEmail => UserEmails.Where(w => w.IsPrimary).OrderByDescending(o => o.DtModified).FirstOrDefault();
-        public Phone PrimaryPhone => UserPhones.Where(w => w.IsPrimary).OrderByDescending(o => o.DtModified).Select(s => s.Phone).FirstOrDefault();
+        public UserPhone PrimaryPhone => UserPhones.Where(w => w.IsPrimary).OrderByDescending(o => o.DtModified).FirstOrDefault();
         public List<string> AdditionalEmails => UserEmails.Where(w => w.IsPublic && w.IsVerified && !w.IsPrimary).Select(s => s.Address).ToList();
-        public List<string> AdditionalPhones => UserPhones.Where(w => w.IsPublic && w.Phone.IsVerified && !w.IsPrimary).Select(s => s.Phone.NumberFormatted).ToList();
+        public List<string> AdditionalPhones => UserPhones.Where(w => w.IsPublic && w.IsVerified && !w.IsPrimary).Select(s => s.NumberFormatted).ToList();
 
         public void NewNotification(string msg, string onClick)
         {

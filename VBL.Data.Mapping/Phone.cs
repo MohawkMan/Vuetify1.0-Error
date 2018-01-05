@@ -9,21 +9,21 @@ namespace VBL.Data.Mapping
 {
     public partial class PhoneDTO
     {
+        public int Id { get; set; }
         public string Number { get; set; }
-        public bool Public { get; set; }
-        public bool SMS { get; set; }
-        public bool Verified { get; set; }
+        public bool IsPublic { get; set; }
+        public bool IsVerified { get; set; }
+        public bool IsPrimary { get; set; }
+        public bool IsSMS { get; set; }
     }
     public class PhoneProfile : Profile
     {
         public PhoneProfile()
         {
             CreateMap<UserPhone, PhoneDTO>()
-                .ForMember(d => d.Number, opt => opt.MapFrom(s => s.PhoneId))
-                .ForMember(d => d.Public, opt => opt.MapFrom(s => s.IsPublic))
-                .ForMember(d => d.SMS, opt => opt.MapFrom(s => s.Phone.IsSMS))
-                .ForMember(d => d.Verified, opt => opt.MapFrom(s => s.Phone.IsVerified))
-                .ReverseMap();
+                .ReverseMap()
+                    .ForMember(dest => dest.Id, opt => opt.Ignore())
+                    .ForMember(dest => dest.Number, opt => opt.Ignore());
         }
     }
 }

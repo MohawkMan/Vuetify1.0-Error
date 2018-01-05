@@ -78,7 +78,7 @@
           <v-icon class="mr-1">lock_open</v-icon>
           Sign In
         </v-btn>
-        <v-btn flat router to="/join" active-class="color3--text">
+        <v-btn v-if="false" flat router to="/join" active-class="color3--text">
           <v-icon class="mr-1">account_circle</v-icon>
           Join
         </v-btn>
@@ -96,8 +96,8 @@
         { icon: 'format_list_numbered', text: 'Rankings', to: { name: 'rankings' } },
         { icon: 'date_range', text: 'Tournaments', to: { name: 'tournaments' } },
         { icon: 'apps', text: 'Organizations', to: { name: 'organizations' } },
-        { icon: 'lock_open', text: 'Sign In', to: { name: 'signin' } },
-        { icon: 'account_circle', text: 'Join', to: { name: 'join' } }
+        { icon: 'lock_open', text: 'Sign In', to: { name: 'signin' } } // ,
+        // { icon: 'account_circle', text: 'Join', to: { name: 'join' } }
       ]
     })
   }

@@ -9,9 +9,6 @@ namespace VBL.Data
     {
         public void AssignKeys(ModelBuilder builder)
         {
-            builder.Entity<UserPhone>()
-                .HasKey(k => new { k.PhoneId, k.UserId });
-
             builder.Entity<OrganizationLocation>()
                 .HasKey(k => new { k.OrganizationId, k.LocationId });
 

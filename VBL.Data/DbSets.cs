@@ -16,7 +16,6 @@ namespace VBL.Data
         public DbSet<Organization> Organizations { get; set; }
         public DbSet<OrganizationLocation> OrganizationLocations { get; set; }
         public DbSet<OrganizationMember> OrganizationMembers { get; set; }
-        public DbSet<Phone> Phones { get; set; }
         public DbSet<SanctioningBody> SanctioningBodies { get; set; }
         public DbSet<SparkPostEmailTemplate> SparkPostEmailTemplates { get; set; }
         public DbSet<Tournament> Tournaments { get; set; }
