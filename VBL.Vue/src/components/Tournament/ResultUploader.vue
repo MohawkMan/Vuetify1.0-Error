@@ -11,7 +11,7 @@
         <v-btn 
           icon
           dark
-          @click.native="open = false"
+          @click.native="onClose"
         >
           <v-icon>close</v-icon>
         </v-btn>
@@ -115,6 +115,9 @@ export default {
     }
   },
   methods: {
+    onClose () {
+      this.$emit('close')
+    },
     onPickFile () {
       this.$refs.fileInput.click()
     },
@@ -132,6 +135,11 @@ export default {
         header: this.header,
         complete: (results, file) => {
           this.currentFile = file
+
+          for (let e of results.errors) {
+            results.data.splice(e.row, 1)
+          }
+
           this.parseResuls = results
         }
       })
