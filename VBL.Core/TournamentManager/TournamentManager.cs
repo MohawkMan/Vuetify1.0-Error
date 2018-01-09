@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using VBL.Data;
 using VBL.Data.Mapping;
+using Hangfire;
 
 namespace VBL.Core
 {
@@ -25,18 +26,20 @@ namespace VBL.Core
             _logger = logger;
         }
 
-        public async Task<TournamentDTO> Register(TournamentRegistrationDTO dto)
+        public async Task<TournamentDTO> Register(TournamentRegistrationDTO dto, bool sendEmailConfirmation)
         {
-            var registration = _mapper.Map<TournamentRegistration>(dto);
-            _db.TournamentRegistrations.Add(registration);
-            await _db.SaveChangesAsync();
-            var team = _mapper.Map<TournamentTeam>(registration);
-            _db.TournamentTeams.Add(team);
-            await _db.SaveChangesAsync();
-            var division = await _db.TournamentDivisions.FindAsync(registration.TournamentDivisionId);
-            //send emails
-
-            return await GetTournamentAsync(division.TournamentId);
+            var registration = await DoRegistration(dto, sendEmailConfirmation);
+            return await GetTournamentAsync(registration.TournamentId);
+        }
+        public async Task<TournamentDTO> BulkRegister(List<TournamentRegistrationDTO> dto)
+        {
+            //throw new Exception("This is a error");
+            TournamentRegistration registration = null;
+            foreach(var regDto in dto)
+            {
+                registration = await DoRegistration(regDto, false);
+            }
+            return await GetTournamentAsync(registration.TournamentId);
         }
         public async Task<List<TournamentDTO>> GetTournamentListAsync(bool publicOnly = true, int? organizationId = null)
         {
@@ -54,7 +57,7 @@ namespace VBL.Core
         public async Task<List<TournamentDTO>> GetTournamentListAsync(bool publicOnly, string organizationUsername)
         {
             var query = _db.Tournaments
-                .Where(w=>w.Organization.UserName == organizationUsername)
+                .Where(w=>w.Organization.Username == organizationUsername)
                 .ProjectTo<TournamentDTO>();
 
             if (publicOnly)
@@ -64,11 +67,33 @@ namespace VBL.Core
         }
         public async Task<TournamentDTO> GetTournamentAsync(int id)
         {
-            return await _db.Tournaments
+            var tourney = await _db.Tournaments
                 .Where(w => w.Id == id)
                 .ProjectTo<TournamentDTO>()
                 .FirstOrDefaultAsync();
+
+            if(tourney.StatusId == 100) //COMPLETE
+            {
+                tourney.Divisions.RemoveAll(r => !r.Teams.Any());
+                foreach(var d in tourney.Divisions)
+                {
+                    d.RegistrationWindows.Clear();
+                }
+            }
+
+            return tourney;
         }
+
+        //private async Task<Tournament> CalculateTournamentAsync (Tournament tourney)
+        //{
+        //    foreach(var division in tourney.Divisions)
+        //    {
+        //        foreach(var window in division.RegistrationWindows)
+        //        {
+
+        //        }
+        //    }
+        //}
         public async Task<TournamentDTO> CreateTournamentAsync(TournamentDTO dto)
         {
             var tourney = _mapper.Map<Tournament>(dto);

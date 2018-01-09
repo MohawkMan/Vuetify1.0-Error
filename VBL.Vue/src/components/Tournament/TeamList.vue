@@ -10,10 +10,9 @@
     >
       <template slot="items" slot-scope="props">
         <tr style="cursor: pointer">
-          <td>{{ props.index + 1 }}</td>
+          <td>{{ props.item.finish }}</td>
           <td>{{props.item.name}}</td>
           <td>{{ props.item.points }}</td>
-          <td>{{ props.item.seed }}</td>
         </tr>
       </template>
       <template slot="no-data">
@@ -41,10 +40,9 @@ export default {
     },
     tableHeaders () {
       return [
-        {text: 'Name', value: 'name', align: 'left'},
-        {text: 'Points', value: 'points', align: 'left'},
-        {text: 'Seed', value: 'seed', align: 'left'},
-        {text: 'Finish', value: 'finish', align: 'left'}
+        {text: 'Finish', value: 'finish', align: 'left'},
+        {text: 'Name', value: 'name', align: 'left', sortable: false},
+        {text: 'Points', value: 'points', align: 'left', sortable: false}
       ]
     },
     rows () {

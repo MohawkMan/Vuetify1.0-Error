@@ -2,6 +2,7 @@
   <v-data-table
     :headers="headers"
     :items="rows"
+    :pagination.sync="pagination"
     >
     <template slot="items" slot-scope="props">
       <tr style="cursor: pointer">
@@ -10,7 +11,7 @@
         <td @click="gotoDetails(props.item.link)">{{ props.item.divisions }}</td>
         <td @click="gotoDetails(props.item.link)">{{ props.item.locations }}</td>
         <td>
-          <v-btn small :to="`${props.item.link}/register`" v-if="!admin">
+          <v-btn small :to="`${props.item.link}/register`" v-if="!admin && props.item.regOpen">
             Register
           </v-btn>
           <v-btn 
@@ -42,13 +43,14 @@ import moment from 'moment'
 import * as mutations from '../../store/MutationTypes'
 
 export default {
-  props: ['tourneys', 'loading'],
+  props: ['tourneys', 'loading', 'page'],
   data () {
     return {
       agefilter: '',
       genderFilter: '',
       divisionFilter: '',
-      locationFilter: ''
+      locationFilter: '',
+      _pagination: null
     }
   },
   computed: {
@@ -66,17 +68,18 @@ export default {
       return this.user ? this.user.isPageAdmin(this.pageName) : false
     },
     rows () {
-      return this.tourneys.map((t) => {
+      return this.tourneys ? this.tourneys.map((t) => {
         return {
           id: t.id,
           date: t.startDate,
           name: t.name,
           divisions: t.divisionsString,
           locations: t.locationsString,
-          link: `/${t.organization.userName}/tournament/${t.id}`,
-          public: t.isPublic
+          link: `/${t.organization.username}/tournament/${t.id}`,
+          public: t.isPublic,
+          regOpen: t.regOpen
         }
-      })
+      }) : []
     },
     headers () {
       return [
@@ -85,6 +88,15 @@ export default {
         {text: 'Divisions', value: 'divisions', align: 'left'},
         {text: 'Location', value: 'locations', align: 'left'}
       ]
+    },
+    pagination: {
+      get: () => {
+        if (!this._pagination) this._pagination = this.page
+        return this._pagination
+      },
+      set: (newVal) => {
+        this._pagination = newVal
+      }
     }
   },
   methods: {

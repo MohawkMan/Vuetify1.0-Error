@@ -4,8 +4,10 @@ export default class TournamentRegistration {
     this.tournamentId = 0
     this.division = null
     this.players = []
+    this.teamName = null
     this.confirmed = false
     this.paymentType = null
+    this.finish = null
   }
 
   setDivision (division) {
@@ -38,9 +40,11 @@ export default class TournamentRegistration {
       tournamentId: this.tournamentId,
       tournamentDivisionId: this.division.id,
       players: this.players,
+      teamname: this.teamName,
       confirmed: this.confirmed,
       paymentType: this.paymentType,
-      addOnQty: this.addOnQty
+      addOnQty: this.addOnQty,
+      finish: this.finish
     }
   }
 }

@@ -9,7 +9,7 @@ namespace VBL.Data.Mapping
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string UserName { get; set; }
+        public string Username { get; set; }
         public string LogoUrl { get; set; }
         public string Description { get; set; }
         public bool IsActive { get; set; }
@@ -30,7 +30,7 @@ namespace VBL.Data.Mapping
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string UserName { get; set; }
+        public string Username { get; set; }
     }
 
     public class OrganizationProfile : Profile

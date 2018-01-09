@@ -3,11 +3,11 @@
     <v-card-title>
       <v-expansion-panel popout>
         <v-expansion-panel-content
-          v-for="(division,i) in divisions" 
+          v-for="(division,i) in _divisions" 
           :key="i" 
           ripple
           class="color5"
-          :value="division.id === expandId"
+          :value="i === 0"
           >
           <div slot="header" :id="`division${division.id}`">{{division.divisionsString}}</div>
           <v-card>
@@ -25,6 +25,23 @@ import Teams from '../../components/Tournament/TeamList.vue'
 
 export default {
   props: ['divisions', 'expandId'],
+  computed: {
+    _divisions () {
+      return this.divisions.sort((a, b) => {
+        var nameA = a.divisionsString.toUpperCase()
+        var nameB = b.divisionsString.toUpperCase()
+        if (nameA < nameB) {
+          return 1
+        }
+        if (nameA > nameB) {
+          return -1
+        }
+
+        // names must be equal
+        return 0
+      })
+    }
+  },
   components: {
     'team-list': Teams
   }

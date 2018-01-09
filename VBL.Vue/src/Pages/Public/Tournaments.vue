@@ -1,14 +1,42 @@
 <template>
-  <v-container>
-    <v-layout row>
+  <v-container grid-list-md>
+    <v-layout row wrap>
       <v-flex xs12 sm10 offset-sm1>
         <v-card>
-          <v-toolbar dark color="color2">
-            <v-toolbar-title>Tournaments</v-toolbar-title>
+          <v-toolbar dark color="color2" class="mx-auto">
+            <v-toolbar-title>Today's Tournaments</v-toolbar-title>
           </v-toolbar>
           <v-container>
             <v-layout>
-              <tourney-list :tourneys="tourneys" :loading="loadingList" :mode="mode"></tourney-list>
+              <tourney-list :tourneys="runningTourneys" :loading="tournamentListLoading"></tourney-list>
+            </v-layout>
+          </v-container>
+        </v-card>
+      </v-flex>
+    </v-layout>
+    <v-layout row wrap>
+      <v-flex xs12 sm10 offset-sm1>
+        <v-card>
+          <v-toolbar dark color="color3" class="mx-auto">
+            <v-toolbar-title>Upcoming Tournaments</v-toolbar-title>
+          </v-toolbar>
+          <v-container>
+            <v-layout>
+              <tourney-list :tourneys="upcomingTourneys" :loading="tournamentListLoading"></tourney-list>
+            </v-layout>
+          </v-container>
+        </v-card>
+      </v-flex>
+    </v-layout>
+    <v-layout row wrap>
+      <v-flex xs12 sm10 offset-sm1>
+        <v-card>
+          <v-toolbar dark color="color4" class="mx-auto">
+            <v-toolbar-title>Previous Tournaments</v-toolbar-title>
+          </v-toolbar>
+          <v-container>
+            <v-layout>
+              <tourney-list :tourneys="pastTourneys" :loading="tournamentListLoading" :page="pastPagination"></tourney-list>
             </v-layout>
           </v-container>
         </v-card>
@@ -18,66 +46,48 @@
 </template>
 
 <script>
-import vbl from '../../VolleyballLife'
 import TourneyList from '../../components/Tournament/TournamentList.vue'
-import Tourney from '../../classes/Tournament'
-import * as actions from '../../store/ActionTypes'
 import { mapGetters } from 'vuex'
 
 export default {
   props: ['username'],
   data () {
     return {
-      loadingList: true,
-      tourneys: []
+      pastPagination: {
+        sortBy: 'date',
+        descending: true
+      }
     }
   },
   computed: {
     ...mapGetters([
-      'user'
+      'user',
+      'tournamentListLoading',
+      'runningTournaments',
+      'upcomingTournaments',
+      'pastTournaments'
     ]),
-    pageInfo () {
-      if (!this.username) return null
-
-      return this.user.pages.find((page) => {
-        return page.username === this.username
-      })
+    runningTourneys () {
+      return this.runningTournaments()
     },
-    mode () {
-      if (!this.user) return 'public'
-      return 'admin'
+    upcomingTourneys () {
+      return this.upcomingTournaments()
     },
-    fetchUrl () {
-      if (!this.username) return vbl.tournament.getAll
-
-      return vbl.tournament.getByOrganizationUserName(this.username)
+    pastTourneys () {
+      return this.pastTournaments()
+    },
+    xsClass () {
+      return {
+        'display-2': this.$vuetify.breakpoint.xs,
+        'display-4': !this.$vuetify.breakpoint.xs
+      }
     }
   },
   methods: {
-    fetchList () {
-      this.loadingList = true
-      this.axios.get(this.fetchUrl)
-        .then((response) => {
-          this.tourneys = response.data.map(item => new Tourney(item))
-          this.loadingList = false
-        })
-        .catch((response) => {
-          console.log(response.data)
-          this.loadingList = false
-        })
-    }
+
   },
   components: {
     'tourney-list': TourneyList
-  },
-  watch: {
-    '$route' (to, from) {
-      this.fetchList()
-    }
-  },
-  created () {
-    this.$store.dispatch(actions.LOAD_SELECT_OPTIONS)
-    this.fetchList()
   }
 }
 </script>

@@ -35,7 +35,7 @@ namespace VBL.Core
         public async Task<OrganizationDTO> GetOrganizationAsync(string username)
         {
             return await _db.Organizations
-                .Where(w => w.UserName == username)
+                .Where(w => w.Username == username)
                 .ProjectTo<OrganizationDTO>()
                 .FirstOrDefaultAsync();
         }
@@ -44,7 +44,7 @@ namespace VBL.Core
             var newOrg = _mapper.Map<Organization>(dto);
             var username = newOrg.Name.Replace(" ", "");
             //check if it exists if it does use a guid
-            newOrg.UserName = username;
+            newOrg.Username = username;
             _db.Organizations.Add(newOrg);
             //Send notifications
             await _db.SaveChangesAsync();

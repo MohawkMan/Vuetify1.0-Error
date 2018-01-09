@@ -10,5 +10,6 @@ namespace VBL.Data
         public string Name { get; set; }
         public bool IsPublic { get; set; }
         public string GoogleUrl { get; set; }
+        public string TimeZoneName { get; set; }
     }
 }

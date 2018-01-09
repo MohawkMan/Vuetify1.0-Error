@@ -1,16 +1,29 @@
 <template>
   <v-container>
-    <page-title :title="'Admin Dashboard'"></page-title>
     <v-layout row>
       <v-flex xs12 sm10 offset-sm1>
         <v-card>
           <v-toolbar dark color="color2">
-            <v-toolbar-title>{{ pageInfo.name }}</v-toolbar-title>
+            <v-toolbar-title v-if="pageInfo">{{ pageInfo.name }}</v-toolbar-title>
           </v-toolbar>
           <v-container grid-list-lg>
             <v-layout row wrap>
               <v-flex xs12>
-                <v-card color="color3" dark>
+                <v-card>
+                  <v-toolbar dark color="color3" class="mx-auto">
+                    <v-toolbar-title>You have tournaments that need results</v-toolbar-title>
+                  </v-toolbar>
+                  <v-container>
+                    <v-layout>
+                      <tourney-list :tourneys="tourneysNeedingResults" :loading="tournamentListLoading"></tourney-list>
+                    </v-layout>
+                  </v-container>
+                </v-card>
+              </v-flex>
+            </v-layout>
+            <v-layout row wrap>
+              <v-flex xs12>
+                <v-card color="color3" dark v-if="false">
                   <v-card-title>
                     <div>
                       <div class="headline">Next Tournament</div>
@@ -36,6 +49,7 @@
 </template>
 
 <script>
+import TourneyList from '../../../components/Tournament/TournamentList.vue'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -48,13 +62,20 @@ export default {
   computed: {
     ...mapGetters([
       'user',
-      'loading'
+      'loading',
+      'getPageInfo',
+      'needResults',
+      'tournamentListLoading'
     ]),
     pageInfo () {
-      return this.user.pages.find((page) => {
-        return page.username === this.username
-      })
+      return this.getPageInfo(this.username)
+    },
+    tourneysNeedingResults () {
+      return this.needResults(this.username)
     }
+  },
+  components: {
+    'tourney-list': TourneyList
   }
 }
 </script>

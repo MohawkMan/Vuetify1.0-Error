@@ -8,6 +8,7 @@ namespace VBL.Data.Mapping
     public partial class TournamentRegistrationDTO
     {
         public int Id { get; set; }
+        public int TournamentId { get; set; }
         public int TournamentDivisionId { get; set; }
         public List<TournamentRegistrationPlayerDTO> Players { get; set; } = new List<TournamentRegistrationPlayerDTO>();
         public string TeamName { get; set; }
@@ -16,6 +17,7 @@ namespace VBL.Data.Mapping
 
         // Temporary > Add List<AddOnProduct>
         public int AddOnQty { get; set; }
+        public int Finish { get; set; }
     }
 
     public class TournamentRegistrationProfile : Profile

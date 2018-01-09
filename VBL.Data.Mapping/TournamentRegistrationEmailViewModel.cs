@@ -57,7 +57,7 @@ namespace VBL.Data.Mapping
                 .ForMember(d => d.TournamentName, opt => opt.MapFrom(s => s.Tournament.Name))
                 .ForMember(d => d.StartDay, opt => opt.MapFrom(s => s.Day1))
                 .ForMember(d => d.Location, opt => opt.MapFrom(s => s.Location.Name))
-                .ForMember(d => d.TournamentLink, opt => opt.MapFrom(s => $"volleyballlife.com/${s.Organization.UserName}/tournament/${s.Tournament.Id}"))
+                .ForMember(d => d.TournamentLink, opt => opt.MapFrom(s => $"volleyballlife.com/${s.Organization.Username}/tournament/${s.Tournament.Id}"))
                 .ForMember(d => d.Division, opt => opt.MapFrom(s => $"${s.TournamentDivision.Gender.Name} ${s.TournamentDivision.Division.Name}"))
                 .ForMember(d => d.DtRefund, opt => opt.MapFrom(s => s.TournamentDivision.DtRefundCutoff.ToVblFormatted()))
                 .ForMember(d => d.Td, opt => opt.MapFrom(s => s.TD))

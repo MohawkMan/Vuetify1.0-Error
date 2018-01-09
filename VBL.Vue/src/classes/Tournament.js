@@ -3,6 +3,7 @@ import moment from 'moment'
 import uniq from 'lodash.uniq'
 import sum from 'lodash.sum'
 import Registration from './TournamentRegistration'
+import * as StatusEnum from '../classes/TournamentStatus'
 
 export default class Tournament {
   constructor (dto) {
@@ -12,6 +13,7 @@ export default class Tournament {
     this.organizationId = 0
     this.organization = null
     this.divisions = []
+    this.statusId = 0
 
     if (dto) {
       this.update(dto)
@@ -54,6 +56,9 @@ export default class Tournament {
 
     return moment.min(this.divisions.map(d => d.startDate))
   }
+  get endDate () {
+    return moment.max(this.divisions.map(d => d.endDate))
+  }
   get divisionsString () {
     return uniq(this.divisions.map(d => d.divisionsString)).join(', ')
   }
@@ -65,5 +70,16 @@ export default class Tournament {
   }
   get teamCount () {
     return sum(this.divisions.map(d => d.teams.length))
+  }
+  get dateStatus () {
+    if (this.startDate.isAfter()) return StatusEnum.UPCOMING
+    if (moment().isBetween(this.startDate, this.endDate, 'd', '[]')) return StatusEnum.INPROCESS
+    return StatusEnum.PAST
+  }
+  get divisionsWithTeams () {
+    return this.divisions.filter(d => d.teams.length > 0)
+  }
+  get regOpen () {
+    return this.dateStatus === StatusEnum.UPCOMING
   }
 }

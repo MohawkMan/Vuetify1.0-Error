@@ -297,6 +297,8 @@ namespace VBL.Data.Migrations
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate();
 
+                    b.Property<string>("TimeZoneName");
+
                     b.Property<int?>("UserIdCreated");
 
                     b.Property<int?>("UserIdModified");
@@ -347,7 +349,7 @@ namespace VBL.Data.Migrations
 
                     b.Property<int?>("UserIdModified");
 
-                    b.Property<string>("UserName");
+                    b.Property<string>("Username");
 
                     b.Property<string>("WebsiteUrl");
 
@@ -509,6 +511,118 @@ namespace VBL.Data.Migrations
                     b.ToTable("OrganizationTournamentDefaults");
                 });
 
+            modelBuilder.Entity("VBL.Data.PlayerProfile", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AauNumber");
+
+                    b.Property<int?>("ApplicationUserId");
+
+                    b.Property<string>("AvpNumber");
+
+                    b.Property<string>("CbvaNumber");
+
+                    b.Property<string>("Club");
+
+                    b.Property<DateTime?>("DtCreated");
+
+                    b.Property<DateTime?>("DtModified");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.Property<string>("UsavNumber");
+
+                    b.Property<int?>("UserIdCreated");
+
+                    b.Property<int?>("UserIdModified");
+
+                    b.Property<string>("VblId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("UserIdCreated");
+
+                    b.HasIndex("UserIdModified");
+
+                    b.ToTable("PlayerProfiles");
+                });
+
+            modelBuilder.Entity("VBL.Data.PointValue", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("DivisionId");
+
+                    b.Property<DateTime?>("DtCreated");
+
+                    b.Property<DateTime?>("DtModified");
+
+                    b.Property<int>("Finish");
+
+                    b.Property<int>("Points");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.Property<int?>("UserIdCreated");
+
+                    b.Property<int?>("UserIdModified");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DivisionId");
+
+                    b.HasIndex("UserIdCreated");
+
+                    b.HasIndex("UserIdModified");
+
+                    b.ToTable("PointValues");
+                });
+
+            modelBuilder.Entity("VBL.Data.PointValueMultiplier", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description");
+
+                    b.Property<DateTime?>("DtCreated");
+
+                    b.Property<DateTime?>("DtModified");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.Property<int>("TournamentTeamMemberId");
+
+                    b.Property<string>("Type");
+
+                    b.Property<int?>("UserIdCreated");
+
+                    b.Property<int?>("UserIdModified");
+
+                    b.Property<double>("Value");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TournamentTeamMemberId");
+
+                    b.HasIndex("UserIdCreated");
+
+                    b.HasIndex("UserIdModified");
+
+                    b.ToTable("PointValueMultipliers");
+                });
+
             modelBuilder.Entity("VBL.Data.SanctioningBody", b =>
                 {
                     b.Property<int>("Id")
@@ -569,6 +683,38 @@ namespace VBL.Data.Migrations
                     b.HasIndex("UserIdModified");
 
                     b.ToTable("SparkPostEmailTemplates");
+                });
+
+            modelBuilder.Entity("VBL.Data.TeamCountMultiplier", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description");
+
+                    b.Property<DateTime?>("DtCreated");
+
+                    b.Property<DateTime?>("DtModified");
+
+                    b.Property<double>("Multiplier");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.Property<int>("TeamCap");
+
+                    b.Property<int?>("UserIdCreated");
+
+                    b.Property<int?>("UserIdModified");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserIdCreated");
+
+                    b.HasIndex("UserIdModified");
+
+                    b.ToTable("TeamCountMultipliers");
                 });
 
             modelBuilder.Entity("VBL.Data.Tournament", b =>
@@ -758,6 +904,8 @@ namespace VBL.Data.Migrations
 
                     b.Property<int>("TournamentDivisionId");
 
+                    b.Property<int>("TournamentId");
+
                     b.Property<int?>("UserIdCreated");
 
                     b.Property<int?>("UserIdModified");
@@ -850,11 +998,17 @@ namespace VBL.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("AauNumber");
+
+                    b.Property<string>("AvpNumber");
+
                     b.Property<string>("CbvaNumber");
 
                     b.Property<string>("City");
 
-                    b.Property<DateTime>("Dob");
+                    b.Property<string>("Club");
+
+                    b.Property<DateTime?>("Dob");
 
                     b.Property<DateTime?>("DtCreated");
 
@@ -866,7 +1020,11 @@ namespace VBL.Data.Migrations
 
                     b.Property<string>("LastName");
 
+                    b.Property<bool>("NeedsMatchReview");
+
                     b.Property<string>("Phone");
+
+                    b.Property<int>("PlayerProfileId");
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
@@ -882,9 +1040,11 @@ namespace VBL.Data.Migrations
 
                     b.Property<int?>("UserIdModified");
 
-                    b.Property<int>("VblId");
+                    b.Property<string>("VblId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PlayerProfileId");
 
                     b.HasIndex("TournamentRegistrationId");
 
@@ -954,8 +1114,6 @@ namespace VBL.Data.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<double?>("Points");
-
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate();
@@ -989,13 +1147,27 @@ namespace VBL.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<double?>("AauSeedingPoints");
+
+                    b.Property<double?>("AvpSeedingPoints");
+
+                    b.Property<double?>("CbvaSeedingPoints");
+
                     b.Property<DateTime?>("DtCreated");
+
+                    b.Property<DateTime?>("DtEarned");
+
+                    b.Property<DateTime?>("DtFinalized");
 
                     b.Property<DateTime?>("DtModified");
 
-                    b.Property<DateTime?>("PointLockDt");
+                    b.Property<DateTime?>("DtPointLock");
 
-                    b.Property<double?>("Points");
+                    b.Property<int?>("Finish");
+
+                    b.Property<double?>("OrganizationPointsEarned");
+
+                    b.Property<int>("PlayerProfileId");
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
@@ -1003,11 +1175,21 @@ namespace VBL.Data.Migrations
 
                     b.Property<int>("TournamentTeamId");
 
+                    b.Property<double?>("UsavSeedingPoints");
+
                     b.Property<int?>("UserIdCreated");
 
                     b.Property<int?>("UserIdModified");
 
+                    b.Property<double?>("VblBasePointsEarned");
+
+                    b.Property<double?>("VblSeedingPoints");
+
+                    b.Property<double?>("VblTotalPointsEarned");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("PlayerProfileId");
 
                     b.HasIndex("TournamentTeamId");
 
@@ -1284,6 +1466,53 @@ namespace VBL.Data.Migrations
                         .HasForeignKey("UserModifiedId");
                 });
 
+            modelBuilder.Entity("VBL.Data.PlayerProfile", b =>
+                {
+                    b.HasOne("VBL.Data.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("VBL.Data.ApplicationUser", "UserCreated")
+                        .WithMany()
+                        .HasForeignKey("UserIdCreated");
+
+                    b.HasOne("VBL.Data.ApplicationUser", "UserModified")
+                        .WithMany()
+                        .HasForeignKey("UserIdModified");
+                });
+
+            modelBuilder.Entity("VBL.Data.PointValue", b =>
+                {
+                    b.HasOne("VBL.Data.Division", "Division")
+                        .WithMany()
+                        .HasForeignKey("DivisionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("VBL.Data.ApplicationUser", "UserCreated")
+                        .WithMany()
+                        .HasForeignKey("UserIdCreated");
+
+                    b.HasOne("VBL.Data.ApplicationUser", "UserModified")
+                        .WithMany()
+                        .HasForeignKey("UserIdModified");
+                });
+
+            modelBuilder.Entity("VBL.Data.PointValueMultiplier", b =>
+                {
+                    b.HasOne("VBL.Data.TournamentTeamMember", "TournamentTeamMember")
+                        .WithMany("Multipliers")
+                        .HasForeignKey("TournamentTeamMemberId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("VBL.Data.ApplicationUser", "UserCreated")
+                        .WithMany()
+                        .HasForeignKey("UserIdCreated");
+
+                    b.HasOne("VBL.Data.ApplicationUser", "UserModified")
+                        .WithMany()
+                        .HasForeignKey("UserIdModified");
+                });
+
             modelBuilder.Entity("VBL.Data.SanctioningBody", b =>
                 {
                     b.HasOne("VBL.Data.ApplicationUser", "UserCreated")
@@ -1296,6 +1525,17 @@ namespace VBL.Data.Migrations
                 });
 
             modelBuilder.Entity("VBL.Data.SparkPostEmailTemplate", b =>
+                {
+                    b.HasOne("VBL.Data.ApplicationUser", "UserCreated")
+                        .WithMany()
+                        .HasForeignKey("UserIdCreated");
+
+                    b.HasOne("VBL.Data.ApplicationUser", "UserModified")
+                        .WithMany()
+                        .HasForeignKey("UserIdModified");
+                });
+
+            modelBuilder.Entity("VBL.Data.TeamCountMultiplier", b =>
                 {
                     b.HasOne("VBL.Data.ApplicationUser", "UserCreated")
                         .WithMany()
@@ -1439,6 +1679,11 @@ namespace VBL.Data.Migrations
 
             modelBuilder.Entity("VBL.Data.TournamentRegistrationPlayer", b =>
                 {
+                    b.HasOne("VBL.Data.PlayerProfile", "Profile")
+                        .WithMany()
+                        .HasForeignKey("PlayerProfileId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("VBL.Data.TournamentRegistration")
                         .WithMany("Players")
                         .HasForeignKey("TournamentRegistrationId");
@@ -1491,7 +1736,12 @@ namespace VBL.Data.Migrations
 
             modelBuilder.Entity("VBL.Data.TournamentTeamMember", b =>
                 {
-                    b.HasOne("VBL.Data.TournamentTeam")
+                    b.HasOne("VBL.Data.PlayerProfile", "PlayerProfile")
+                        .WithMany()
+                        .HasForeignKey("PlayerProfileId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("VBL.Data.TournamentTeam", "TournamentTeam")
                         .WithMany("Players")
                         .HasForeignKey("TournamentTeamId")
                         .OnDelete(DeleteBehavior.Cascade);

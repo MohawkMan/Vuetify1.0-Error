@@ -20,6 +20,9 @@ namespace VBL.Data.Mapping
         public bool IsLate { get; set; }
         public bool CanPayAtEvent { get; set; }
         public bool CanProcessPayment { get; set; }
+        //public bool IsCurrent { get; set; }
+        //public bool IsOpen { get; set; }
+
     }
 
     public class TournamentRegistrationWindowProfile : Profile
@@ -33,6 +36,8 @@ namespace VBL.Data.Mapping
                 .ForMember(d => d.EndDate, opt => opt.MapFrom(s => s.DtEnd.Value.ToString("yyyy-MM-dd")))
                 .ForMember(d => d.EndDateFormatted, opt => opt.MapFrom(s => s.DtEnd.Value.ToString("MM/dd/yyyy")))
                 .ForMember(d => d.EndTime, opt => opt.MapFrom(s => s.DtEnd.Value.ToString("h:mmtt").ToLower()))
+                //.ForMember(d => d.IsCurrent, opt => opt.Ignore())
+                //.ForMember(d => d.IsOpen, opt => opt.Ignore())
                 .ReverseMap()
                 .ForMember(s => s.DtStart, opt => opt.MapFrom(d => d.StartDate + " " + d.StartTime))
                 .ForMember(s => s.DtEnd, opt => opt.MapFrom(d => d.EndDate + " " + d.EndTime))

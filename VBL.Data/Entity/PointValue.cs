@@ -10,5 +10,6 @@ namespace VBL.Data
         public int Finish { get; set; }
         public int DivisionId { get; set; }
         public Division Division { get; set; }
+        public int Points { get; set; }
     }
 }

@@ -13,6 +13,7 @@ namespace VBL.Data.Mapping
         public byte NumOfPlayers { get; set; }
         public byte NumAllowedOnRoster { get; set; }
         public string EmailNote { get; set; }
+        public string Offset { get; set; }
 
         public OptionDTO AgeType { get; set; }
         public Option2DTO Gender { get; set; }
@@ -22,6 +23,7 @@ namespace VBL.Data.Mapping
         public List<TournamentRegistrationWindowDTO> RegistrationWindows { get; set; } = new List<TournamentRegistrationWindowDTO>();
         public List<TournamentTeamDTO> Teams { get; set; } = new List<TournamentTeamDTO>();
 
+
         //public TournamentRegistrationInfoDTO RegistrationFields { get; set; }
     }
 
@@ -30,6 +32,7 @@ namespace VBL.Data.Mapping
         public TournamentDivisionProfile()
         {
             CreateMap<TournamentDivision, TournamentDivisionDTO>()
+                .ForMember(s => s.Offset, opt => opt.MapFrom(d => TimeZoneInfo.FindSystemTimeZoneById(d.Location.TimeZoneName).GetUtcOffset(DateTime.Now)))
                 .ReverseMap()
                 .ForMember(s => s.AgeTypeId, opt => opt.MapFrom(d => d.AgeType.Id))
                 .ForMember(s => s.AgeType, opt => opt.Ignore())

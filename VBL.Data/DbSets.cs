@@ -16,8 +16,12 @@ namespace VBL.Data
         public DbSet<Organization> Organizations { get; set; }
         public DbSet<OrganizationLocation> OrganizationLocations { get; set; }
         public DbSet<OrganizationMember> OrganizationMembers { get; set; }
+        public DbSet<PlayerProfile> PlayerProfiles { get; set; }
+        public DbSet<PointValue> PointValues { get; set; }
+        public DbSet<PointValueMultiplier> PointValueMultipliers { get; set; }
         public DbSet<SanctioningBody> SanctioningBodies { get; set; }
         public DbSet<SparkPostEmailTemplate> SparkPostEmailTemplates { get; set; }
+        public DbSet<TeamCountMultiplier> TeamCountMultipliers { get; set; }
         public DbSet<Tournament> Tournaments { get; set; }
         public DbSet<TournamentDay> TournamentDays { get; set; }
         public DbSet<TournamentDivision> TournamentDivisions { get; set; }

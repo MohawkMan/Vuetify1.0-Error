@@ -16,6 +16,8 @@ export default class TournamentRegistrationWindow {
     this.isLate = false
     this.canPayAtEvent = true
     this.canProcessPayment = false
+    // this.isCurrent = false
+    // this.open = false
 
     this.addOn = new AddOn()
 

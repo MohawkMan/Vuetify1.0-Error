@@ -3,6 +3,7 @@ import * as mutations from '../MutationTypes'
 import * as actions from '../ActionTypes'
 import Tourney from '../../classes/Tournament'
 import vbl from '../../VolleyballLife'
+import * as StatusEnum from '../../classes/TournamentStatus'
 
 export default {
   state: {
@@ -27,7 +28,8 @@ export default {
 
       console.log('loading list')
       commit(mutations.SET_TOURNAMENT_LIST_LOADING, true) // set loading = true
-      let url = vbl.tournament.getByOrganizationUserName(payload)
+      // let url = vbl.tournament.getByOrganizationUserName(payload)
+      let url = vbl.tournament.getAll
 
       Vue.prototype.axios.get(url)
         .then(response => {
@@ -43,14 +45,49 @@ export default {
     }
   },
   getters: {
-    selectedTourney (state) {
+    getTournamentById: (state) => (id) => {
+      return state.tournamentList.find(t => t.id === id)
+    },
+    selectedTourney: state => {
       return state.selectedTourney
     },
-    tournamentList (state) {
+    tournamentList: state => {
       return state.tournamentList
     },
-    tournamentListLoading (state) {
+    tournamentListLoading: state => {
       return state.tournamentListLoading
+    },
+    publishedTournaments: state => {
+      return state.tournamentList && state.tournamentList.filter(t => t.isPublic)
+    },
+    upcomingTournaments: (state) => (username) => {
+      if (username) return state.tournamentList && state.tournamentList.filter(t => t.dateStatus === StatusEnum.UPCOMING && t.organization.username === username)
+
+      return state.tournamentList && state.tournamentList.filter(t => t.dateStatus === StatusEnum.UPCOMING)
+    },
+    runningTournaments: (state) => (username) => {
+      if (username) return state.tournamentList && state.tournamentList.filter(t => t.dateStatus === StatusEnum.INPROCESS && t.organization.username === username)
+
+      return state.tournamentList && state.tournamentList.filter(t => t.dateStatus === StatusEnum.INPROCESS)
+    },
+    pastTournaments: (state) => (username) => {
+      if (username) return state.tournamentList && state.tournamentList.filter(t => t.dateStatus === StatusEnum.PAST && t.organization.username === username)
+
+      return state.tournamentList && state.tournamentList.filter(t => t.dateStatus === StatusEnum.PAST)
+    },
+    needResults: (state) => (username) => {
+      if (username) {
+        return state.tournamentList && state.tournamentList.filter(t =>
+          t.organization.username === username &&
+          t.dateStatus !== StatusEnum.UPCOMING &&
+          t.statusId === StatusEnum.ACTIVE
+        )
+      }
+
+      return state.tournamentList && state.tournamentList.filter(t =>
+        t.dateStatus !== StatusEnum.UPCOMING &&
+        t.statusId === StatusEnum.ACTIVE
+      )
     }
   }
 }

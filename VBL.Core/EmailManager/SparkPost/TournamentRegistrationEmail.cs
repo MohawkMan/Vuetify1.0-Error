@@ -40,7 +40,7 @@ namespace VBL.Core
                 checkin = startDay.CheckInTime,
                 playstarts = startDay.PlayTime,
                 location = division.Location.Name,
-                tournamentlink = $"volleyballlife.com/{tourney.Organization.UserName}/tournament/{tourney.Id}",
+                tournamentlink = $"volleyballlife.com/{tourney.Organization.Username}/tournament/{tourney.Id}",
                 division = $"{division.Gender.Name} {division.Division.Name}",
                 dtrefund = division.DtRefundCutoff.ToVblFormatted(),
                 td = new

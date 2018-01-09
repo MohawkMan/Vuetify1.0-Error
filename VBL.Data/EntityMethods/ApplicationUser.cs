@@ -10,6 +10,7 @@ namespace VBL.Data
         public string FullName => $"{FirstName} {LastName}";
         public UserEmail PrimaryEmail => UserEmails.Where(w => w.IsPrimary).OrderByDescending(o => o.DtModified).FirstOrDefault();
         public UserPhone PrimaryPhone => UserPhones.Where(w => w.IsPrimary).OrderByDescending(o => o.DtModified).FirstOrDefault();
+        public UserPostalAddress PrimaryPostalAddress => UserPostalAddresses.Where(w => w.IsPrimary).OrderByDescending(o => o.DtModified).FirstOrDefault();
         public List<string> AdditionalEmails => UserEmails.Where(w => w.IsPublic && w.IsVerified && !w.IsPrimary).Select(s => s.Address).ToList();
         public List<string> AdditionalPhones => UserPhones.Where(w => w.IsPublic && w.IsVerified && !w.IsPrimary).Select(s => s.NumberFormatted).ToList();
 

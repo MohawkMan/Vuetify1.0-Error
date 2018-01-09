@@ -189,7 +189,25 @@ namespace VBL.Api.Controllers
             try
             {
                 _logger.LogInformation($"Register TournamentRegistrationDTO: {dto}");
-                var result = await _tournamentManager.Register(dto);
+                var result = await _tournamentManager.Register(dto, true);
+
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(-1, e, "ERROR: ");
+                return BadRequest(e.Message);
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpPut("register/upload")]
+        public async Task<IActionResult> Register([FromBody]List<TournamentRegistrationDTO> dto)
+        {
+            try
+            {
+                _logger.LogInformation($"Register TournamentRegistrationDTO: {dto}");
+                var result = await _tournamentManager.BulkRegister(dto);
 
                 return Ok(result);
             }
@@ -204,7 +222,14 @@ namespace VBL.Api.Controllers
         [HttpPut("test")]
         public async Task<IActionResult> Test()
         {
+            try
+            {
+                await _tournamentManager.LockResults(5);
+            }
+            catch (Exception e)
+            {
 
+            }
             return Ok();
         }
     }

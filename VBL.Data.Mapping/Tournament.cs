@@ -9,6 +9,7 @@ namespace VBL.Data.Mapping
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public int StatusId { get; set; }
         public bool IsPublic { get; set; }
         public int OrganizationId { get; set; }
         public OrganizationDTOSkinny Organization { get; set; }

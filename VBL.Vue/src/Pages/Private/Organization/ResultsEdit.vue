@@ -23,6 +23,7 @@
           <v-card-text>
             <v-stepper v-model="currentStep" vertical>
 
+              <!-- STEP 1 START -->
               <v-stepper-step step="1" editable>
                 Select a tournament
               </v-stepper-step>
@@ -39,14 +40,13 @@
                           <td>{{ props.item.date | formatDate }}</td>
                           <td>{{props.item.name}}</td>
                           <td >{{ props.item.locations }}</td>
-                          <td>
+                          <td class="text-xs-center">
                             <v-btn
-                              v-if="!isSelected(props.item.id)"
-                              @click="select(props.item.id)" 
-                              small 
-                              color="color3" 
-                              dark>
-                              Select
+                              icon
+                              @click="select(props.item.id)"
+                              >
+                              <v-icon v-if="isSelected(props.item.id)" color="color3">radio_button_checked</v-icon>
+                              <v-icon v-else color="color3">radio_button_unchecked</v-icon>
                             </v-btn>
                           </td>
                         </tr>
@@ -72,33 +72,81 @@
                   </v-layout>
                 </v-container>
               </v-stepper-content>
+              <!-- STEP 1 END -->
 
-              <v-stepper-step step="2" :editable="!!selectedTourney">
-                Enter Results
-              </v-stepper-step>
-              <v-stepper-content step="2">
-                <v-card color="grey lighten-4" class="mb-5">
-                  <v-card-text>
-                    Here
+              <!-- STEP 2 START -->
+              <template v-if="!selectedTourney || selectedTourney.teamCount === 0">
+                <v-stepper-step step="2">
+                  Enter Results
+                </v-stepper-step>
+                <v-stepper-content step="2">
+                  <v-card color="grey lighten-4" class="mb-5">
+                    <v-card-text>
+                      Here
 
-                  </v-card-text>
-                </v-card>
-                <v-btn
-                  color="color3 white--text" 
-                  @click.native="next" 
-                >Continue</v-btn>
-                <v-btn
-                  flat
-                  @click.native="back" 
-                >Back</v-btn>
-              </v-stepper-content>
+                    </v-card-text>
+                  </v-card>
+                  <v-btn
+                    color="color3 white--text" 
+                    @click.native="next" 
+                  >Continue</v-btn>
+                  <v-btn
+                    flat
+                    @click.native="back" 
+                  >Back</v-btn>
+                </v-stepper-content>
+              </template>
+              <!-- STEP 2 END -->
 
+              <template v-else
+                v-for="(division, i ) in selectedTourney.divisionsWithTeams"
+              >
+                <v-stepper-step :step="i + 2" :key="i + 'step'">
+                  {{division.divisionsString}} 
+                  <small>({{division.teams.length}} Teams)</small>
+                </v-stepper-step>
+                <v-stepper-content :step="i + 2" :key="i + 'stepContent'">
+                  <v-card color="grey lighten-4" class="mb-5">
+                    <v-card-text>
+                      <v-data-table
+                        :headers="resultHeaders"
+                        :items="division.teams"
+                        hide-actions
+                      >
+                        <template slot="items" slot-scope="props">
+                          <tr>
+                            <td style="width: 50px; max-width: 50px; min-width: 50px;">
+                              <v-text-field
+                                v-model="props.item.finish"
+                                required
+                                hide-details
+                              ></v-text-field>
+                            </td>
+                            <td>{{props.item.name}}</td>
+                          </tr>
+                        </template>
+                      </v-data-table>
+
+                    </v-card-text>
+                  </v-card>
+                  <v-btn
+                    color="color3 white--text" 
+                    @click.native="next" 
+                  >Continue</v-btn>
+                  <v-btn
+                    flat
+                    @click.native="back" 
+                  >Back</v-btn>
+                </v-stepper-content>
+              </template>
 
             </v-stepper>
           </v-card-text>
         </v-card>
       </v-flex>
     </v-layout>
+
+    <!-- NO TEAM DIALOG START -->
     <v-dialog v-model="noTeamWarning" max-width="500px" persistent>
       <v-card>
         <v-toolbar color="yellow darken-3" dark>
@@ -122,7 +170,18 @@
         </v-card-text>
       </v-card>
     </v-dialog>
-    <results-uploader :open="uploadDialog" @close="uploadDialog = false"></results-uploader>
+    <!-- NO TEAM DIALOG END -->
+
+    <!-- RESULTS DIALOG START -->
+    <results-uploader 
+      v-if="selectedTourney"
+      :open="uploadDialog" 
+      @close="uploadDialog = false"
+      :tourney="selectedTourney"
+      @complete="onUploadComplete"
+    ></results-uploader>
+    <!-- RESULTS DIALOG END -->
+
   </v-container>
 </template>
 
@@ -146,7 +205,8 @@ export default {
     ...mapGetters([
       'user',
       'tournamentList',
-      'tournamentListLoading'
+      'tournamentListLoading',
+      'needResults'
     ]),
     pageInfo () {
       return this.user.pages.find(page => {
@@ -154,7 +214,9 @@ export default {
       })
     },
     rows () {
-      return this.tournamentList.map((t) => {
+      // var tourneys = this.needResults(this.username)
+      var tourneys = this.tournamentList
+      return tourneys.map((t) => {
         return {
           id: t.id,
           date: t.startDate,
@@ -167,7 +229,14 @@ export default {
       return [
         {text: 'Date', value: 'date', align: 'left'},
         {text: 'Name', value: 'name', align: 'left'},
-        {text: 'Location', value: 'locations', align: 'left'}
+        {text: 'Location', value: 'locations', align: 'left'},
+        {text: 'Select', value: '', align: 'center', sortable: false}
+      ]
+    },
+    resultHeaders () {
+      return [
+        {text: 'Finish', value: 'finish', align: 'left'},
+        {text: 'Team', value: 'name', align: 'left'}
       ]
     }
   },
@@ -197,6 +266,9 @@ export default {
     upload () {
       this.noTeamWarning = false
       this.uploadDialog = true
+    },
+    onUploadComplete () {
+      this.uploadDialog = false
     }
   },
   filters: {

@@ -20,7 +20,7 @@ namespace VBL.Data.Mapping
             CreateMap<OrganizationMember, PageDTO>()
                 .ForMember(s => s.Id, opt => opt.MapFrom(d => d.OrganizationId))
                 .ForMember(s => s.Name, opt => opt.MapFrom(d => d.Organization.Name))
-                .ForMember(s => s.Username, opt => opt.MapFrom(d => d.Organization.UserName))
+                .ForMember(s => s.Username, opt => opt.MapFrom(d => d.Organization.Username))
                 .ForMember(s => s.IsPublic, opt => opt.MapFrom(d => d.Organization.IsPublic))
                 ;
         }

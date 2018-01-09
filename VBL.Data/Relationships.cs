@@ -57,6 +57,39 @@ namespace VBL.Data
                 .IsRequired(true);
             #endregion
 
+            #region PointValue
+            builder.Entity<PointValue>().HasOne(a => a.UserCreated)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdCreated)
+                .IsRequired(false);
+            builder.Entity<PointValue>().HasOne(a => a.UserModified)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdModified)
+                .IsRequired(false);
+            #endregion
+
+            #region PointValueMultiplier
+            builder.Entity<PointValueMultiplier>().HasOne(a => a.UserCreated)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdCreated)
+                .IsRequired(false);
+            builder.Entity<PointValueMultiplier>().HasOne(a => a.UserModified)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdModified)
+                .IsRequired(false);
+            #endregion
+
+            #region PlayerProfile
+            builder.Entity<PlayerProfile>().HasOne(a => a.UserCreated)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdCreated)
+                .IsRequired(false);
+            builder.Entity<PlayerProfile>().HasOne(a => a.UserModified)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdModified)
+                .IsRequired(false);
+            #endregion
+
             #region SanctioningBody
             builder.Entity<SanctioningBody>().HasOne(a => a.UserCreated)
                 .WithMany()
@@ -91,6 +124,17 @@ namespace VBL.Data
             builder.Entity<Tournament>().HasOne(a => a.TournamentDirector)
                 .WithMany()
                 .HasForeignKey(a => a.TournamentDirectorUserId)
+                .IsRequired(false);
+            #endregion
+
+            #region TeamCountMultiplier
+            builder.Entity<TeamCountMultiplier>().HasOne(a => a.UserCreated)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdCreated)
+                .IsRequired(false);
+            builder.Entity<TeamCountMultiplier>().HasOne(a => a.UserModified)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdModified)
                 .IsRequired(false);
             #endregion
 

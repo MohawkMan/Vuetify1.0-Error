@@ -84,6 +84,11 @@ export default {
   getters: {
     user (state) {
       return state.user
+    },
+    getPageInfo: (state) => (username) => {
+      return state.user && state.user.pages && state.user.pages.find(page => {
+        return page.username === username
+      })
     }
   }
 }

@@ -16,8 +16,6 @@ namespace VBL.Data
         public List<TournamentTeamMember> Players { get; set; } = new List<TournamentTeamMember>();
 
         public int? Seed { get; set; }
-        public double? Points { get; set; }
         public int? Finish { get; set; }
-
     }
 }

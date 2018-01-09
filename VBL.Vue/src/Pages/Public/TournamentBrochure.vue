@@ -31,7 +31,7 @@
               style="background-color: rgba(0, 0, 0, .7);"
             >
               <v-toolbar-title class="white--text">
-                <h2 v-html="tourney.name":class="xsClass"></h2>
+                <h2 v-html="tourney.name" :class="xsClass"></h2>
               </v-toolbar-title>
             </v-toolbar>
           </v-card>
@@ -73,13 +73,13 @@
                 <v-icon>location_on</v-icon>
                 <span class="hidden-xs-only">Location</span>
               </v-tabs-item>
-              <v-tabs-item href="#register" ripple>
+              <v-tabs-item href="#register" ripple v-if="!complete">
                 <v-icon>assignment_turned_in</v-icon>
                 <span class="hidden-xs-only">Register</span>
               </v-tabs-item>
-              <v-tabs-item href="#teams" ripple v-if="tourney.showTeams">
+              <v-tabs-item href="#results" ripple v-if="complete">
                 <v-icon>group</v-icon>
-                <span class="hidden-xs-only">Teams</span>
+                <span class="hidden-xs-only">Results</span>
               </v-tabs-item>
             </v-tabs-bar>
             <v-tabs-items>
@@ -112,7 +112,7 @@
                   </v-card-title>
                 </v-card>
               </v-tabs-content>
-              <v-tabs-content id="register">
+              <v-tabs-content id="register" v-if="!complete">
                 <v-card>
                   <tournament-registration
                     v-if="registering"
@@ -122,7 +122,7 @@
                   ></tournament-registration>
                 </v-card>
               </v-tabs-content>
-              <v-tabs-content id="teams" v-if="tourney.showTeams">
+              <v-tabs-content id="results" v-if="complete">
                 <team-list-ex 
                   :divisions="tourney.divisions"
                   :expandId="6">
@@ -143,6 +143,7 @@ import moment from 'moment'
 import Divisions from '../../components/Tournament/DivisionList.vue'
 import RegistrationUI from '../../components/Tournament/Registration.vue'
 import Teams from '../../components/Tournament/TeamListExpansion.vue'
+import * as StatusEnum from '../../classes/TournamentStatus'
 // import * as mutations from '../../store/MutationTypes'
 
 export default {
@@ -170,6 +171,9 @@ export default {
     //  return this.$vuetify.breakpoint.xs
     //  ? moment(this.tourney.startDate).format('MMM Do')
     //  : moment(this.tourney.startDate).format('dddd, MMMM Do YYYY')
+    },
+    complete () {
+      return this.tourney.statusId === StatusEnum.COMPLETE
     }
   },
   methods: {
@@ -178,6 +182,7 @@ export default {
       this.axios.get(vbl.tournament.getById(this.tournamentId))
         .then((response) => {
           this.tourney = new Tourney(response.data)
+          if (this.complete) this.activeTab = 'results'
           this.registration = this.tourney.newRegistration()
           this.loading = false
         })

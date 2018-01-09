@@ -76,7 +76,7 @@ namespace VBL.Core
         {
             return await _db.OrganizationMembers
                 .Where(w => w.UserId == userId)
-                .Where(w => w.Organization.UserName == organizationUserName)
+                .Where(w => w.Organization.Username == organizationUserName)
                 .Where(w => w.IsActive)
                 .AnyAsync();
         }
