@@ -3,11 +3,11 @@ import {store} from '../store'
 import * as actions from '../store/ActionTypes'
 
 export default (to, from, next) => {
-  console.log('beforeEach')
+  // console.log('beforeEach')
   if (Vue.prototype.$auth.isAuthenticated() && !store.getters.user) {
-    console.log('beforeEach loading user')
+    // console.log('beforeEach loading user')
     store.dispatch(actions.LOAD_USER)
   }
-  console.log('next')
+  // console.log('next')
   next()
 }

@@ -7,6 +7,8 @@ namespace VBL.Data
     public partial class PlayerProfile : TrackedEntityBase
     {
         public int Id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public string VblId { get; set; }
         public string AauNumber { get; set; }
         public string AvpNumber { get; set; }
