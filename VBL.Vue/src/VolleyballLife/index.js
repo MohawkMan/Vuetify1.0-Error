@@ -11,7 +11,9 @@ export default {
     get: (usernameOrId) => `/organization/${usernameOrId}`
   },
   rankings: {
-    all: 'Ranking'
+    all: 'Ranking',
+    pointScale: 'Ranking/PointScale',
+    teamMultiplier: 'Ranking/TeamMultiplier'
   },
   tournament: {
     getSelectOptions: (organizationId) => organizationId ? `/Tournament/Selects/${organizationId}` : '/Tournament/Selects',

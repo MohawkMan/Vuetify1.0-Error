@@ -114,7 +114,14 @@ import VueAuthenticate from 'vue-authenticate'
 Vue.use(VueAuthenticate, {
   baseUrl: vbl.baseURL,
   loginUrl: vbl.user.login,
-  signupUrl: vbl.user.register
+  signupUrl: vbl.user.register,
+
+  providers: {
+    facebook: {
+      clientId: '710675772455419',
+      redirectUri: 'https://localhost:44351/api/v1.0/Auth/Callback'
+    }
+  }
 })
 
 import App from './App'
@@ -124,9 +131,10 @@ import { store } from './store'
 
 Vue.config.productionTip = false
 
-import { usDollars, usPhone } from './Filters'
+import { usDollars, usPhone, ordinal } from './Filters'
 Vue.filter('usDollars', usDollars)
 Vue.filter('usPhone', usPhone)
+Vue.filter('ordinal', ordinal)
 
 import PageTitle from './components/Utils/PageTitle.vue'
 Vue.component('page-title', PageTitle)

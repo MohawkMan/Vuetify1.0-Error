@@ -8,7 +8,9 @@
       <tr style="cursor: pointer">
         <td @click="gotoDetails(props.item.link)">{{ props.item.date | formatDate }}</td>
         <td @click="gotoDetails(props.item.link)" v-html="props.item.name"></td>
+        <!--
         <td @click="gotoDetails(props.item.link)">{{ props.item.divisions }}</td>
+        -->
         <td @click="gotoDetails(props.item.link)">{{ props.item.locations }}</td>
         <td>
           <v-btn small :to="`${props.item.link}/register`" v-if="!admin && props.item.regOpen">
@@ -85,7 +87,7 @@ export default {
       return [
         {text: 'Date', value: 'date', align: 'left'},
         {text: 'Name', value: 'name', align: 'left'},
-        {text: 'Divisions', value: 'divisions', align: 'left'},
+        // {text: 'Divisions', value: 'divisions', align: 'left'},
         {text: 'Location', value: 'locations', align: 'left'}
       ]
     },

@@ -72,12 +72,13 @@ namespace VBL.Api
             .AddDefaultTokenProviders();
 
             ////External Logins
-            //services.AddAuthentication().AddFacebook(facebookOptions =>
-            //{
-            //    facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
-            //    facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
-            //    facebookOptions.SaveTokens = true;
-            //});
+            services.AddAuthentication().AddFacebook(facebookOptions =>
+            {
+                facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
+                facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+                facebookOptions.Fields.Add("email");
+                facebookOptions.SaveTokens = true;
+            });
 
             // ===== Add Jwt Authentication ========
             //JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); // => remove default claims

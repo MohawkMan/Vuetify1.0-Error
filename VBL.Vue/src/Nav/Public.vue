@@ -92,10 +92,11 @@
     data: () => ({
       drawer: null,
       items: [
-        { icon: 'people', text: 'Players', to: { name: 'players' } },
+        // { icon: 'people', text: 'Players', to: { name: 'players' } },
         { icon: 'format_list_numbered', text: 'Rankings', to: { name: 'rankings' } },
         { icon: 'date_range', text: 'Tournaments', to: { name: 'tournaments' } },
-        { icon: 'apps', text: 'Organizations', to: { name: 'organizations' } },
+        { icon: 'poll', text: 'Point System', to: { name: 'juniorpoints' } },
+        // { icon: 'apps', text: 'Organizations', to: { name: 'organizations' } },
         { icon: 'lock_open', text: 'Sign In', to: { name: 'signin' } } // ,
         // { icon: 'account_circle', text: 'Join', to: { name: 'join' } }
       ]

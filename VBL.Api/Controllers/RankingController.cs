@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -79,6 +80,53 @@ namespace VBL.Api.Controllers
             //    .ToList();
 
             return Ok(grouped.OrderByDescending(o => o.CurrentPoints));
+        }
+
+        /// <summary>
+        /// Get Player List With Points
+        /// </summary>
+        [AllowAnonymous]
+        [HttpGet("teams")]
+        [ProducesResponseType(typeof(List<PlayerPointsDTO>), 200)]
+        public async Task<IActionResult> GetAllTeamRankings()
+        {
+            var teams = await _db.TournamentTeams
+                .Include(i => i.Players)
+                    .ThenInclude(i => i.PlayerProfile)
+                        .ThenInclude(t => t.User)
+                .ToListAsync();
+
+            return Ok();
+        }
+
+        /// <summary>
+        /// Get Point Scale
+        /// </summary>
+        [AllowAnonymous]
+        [HttpGet("pointscale")]
+        [ProducesResponseType(typeof(List<PlayerPointsDTO>), 200)]
+        public async Task<IActionResult> GetPoints()
+        {
+            var points = await _db.PointValues
+                .ProjectTo<PointValueDTO>()
+                .ToListAsync();
+
+            return Ok(points);
+        }
+
+        /// <summary>
+        /// Get Team Multiplier
+        /// </summary>
+        [AllowAnonymous]
+        [HttpGet("TeamMultiplier")]
+        [ProducesResponseType(typeof(List<TeamCountMultiplierDTO>), 200)]
+        public async Task<IActionResult> GetTeamMultiplier()
+        {
+            var points = await _db.TeamCountMultipliers
+                .ProjectTo<TeamCountMultiplierDTO>()
+                .ToListAsync();
+
+            return Ok(points);
         }
     }
 }

@@ -16,6 +16,7 @@ import TourneyBrochure from '@/Pages/Public/TournamentBrochure.vue'
 import Privacy from '@/Pages/Public/Privacy.vue'
 import EmailConfirm from '@/Pages/Public/Confirm.vue'
 import OrgBrochure from '@/Pages/Public/OrganizationBrochure.vue'
+import JuniorPoints from '@/Pages/Public/JuniorPoints.vue'
 
 // Private Views
 import Profile from '@/Pages/Private/User/Profile'
@@ -76,6 +77,11 @@ const router = new Router({
       path: '/privacy',
       name: 'privacy',
       component: Privacy
+    },
+    {
+      path: '/juniorpoints',
+      name: 'juniorpoints',
+      component: JuniorPoints
     },
     {
       path: '/confirm/:emailId/:token',

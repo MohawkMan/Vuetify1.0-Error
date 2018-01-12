@@ -12,9 +12,11 @@
             </v-layout>
             <v-layout row wrap justify-center>
               <v-flex xs2 text-xs-center fill-height>
-                <v-avatar class="blue">
-                  <span class="white--text">F</span>
-                </v-avatar>
+                <form ref="auth" action="https://localhost:44351/Auth/facebook">
+                  <v-avatar class="blue" @click="auth('Facebook')">
+                    <span class="white--text">F</span>
+                  </v-avatar>
+                </form>
               </v-flex>
               <v-flex xs2 text-xs-center>
                 <v-avatar class="blue">
@@ -105,6 +107,17 @@ export default {
             this.$router.push(goto)
           })
       }
+    },
+    auth (provider) {
+      // this.$refs.auth.submit()
+      window.location = `https://localhost:44351/Auth/${provider}`
+      // this.$auth.authenticate(provider)
+      // .then((response) => {
+      //   alert('AUTH HERE')
+      // })
+      // .catch((error) => {
+      //   console.log(error)
+      // })
     }
   }
 }

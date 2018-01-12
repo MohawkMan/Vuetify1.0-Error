@@ -42,7 +42,7 @@ export default {
       return [
         {text: 'Finish', value: 'finish', align: 'left'},
         {text: 'Name', value: 'name', align: 'left', sortable: false},
-        {text: 'Points', value: 'points', align: 'left', sortable: false}
+        {text: 'Points Earned', value: 'points', align: 'left', sortable: false}
       ]
     },
     rows () {

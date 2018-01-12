@@ -7,7 +7,8 @@ namespace VBL.Data.Mapping
 {
     public partial class PointValueDTO
     {
-        public Option2DTO Division { get; set; }
+        public int DivisionId { get; set; }
+        public string Division { get; set; }
         public int Finish { get; set; }
         public int Points { get; set; }
     }
@@ -16,7 +17,10 @@ namespace VBL.Data.Mapping
     {
         public PointValueProfile()
         {
-            CreateMap<PointValue, PointValueDTO>();
+            CreateMap<PointValue, PointValueDTO>()
+                .ForMember(d => d.Division, opt => opt.MapFrom(s => s.Division.Name))
+                .ForMember(d => d.DivisionId, opt => opt.MapFrom(s => s.Division.Id))
+                ;
         }
     }
 }

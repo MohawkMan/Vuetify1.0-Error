@@ -13,10 +13,15 @@
       </v-flex>
     </v-layout>
   </v-container>
-  <v-container v-else grid-list-sm>
+  <v-container v-else grid-list-md>
     <v-layout row wrap>
       <v-flex xs12 sm10 offset-sm1>
-        <ranking-list :players="players"></ranking-list>
+        <v-card>
+          <v-toolbar dark color="color3" class="mx-auto">
+            <v-toolbar-title>Current Player Rankings</v-toolbar-title>
+          </v-toolbar>
+          <ranking-list :players="players"></ranking-list>
+        </v-card>
       </v-flex>
     </v-layout>
   </v-container>
