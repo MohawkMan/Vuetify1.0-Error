@@ -11,9 +11,10 @@ using VBL.Data;
 namespace VBL.Data.Migrations
 {
     [DbContext(typeof(VBLDbContext))]
-    partial class VBLDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180112193041_tourneyUpdate1")]
+    partial class tourneyUpdate1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -992,9 +993,6 @@ namespace VBL.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TournamentDivisionId")
-                        .IsUnique();
-
                     b.HasIndex("UserIdCreated");
 
                     b.HasIndex("UserIdModified");
@@ -1677,11 +1675,6 @@ namespace VBL.Data.Migrations
 
             modelBuilder.Entity("VBL.Data.TournamentRegistrationInfo", b =>
                 {
-                    b.HasOne("VBL.Data.TournamentDivision")
-                        .WithOne("RegistrationFields")
-                        .HasForeignKey("VBL.Data.TournamentRegistrationInfo", "TournamentDivisionId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("VBL.Data.ApplicationUser", "UserCreated")
                         .WithMany()
                         .HasForeignKey("UserIdCreated");

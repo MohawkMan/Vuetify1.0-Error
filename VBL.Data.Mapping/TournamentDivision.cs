@@ -22,9 +22,7 @@ namespace VBL.Data.Mapping
         public OptionDTO Location { get; set; }
         public List<TournamentRegistrationWindowDTO> RegistrationWindows { get; set; } = new List<TournamentRegistrationWindowDTO>();
         public List<TournamentTeamDTO> Teams { get; set; } = new List<TournamentTeamDTO>();
-
-
-        //public TournamentRegistrationInfoDTO RegistrationFields { get; set; }
+        public TournamentRegistrationInfoDTO RegistrationFields { get; set; }
     }
 
     public class TournamentDivisionProfile : Profile

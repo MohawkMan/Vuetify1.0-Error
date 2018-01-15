@@ -40,13 +40,20 @@ export default {
     },
     tableHeaders () {
       return [
-        {text: 'Finish', value: 'finish', align: 'left'},
+        {text: 'Finish', value: '_finish', align: 'left'},
         {text: 'Name', value: 'name', align: 'left', sortable: false},
         {text: 'Points Earned', value: 'points', align: 'left', sortable: false}
       ]
     },
     rows () {
-      return this.division.teams
+      return this.division.teams.map((team) => {
+        return {
+          finish: team.finish,
+          _finish: team.finish ? team.finish : 999,
+          name: team.name,
+          points: team.points
+        }
+      })
     }
   }
 }

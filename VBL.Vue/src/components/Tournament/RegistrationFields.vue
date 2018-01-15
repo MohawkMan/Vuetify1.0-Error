@@ -1,5 +1,16 @@
 <template>
   <v-container>
+    <v-layout row wrap>
+      <v-flex xs12 sm6 md4>
+        <v-text-field
+          name="vblId"
+          label="Quick Register Id"
+          v-model="player.vblId"
+          hint="VolleyballLife Quick Register Id"
+          persistent-hint
+        ></v-text-field>
+      </v-flex>
+    </v-layout>
     <!-- Name -->
     <v-layout row wrap>
       <v-flex xs12 sm6 md4>
@@ -23,42 +34,45 @@
     </v-layout>
     <!-- Phone/Email -->
     <v-layout row wrap>
-      <v-flex xs12 sm6 md4>
+      <v-flex xs12 sm6 md4 v-if="_fields.includes('phone')">
         <v-text-field
           name="phone"
           label="Phone"
           v-model="player.phone"
           mask="phone"
-          required
-          :rules="[
+          validate-on-blur
+          :required="requiredFields.includes('phone')"
+          :rules="requiredFields.includes('phone') ? [
             () => $v.player.phone.required || 'A phone number is required',
             () => $v.player.phone.minLength || 'A valid phone number is required',
             () => $v.player.phone.maxLength || 'A valid phone number is required'
-          ]"
+          ] : []"
         ></v-text-field>
       </v-flex>
-      <v-flex xs12 sm6 md4>
+      <v-flex xs12 sm6 md4 v-if="_fields.includes('email')">
         <v-text-field
           name="email"
           label="Email"
           v-model="player.email"
-          required
-          :rules="[
+          validate-on-blur
+          :required="requiredFields.includes('email')"
+          :rules="requiredFields.includes('email') ? [
             () => $v.player.email.required || 'An email is required',
             () => $v.player.email.email || 'A valid email is required'
-          ]"
+          ] : []"
         ></v-text-field>
       </v-flex>
     </v-layout>
     <!-- City State -->
-    <v-layout row wrap>
+    <v-layout row wrap v-if="_fields.includes('cityState')">
       <v-flex xs12 sm6 md4>
         <v-text-field
           name="city"
           label="City"
           v-model="player.city"
-          required
-          :rules="[() => $v.player.city.required || 'A city is required']"
+          validate-on-blur
+          :required="requiredFields.includes('cityState')"
+          :rules="requiredFields.includes('cityState') ? [() => $v.player.city.required || 'A city is required'] : []"
         ></v-text-field>
       </v-flex>
       <v-flex xs12 sm6 md4>
@@ -72,13 +86,14 @@
           autocomplete
           :hint="player.state"
           persistent-hint
-          required
-          :rules="[() => $v.player.state.required || 'A state is required']"
+          validate-on-blur
+          :required="requiredFields.includes('cityState')"
+          :rules="requiredFields.includes('cityState') ? [() => $v.player.state.required || 'A state is required'] : []"
         ></v-select>
       </v-flex>
     </v-layout>
     <!-- DOB -->
-    <v-layout row wrap>
+    <v-layout row wrap v-if="_fields.includes('dob')">
       <v-flex xs12 sm6 md4 ref="datePickerFlex">
         <v-menu
           ref="dateMenu"
@@ -99,8 +114,8 @@
             label="Birthdate"
             readonly
             v-model="player.dobFormatted"
-            required
-            :rules="[() => $v.player.dob.required || 'A birthdate is required']"
+            :required="requiredFields.includes('dob')"
+            :rules="requiredFields.includes('dob') ? [() => $v.player.dob.required || 'A birthdate is required'] : []"
             @blur="player.dob = parseDate(player.dobFormatted)"
           ></v-text-field>
           <v-date-picker
@@ -122,24 +137,72 @@
         </v-menu>
       </v-flex>
     </v-layout>
-    <!-- CBVA/USAV -->
-    <v-layout row wrap>
-      <v-flex xs12 sm6 md4>
+    <!-- Club -->
+    <v-layout row wrap v-if="_fields.includes('club')">
+      <v-flex xs12 sm6 md4 ref="datePickerFlex">
         <v-text-field
-          name="cbva"
-          label="CBVA Number"
-          v-model="player.cbva"
-          hint="Not required but used for seeding"
+          name="club"
+          label="Club"
+          v-model="player.club"
+          hint="What club are you representing?"
           persistent-hint
+          validate-on-blur
+          :required="requiredFields.includes('club')"
+          :rules="requiredFields.includes('club') ? [() => $v.player.club.required || 'A club is required'] : []"
         ></v-text-field>
       </v-flex>
-      <v-flex xs12 sm6 md4>
+    </v-layout>
+    <!-- AAU/AVP -->
+    <v-layout row wrap>
+      <v-flex xs12 sm6 md4 v-if="_fields.includes('aau')">
+        <v-text-field
+          name="aau"
+          label="AAU Number"
+          v-model="player.aau"
+          hint="Not required but used for seeding"
+          persistent-hint
+          validate-on-blur
+          :required="requiredFields.includes('aau')"
+          :rules="requiredFields.includes('aau') ? [() => $v.player.aau.required || 'An AAU Number is required'] : []"
+        ></v-text-field>
+      </v-flex>
+      <v-flex xs12 sm6 md4 v-if="_fields.includes('avp')">
+        <v-text-field
+          name="avp"
+          label="AVP Number"
+          v-model="player.avp"
+          hint="Not required but used for seeding"
+          persistent-hint
+          validate-on-blur
+          :required="requiredFields.includes('avp')"
+          :rules="requiredFields.includes('avp') ? [() => $v.player.avp.required || 'An AVP number is required'] : []"
+        ></v-text-field>
+      </v-flex>
+    </v-layout>
+    <!-- CBVA/USAV -->
+    <v-layout row wrap>
+      <v-flex xs12 sm6 md4 v-if="_fields.includes('usav')">
         <v-text-field
           name="usav"
           label="USAV Number"
           v-model="player.usav"
           hint="Not required but used for seeding"
           persistent-hint
+          validate-on-blur
+          :required="requiredFields.includes('usav')"
+          :rules="requiredFields.includes('usav') ? [() => $v.player.usav.required || 'A USAV number is required'] : []"
+        ></v-text-field>
+      </v-flex>
+      <v-flex xs12 sm6 md4 v-if="_fields.includes('cbva')">
+        <v-text-field
+          name="cbva"
+          label="CBVA Number"
+          v-model="player.cbva"
+          hint="Not required but used for seeding"
+          persistent-hint
+          validate-on-blur
+          :required="requiredFields.includes('cbva')"
+          :rules="requiredFields.includes('cbva') ? [() => $v.player.cbva.required || 'A CBVA number is required'] : []"
         ></v-text-field>
       </v-flex>
     </v-layout>
@@ -154,15 +217,17 @@ import { required, numeric, minLength, maxLength, email } from 'vuelidate/lib/va
 export default {
   props: ['fields', 'requiredFields', 'player'],
   mixins: [validationMixin],
-  validations: {
-    player: {
-      firstName: { required },
-      lastName: { required },
-      phone: { required, numeric, minLength: minLength(10), maxLength: maxLength(10) },
-      email: { required, email },
-      dob: { required },
-      city: { required },
-      state: { required }
+  validations () {
+    return {
+      player: {
+        firstName: { required },
+        lastName: { required },
+        phone: this.requiredFields.includes('phone') ? { required, numeric, minLength: minLength(10), maxLength: maxLength(10) } : {},
+        email: { required, email },
+        dob: { required },
+        city: { required },
+        state: { required }
+      }
     }
   },
   data () {
@@ -172,7 +237,10 @@ export default {
     }
   },
   computed: {
-    valid () { return !this.$v.$invalid }
+    valid () { return !this.$v.$invalid },
+    _fields () {
+      return this.fields.concat(this.requiredFields)
+    }
   },
   methods: {
     formatDate (date) {

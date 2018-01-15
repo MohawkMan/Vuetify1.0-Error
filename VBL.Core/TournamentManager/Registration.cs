@@ -58,22 +58,22 @@ namespace VBL.Core
                 var review = false;
 
                 // AAU MATCH
-                if (!string.IsNullOrWhiteSpace(player.AauNumber))
+                if (!string.IsNullOrWhiteSpace(player.AauNumber) && player.AauNumber != "0")
                 {
                     profile = await _db.PlayerProfiles.FirstOrDefaultAsync(f => f.AauNumber == player.AauNumber);
                 }
                 // AVP MATCH
-                if (profile == null && !string.IsNullOrWhiteSpace(player.AvpNumber))
+                if (profile == null && !string.IsNullOrWhiteSpace(player.AvpNumber) && player.AvpNumber != "0")
                 {
                     profile = await _db.PlayerProfiles.FirstOrDefaultAsync(f => f.AvpNumber == player.AvpNumber);
                 }
                 // USAV MATCH
-                if (profile == null && !string.IsNullOrWhiteSpace(player.UsavNumber))
+                if (profile == null && !string.IsNullOrWhiteSpace(player.UsavNumber) && player.UsavNumber != "0")
                 {
                     profile = await _db.PlayerProfiles.FirstOrDefaultAsync(f => f.UsavNumber == player.UsavNumber);
                 }
                 // CBVA MATCH
-                if (profile == null && !string.IsNullOrWhiteSpace(player.CbvaNumber))
+                if (profile == null && !string.IsNullOrWhiteSpace(player.CbvaNumber) && player.CbvaNumber != "0")
                 {
                     profile = await _db.PlayerProfiles.FirstOrDefaultAsync(f => f.CbvaNumber == player.CbvaNumber);
                 }
@@ -89,10 +89,15 @@ namespace VBL.Core
                     profile = await _db.PlayerProfiles.FirstOrDefaultAsync(f => f.User.PrimaryPhone != null && f.User.PrimaryPhone.Number == player.Phone);
                     review = profile != null;
                 }
+                if(profile == null)
+                {
+                    profile = await _db.PlayerProfiles.FirstOrDefaultAsync(f => f.FirstName == player.FirstName && f.LastName == player.LastName && f.Club == player.Club);
+                    review = profile != null;
+                }
 
                 if (profile != null)
                 {
-                    player.PlayerProfileId = profile.Id;
+                    player.Profile = profile;
                     player.NeedsMatchReview = review;
                 }
                 else

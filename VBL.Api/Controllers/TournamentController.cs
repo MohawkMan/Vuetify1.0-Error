@@ -224,7 +224,10 @@ namespace VBL.Api.Controllers
         {
             try
             {
-                await _tournamentManager.LockResults(5);
+                await _tournamentManager.LockResults(13);
+                await _tournamentManager.LockResults(14);
+                await _tournamentManager.LockResults(15);
+                await _tournamentManager.LockResults(16);
             }
             catch (Exception e)
             {

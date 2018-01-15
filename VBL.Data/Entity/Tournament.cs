@@ -28,5 +28,6 @@ namespace VBL.Data
         public SparkPostEmailTemplate SparkPostEmailTemplate { get; set; }
 
         public string ExternalRegistrationUrl { get; set; }
+        public string Description { get; set; }
     }
 }

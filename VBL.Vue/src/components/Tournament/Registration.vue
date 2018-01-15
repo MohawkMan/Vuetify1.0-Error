@@ -17,7 +17,7 @@
           </v-radio-group>
         </v-card-text>
       </v-card>
-      <v-btn color="color2" dark @click.native="onNext">Continue</v-btn>
+      <v-btn color="color2 white--text" @click.native="onNext" :disabled="!registration.division">Continue</v-btn>
     </v-stepper-content>
     <!-- Players -->
     <template v-for="(player,i) in registration.players">
@@ -34,7 +34,8 @@
           <v-card-text class="pt-0">
             <registration-fields
               v-if="registration.division"
-              :fields="registration.division.registrationFields"
+              :fields="registration.division.registrationFields.fields"
+              :requiredFields="registration.division.registrationFields.requiredFields"
               :player="player"
               @next="onNext"
               @back="onBack"

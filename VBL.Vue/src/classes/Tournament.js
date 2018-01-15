@@ -14,6 +14,7 @@ export default class Tournament {
     this.organization = null
     this.divisions = []
     this.statusId = 0
+    this.description = ''
 
     if (dto) {
       this.update(dto)

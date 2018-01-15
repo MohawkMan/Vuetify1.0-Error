@@ -33,7 +33,7 @@ namespace VBL.Core
             {
                 var points = basePoints
                     .OrderBy(o => o.Finish)
-                    .Where(w => w.Finish >= team.Finish)
+                    .Where(w => w.Finish >= team.Finish || w.Finish > 10000)
                     .FirstOrDefault();
 
                 if (points == null)

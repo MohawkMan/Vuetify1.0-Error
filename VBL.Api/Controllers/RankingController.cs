@@ -94,6 +94,7 @@ namespace VBL.Api.Controllers
                 .Include(i => i.Players)
                     .ThenInclude(i => i.PlayerProfile)
                         .ThenInclude(t => t.User)
+                .Where(w => w.TournamentDivision.Tournament.StatusId == 100)
                 .ToListAsync();
 
             return Ok();

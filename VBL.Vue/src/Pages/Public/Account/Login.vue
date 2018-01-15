@@ -109,15 +109,8 @@ export default {
       }
     },
     auth (provider) {
-      // this.$refs.auth.submit()
-      window.location = `https://localhost:44351/Auth/${provider}`
-      // this.$auth.authenticate(provider)
-      // .then((response) => {
-      //   alert('AUTH HERE')
-      // })
-      // .catch((error) => {
-      //   console.log(error)
-      // })
+      return
+      // window.location = `https://localhost:44351/Auth/${provider}`
     }
   }
 }

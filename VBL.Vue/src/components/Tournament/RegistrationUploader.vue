@@ -465,6 +465,7 @@ export default {
     },
     upload () {
       this.busy = true
+      this.error = null
       let registrations = this.mapRegistrations()
 
       this.axios.put(vbl.tournament.bulkRegister, registrations)
@@ -531,9 +532,11 @@ export default {
         p2.usav = record[map['Player 2 USAV Number']]
         p2.club = record[map['Player 2 Club']]
 
-        let finish = record['Finish']
+        let finish = record[map['Finish']]
         if (finish && finish > 0) {
           registration.finish = finish
+        } else {
+          registration.finish = 0
         }
 
         registrations.push(registration.dto)
