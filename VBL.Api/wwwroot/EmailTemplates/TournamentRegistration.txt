@@ -22,9 +22,11 @@ Phone: {{td.phone}}
 {{ each td.addPhones }}
        {{loop_var}}
 {{ end }}
+{{ if td.message }}
 
 A quick message from your TD, {{td.firstname}}:
 {{td.message}}
+{{ end }}
 
 Good luck. See ya on the courts!
 

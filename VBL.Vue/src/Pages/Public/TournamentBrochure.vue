@@ -159,9 +159,6 @@ export default {
     },
     startDate () {
       return moment(this.tourney.startDate).format('dddd, MMMM Do YYYY')
-    //  return this.$vuetify.breakpoint.xs
-    //  ? moment(this.tourney.startDate).format('MMM Do')
-    //  : moment(this.tourney.startDate).format('dddd, MMMM Do YYYY')
     },
     complete () {
       return this.tourney.statusId === StatusEnum.COMPLETE
@@ -172,9 +169,8 @@ export default {
       this.loading = true
       this.axios.get(vbl.tournament.getById(this.tournamentId))
         .then((response) => {
-          this.tourney = new Tourney(response.data)
+          this.setTourney(response.data)
           if (this.complete) this.activeTab = 'results'
-          this.registration = this.tourney.newRegistration()
           this.loading = false
         })
         .catch((response) => {
@@ -183,11 +179,16 @@ export default {
           this.loading = false
         })
     },
+    setTourney (dto) {
+      this.tourney = new Tourney(dto)
+      this.registration = this.tourney.newRegistration()
+    },
     register (division) {
       this.registration.setDivision(division)
       this.activeTab = 'register'
     },
-    onRegistered () {
+    onRegistered (dto) {
+      this.setTourney(dto)
       this.activeTab = 'information'
     }
   },

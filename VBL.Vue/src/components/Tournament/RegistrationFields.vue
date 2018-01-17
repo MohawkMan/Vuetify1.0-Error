@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-layout row wrap>
+    <v-layout row wrap v-if="true">
       <v-flex xs12 sm6 md4>
         <v-text-field
           name="vblId"
@@ -8,6 +8,61 @@
           v-model="player.vblId"
           hint="VolleyballLife Quick Register Id"
           persistent-hint
+        ></v-text-field>
+      </v-flex>
+    </v-layout>
+    <!-- Sanctioning Body -->
+    <v-layout row wrap v-if="!!sanctioningBodyId">
+      <!-- AAU -->
+      <v-flex xs12 sm6 md4 v-if="sanctioningBodyId.toLowerCase() === 'aau'">
+        <v-text-field
+          name="aau"
+          label="AAU Number"
+          v-model="player.aau"
+          :hint="requiredFields.includes('aau') ? '' : 'Not required but used for seeding'"
+          persistent-hint
+          validate-on-blur
+          :required="requiredFields.includes('aau')"
+          :rules="requiredFields.includes('aau') ? [() => $v.player.aau.required || 'An AAU Number is required'] : []"
+        ></v-text-field>
+      </v-flex>
+      <!-- AVP -->
+      <v-flex xs12 sm6 md4 v-if="sanctioningBodyId.toLowerCase() === 'avp'">
+        <v-text-field
+          name="avp"
+          label="AVP Number"
+          v-model="player.avp"
+          hint="Not required but used for seeding"
+          persistent-hint
+          validate-on-blur
+          :required="requiredFields.includes('avp')"
+          :rules="requiredFields.includes('avp') ? [() => $v.player.avp.required || 'An AVP number is required'] : []"
+        ></v-text-field>
+      </v-flex>
+      <!-- USAV -->
+      <v-flex xs12 sm6 md4 v-if="sanctioningBodyId.toLowerCase() === 'usav'">
+        <v-text-field
+          name="usav"
+          label="USAV Number"
+          v-model="player.usav"
+          hint="Not required but used for seeding"
+          persistent-hint
+          validate-on-blur
+          :required="requiredFields.includes('usav')"
+          :rules="requiredFields.includes('usav') ? [() => $v.player.usav.required || 'A USAV number is required'] : []"
+        ></v-text-field>
+      </v-flex>
+      <!-- CBVA -->
+      <v-flex xs12 sm6 md4 v-if="sanctioningBodyId.toLowerCase() === 'cbva'">
+        <v-text-field
+          name="cbva"
+          label="CBVA Number"
+          v-model="player.cbva"
+          hint="Not required but used for seeding"
+          persistent-hint
+          validate-on-blur
+          :required="requiredFields.includes('cbva')"
+          :rules="requiredFields.includes('cbva') ? [() => $v.player.cbva.required || 'A CBVA number is required'] : []"
         ></v-text-field>
       </v-flex>
     </v-layout>
@@ -94,7 +149,7 @@
     </v-layout>
     <!-- DOB -->
     <v-layout row wrap v-if="_fields.includes('dob')">
-      <v-flex xs12 sm6 md4 ref="datePickerFlex">
+      <v-flex xs12 sm6 md4>
         <v-menu
           ref="dateMenu"
           lazy
@@ -139,7 +194,7 @@
     </v-layout>
     <!-- Club -->
     <v-layout row wrap v-if="_fields.includes('club')">
-      <v-flex xs12 sm6 md4 ref="datePickerFlex">
+      <v-flex xs12 sm6 md4>
         <v-text-field
           name="club"
           label="Club"
@@ -152,21 +207,22 @@
         ></v-text-field>
       </v-flex>
     </v-layout>
-    <!-- AAU/AVP -->
     <v-layout row wrap>
-      <v-flex xs12 sm6 md4 v-if="_fields.includes('aau')">
+      <!-- AAU -->
+      <v-flex xs12 sm6 md4 v-if="_fields.includes('aau') && sanctioningBodyId.toLowerCase() !== 'aau'">
         <v-text-field
           name="aau"
           label="AAU Number"
           v-model="player.aau"
-          hint="Not required but used for seeding"
+          :hint="requiredFields.includes('aau') ? '' : 'Not required but used for seeding'"
           persistent-hint
           validate-on-blur
           :required="requiredFields.includes('aau')"
           :rules="requiredFields.includes('aau') ? [() => $v.player.aau.required || 'An AAU Number is required'] : []"
         ></v-text-field>
       </v-flex>
-      <v-flex xs12 sm6 md4 v-if="_fields.includes('avp')">
+      <!-- AVP -->
+      <v-flex xs12 sm6 md4 v-if="_fields.includes('avp') && sanctioningBodyId.toLowerCase() !== 'avp'">
         <v-text-field
           name="avp"
           label="AVP Number"
@@ -178,10 +234,8 @@
           :rules="requiredFields.includes('avp') ? [() => $v.player.avp.required || 'An AVP number is required'] : []"
         ></v-text-field>
       </v-flex>
-    </v-layout>
-    <!-- CBVA/USAV -->
-    <v-layout row wrap>
-      <v-flex xs12 sm6 md4 v-if="_fields.includes('usav')">
+      <!-- USAV -->
+      <v-flex xs12 sm6 md4 v-if="_fields.includes('usav') && sanctioningBodyId.toLowerCase() !== 'usav'">
         <v-text-field
           name="usav"
           label="USAV Number"
@@ -193,7 +247,8 @@
           :rules="requiredFields.includes('usav') ? [() => $v.player.usav.required || 'A USAV number is required'] : []"
         ></v-text-field>
       </v-flex>
-      <v-flex xs12 sm6 md4 v-if="_fields.includes('cbva')">
+      <!-- CBVA -->
+      <v-flex xs12 sm6 md4 v-if="_fields.includes('cbva') && sanctioningBodyId.toLowerCase() !== 'cbva'">
         <v-text-field
           name="cbva"
           label="CBVA Number"
@@ -215,7 +270,7 @@ import { validationMixin } from 'vuelidate'
 import { required, numeric, minLength, maxLength, email } from 'vuelidate/lib/validators'
 
 export default {
-  props: ['fields', 'requiredFields', 'player'],
+  props: ['fields', 'requiredFields', 'player', 'sanctioningBodyId'],
   mixins: [validationMixin],
   validations () {
     return {
@@ -223,10 +278,15 @@ export default {
         firstName: { required },
         lastName: { required },
         phone: this.requiredFields.includes('phone') ? { required, numeric, minLength: minLength(10), maxLength: maxLength(10) } : {},
-        email: { required, email },
-        dob: { required },
-        city: { required },
-        state: { required }
+        email: this.requiredFields.includes('email') ? { required, email } : {},
+        city: this.requiredFields.includes('cityState') ? { required } : {},
+        state: this.requiredFields.includes('cityState') ? { required } : {},
+        dob: this.requiredFields.includes('dob') ? { required } : {},
+        club: this.requiredFields.includes('club') ? { required } : {},
+        aau: this.requiredFields.includes('aau') ? { required } : {},
+        avp: this.requiredFields.includes('avp') ? { required } : {},
+        usav: this.requiredFields.includes('usav') ? { required } : {},
+        cbva: this.requiredFields.includes('cbva') ? { required } : {}
       }
     }
   },

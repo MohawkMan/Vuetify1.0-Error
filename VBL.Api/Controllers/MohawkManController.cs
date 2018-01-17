@@ -42,8 +42,16 @@ namespace VBL.Api.Controllers
         [HttpGet("test")]
         public async Task<IActionResult> test()
         {
-            //await _emailManager.SendTournamentRegistrationEmailsAsync(5);
-            await _emailManager.SendSiteRegistrationEmailAsync(1);
+            try
+            {
+                var test = DateTime.Now.AddHours(-4).ToVblRefundFormat();
+                //await _emailManager.SendTournamentRegistrationEmailsAsync(363);
+                //await _emailManager.SendSiteRegistrationEmailAsync(1);
+            }
+            catch(Exception e)
+            {
+
+            }
             return Ok();
         }
     }

@@ -1,5 +1,5 @@
 <template>
-  <v-stepper v-if="!tourney.externalRegistrationUrl" v-model="currentStep" vertical>
+  <v-stepper v-if="!tourney.externalRegistrationUrl || true" v-model="currentStep" vertical>
     <!-- Division -->
     <v-stepper-step 
       :step="1"
@@ -37,6 +37,7 @@
               :fields="registration.division.registrationFields.fields"
               :requiredFields="registration.division.registrationFields.requiredFields"
               :player="player"
+              :sanctioningBodyId="registration.division.sanctioningBodyId"
               @next="onNext"
               @back="onBack"
             >
@@ -128,9 +129,7 @@
       <v-btn color="color3 white--text" @click.native="onNext" :disabled="!registration.confirmed">Continue</v-btn>
       <v-btn flat @click.native="onBack">Back</v-btn>
     </v-stepper-content>
-    <v-stepper-step
-      :step="paymentStep"
-    >Payment</v-stepper-step>
+    <v-stepper-step :step="paymentStep">Payment</v-stepper-step>
     <v-stepper-content :step="paymentStep">
         <v-card color="grey lighten-4">
           <v-card-text class="pt-0">
@@ -157,14 +156,18 @@
     <v-dialog v-model="successDialog" max-width="350">
       <v-card>
         <v-card-title class="headline color3 white--text">
-          Boom! You are registered!
+          Boom... You are registered!
         </v-card-title>
         <v-card-text>
-          See ya on the beach.
+          You and your {{pratnerString}} will be receiving confirmation emails any minute now.
         </v-card-text>
         <v-card-text>
-          See ya on the beach.
+          Good luck and... See ya on the beach.
         </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" flat @click.stop="successDialog=false">Close</v-btn>
+        </v-card-actions>
       </v-card>
     </v-dialog>
   </v-stepper>
@@ -200,7 +203,8 @@ export default {
       currentStep: 1,
       processing: false,
       addOnComplete: false,
-      successDialog: false
+      successDialog: false,
+      pratnerString: 'partner'
     }
   },
   computed: {
@@ -242,9 +246,11 @@ export default {
       console.log(this.registration.dto)
       this.axios.put(vbl.tournament.register, this.registration.dto)
         .then((response) => {
+          this.successDialog = true
           var tourney = response.data
-          console.log(tourney)
-          this.$emit('registered')
+          // console.log(tourney)
+          this.$emit('registered', tourney)
+          this.reset()
           this.processing = false
         })
         .catch((response) => {
@@ -254,6 +260,10 @@ export default {
     },
     exreg (url) {
       window.open(url)
+    },
+    reset () {
+      this.currentStep = 1
+      this.addOnComplete = false
     }
   },
   components: {
@@ -262,8 +272,14 @@ export default {
     'registration-addon': AddOn
   },
   watch: {
-    'registration.division': function () {
-      this.registration.initPlayers()
+    'registration.division': function (newVal, oldVal) {
+      if (newVal) {
+        this.registration.initPlayers()
+        this.pratnerString = 'partner'
+        if (this.registration.division.numOfPlayers > 2) {
+          this.pratnerString = 'teammates'
+        }
+      }
     }
   }
 }

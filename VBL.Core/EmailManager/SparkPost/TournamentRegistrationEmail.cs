@@ -42,7 +42,7 @@ namespace VBL.Core
                 location = division.Location.Name,
                 tournamentlink = $"volleyballlife.com/{tourney.Organization.Username}/tournament/{tourney.Id}",
                 division = $"{division.Gender.Name} {division.Division.Name}",
-                dtrefund = division.DtRefundCutoff.ToVblFormatted(),
+                dtrefund = division.DtRefundCutoff.ToVblRefundFormat(),
                 td = new
                 {
                     fullname = td.FullName,
@@ -83,6 +83,7 @@ namespace VBL.Core
                 .Include(i => i.TournamentDivision)
                     .ThenInclude(t => t.Tournament)
                         .ThenInclude(t => t.Organization)
+                            .ThenInclude(t => t.TournamentDefaults)
                 .Include(i => i.TournamentDivision)
                     .ThenInclude(t => t.Days)
                 .Include(i => i.TournamentDivision)

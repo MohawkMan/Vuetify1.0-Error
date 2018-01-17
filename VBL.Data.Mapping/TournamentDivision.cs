@@ -12,7 +12,11 @@ namespace VBL.Data.Mapping
         public int? MaxTeams { get; set; }
         public byte NumOfPlayers { get; set; }
         public byte NumAllowedOnRoster { get; set; }
+        public string SanctioningBodyId { get; set; }
         public string EmailNote { get; set; }
+        public int? TournamentDirectorUserId { get; set; }
+        public DateTime DtRefundCutoff { get; set; }
+
         public string Offset { get; set; }
 
         public OptionDTO AgeType { get; set; }

@@ -10,6 +10,10 @@ namespace VBL.Core
         {
             return string.Format("{0:dddd, MMMM dd}{1} {0: yyyy}", dt, dt.DaySuffix());
         }
+        public static string ToVblRefundFormat(this DateTime dt)
+        {
+            return string.Format("{0:h:mm tt dddd, MMMM dd}{1} {0: yyyy}", dt, dt.DaySuffix());
+        }
         public static string DaySuffix(this DateTime dt)
         {
             switch (dt.Day)

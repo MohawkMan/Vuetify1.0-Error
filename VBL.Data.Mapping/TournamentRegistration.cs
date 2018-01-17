@@ -17,7 +17,7 @@ namespace VBL.Data.Mapping
 
         // Temporary > Add List<AddOnProduct>
         public int AddOnQty { get; set; }
-        public int Finish { get; set; }
+        public int? Finish { get; set; }
     }
 
     public class TournamentRegistrationProfile : Profile

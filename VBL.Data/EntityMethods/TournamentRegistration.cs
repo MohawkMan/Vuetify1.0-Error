@@ -15,8 +15,24 @@ namespace VBL.Data
         public TournamentDay Day1 => TournamentDivision.Days.OrderBy(o => o.Date).FirstOrDefault();
         public ApplicationUser TD => TournamentDivision.TournamentDirector ?? Tournament.TournamentDirector;
         public SparkPostEmailTemplate EmailTemplate => TournamentDivision.SparkPostEmailTemplate ?? Tournament.SparkPostEmailTemplate;
-        public string EmailNote => !string.IsNullOrWhiteSpace(TournamentDivision.EmailNote) ? TournamentDivision.EmailNote :
-                        !string.IsNullOrWhiteSpace(TournamentDivision.Tournament.EmailNote) ? TournamentDivision.Tournament.EmailNote :
-                        Organization.TournamentDefaults.EmailNote;
+        public string EmailNote
+        {
+            get
+            {
+                if (Division == null)
+                    throw new NullReferenceException("TournamentDivision can not be null");
+                if (Tournament == null)
+                    throw new NullReferenceException("Tournament can not be null");
+                if (Organization == null)
+                    throw new NullReferenceException("Organization can not be null");
+                if (Organization.TournamentDefaults == null)
+                    throw new NullReferenceException("Organization.TournamentDefaults can not be null");
+
+                return !string.IsNullOrWhiteSpace(TournamentDivision.EmailNote) ? TournamentDivision.EmailNote :
+                       !string.IsNullOrWhiteSpace(Tournament.EmailNote) ? Tournament.EmailNote :
+                       Organization.TournamentDefaults.EmailNote;
+            }
+        }
+
     }
 }

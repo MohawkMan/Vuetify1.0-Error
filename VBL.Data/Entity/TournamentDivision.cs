@@ -8,22 +8,25 @@ namespace VBL.Data
 {
     public partial class TournamentDivision : TrackedEntityBase
     {
-        public int Id { get; set; }
         public int TournamentId { get; set; }
+
+        public int Id { get; set; }
+        public int? MinTeams { get; set; }
+        public int? MaxTeams { get; set; }
+        public byte NumOfPlayers { get; set; } = 2;
+        public byte NumAllowedOnRoster { get; set; } = 2;
+        public string SanctioningBodyId { get; set; }
+        public string EmailNote { get; set; }
+        public int? TournamentDirectorUserId { get; set; }
+        public DateTime DtRefundCutoff { get; set; }
+
         public int? AgeTypeId { get; set; }
         public int? GenderId { get; set; }
         public int? DivisionId { get; set; }
         public int? LocationId { get; set; }
-        public int? MinTeams { get; set; }
-        public int? MaxTeams { get; set; }
+
         public string Info { get; set; }
-        public byte NumOfPlayers { get; set; } = 2;
-        public byte NumAllowedOnRoster { get; set; } = 2;
-        public int? SanctioningBodyId { get; set; }
         public bool IsSanctioningBodyApproved { get; set; }
-        public DateTime DtRefundCutoff { get; set; }
-        public int? TournamentDirectorUserId { get; set; }
-        public string EmailNote { get; set; }
         public int? SparkPostEmailTemplateId { get; set; }
 
 
