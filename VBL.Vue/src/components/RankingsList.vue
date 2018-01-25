@@ -3,6 +3,7 @@
     :headers="headers"
     :items="rows"
     :pagination.sync="pager"
+    :search="searchTerm"
     >
     <template slot="items" slot-scope="props">
       <tr>
@@ -20,7 +21,7 @@ import uniq from 'lodash.uniq'
 import each from 'lodash.foreach'
 
 export default {
-  props: ['players'],
+  props: ['players', 'searchTerm'],
   data () {
     return {
       headers: [

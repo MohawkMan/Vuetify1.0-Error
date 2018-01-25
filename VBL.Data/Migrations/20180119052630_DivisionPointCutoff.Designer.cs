@@ -11,9 +11,10 @@ using VBL.Data;
 namespace VBL.Data.Migrations
 {
     [DbContext(typeof(VBLDbContext))]
-    partial class VBLDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180119052630_DivisionPointCutoff")]
+    partial class DivisionPointCutoff
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -268,8 +269,6 @@ namespace VBL.Data.Migrations
                     b.Property<string>("Description");
 
                     b.Property<bool>("IsPublic");
-
-                    b.Property<bool?>("Male");
 
                     b.Property<string>("Name");
 
@@ -535,8 +534,6 @@ namespace VBL.Data.Migrations
                     b.Property<string>("FirstName");
 
                     b.Property<string>("LastName");
-
-                    b.Property<bool>("Male");
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
@@ -906,10 +903,6 @@ namespace VBL.Data.Migrations
 
                     b.Property<DateTime?>("DtModified");
 
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<string>("Notes");
-
                     b.Property<string>("PaymentType");
 
                     b.Property<byte[]>("RowVersion")
@@ -1131,11 +1124,7 @@ namespace VBL.Data.Migrations
 
                     b.Property<int?>("Finish");
 
-                    b.Property<bool>("IsDeleted");
-
                     b.Property<string>("Name");
-
-                    b.Property<string>("Notes");
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()

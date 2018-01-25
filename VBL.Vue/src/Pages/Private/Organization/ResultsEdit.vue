@@ -213,9 +213,16 @@ export default {
         return page.username === this.username
       })
     },
+    tournaments () {
+      return this.tournamentList.filter((t) => {
+        return t.organization && t.organization.username === this.username
+      })
+    },
     rows () {
       // var tourneys = this.needResults(this.username)
-      var tourneys = this.tournamentList
+      var tourneys = this.tournaments.filter((t) => {
+        return t.statusId < 100
+      })
       return tourneys.map((t) => {
         return {
           id: t.id,

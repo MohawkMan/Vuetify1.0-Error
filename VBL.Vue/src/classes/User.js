@@ -4,6 +4,7 @@ export default class User {
   }
   // methods
   update (dto) {
+    if (typeof dto === 'string') dto = JSON.parse(dto)
     Object.assign(this, dto)
   }
   isPageAdmin (pageUsername) {

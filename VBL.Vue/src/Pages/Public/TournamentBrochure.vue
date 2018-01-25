@@ -14,6 +14,7 @@
     </v-layout>
   </v-container>
   <v-container v-else grid-list-sm>
+    <admin-speed-dial :currentTournament="tourney"></admin-speed-dial>
     <v-layout row>
       <v-flex xs12 sm12 md10 offset-md1>
         <v-card color="grey lighten-1">
@@ -65,11 +66,11 @@
           >
             <v-tabs-bar color="grey lighten-4">
               <v-tabs-slider color="color1"></v-tabs-slider>
-              <v-tabs-item href="#information" ripple>
+              <v-tabs-item href="#information" ripple v-if="!complete">
                 <v-icon>info_outline</v-icon>
                 <span class="hidden-xs-only">Information</span>
               </v-tabs-item>
-              <v-tabs-item href="#location" ripple>
+              <v-tabs-item href="#location" ripple v-if="!complete">
                 <v-icon>location_on</v-icon>
                 <span class="hidden-xs-only">Location</span>
               </v-tabs-item>
@@ -77,13 +78,13 @@
                 <v-icon>assignment_turned_in</v-icon>
                 <span class="hidden-xs-only">Register</span>
               </v-tabs-item>
-              <v-tabs-item href="#results" ripple v-if="complete">
+              <v-tabs-item href="#results" ripple v-if="!upcoming">
                 <v-icon>group</v-icon>
                 <span class="hidden-xs-only">Results</span>
               </v-tabs-item>
             </v-tabs-bar>
             <v-tabs-items>
-              <v-tabs-content id="information">
+              <v-tabs-content id="information" v-if="!complete">
                 <v-card>
                   <v-card-text v-html="tourney.description"></v-card-text>
                 </v-card>
@@ -96,10 +97,10 @@
                   <division-list :divisions="tourney.divisions" @registerClick="register" mode="list"></division-list>
                 </v-card>
               </v-tabs-content>
-              <v-tabs-content id="location">
+              <v-tabs-content id="location"  v-if="!complete">
                 <v-card>
-                  <v-card-title>
-                    <iframe width="100%" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?q=VolleyOC%20Courts%20At%20Newland%20St.&key=AIzaSyCwaRA4_FE4ZiG4I3WrEvZWpeW7Ro8gx0M" allowfullscreen></iframe>
+                  <v-card-title v-if="tourney.isOneLocation">
+                    <iframe width="100%" height="450" frameborder="0" style="border:0" :src="tourney.divisions[0].location.googleUrl" allowfullscreen></iframe>
                   </v-card-title>
                 </v-card>
               </v-tabs-content>
@@ -113,11 +114,23 @@
                   ></tournament-registration>
                 </v-card>
               </v-tabs-content>
-              <v-tabs-content id="results" v-if="complete">
+              <v-tabs-content id="results" v-if="!upcoming">
                 <team-list-ex 
                   :divisions="tourney.divisions"
-                  :expandId="6">
+                  :expandId="6"
+                   v-if="complete">
                 </team-list-ex>
+                  <v-container fill-height v-else>
+                    <v-layout row wrap align-center>
+                      <v-flex xs8 offset-xs2>
+                        <v-layout row wrap text-xs-center>
+                          <v-flex xs12>
+                            <h3>Awaiting results</h3>
+                          </v-flex>
+                        </v-layout>
+                      </v-flex>
+                    </v-layout>
+                  </v-container>
               </v-tabs-content>
             </v-tabs-items>
           </v-tabs>
@@ -135,12 +148,17 @@ import Divisions from '../../components/Tournament/DivisionList.vue'
 import RegistrationUI from '../../components/Tournament/Registration.vue'
 import Teams from '../../components/Tournament/TeamListExpansion.vue'
 import * as StatusEnum from '../../classes/TournamentStatus'
-// import * as mutations from '../../store/MutationTypes'
-
+import EditorSimple from '../../components/Tournament/Edit/Simple.vue'
+import * as actions from '../../store/ActionTypes'
+import RegistrationUploader from '../../components/Tournament/RegistrationUploader.vue'
+import AdminSpeedDial from '../../components/AdminSpeedDial.vue'
 export default {
-  props: ['tournamentId', 'mode'],
+  props: ['tournamentId', 'username', 'mode'],
   data () {
     return {
+      fab: null,
+      editDialog: false,
+      uploadDialog: false,
       tourney: null,
       registering: true,
       registration: null,
@@ -149,6 +167,9 @@ export default {
     }
   },
   computed: {
+    userIsAdmin () {
+      return this.$store.getters.user && this.$store.getters.user.isPageAdmin(this.username)
+    },
     divisionsWithTeams () {
       return this.tourney.divisions.filter(division => division.teams.length > 0)
     },
@@ -162,6 +183,9 @@ export default {
     },
     complete () {
       return this.tourney.statusId === StatusEnum.COMPLETE
+    },
+    upcoming () {
+      return this.tourney.statusId === StatusEnum.UPCOMING
     }
   },
   methods: {
@@ -200,10 +224,14 @@ export default {
   components: {
     'division-list': Divisions,
     'tournament-registration': RegistrationUI,
-    'team-list-ex': Teams
+    'team-list-ex': Teams,
+    'simple-editor': EditorSimple,
+    'registration-uploader': RegistrationUploader,
+    'admin-speed-dial': AdminSpeedDial
   },
   created () {
     console.log('Calling fetch tourney')
+    this.$store.dispatch(actions.LOAD_SELECT_OPTIONS)
     this.fetchTourney()
     if (this.mode) {
       this.activeTab = this.mode

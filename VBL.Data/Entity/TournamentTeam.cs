@@ -12,7 +12,9 @@ namespace VBL.Data
         public TournamentDivision TournamentDivision { get; set; }
         public int TournamentRegistrationId { get; set; }
         public TournamentRegistration TournamentRegistration { get; set; }
-        
+        public bool IsDeleted { get; set; }
+        public string Notes { get; set; }
+
         public List<TournamentTeamMember> Players { get; set; } = new List<TournamentTeamMember>();
 
         public int? Seed { get; set; }

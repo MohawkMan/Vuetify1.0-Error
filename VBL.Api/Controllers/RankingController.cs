@@ -44,20 +44,24 @@ namespace VBL.Api.Controllers
             var records = await _db.TournamentTeamMembers
                 .Include(i => i.PlayerProfile)
                     .ThenInclude(t => t.User)
+                .Where(w => w.DtFinalized.HasValue)
+                .Where(w => !w.TournamentTeam.IsDeleted)
                 .Select(s => new
                 {
                     PlayerProfileId = s.PlayerProfileId,
                     Name = s.PlayerProfile.User == null ? $"{s.PlayerProfile.FirstName} {s.PlayerProfile.LastName}" : s.PlayerProfile.User.FullName,
-                    Points = s.VblTotalPointsEarned
+                    Points = s.VblTotalPointsEarned,
+                    IsMale = s.PlayerProfile.Male
                 })
                 .ToListAsync();
 
             var grouped = records
-                .GroupBy(g => new { g.PlayerProfileId, g.Name })
+                .GroupBy(g => new { g.PlayerProfileId, g.Name, g.IsMale })
                 .Select(s => new PlayerPointsDTO
                 {
                     PlayerProfileId = s.Key.PlayerProfileId,
                     Name = s.Key.Name,
+                    IsMale = s.Key.IsMale,
                     CurrentPoints = s.Sum(x => Convert.ToInt32(x.Points)),
                     Events = s.Count()
                 })

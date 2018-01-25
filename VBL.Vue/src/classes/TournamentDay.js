@@ -12,6 +12,13 @@ export default class TournamentDay {
   }
 
   update (dto) {
+    if (typeof dto === 'string') dto = JSON.parse(dto)
     Object.assign(this, dto)
+  }
+  updateFromTemplate (template) {
+    this.date = template.date
+    this.dateFormatted = template.dateFormatted
+    this.checkInTime = template.checkInTime
+    this.playTime = template.playTime
   }
 }

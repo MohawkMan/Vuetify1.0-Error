@@ -13,6 +13,7 @@ namespace VBL.Data.Mapping
         public string CbvaNumber { get; set; }
         public string UsavNumber { get; set; }
         public string Club { get; set; }
+        public bool Male { get; set; }
     }
 
     public class PlayerProfileProfile: Profile

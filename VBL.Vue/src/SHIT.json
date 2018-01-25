@@ -1,43 +1,710 @@
 {
-  "substitution_data": {
-    "organizername": "Volley OC",
-    "tournamentname": "Paul Mitchell / American Beach VC Bounty Tournament",
-    "teamname": "asdsad/asdsad",
-    "date": "Saturday, January 06th  2018",
-    "checkin": "8:30am",
-    "playstarts": "9:00am",
-    "location": "Huntington State Beach (Newland)",
-    "tournamentlink": "volleyballlife.com/VolleyOC/tournament/2",
-    "division": "Girls 16U",
-    "dtrefund": "Monday, January 01st  0001",
-    "td": {
-      "fullname": "Ed Ratledge",
-      "firstname": "Ed",
-      "email": null,
-      "phone": null,
-      "addEmails": [],
-      "addPhones": [],
-      "message": null
-    }
+  "id": 4,
+  "name": "Paul Mitchell Series #3",
+  "statusId": 0,
+  "isPublic": true,
+  "organizationId": 1,
+  "organization": {
+    "id": 1,
+    "name": "Volley OC",
+    "username": "VolleyOC"
   },
-  "recipients": [
+  "divisions": [
     {
-      "address": "asd@sdf.as",
-      "substitution_data": {
-        "firstname": "Jon",
-        "teammates": "and Someone Else"
+      "id": 22,
+      "minTeams": null,
+      "maxTeams": null,
+      "numOfPlayers": 2,
+      "numAllowedOnRoster": 2,
+      "sanctioningBodyId": "AAU",
+      "emailNote": null,
+      "tournamentDirectorUserId": null,
+      "dtRefundCutoff": "2018-01-19T17:00:00Z",
+      "offset": "-08:00:00",
+      "ageType": {
+        "id": 1,
+        "name": "Juniors"
+      },
+      "gender": {
+        "id": 4,
+        "name": "Girls",
+        "ageTypeId": 1
+      },
+      "division": {
+        "id": 9,
+        "name": "12U",
+        "ageTypeId": 1
+      },
+      "days": [
+        {
+          "id": 22,
+          "date": "2018-01-20",
+          "dateFormatted": "01/20/2018",
+          "checkInTime": "8:30am",
+          "playTime": "9:00am"
+        }
+      ],
+      "location": {
+        "id": 16,
+        "name": "Huntington State Beach (Newland)"
+      },
+      "registrationWindows": [
+        {
+          "id": 27,
+          "fee": 60,
+          "feeIsPerTeam": true,
+          "startDate": "2017-12-01",
+          "startDateFormatted": "12/01/2017",
+          "startTime": "8:00am",
+          "endDate": "2018-01-19",
+          "endDateFormatted": "01/19/2018",
+          "endTime": "5:00pm",
+          "isEarly": false,
+          "isLate": false,
+          "canPayAtEvent": true,
+          "canProcessPayment": false
+        }
+      ],
+      "teams": [
+        {
+          "id": 317,
+          "name": "sdfsdf sadfsdf/asdfhgj fghjghj",
+          "seed": null,
+          "points": 0,
+          "finish": null
+        }
+      ],
+      "registrationFields": {
+        "id": 19,
+        "fields": [
+          "club",
+          "avp",
+          "usav"
+        ],
+        "requiredFields": [
+          "aau",
+          "email",
+          "phone",
+          "dob",
+          "cityState"
+        ]
       }
     },
     {
-      "address": "asd@asdf.sdf",
-      "substitution_data": {
-        "firstname": "Someone",
-        "teammates": "and Jon Alvarez"
+      "id": 23,
+      "minTeams": null,
+      "maxTeams": null,
+      "numOfPlayers": 2,
+      "numAllowedOnRoster": 2,
+      "sanctioningBodyId": "AAU",
+      "emailNote": null,
+      "tournamentDirectorUserId": null,
+      "dtRefundCutoff": "2018-01-19T17:00:00Z",
+      "offset": "-08:00:00",
+      "ageType": {
+        "id": 1,
+        "name": "Juniors"
+      },
+      "gender": {
+        "id": 4,
+        "name": "Girls",
+        "ageTypeId": 1
+      },
+      "division": {
+        "id": 8,
+        "name": "14U",
+        "ageTypeId": 1
+      },
+      "days": [
+        {
+          "id": 30,
+          "date": "2018-01-20",
+          "dateFormatted": "01/20/2018",
+          "checkInTime": "8:30am",
+          "playTime": "9:00am"
+        }
+      ],
+      "location": {
+        "id": 16,
+        "name": "Huntington State Beach (Newland)"
+      },
+      "registrationWindows": [
+        {
+          "id": 24,
+          "fee": 60,
+          "feeIsPerTeam": true,
+          "startDate": "2017-12-01",
+          "startDateFormatted": "12/01/2017",
+          "startTime": "8:00am",
+          "endDate": "2018-01-19",
+          "endDateFormatted": "01/19/2018",
+          "endTime": "5:00pm",
+          "isEarly": false,
+          "isLate": false,
+          "canPayAtEvent": true,
+          "canProcessPayment": false
+        }
+      ],
+      "teams": [
+        {
+          "id": 316,
+          "name": "Test3 Tester/Partner3 Tester",
+          "seed": null,
+          "points": 0,
+          "finish": null
+        },
+        {
+          "id": 318,
+          "name": "sdfdfthj xcvb/gfh bvxvbcn",
+          "seed": null,
+          "points": 0,
+          "finish": null
+        }
+      ],
+      "registrationFields": {
+        "id": 20,
+        "fields": [
+          "club",
+          "avp",
+          "usav"
+        ],
+        "requiredFields": [
+          "aau",
+          "email",
+          "phone",
+          "dob",
+          "cityState"
+        ]
+      }
+    },
+    {
+      "id": 24,
+      "minTeams": null,
+      "maxTeams": null,
+      "numOfPlayers": 2,
+      "numAllowedOnRoster": 2,
+      "sanctioningBodyId": "AAU",
+      "emailNote": null,
+      "tournamentDirectorUserId": null,
+      "dtRefundCutoff": "2018-01-19T17:00:00Z",
+      "offset": "-08:00:00",
+      "ageType": {
+        "id": 1,
+        "name": "Juniors"
+      },
+      "gender": {
+        "id": 4,
+        "name": "Girls",
+        "ageTypeId": 1
+      },
+      "division": {
+        "id": 7,
+        "name": "16U",
+        "ageTypeId": 1
+      },
+      "days": [
+        {
+          "id": 29,
+          "date": "2018-01-20",
+          "dateFormatted": "01/20/2018",
+          "checkInTime": "8:30am",
+          "playTime": "9:00am"
+        }
+      ],
+      "location": {
+        "id": 16,
+        "name": "Huntington State Beach (Newland)"
+      },
+      "registrationWindows": [
+        {
+          "id": 29,
+          "fee": 60,
+          "feeIsPerTeam": true,
+          "startDate": "2017-12-01",
+          "startDateFormatted": "12/01/2017",
+          "startTime": "8:00am",
+          "endDate": "2018-01-19",
+          "endDateFormatted": "01/19/2018",
+          "endTime": "5:00pm",
+          "isEarly": false,
+          "isLate": false,
+          "canPayAtEvent": true,
+          "canProcessPayment": false
+        }
+      ],
+      "teams": [
+        {
+          "id": 315,
+          "name": "Jon Alvarez/Partner Test",
+          "seed": null,
+          "points": 0,
+          "finish": null
+        },
+        {
+          "id": 319,
+          "name": "sdgaRF vbcx/54y dfgh",
+          "seed": null,
+          "points": 0,
+          "finish": null
+        }
+      ],
+      "registrationFields": {
+        "id": 21,
+        "fields": [
+          "club",
+          "avp",
+          "usav"
+        ],
+        "requiredFields": [
+          "aau",
+          "email",
+          "phone",
+          "dob",
+          "cityState"
+        ]
+      }
+    },
+    {
+      "id": 25,
+      "minTeams": null,
+      "maxTeams": null,
+      "numOfPlayers": 2,
+      "numAllowedOnRoster": 2,
+      "sanctioningBodyId": "AAU",
+      "emailNote": null,
+      "tournamentDirectorUserId": null,
+      "dtRefundCutoff": "2018-01-19T17:00:00Z",
+      "offset": "-08:00:00",
+      "ageType": {
+        "id": 1,
+        "name": "Juniors"
+      },
+      "gender": {
+        "id": 4,
+        "name": "Girls",
+        "ageTypeId": 1
+      },
+      "division": {
+        "id": 6,
+        "name": "18U",
+        "ageTypeId": 1
+      },
+      "days": [
+        {
+          "id": 27,
+          "date": "2018-01-20",
+          "dateFormatted": "01/20/2018",
+          "checkInTime": "8:30am",
+          "playTime": "9:00am"
+        }
+      ],
+      "location": {
+        "id": 16,
+        "name": "Huntington State Beach (Newland)"
+      },
+      "registrationWindows": [
+        {
+          "id": 22,
+          "fee": 60,
+          "feeIsPerTeam": true,
+          "startDate": "2017-12-01",
+          "startDateFormatted": "12/01/2017",
+          "startTime": "8:00am",
+          "endDate": "2018-01-19",
+          "endDateFormatted": "01/19/2018",
+          "endTime": "5:00pm",
+          "isEarly": false,
+          "isLate": false,
+          "canPayAtEvent": true,
+          "canProcessPayment": false
+        }
+      ],
+      "teams": [
+        {
+          "id": 314,
+          "name": "Jon Alvarez/Test Partner",
+          "seed": null,
+          "points": 0,
+          "finish": null
+        }
+      ],
+      "registrationFields": {
+        "id": 22,
+        "fields": [
+          "club",
+          "avp",
+          "usav"
+        ],
+        "requiredFields": [
+          "aau",
+          "email",
+          "phone",
+          "dob",
+          "cityState"
+        ]
+      }
+    },
+    {
+      "id": 26,
+      "minTeams": null,
+      "maxTeams": null,
+      "numOfPlayers": 2,
+      "numAllowedOnRoster": 2,
+      "sanctioningBodyId": null,
+      "emailNote": null,
+      "tournamentDirectorUserId": null,
+      "dtRefundCutoff": "2018-01-19T17:00:00Z",
+      "offset": "-08:00:00",
+      "ageType": {
+        "id": 1,
+        "name": "Juniors"
+      },
+      "gender": {
+        "id": 4,
+        "name": "Girls",
+        "ageTypeId": 1
+      },
+      "division": {
+        "id": 4,
+        "name": "12U Rec*",
+        "ageTypeId": 1
+      },
+      "days": [
+        {
+          "id": 28,
+          "date": "2018-01-20",
+          "dateFormatted": "01/20/2018",
+          "checkInTime": "8:30am",
+          "playTime": "9:00am"
+        }
+      ],
+      "location": {
+        "id": 16,
+        "name": "Huntington State Beach (Newland)"
+      },
+      "registrationWindows": [
+        {
+          "id": 23,
+          "fee": 60,
+          "feeIsPerTeam": true,
+          "startDate": "2017-12-01",
+          "startDateFormatted": "12/01/2017",
+          "startTime": "8:00am",
+          "endDate": "2018-01-19",
+          "endDateFormatted": "01/19/2018",
+          "endTime": "5:00pm",
+          "isEarly": false,
+          "isLate": false,
+          "canPayAtEvent": true,
+          "canProcessPayment": false
+        }
+      ],
+      "teams": [],
+      "registrationFields": {
+        "id": 23,
+        "fields": [
+          "club",
+          "avp",
+          "usav"
+        ],
+        "requiredFields": [
+          "aau",
+          "email",
+          "phone",
+          "dob",
+          "cityState"
+        ]
+      }
+    },
+    {
+      "id": 27,
+      "minTeams": null,
+      "maxTeams": null,
+      "numOfPlayers": 2,
+      "numAllowedOnRoster": 2,
+      "sanctioningBodyId": null,
+      "emailNote": null,
+      "tournamentDirectorUserId": null,
+      "dtRefundCutoff": "2018-01-19T17:00:00Z",
+      "offset": "-08:00:00",
+      "ageType": {
+        "id": 1,
+        "name": "Juniors"
+      },
+      "gender": {
+        "id": 4,
+        "name": "Girls",
+        "ageTypeId": 1
+      },
+      "division": {
+        "id": 3,
+        "name": "14U Rec*",
+        "ageTypeId": 1
+      },
+      "days": [
+        {
+          "id": 25,
+          "date": "2018-01-20",
+          "dateFormatted": "01/20/2018",
+          "checkInTime": "8:30am",
+          "playTime": "9:00am"
+        }
+      ],
+      "location": {
+        "id": 16,
+        "name": "Huntington State Beach (Newland)"
+      },
+      "registrationWindows": [
+        {
+          "id": 25,
+          "fee": 60,
+          "feeIsPerTeam": true,
+          "startDate": "2017-12-01",
+          "startDateFormatted": "12/01/2017",
+          "startTime": "8:00am",
+          "endDate": "2018-01-19",
+          "endDateFormatted": "01/19/2018",
+          "endTime": "5:00pm",
+          "isEarly": false,
+          "isLate": false,
+          "canPayAtEvent": true,
+          "canProcessPayment": false
+        }
+      ],
+      "teams": [],
+      "registrationFields": {
+        "id": 24,
+        "fields": [
+          "club",
+          "avp",
+          "usav"
+        ],
+        "requiredFields": [
+          "aau",
+          "email",
+          "phone",
+          "dob",
+          "cityState"
+        ]
+      }
+    },
+    {
+      "id": 28,
+      "minTeams": null,
+      "maxTeams": null,
+      "numOfPlayers": 2,
+      "numAllowedOnRoster": 2,
+      "sanctioningBodyId": "AAU",
+      "emailNote": null,
+      "tournamentDirectorUserId": null,
+      "dtRefundCutoff": "2018-01-19T17:00:00Z",
+      "offset": "-08:00:00",
+      "ageType": {
+        "id": 1,
+        "name": "Juniors"
+      },
+      "gender": {
+        "id": 7,
+        "name": "Boys",
+        "ageTypeId": 1
+      },
+      "division": {
+        "id": 8,
+        "name": "14U",
+        "ageTypeId": 1
+      },
+      "days": [
+        {
+          "id": 24,
+          "date": "2018-01-20",
+          "dateFormatted": "01/20/2018",
+          "checkInTime": "8:30am",
+          "playTime": "9:00am"
+        }
+      ],
+      "location": {
+        "id": 16,
+        "name": "Huntington State Beach (Newland)"
+      },
+      "registrationWindows": [
+        {
+          "id": 26,
+          "fee": 60,
+          "feeIsPerTeam": true,
+          "startDate": "2017-12-01",
+          "startDateFormatted": "12/01/2017",
+          "startTime": "8:00am",
+          "endDate": "2018-01-19",
+          "endDateFormatted": "01/19/2018",
+          "endTime": "5:00pm",
+          "isEarly": false,
+          "isLate": false,
+          "canPayAtEvent": true,
+          "canProcessPayment": false
+        }
+      ],
+      "teams": [],
+      "registrationFields": {
+        "id": 25,
+        "fields": [
+          "club",
+          "avp",
+          "usav"
+        ],
+        "requiredFields": [
+          "aau",
+          "email",
+          "phone",
+          "dob",
+          "cityState"
+        ]
+      }
+    },
+    {
+      "id": 29,
+      "minTeams": null,
+      "maxTeams": null,
+      "numOfPlayers": 2,
+      "numAllowedOnRoster": 2,
+      "sanctioningBodyId": "AAU",
+      "emailNote": null,
+      "tournamentDirectorUserId": null,
+      "dtRefundCutoff": "2018-01-19T17:00:00Z",
+      "offset": "-08:00:00",
+      "ageType": {
+        "id": 1,
+        "name": "Juniors"
+      },
+      "gender": {
+        "id": 7,
+        "name": "Boys",
+        "ageTypeId": 1
+      },
+      "division": {
+        "id": 7,
+        "name": "16U",
+        "ageTypeId": 1
+      },
+      "days": [
+        {
+          "id": 23,
+          "date": "2018-01-20",
+          "dateFormatted": "01/20/2018",
+          "checkInTime": "8:30am",
+          "playTime": "9:00am"
+        }
+      ],
+      "location": {
+        "id": 16,
+        "name": "Huntington State Beach (Newland)"
+      },
+      "registrationWindows": [
+        {
+          "id": 28,
+          "fee": 60,
+          "feeIsPerTeam": true,
+          "startDate": "2017-12-01",
+          "startDateFormatted": "12/01/2017",
+          "startTime": "8:00am",
+          "endDate": "2018-01-19",
+          "endDateFormatted": "01/19/2018",
+          "endTime": "5:00pm",
+          "isEarly": false,
+          "isLate": false,
+          "canPayAtEvent": true,
+          "canProcessPayment": false
+        }
+      ],
+      "teams": [],
+      "registrationFields": {
+        "id": 26,
+        "fields": [
+          "club",
+          "avp",
+          "usav"
+        ],
+        "requiredFields": [
+          "aau",
+          "email",
+          "phone",
+          "dob",
+          "cityState"
+        ]
+      }
+    },
+    {
+      "id": 30,
+      "minTeams": null,
+      "maxTeams": null,
+      "numOfPlayers": 2,
+      "numAllowedOnRoster": 2,
+      "sanctioningBodyId": null,
+      "emailNote": null,
+      "tournamentDirectorUserId": null,
+      "dtRefundCutoff": "2018-01-19T17:00:00Z",
+      "offset": "-08:00:00",
+      "ageType": {
+        "id": 1,
+        "name": "Juniors"
+      },
+      "gender": {
+        "id": 6,
+        "name": "Boys or Coed",
+        "ageTypeId": 1
+      },
+      "division": {
+        "id": 10,
+        "name": "10U",
+        "ageTypeId": 1
+      },
+      "days": [
+        {
+          "id": 26,
+          "date": "2018-01-20",
+          "dateFormatted": "01/20/2018",
+          "checkInTime": "8:30am",
+          "playTime": "9:00am"
+        }
+      ],
+      "location": {
+        "id": 16,
+        "name": "Huntington State Beach (Newland)"
+      },
+      "registrationWindows": [
+        {
+          "id": 30,
+          "fee": 60,
+          "feeIsPerTeam": true,
+          "startDate": "2017-12-01",
+          "startDateFormatted": "12/01/2017",
+          "startTime": "8:00am",
+          "endDate": "2018-01-19",
+          "endDateFormatted": "01/19/2018",
+          "endTime": "5:00pm",
+          "isEarly": false,
+          "isLate": false,
+          "canPayAtEvent": true,
+          "canProcessPayment": false
+        }
+      ],
+      "teams": [],
+      "registrationFields": {
+        "id": 27,
+        "fields": [
+          "club",
+          "avp",
+          "usav"
+        ],
+        "requiredFields": [
+          "aau",
+          "email",
+          "phone",
+          "dob",
+          "cityState"
+        ]
       }
     }
   ],
-  "content": {
-    "template_id": "tourney-reg-v1",
-    "use_draft_template": true
-  }
+  "externalRegistrationUrl": "https://volleyoc.sportngin.com/register/form/163177432",
+  "description": "<u>Age</u><p>All teams must compete in the age division they will compete in during summer 2018. Age cut-off is September 1st like SCVA and CBVA. Occasionally, exceptions can be made but teams out of age division will not receive playoff entry or points.</p><u>Format</u><p>Pool play (3, 4, and 5 team pools). Top 3 teams will advanced to single-elim playoffs.</p><u>Prizes</u><p>Paul Mitchell prize packs for 1st and 2nd, Medals for 1st, 2nd, and 3rd place all divisions.</p><u>Weather Issues</u><p>Tournament will only be cancelled in the unlikely event of heavy rain, wind, and day-long unplayable conditions. Ed will email throughout the week with weather info if things are dicey, and the tournament may be altered to run more quickly if afternoon rain is imminent. If there is a window of playable weather on tournament day, we'll run during that window by altering start time.</p>"
 }

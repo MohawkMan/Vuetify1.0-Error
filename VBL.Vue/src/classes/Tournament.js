@@ -7,14 +7,16 @@ import * as StatusEnum from '../classes/TournamentStatus'
 
 export default class Tournament {
   constructor (dto) {
-    this.id = 0
-    this.name = ''
-    this.isPublic = false
-    this.organizationId = 0
-    this.organization = null
-    this.divisions = []
-    this.statusId = 0
     this.description = ''
+    this.divisions = []
+    this.externalRegistrationUrl
+    this.id = 0
+    this.isPublic = false
+    this.name = ''
+    this.organization = null
+    this.organizationId = 0
+    this.statusId = 0
+    this.divisionTemplate = new Division()
 
     if (dto) {
       this.update(dto)
@@ -22,15 +24,23 @@ export default class Tournament {
   }
   // methods
   update (dto) {
+    if (typeof dto === 'string') dto = JSON.parse(dto)
     Object.assign(this, dto)
     this.divisions = dto.divisions.map(d => new Division(d))
+    if (dto.divisions.length > 0) {
+      this.divisionTemplate.update(dto.divisions[0])
+    }
   }
-
   newRegistration (divisionId) {
     let r = new Registration()
     r.tournamentId = this.id
     r.divisionId = divisionId
     return r
+  }
+  cascadeTemplateChange () {
+    this.divisions.forEach((d, i) => {
+      d.updateFromTemplate(this.divisionTemplate)
+    })
   }
   // getters
   get divisionHeaders () {
@@ -49,8 +59,17 @@ export default class Tournament {
   get ageGroups () {
     return uniq(this.divisions.map(d => d.ageType.name))
   }
+  get dates () {
+    return [].concat(...this.divisions.map(d => d.dates))
+  }
+  get uniqueDays () {
+    return uniq(this.dates)
+  }
   get dayCount () {
-    return sum(this.divisions.map(d => d.dayCount))
+    return this.uniqueDays.length
+  }
+  get isOneDay () {
+    return this.dayCount < 2
   }
   get startDate () {
     if (this.divisions.length === 0) return null
@@ -64,7 +83,10 @@ export default class Tournament {
     return uniq(this.divisions.map(d => d.divisionsString)).join(', ')
   }
   get locationCount () {
-    return uniq(this.divisions.map(d => d.location.name)).length
+    return uniq(this.divisions.map(d => d.location && d.location.name)).length
+  }
+  get isOneLocation () {
+    return this.locationCount < 2
   }
   get locationsString () {
     return uniq(this.divisions.map(d => d.location.name)).join(', ')
@@ -82,5 +104,14 @@ export default class Tournament {
   }
   get regOpen () {
     return this.dateStatus === StatusEnum.UPCOMING
+  }
+  get isComplete () {
+    return this.statusId === StatusEnum.COMPLETE
+  }
+  get isCanceled () {
+    return this.statusId === StatusEnum.CANCELED
+  }
+  get isEditable () {
+    return !this.isComplete && !this.isCanceled
   }
 }

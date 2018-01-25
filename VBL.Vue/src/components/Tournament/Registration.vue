@@ -1,5 +1,5 @@
 <template>
-  <v-stepper v-if="!tourney.externalRegistrationUrl || true" v-model="currentStep" vertical>
+  <v-stepper v-if="!tourney.externalRegistrationUrl" v-model="currentStep" vertical>
     <!-- Division -->
     <v-stepper-step 
       :step="1"

@@ -11,9 +11,10 @@ using VBL.Data;
 namespace VBL.Data.Migrations
 {
     [DbContext(typeof(VBLDbContext))]
-    partial class VBLDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180122043931_regDelete")]
+    partial class regDelete
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -268,8 +269,6 @@ namespace VBL.Data.Migrations
                     b.Property<string>("Description");
 
                     b.Property<bool>("IsPublic");
-
-                    b.Property<bool?>("Male");
 
                     b.Property<string>("Name");
 

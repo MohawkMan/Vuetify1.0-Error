@@ -68,13 +68,13 @@ export default {
       'pastTournaments'
     ]),
     runningTourneys () {
-      return this.runningTournaments()
+      return this.runningTournaments(this.username)
     },
     upcomingTourneys () {
-      return this.upcomingTournaments()
+      return this.upcomingTournaments(this.username)
     },
     pastTourneys () {
-      return this.pastTournaments()
+      return this.pastTournaments(this.username)
     },
     xsClass () {
       return {

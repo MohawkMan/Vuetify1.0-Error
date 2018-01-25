@@ -10,6 +10,50 @@ namespace VBL.Core
 {
     public partial class TournamentManager
     {
+        public async Task SeedDivision(int tournamentDivisionId)
+        {
+            var division = await _db.TournamentDivisions
+                .Include(i => i.Teams.Where(w => !w.IsDeleted))
+                    .ThenInclude(t => t.Players)
+                .Include(i => i.Days)
+                .Where(w => w.Id == tournamentDivisionId)
+                .FirstOrDefaultAsync();
+            if (division == null) return;
+
+            var startDate = division.Days.OrderBy(o => o.Date).First().Date;
+
+            foreach(var team in division.Teams)
+            {
+                foreach(var player in team.Players)
+                {
+                    var query = _db.TournamentTeamMembers
+                        .Where(w => w.PlayerProfileId == player.PlayerProfileId)
+                        .Where(w => w.DtEarned >= startDate);
+
+                    if (division.DtPointCutoff.HasValue)
+                        query = query.Where(w => w.DtEarned <= division.DtPointCutoff);
+
+                    player.VblSeedingPoints = await query.SumAsync(s => s.VblTotalPointsEarned);
+                }
+            }
+            await _db.SaveChangesAsync();
+        }
+        public async Task LockTournamentResults(int tournamentId)
+        {
+            var divisionIds = await _db.TournamentDivisions
+                .Where(w => w.TournamentId == tournamentId)
+                .Select(s => s.Id)
+                .ToListAsync();
+
+            foreach(var id in divisionIds)
+            {
+                if(await _db.TournamentTeams.Where(a => a.TournamentDivisionId == id && !a.IsDeleted).AnyAsync())
+                    await LockResults(id);
+            }
+            var tournament = await _db.Tournaments.FindAsync(tournamentId);
+            tournament.StatusId = (int)TournamentStatus.Complete;
+            await _db.SaveChangesAsync();
+        }
         public async Task LockResults(int tournamentDivisionId)
         {
             var division = await _db.TournamentDivisions
@@ -29,7 +73,7 @@ namespace VBL.Core
                 .OrderBy(o => o.TeamCap)
                 .FirstOrDefaultAsync(f => f.TeamCap >= division.Teams.Count());
 
-            foreach (var team in division.Teams)
+            foreach (var team in division.Teams.Where(w => !w.IsDeleted))
             {
                 var points = basePoints
                     .OrderBy(o => o.Finish)

@@ -19,7 +19,14 @@
         <v-toolbar-title>Result Upload</v-toolbar-title>
       </v-toolbar>
       <v-card-text>
-
+        <v-card>
+          <v-card-text>
+            <h1>{{tourney.name}}</h1>
+            <v-btn @click.stop="workingDialog = true" v-if="false">
+              Test
+            </v-btn>
+          </v-card-text>
+        </v-card>
         <v-stepper vertical v-model="currentStep">
           <!-- STEP 1: START-->
           <v-stepper-step step="1">
@@ -240,7 +247,7 @@
             </v-card>
             <v-btn
               color="color3 white--text" 
-              @click.native="confirmUpload" 
+              @click.native="currentStep = 5" 
               :disabled="!validMap || busy"
             >Continue</v-btn>
             <v-btn
@@ -250,24 +257,31 @@
             >Back</v-btn>
           </v-stepper-content>
           <!-- STEP 4: END-->
-        </v-stepper>
 
-        <v-dialog v-model="confirmDialog" max-width="500px" persistent>
-          <v-card>
-            <v-toolbar color="yellow darken-3" dark>
-              <v-toolbar-title>
-                <v-icon x-large>warning</v-icon>
-                Are you sure?
-              </v-toolbar-title>
-            </v-toolbar>
-            <v-card-text class="text-xs-center" v-if="parseResuls">
+          <!-- STEP 5: START-->
+          <v-stepper-step step="5">
+            Confirm
+          </v-stepper-step>
+          <v-stepper-content step="5">
+            <v-card color="grey lighten-4" class="pa-2">
+            <v-card-text v-if="parseResuls">
               <h3>
-                Clicking "Complete Upload" below, will import the {{this.parseResuls.data.length}} registration 
+                You are about to import the {{this.parseResuls.data.length}} registration 
                 records in {{currentFile.name}} to {{tourney.name}}
+              </h3>
+              <h3 v-if="tourney.teamCount > 0">
+                <v-alert outline color="red" icon="priority_high" :value="true">
+                  This tournament has existing teams.
+                </v-alert>
+                Would you like to
+                <v-radio-group v-model="overwrite" :mandatory="false">
+                  <v-radio label="Add the imported teams" :value="false"></v-radio>
+                  <v-radio label="Overwrite the existing teams" :value="true"></v-radio>
+                </v-radio-group>
               </h3>
               <h2>
                 <v-checkbox
-                  label="I have reviewed the column mapping"
+                  label="I have reviewed all the mappings and would like to complete the upload"
                   v-model="mapConfirmed"
                 ></v-checkbox>
               </h2>
@@ -281,20 +295,52 @@
               </v-btn>
               <v-btn 
                 flat
-                @click="confirmDialog = false"
+                @click="currentStep = 4"
                 :disabled="busy"
-              >Cancel</v-btn>
-              <v-alert outline color="error" icon="warning" :value="!!error" >
-                We seemed to have had an issue<br>
-                {{error}}<br>
-                If the problem persists please contact support.
-              </v-alert>
+              >Back</v-btn>
             </v-card-text>
           </v-card>
-        </v-dialog>
-
+          </v-stepper-content>
+          <!-- STEP 5: END-->
+        </v-stepper>
       </v-card-text>
     </v-card>
+    <v-dialog v-model="workingDialog" max-width="500px" persistent>
+      <v-card v-if="busy">
+        <v-toolbar color="color2 white--text">
+          <v-toolbar-title>Working!</v-toolbar-title>
+        </v-toolbar>
+        <v-card-text class="text-xs-center">
+          <h3>Please wait, we are</h3>
+          <v-progress-circular indeterminate v-bind:size="50" color="color3"></v-progress-circular>
+          <h3>uploading your registrations.</h3>
+        </v-card-text>
+      </v-card>
+      <v-card v-else-if="error">
+        <v-toolbar color="error">
+          <v-toolbar-title>Error!</v-toolbar-title>
+        </v-toolbar>
+        <v-card-text class="text-xs-center">
+          We seemed to have had an issue<br>
+          {{error}}<br>
+          If the problem persists please contact support.
+        </v-card-text>
+        <v-card-actions>
+          <v-btn @click.stop="workingDialog = false">OK</v-btn>
+        </v-card-actions>
+      </v-card>
+      <v-card v-else>
+        <v-toolbar color="color3">
+          <v-toolbar-title>Success!</v-toolbar-title>
+        </v-toolbar>
+        <v-card-text class="text-xs-center">
+          Your upload is complete.
+        </v-card-text>
+        <v-card-actions>
+          <v-btn @click.stop="complete">OK</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-dialog>
 </template>
 
@@ -309,6 +355,7 @@ export default {
   props: ['open', 'tourney'],
   data () {
     return {
+      overwrite: false,
       currentStep: 1,
       currentFile: null,
       parseResuls: null,
@@ -349,13 +396,13 @@ export default {
         {name: 'Player 2 State', value: '', map: ['2,state', '2,st']},
         {name: 'Player 2 Club', value: '', map: ['club']}
       ],
-      confirmDialog: false,
       mapConfirmed: false,
       divisionColumn: null,
       divisionList: null,
       divisionMap: null,
       busy: false,
-      error: null
+      error: null,
+      workingDialog: false
     }
   },
   computed: {
@@ -424,6 +471,14 @@ export default {
           for (let e of results.errors) {
             results.data.splice(e.row, 1)
           }
+          let checkProperties = (obj) => {
+            for (var key in obj) {
+              if (obj[key] !== null && obj[key] !== '') return true
+            }
+            return false
+          }
+
+          results.data = results.data.filter((r) => checkProperties(r))
 
           this.parseResuls = results
           this.tryMap()
@@ -454,26 +509,21 @@ export default {
         }
       }
     },
-    confirmUpload () {
-      this.$refs.form.validate()
-      if (!this.validMap) return
-      this.confirmDialog = true
-    },
     gotoMapping () {
       this.currentStep = 3
       this.$refs.form.validate()
     },
     upload () {
       this.busy = true
+      this.workingDialog = true
       this.error = null
       let registrations = this.mapRegistrations()
+      const url = this.overwrite ? vbl.tournament.bulkRegisterOverwrite : vbl.tournament.bulkRegister
 
-      this.axios.put(vbl.tournament.bulkRegister, registrations)
+      this.axios.put(url, registrations)
         .then((response) => {
           console.log(response.data)
-          this.$emit('complete')
           this.busy = false
-          this.confirmDialog = false
         })
         .catch((error) => {
           var response = error.response.data
@@ -497,8 +547,8 @@ export default {
           p1.lastName = name.pop()
           p1.firstName = name.join(' ')
         } else {
-          p1.firstName = record[map['Player 1 First Name']].trim()
-          p1.lastName = record[map['Player 1 Last Name']].trim()
+          p1.firstName = record[map['Player 1 First Name']].trim().toLowerCase().replace(/(^|\s)[a-z]/g, function (f) { return f.toUpperCase() })
+          p1.lastName = record[map['Player 1 Last Name']].trim().toLowerCase().replace(/(^|\s)[a-z]/g, function (f) { return f.toUpperCase() })
         }
         p1.phone = record[map['Player 1 Phone']]
         p1.email = record[map['Player 1 Email']]
@@ -517,8 +567,8 @@ export default {
           p2.lastName = name2.pop()
           p2.firstName = name2.join(' ')
         } else {
-          p2.firstName = record[map['Player 2 First Name']]
-          p2.lastName = record[map['Player 2 Last Name']]
+          p2.firstName = record[map['Player 2 First Name']].toLowerCase().replace(/(^|\s)[a-z]/g, function (f) { return f.toUpperCase() })
+          p2.lastName = record[map['Player 2 Last Name']].toLowerCase().replace(/(^|\s)[a-z]/g, function (f) { return f.toUpperCase() })
         }
         p2.phone = record[map['Player 2 Phone']]
         p2.email = record[map['Player 2 Email']]
@@ -543,6 +593,10 @@ export default {
       }
 
       return registrations
+    },
+    complete () {
+      this.$emit('complete')
+      this.workingDialog = false
     }
   },
   watch: {

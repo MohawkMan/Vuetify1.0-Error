@@ -31,9 +31,26 @@ namespace VBL.Core
             var registration = await DoRegistration(dto, sendEmailConfirmation);
             return await GetTournamentAsync(registration.TournamentId);
         }
-        public async Task<TournamentDTO> BulkRegister(List<TournamentRegistrationDTO> dto)
+        public async Task<TournamentDTO> BulkRegister(List<TournamentRegistrationDTO> dto, bool overwrite = false)
         {
             //throw new Exception("This is a error");
+            if(overwrite)
+            {
+                var oldRegistrations = await _db.TournamentRegistrations
+                    .Include(i => i.TournamentTeam)
+                    .Where(w => w.TournamentId == dto[0].TournamentId)
+                    .ToListAsync();
+
+                foreach(var r in oldRegistrations)
+                {
+                    r.IsDeleted = true;
+                    var joiner = string.IsNullOrWhiteSpace(r.Notes) ? "": ";";
+                    r.Notes = $"{r.Notes}{joiner}Bulk register overwrite: {DateTime.Now}";
+                    r.TournamentTeam.IsDeleted = true;
+                    joiner = string.IsNullOrWhiteSpace(r.TournamentTeam.Notes) ? "" : ";";
+                    r.TournamentTeam.Notes = $"{r.TournamentTeam.Notes}{joiner}Bulk register overwrite: {DateTime.Now}";
+                }
+            }
             TournamentRegistration registration = null;
             foreach(var regDto in dto)
             {

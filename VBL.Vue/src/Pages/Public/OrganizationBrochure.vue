@@ -36,7 +36,7 @@
           >
           </v-carousel-item>
         </v-carousel>
-        <v-card class="logo-card" color="white" height="50px">
+        <v-card class="logo-card" height="50px">
             <v-layout align-center>
               <v-flex text-xs-center>
                 <h1>{{organization.name}}</h1>

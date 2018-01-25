@@ -9,6 +9,7 @@ export default class Phone {
   }
   // methods
   update (dto) {
+    if (typeof dto === 'string') dto = JSON.parse(dto)
     Object.assign(this, dto)
   }
   // Getters

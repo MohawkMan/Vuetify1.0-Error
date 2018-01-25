@@ -9,6 +9,7 @@ namespace VBL.Data.Mapping
     {
         public int PlayerProfileId { get; set; }
         public string Name { get; set; }
+        public bool IsMale { get; set; }
         public int CurrentPoints { get; set; }
         public int Events { get; set; }
         //public int CurrentRank { get; set; }

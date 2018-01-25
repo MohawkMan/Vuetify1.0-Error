@@ -12,6 +12,7 @@ export default class TournamentRegistrationAddOn {
     }
   }
   update (dto) {
+    if (typeof dto === 'string') dto = JSON.parse(dto)
     Object.assign(this, dto)
   }
   get subtotal () {

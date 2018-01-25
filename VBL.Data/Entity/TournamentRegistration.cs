@@ -13,6 +13,9 @@ namespace VBL.Data
         public string TeamName { get; set; }
         public bool Confirmed { get; set; }
         public string PaymentType { get; set; }
+        public bool IsDeleted { get; set; }
+        public string Notes { get; set; }
+
 
         // Temporary > Add List<AddOnProduct>
         public int AddOnQty { get; set; }

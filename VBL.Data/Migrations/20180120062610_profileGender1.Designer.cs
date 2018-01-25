@@ -11,9 +11,10 @@ using VBL.Data;
 namespace VBL.Data.Migrations
 {
     [DbContext(typeof(VBLDbContext))]
-    partial class VBLDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180120062610_profileGender1")]
+    partial class profileGender1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -268,8 +269,6 @@ namespace VBL.Data.Migrations
                     b.Property<string>("Description");
 
                     b.Property<bool>("IsPublic");
-
-                    b.Property<bool?>("Male");
 
                     b.Property<string>("Name");
 
@@ -906,10 +905,6 @@ namespace VBL.Data.Migrations
 
                     b.Property<DateTime?>("DtModified");
 
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<string>("Notes");
-
                     b.Property<string>("PaymentType");
 
                     b.Property<byte[]>("RowVersion")
@@ -1131,11 +1126,7 @@ namespace VBL.Data.Migrations
 
                     b.Property<int?>("Finish");
 
-                    b.Property<bool>("IsDeleted");
-
                     b.Property<string>("Name");
-
-                    b.Property<string>("Notes");
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()

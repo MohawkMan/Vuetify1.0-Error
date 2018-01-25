@@ -15,6 +15,7 @@ namespace VBL.Data
         public string CbvaNumber { get; set; }
         public string UsavNumber { get; set; }
         public string Club { get; set; }
+        public bool Male { get; set; }
 
         public int? ApplicationUserId { get; set; }
         public ApplicationUser User { get; set; }

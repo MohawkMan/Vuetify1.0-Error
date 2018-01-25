@@ -153,7 +153,6 @@ namespace VBL.Api.Controllers
             }
         }
 
-
         /// <summary>
         /// Get select options for Age, Gender, Division, and Location
         /// </summary>
@@ -200,16 +199,34 @@ namespace VBL.Api.Controllers
             }
         }
 
-        [AllowAnonymous]
-        [HttpPut("register/upload")]
-        public async Task<IActionResult> Register([FromBody]List<TournamentRegistrationDTO> dto)
+        [HttpPut("register/upload/{overwrite?}")]
+        public async Task<IActionResult> Register([FromBody]List<TournamentRegistrationDTO> dto, [FromRoute] bool overwrite = false)
         {
             try
             {
+                // ADD SECURITY CHECKS
                 _logger.LogInformation($"Register TournamentRegistrationDTO: {dto}");
-                var result = await _tournamentManager.BulkRegister(dto);
+                var result = await _tournamentManager.BulkRegister(dto, overwrite);
 
                 return Ok(result);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(-1, e, "ERROR: ");
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpPut("{tournamentId}/LockResults")]
+        public async Task<IActionResult> LockResults([FromRoute] int tournamentId)
+        {
+            try
+            {
+                // ADD SECURITY CHECKS
+                _logger.LogInformation($"LockResults tournamentId: {tournamentId}");
+                await _tournamentManager.LockTournamentResults(tournamentId);
+
+                return await GetTournament(tournamentId);
             }
             catch (Exception e)
             {
@@ -224,10 +241,11 @@ namespace VBL.Api.Controllers
         {
             try
             {
-                await _tournamentManager.LockResults(13);
-                await _tournamentManager.LockResults(14);
-                await _tournamentManager.LockResults(15);
-                await _tournamentManager.LockResults(16);
+                //await _tournamentManager.LockResults(31);
+                //await _tournamentManager.LockResults(33);
+                //await _tournamentManager.LockResults(34);
+                //await _tournamentManager.LockResults(35);
+                //await _tournamentManager.LockResults(36);
             }
             catch (Exception e)
             {

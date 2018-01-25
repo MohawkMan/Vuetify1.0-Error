@@ -23,7 +23,8 @@ export default {
     getByOrganizationId: (organizationId) => `/tournament/list/${organizationId}`,
     getByOrganizationUserName: (username) => `/tournament/${username}/list`,
     register: '/tournament/register',
-    bulkRegister: '/tournament/register/upload'
+    bulkRegister: '/tournament/register/upload',
+    bulkRegisterOverwrite: '/tournament/register/upload/true'
   },
   user: {
     login: '/account/Login',

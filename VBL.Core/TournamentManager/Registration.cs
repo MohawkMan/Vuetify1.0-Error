@@ -104,9 +104,20 @@ namespace VBL.Core
                 {
                     profile = new PlayerProfile();
                     _mapper.Map(player, profile);
+                    profile.Male = await GetMaleFlag(registration);
                     player.Profile = profile;
                 }
             }
+
+        }
+        private async Task<bool> GetMaleFlag (TournamentRegistration registration)
+        {
+            if (!_db.Entry(registration).Reference(r => r.Division).IsLoaded)
+                await _db.Entry(registration).Reference(r => r.Division).LoadAsync();
+            if (!_db.Entry(registration.Division).Reference(r => r.Gender).IsLoaded)
+                await _db.Entry(registration.Division).Reference(r => r.Gender).LoadAsync();
+
+            return registration.Division.Gender.Male.HasValue ? registration.Division.Gender.Male.Value : false;
 
         }
         private void AddTournamentTeam(TournamentRegistration registration)

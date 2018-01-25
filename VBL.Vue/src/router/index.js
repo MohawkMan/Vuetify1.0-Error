@@ -1,93 +1,39 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import AuthGuard from './auth-guard'
-import PublicOnly from './public-only'
 import BeforeEach from './before-each'
 
 // Public Views
-import Home from '@/Pages/Public/Home'
-import Players from '@/Pages/Public/Players'
-import Rankings from '@/Pages/Public/Rankings'
 import Tournaments from '@/Pages/Public/Tournaments'
-import Organizations from '@/Pages/Public/Organizations'
-import Join from '@/Pages/Public/Account/Register'
-import SignIn from '@/Pages/Public/Account/Login'
 import TourneyBrochure from '@/Pages/Public/TournamentBrochure.vue'
-import Privacy from '@/Pages/Public/Privacy.vue'
-import EmailConfirm from '@/Pages/Public/Confirm.vue'
 import OrgBrochure from '@/Pages/Public/OrganizationBrochure.vue'
-import JuniorPoints from '@/Pages/Public/JuniorPoints.vue'
 
 // Private Views
 import Profile from '@/Pages/Private/User/Profile'
 import MyTournaments from '@/Pages/Private/User/Tournaments'
-import OrgHome from '@/Pages/Private/Organization/Home.vue'
+import OrganizationHome from '@/Pages/Private/Organization/Home.vue'
+import OrganizationCreate from '@/Pages/Private/Organization/Create.vue'
 // import OrgTourneys from '@/Pages/Private/Organization/TournamentList.vue'
 import TournamentCreator from '@/Pages/Private/Organization/TournamentCreate.vue'
 import ResultsEditor from '@/Pages/Private/Organization/ResultsEdit.vue'
 
+import PublicPages from './public-routes'
 Vue.use(Router)
 
 const router = new Router({
   routes: [
+    ...PublicPages,
     {
-      path: '/',
-      name: 'home',
-      component: Home
-    },
-    {
-      path: '/join',
-      name: 'join',
-      component: Join,
-      beforeEnter: PublicOnly
-    },
-    {
-      path: '/signin',
-      name: 'signin',
-      component: SignIn,
-      beforeEnter: PublicOnly
-    },
-    {
-      path: '/players',
-      name: 'players',
-      component: Players
-    },
-    {
-      path: '/rankings',
-      name: 'rankings',
-      component: Rankings
-    },
-    {
-      path: '/tournaments',
-      name: 'tournaments',
-      component: Tournaments
-    },
-    {
-      path: '/organizations',
-      name: 'organizations',
-      component: Organizations
+      path: '/organization/create',
+      name: 'organization-create',
+      component: OrganizationCreate,
+      beforeEnter: AuthGuard
     },
     {
       path: '/me',
       name: 'me',
       component: Profile,
       beforeEnter: AuthGuard
-    },
-    {
-      path: '/privacy',
-      name: 'privacy',
-      component: Privacy
-    },
-    {
-      path: '/juniorpoints',
-      name: 'juniorpoints',
-      component: JuniorPoints
-    },
-    {
-      path: '/confirm/:emailId/:token',
-      name: 'confirm',
-      component: EmailConfirm,
-      props: true
     },
     {
       path: '/my/tournaments',
@@ -116,7 +62,7 @@ const router = new Router({
     {
       path: '/:username/admin',
       name: 'organization-home',
-      component: OrgHome,
+      component: OrganizationHome,
       beforeEnter: AuthGuard,
       props: true
     },
@@ -131,25 +77,25 @@ const router = new Router({
       path: '/:username/tournament/:tournamentId',
       name: 'tournament-brochure',
       component: TourneyBrochure,
-      props: (route) => { return {tournamentId: route.params.tournamentId, mode: 'information'} }
+      props: (route) => { return {tournamentId: route.params.tournamentId, mode: 'information', username: route.params.username} }
     },
     {
       path: '/:username/tournament/:tournamentId/register',
       name: 'tournament-register',
       component: TourneyBrochure,
-      props: (route) => { return {tournamentId: route.params.tournamentId, mode: 'register'} }
+      props: (route) => { return {tournamentId: route.params.tournamentId, mode: 'register', username: route.params.username} }
     },
     {
       path: '/:username/tournament/:tournamentId/location',
       name: 'tournament-location',
       component: TourneyBrochure,
-      props: (route) => { return {tournamentId: route.params.tournamentId, mode: 'location'} }
+      props: (route) => { return {tournamentId: route.params.tournamentId, mode: 'location', username: route.params.username} }
     },
     {
       path: '/:username/tournament/:tournamentId/teams',
       name: 'tournament-teams',
       component: TourneyBrochure,
-      props: (route) => { return {tournamentId: route.params.tournamentId, mode: 'teams'} }
+      props: (route) => { return {tournamentId: route.params.tournamentId, mode: 'teams', username: route.params.username} }
     },
     {
       path: '/:username',

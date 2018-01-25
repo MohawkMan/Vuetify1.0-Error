@@ -19,6 +19,7 @@ namespace VBL.Data
         public string EmailNote { get; set; }
         public int? TournamentDirectorUserId { get; set; }
         public DateTime DtRefundCutoff { get; set; }
+        public DateTime? DtPointCutoff { get; set; }
 
         public int? AgeTypeId { get; set; }
         public int? GenderId { get; set; }

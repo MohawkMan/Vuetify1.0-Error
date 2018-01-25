@@ -161,7 +161,8 @@
                 to: { name: 'organization-home', params: {username: page.username} },
                 children: [
                   { icon: 'dashboard', text: 'Dashboard', to: { name: 'organization-home', params: {username: page.username} } },
-                  { icon: 'date_range', text: 'Tournaments', to: { name: 'organization-tournaments', params: {username: page.username} } }
+                  { icon: 'date_range', text: 'Tournaments', to: { name: 'organization-tournaments', params: {username: page.username} } },
+                  { icon: 'update', text: 'Update Results', to: { name: 'organization-results-edit', params: {username: page.username} } }
                 ]
               }
             })

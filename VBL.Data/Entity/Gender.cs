@@ -13,5 +13,6 @@ namespace VBL.Data
         public bool IsPublic { get; set; }
         public int AgeTypeId { get; set; }
         public byte Order { get; set; }
+        public bool? Male { get; set; }
     }
 }

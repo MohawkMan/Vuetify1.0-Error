@@ -19,8 +19,34 @@
         <v-card>
           <v-toolbar dark color="color3" class="mx-auto">
             <v-toolbar-title>Current Player Rankings</v-toolbar-title>
+            <v-spacer></v-spacer>
+            <v-text-field
+              append-icon="search"
+              label="Search"
+              single-line
+              hide-details
+              v-model="search"
+            ></v-text-field>
           </v-toolbar>
-          <ranking-list :players="players"></ranking-list>
+          <v-tabs fixed centered v-model="activeTab">
+            <v-tabs-bar color="grey lighten-4">
+              <v-tabs-slider color="color3"></v-tabs-slider>
+              <v-tabs-item href="#girls" ripple router>
+                <span>Girls</span>
+              </v-tabs-item>
+              <v-tabs-item href="#boys" ripple router>
+                <span>Boys</span>
+              </v-tabs-item>
+            </v-tabs-bar>
+            <v-tabs-items>
+              <v-tabs-content id="girls">
+                <ranking-list :players="girls" :searchTerm="search"></ranking-list>
+              </v-tabs-content>
+              <v-tabs-content id="boys">
+                <ranking-list :players="boys" :searchTerm="search"></ranking-list>
+              </v-tabs-content>
+            </v-tabs-items>
+          </v-tabs>
         </v-card>
       </v-flex>
     </v-layout>
@@ -36,7 +62,9 @@ export default {
   data () {
     return {
       loading: false,
-      players: null
+      players: null,
+      search: '',
+      activeTab: null
     }
   },
   methods: {
@@ -51,6 +79,23 @@ export default {
           console.log(error)
           this.loading = false
         })
+    }
+  },
+  computed: {
+    girls () {
+      return this.players && this.players.filter((p) => {
+        return !p.isMale
+      })
+    },
+    boys () {
+      return this.players && this.players.filter((p) => {
+        return p.isMale
+      })
+    }
+  },
+  watch: {
+    activeTab () {
+      this.search = ''
     }
   },
   components: {

@@ -167,8 +167,7 @@ export default {
       'loading'
     ]),
     fullname () {
-      let middle = this.user.middleName ? ' ' + this.user.middleName + ' ' : ' '
-      return this.user.firstName + middle + this.user.lastName
+      return this.user && [this.user.firstName, this.user.middleName, this.user.lastName].join(' ')
     }
   },
   components: {
