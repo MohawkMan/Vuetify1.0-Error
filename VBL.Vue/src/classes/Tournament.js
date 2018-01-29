@@ -9,7 +9,7 @@ export default class Tournament {
   constructor (dto) {
     this.description = ''
     this.divisions = []
-    this.externalRegistrationUrl
+    this.externalRegistrationUrl = ''
     this.id = 0
     this.isPublic = false
     this.name = ''
@@ -27,6 +27,7 @@ export default class Tournament {
     if (typeof dto === 'string') dto = JSON.parse(dto)
     Object.assign(this, dto)
     this.divisions = dto.divisions.map(d => new Division(d))
+    this.divisionTemplate = new Division()
     if (dto.divisions.length > 0) {
       this.divisionTemplate.update(dto.divisions[0])
     }
@@ -42,7 +43,22 @@ export default class Tournament {
       d.updateFromTemplate(this.divisionTemplate)
     })
   }
+
   // getters
+  get dto () {
+    return {
+      description: this.description,
+      divisions: this.divisions.map((d) => {
+        return d.dto
+      }),
+      externalRegistrationUrl: this.externalRegistrationUrl,
+      id: this.id,
+      isPublic: this.isPublic,
+      name: this.name,
+      organizationId: this.organizationId,
+      statusId: this.statusId
+    }
+  }
   get divisionHeaders () {
     return [
       {text: 'Type', value: 'ageName', align: 'left'},
@@ -103,7 +119,13 @@ export default class Tournament {
     return this.divisions.filter(d => d.teams.length > 0)
   }
   get regOpen () {
-    return this.dateStatus === StatusEnum.UPCOMING
+    let open = false
+    this.divisions.forEach((d) => {
+      if (d.currentRegistrationWindow) {
+        open = true
+      }
+    })
+    return open
   }
   get isComplete () {
     return this.statusId === StatusEnum.COMPLETE

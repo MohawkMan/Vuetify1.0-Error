@@ -56,7 +56,7 @@
     <!-- EDIT DIALOG START -->
     <simple-editor 
       v-if="userIsAdmin"
-      :tournamentDto="tourney" 
+      :tournamentDto="tournament" 
       :open="editDialog" 
       @closeClick="editDialog = false" 
     ></simple-editor>
@@ -65,7 +65,7 @@
     <registration-uploader 
       v-if="userIsAdmin && currentTournament && currentTournament.isEditable"
       :open="uploadDialog" 
-      :tourney="tourney"
+      :tournament="currentTournament"
       @close="uploadDialog = false"
       @complete="uploadDialog = false"
     ></registration-uploader>
@@ -85,7 +85,7 @@ export default {
       dialOpen: false,
       editDialog: false,
       uploadDialog: false,
-      tourney: null
+      tournament: null
     }
   },
   computed: {
@@ -95,11 +95,11 @@ export default {
   },
   methods: {
     editTournament () {
-      this.tourney = this.currentTournament
+      this.tournament = this.currentTournament
       this.editDialog = true
     },
     addTournament () {
-      this.tourney = null
+      this.tournament = null
       this.editDialog = true
     }
   },

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.EquivalencyExpression;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,6 +15,14 @@ namespace VBL.Data.Mapping
         public string PlayTime { get; set; }
     }
 
+    public partial class TournamentDayDTOIncoming
+    {
+        public int Id { get; set; }
+        public string Date { get; set; }
+        public string CheckInTime { get; set; }
+        public string PlayTime { get; set; }
+    }
+
     public class TournamentDayProfile: Profile
     {
         public TournamentDayProfile()
@@ -22,6 +31,8 @@ namespace VBL.Data.Mapping
                 .ForMember(d => d.Date, opt => opt.MapFrom(s => s.Date.ToString("yyyy-MM-dd")))
                 .ForMember(d => d.DateFormatted, opt => opt.MapFrom(s => s.Date.ToString("MM/dd/yyyy")))
                 .ReverseMap();
+
+            CreateMap<TournamentDayDTOIncoming, TournamentDay>().EqualityComparison((odto, o) => odto.Id == o.Id);
         }
     }
 }

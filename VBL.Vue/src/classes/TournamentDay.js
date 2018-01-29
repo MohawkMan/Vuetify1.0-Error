@@ -21,4 +21,14 @@ export default class TournamentDay {
     this.checkInTime = template.checkInTime
     this.playTime = template.playTime
   }
+
+  // GETTERS
+  get dto () {
+    return {
+      id: this.id,
+      date: this.date,
+      checkInTime: this.checkInTime,
+      playTime: this.playTime
+    }
+  }
 }

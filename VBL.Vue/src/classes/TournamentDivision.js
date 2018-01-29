@@ -17,7 +17,11 @@ export default class TournamentDivision {
     this.minTeams = null
     this.numAllowedOnRoster = 2
     this.numOfPlayers = 2
-    this.registrationFields = null
+    this.registrationFields = {
+      id: 0,
+      fields: [],
+      requiredFields: []
+    }
     this.registrationWindows = [new RegWindow()]
     this.sanctioningBodyId = null
     this.tournamentDirectorUserId = null
@@ -44,6 +48,31 @@ export default class TournamentDivision {
     })
   }
 
+   // getters
+  get dto () {
+    return {
+      ageTypeId: this.ageType.id,
+      days: this.days.map((d) => {
+        return d.dto
+      }),
+      divisionId: this.division.id,
+      dtRefundCutoff: this.dtRefundCutoff,
+      emailNote: this.emailNote,
+      genderId: this.gender.id,
+      id: this.id,
+      locationId: this.location.id,
+      maxTeams: this.maxTeams,
+      minTeams: this.minTeams,
+      numAllowedOnRoster: this.numAllowedOnRoster,
+      numOfPlayers: this.numOfPlayers,
+      registrationFields: this.registrationFields,
+      registrationWindows: this.registrationWindows.map((w) => {
+        return w.dto
+      }),
+      sanctioningBodyId: this.sanctioningBodyId,
+      tournamentDirectorUserId: this.tournamentDirectorUserId
+    }
+  }
   get name () {
     return `${this.gender.name} ${this.division.name}`
   }

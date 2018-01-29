@@ -48,6 +48,24 @@ export default class TournamentRegistrationWindow {
     this.canPayAtEvent = template.canPayAtEvent
     this.canProcessPayment = template.canProcessPayment
   }
+
+  // getters
+  get dto () {
+    return {
+      id: this.id,
+      fee: this.fee,
+      feeIsPerTeam: this.feeIsPerTeam,
+      startDate: this.startDate,
+      startTime: this.startTime,
+      endDate: this.endDate,
+      endTime: this.endTime,
+      isEarly: this.isEarly,
+      isLate: this.isLate,
+      canPayAtEvent: this.canPayAtEvent,
+      canProcessPayment: this.canProcessPayment
+    }
+  }
+
   get feeString () {
     return `$ ${parseFloat(this.fee).toFixed(2)}/${this.feeIsPerTeam ? 'per team' : 'per player'}`
   }

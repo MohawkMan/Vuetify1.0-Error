@@ -45,7 +45,10 @@ namespace VBL.Core
                 .ProjectTo<ApplicationUserDTO>()
                 .FirstOrDefaultAsync();
         }
-
+        public async Task<List<int>> GetOrganizationIdsAsync (int userId)
+        {
+            return await _db.OrganizationMembers.Where(w => w.UserId == userId).Select(s => s.OrganizationId).ToListAsync();
+        }
         public async Task<bool> IsInRoleAsync(ApplicationUser user, string roleName)
         {
             if (user == null)
@@ -79,6 +82,10 @@ namespace VBL.Core
                 .Where(w => w.Organization.Username == organizationUserName)
                 .Where(w => w.IsActive)
                 .AnyAsync();
+        }
+        public async Task<bool> CanEditOrganizationTournament(int userId, int organizationId)
+        {
+            return true;
         }
     }
 }

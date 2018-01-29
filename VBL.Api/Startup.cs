@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using AutoMapper;
+using AutoMapper.EquivalencyExpression;
 using Microsoft.Extensions.PlatformAbstractions;
 using System.IO;
 using VBL.Data.Mapping;
@@ -103,7 +104,10 @@ namespace VBL.Api
             });
 
             // AutoMapper
-            services.AddAutoMapper(typeof(ApplicationUserDTO).Assembly);
+            services.AddAutoMapper(cfg => {
+                cfg.AddCollectionMappers();
+            },
+            typeof(ApplicationUserDTO).Assembly);
 
             // MVC
             services.AddMvc(options =>

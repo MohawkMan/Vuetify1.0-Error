@@ -56,7 +56,7 @@
           </td>
         </template>
       </v-data-table>
-      <v-dialog v-model="editDialog" max-width="500px">
+      <v-dialog v-model="editDialog" max-width="500px" persistent>
         <division-simple
           v-if="selectedDivision"
           :division="selectedDivision"
@@ -100,6 +100,15 @@ export default {
   methods: {
     addDivision () {
       let d = new Division(JSON.stringify(this.tournament.divisionTemplate))
+      d.id = 0
+      d.division = null
+      d.days.forEach((d) => {
+        d.id = 0
+      })
+      d.registrationFields.id = 0
+      d.registrationWindows.forEach((w) => {
+        w.id = 0
+      })
       this.editDivision(-1, d)
     },
     deleteDivision (index) {

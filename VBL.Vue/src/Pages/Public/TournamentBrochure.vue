@@ -14,7 +14,7 @@
     </v-layout>
   </v-container>
   <v-container v-else grid-list-sm>
-    <admin-speed-dial :currentTournament="tourney"></admin-speed-dial>
+    <admin-speed-dial :currentTournament="tournament"></admin-speed-dial>
     <v-layout row>
       <v-flex xs12 sm12 md10 offset-md1>
         <v-card color="grey lighten-1">
@@ -32,7 +32,7 @@
               style="background-color: rgba(0, 0, 0, .7);"
             >
               <v-toolbar-title class="white--text">
-                <h2 v-html="tourney.name" :class="xsClass"></h2>
+                <h2 v-html="tournament.name" :class="xsClass"></h2>
               </v-toolbar-title>
             </v-toolbar>
           </v-card>
@@ -47,14 +47,14 @@
             </v-toolbar-title>
             <v-spacer></v-spacer>
             <v-toolbar-title>
-              {{tourney.locationsString}}
+              {{tournament.locationsString}}
             </v-toolbar-title>
           </v-toolbar>
           <v-card v-else color="color4">
             <v-card-title>
               {{startDate}}
               <br>
-              {{tourney.locationsString}}
+              {{tournament.locationsString}}
             </v-card-title>
           </v-card>
           <!-- tabs -->
@@ -74,7 +74,7 @@
                 <v-icon>location_on</v-icon>
                 <span class="hidden-xs-only">Location</span>
               </v-tabs-item>
-              <v-tabs-item href="#register" ripple v-if="!complete">
+              <v-tabs-item href="#register" ripple v-if="tournament.regOpen">
                 <v-icon>assignment_turned_in</v-icon>
                 <span class="hidden-xs-only">Register</span>
               </v-tabs-item>
@@ -86,29 +86,27 @@
             <v-tabs-items>
               <v-tabs-content id="information" v-if="!complete">
                 <v-card>
-                  <v-card-text v-html="tourney.description"></v-card-text>
+                  <v-card-text v-html="tournament.description"></v-card-text>
                 </v-card>
                 <v-card>
                   <v-toolbar dense color="color5">
                     <v-toolbar-title>Divisions</v-toolbar-title>
                   </v-toolbar>
-                  <!--
-                  -->
-                  <division-list :divisions="tourney.divisions" @registerClick="register" mode="list"></division-list>
+                  <division-list :divisions="tournament.divisions" @registerClick="register" mode="list"></division-list>
                 </v-card>
               </v-tabs-content>
               <v-tabs-content id="location"  v-if="!complete">
                 <v-card>
-                  <v-card-title v-if="tourney.isOneLocation">
-                    <iframe width="100%" height="450" frameborder="0" style="border:0" :src="tourney.divisions[0].location.googleUrl" allowfullscreen></iframe>
+                  <v-card-title v-if="tournament.isOneLocation">
+                    <iframe width="100%" height="450" frameborder="0" style="border:0" :src="tournament.divisions[0].location.googleUrl" allowfullscreen></iframe>
                   </v-card-title>
                 </v-card>
               </v-tabs-content>
-              <v-tabs-content id="register" v-if="!complete">
+              <v-tabs-content id="register" v-if="tournament.regOpen">
                 <v-card>
                   <tournament-registration
                     v-if="registering"
-                    :tourney="tourney"
+                    :tournament="tournament"
                     :registration="registration"
                     @registered="onRegistered"
                   ></tournament-registration>
@@ -116,7 +114,7 @@
               </v-tabs-content>
               <v-tabs-content id="results" v-if="!upcoming">
                 <team-list-ex 
-                  :divisions="tourney.divisions"
+                  :divisions="tournament.divisions"
                   :expandId="6"
                    v-if="complete">
                 </team-list-ex>
@@ -141,7 +139,7 @@
 </template>
 
 <script>
-import vbl from '../../VolleyballLife'
+// import vbl from '../../VolleyballLife'
 import Tourney from '../../classes/Tournament'
 import moment from 'moment'
 import Divisions from '../../components/Tournament/DivisionList.vue'
@@ -152,6 +150,8 @@ import EditorSimple from '../../components/Tournament/Edit/Simple.vue'
 import * as actions from '../../store/ActionTypes'
 import RegistrationUploader from '../../components/Tournament/RegistrationUploader.vue'
 import AdminSpeedDial from '../../components/AdminSpeedDial.vue'
+import SDK from '../../VBL'
+
 export default {
   props: ['tournamentId', 'username', 'mode'],
   data () {
@@ -159,7 +159,7 @@ export default {
       fab: null,
       editDialog: false,
       uploadDialog: false,
-      tourney: null,
+      tournament: null,
       registering: true,
       registration: null,
       loading: true,
@@ -171,7 +171,7 @@ export default {
       return this.$store.getters.user && this.$store.getters.user.isPageAdmin(this.username)
     },
     divisionsWithTeams () {
-      return this.tourney.divisions.filter(division => division.teams.length > 0)
+      return this.tournament.divisions.filter(division => division.teams.length > 0)
     },
     xsClass () {
       return {
@@ -179,19 +179,21 @@ export default {
       }
     },
     startDate () {
-      return moment(this.tourney.startDate).format('dddd, MMMM Do YYYY')
+      return moment(this.tournament.startDate).format('dddd, MMMM Do YYYY')
     },
     complete () {
-      return this.tourney.statusId === StatusEnum.COMPLETE
+      return this.tournament.statusId === StatusEnum.COMPLETE
     },
     upcoming () {
-      return this.tourney.statusId === StatusEnum.UPCOMING
+      return this.tournament.statusId === StatusEnum.UPCOMING
     }
   },
   methods: {
     fetchTourney () {
       this.loading = true
-      this.axios.get(vbl.tournament.getById(this.tournamentId))
+      const sdk = new SDK(this.axios)
+      sdk.tournament.getTournamentById(this.tournamentId)
+      // this.axios.get(vbl.tournament.getById(this.tournamentId))
         .then((response) => {
           this.setTourney(response.data)
           if (this.complete) this.activeTab = 'results'
@@ -204,8 +206,8 @@ export default {
         })
     },
     setTourney (dto) {
-      this.tourney = new Tourney(dto)
-      this.registration = this.tourney.newRegistration()
+      this.tournament = new Tourney(dto)
+      this.registration = this.tournament.newRegistration()
     },
     register (division) {
       this.registration.setDivision(division)
@@ -230,7 +232,7 @@ export default {
     'admin-speed-dial': AdminSpeedDial
   },
   created () {
-    console.log('Calling fetch tourney')
+    console.log('Calling fetch tournament')
     this.$store.dispatch(actions.LOAD_SELECT_OPTIONS)
     this.fetchTourney()
     if (this.mode) {

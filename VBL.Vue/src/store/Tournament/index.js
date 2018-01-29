@@ -28,7 +28,6 @@ export default {
 
       console.log('loading list')
       commit(mutations.SET_TOURNAMENT_LIST_LOADING, true) // set loading = true
-      // let url = vbl.tournament.getByOrganizationUserName(payload)
       let url = vbl.tournament.getAll
 
       Vue.prototype.axios.get(url)
@@ -39,6 +38,7 @@ export default {
         })
         .catch(response => {
           console.log('loading list FAILED')
+          console.log(response)
           console.log(response.data)
           commit(mutations.SET_TOURNAMENT_LIST_LOADING, false) // set loading = false
         })

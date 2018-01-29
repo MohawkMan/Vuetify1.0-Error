@@ -58,6 +58,15 @@ namespace VBL.Core
             }
             return await GetTournamentAsync(registration.TournamentId);
         }
+
+        public async Task<List<TournamentDTO>> GetTournamentListAsync(List<int> organizationIds)
+        {
+            var query = _db.Tournaments
+                 .ProjectTo<TournamentDTO>()
+                 .Where(w => w.IsPublic || organizationIds.Contains(w.OrganizationId));
+
+            return await query.ToListAsync();
+        }
         public async Task<List<TournamentDTO>> GetTournamentListAsync(bool publicOnly = true, int? organizationId = null)
         {
             var query = _db.Tournaments
@@ -101,39 +110,47 @@ namespace VBL.Core
             return tourney;
         }
 
-        //private async Task<Tournament> CalculateTournamentAsync (Tournament tourney)
-        //{
-        //    foreach(var division in tourney.Divisions)
-        //    {
-        //        foreach(var window in division.RegistrationWindows)
-        //        {
-
-        //        }
-        //    }
-        //}
-        public async Task<TournamentDTO> CreateTournamentAsync(TournamentDTO dto)
+        public async Task<TournamentDTO> CreateTournamentAsync(TournamentDTOIncoming dto)
         {
+            //Ensure all do not have Ids
+            foreach(var division in dto.Divisions)
+            {
+                division.Id = 0;
+                foreach(var day in division.Days)
+                {
+                    day.Id = 0;
+                }
+                division.RegistrationFields.Id = 0;
+                foreach(var window in division.RegistrationWindows)
+                {
+                    window.Id = 0;
+                }
+            }
+
             var tourney = _mapper.Map<Tournament>(dto);
             _db.Tournaments.Add(tourney);
             await _db.SaveChangesAsync();
 
-            foreach(var division in tourney.Divisions)
-            {
-                if (!_db.Entry(division).Reference(r => r.AgeType).IsLoaded)
-                    await _db.Entry(division).Reference(r => r.AgeType).LoadAsync();
+            return await GetTournamentAsync(tourney.Id);
+        }
 
-                if (!_db.Entry(division).Reference(r => r.Gender).IsLoaded)
-                    await _db.Entry(division).Reference(r => r.Gender).LoadAsync();
+        public async Task<TournamentDTO> EditTournamentAsync(TournamentDTOIncoming dto)
+        {
+            var tournament = await _db.Tournaments
+                .Include(i => i.Divisions)
+                    .ThenInclude(t => t.Days)
+                .Include(i => i.Divisions)
+                    .ThenInclude(t => t.RegistrationFields)
+                .Include(i => i.Divisions)
+                    .ThenInclude(t => t.RegistrationWindows)
+                .Where(w => w.Id == dto.Id)
+                .FirstOrDefaultAsync();
+            if (tournament == null)
+                throw new Exception($"Could not find tournament with Id: {dto.Id}");
 
-                if (!_db.Entry(division).Reference(r => r.Division).IsLoaded)
-                    await _db.Entry(division).Reference(r => r.Division).LoadAsync();
-
-                if (!_db.Entry(division).Reference(r => r.Location).IsLoaded)
-                    await _db.Entry(division).Reference(r => r.Location).LoadAsync();
-            }
-
-
-                return _mapper.Map<TournamentDTO>(tourney);
+            _mapper.Map(dto, tournament);
+            await _db.SaveChangesAsync();
+            return await GetTournamentAsync(tournament.Id);
         }
     }
 }

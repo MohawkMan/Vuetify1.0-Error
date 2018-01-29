@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.EquivalencyExpression;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,8 +11,8 @@ namespace VBL.Data.Mapping
     {
         public int Id { get; set; }
 
-        public List<string> Fields { get; set; }
-        public List<string> RequiredFields { get; set; }
+        public List<string> Fields { get; set; } = new List<string>();
+        public List<string> RequiredFields { get; set; } = new List<string>();
     }
 
     public class TournamentRegistrationInfoProfile : Profile
@@ -24,6 +25,7 @@ namespace VBL.Data.Mapping
                 .ReverseMap()
                 .ForMember(d => d.Fields, opt => opt.MapFrom(s => string.Join(",", s.Fields)))
                 .ForMember(d => d.RequiredFields, opt => opt.MapFrom(s => string.Join(",", s.RequiredFields)))
+                .EqualityComparison((odto, o) => odto.Id == o.Id)
                 ;
         }
     }

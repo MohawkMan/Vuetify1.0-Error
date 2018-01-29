@@ -3,6 +3,10 @@
     <v-card>
       <v-toolbar color="color2" dark>
         <v-toolbar-title>Tournament Edit</v-toolbar-title>
+        <v-spacer></v-spacer>
+        <v-btn icon @click.native="closeMe">
+          <v-icon>close</v-icon>
+        </v-btn>        
       </v-toolbar>
       <v-card-text v-if="tournament">
         <v-container grid-list-md>
@@ -25,6 +29,7 @@
                           label="Choose a host"
                           autocomplete
                           item-text="name"
+                          item-value="id"
                           required
                           return-object
                         ></v-select>
@@ -190,6 +195,49 @@
                     :beforeDate="tournament.divisionTemplate.days[0].date"></registration-window>
                   </template>
               </v-card>
+              <!-- REGISTRATION FIELDS -->
+              <v-card>
+                <v-toolbar dense flat>
+                  <v-toolbar-title>
+                    Registration Fields
+                  </v-toolbar-title>
+                </v-toolbar>
+                <v-card-text>
+                  <v-container grid-list-md>
+                    <v-layout row wrap>
+                      <v-flex xs12>
+                        <h2>What fields would you like to collect during registration?</h2>
+                      </v-flex>
+                    </v-layout>
+                    <v-layout row wrap>
+                      <v-flex xs6 sm3 md2>
+                        First Name
+                        <v-radio-group v-model="forcedRadio" column>
+                          <v-radio label="Ask" value="fields" hide-details disabled></v-radio>
+                          <v-radio label="Require" value="requiredFields" hide-details disabled></v-radio>
+                          <v-radio label="Skip" value="" hide-details disabled></v-radio>
+                        </v-radio-group>
+                      </v-flex>
+                      <v-flex xs6 sm3 md2>
+                        Last Name
+                        <v-radio-group v-model="forcedRadio" column>
+                          <v-radio label="Ask" value="fields" hide-details disabled></v-radio>
+                          <v-radio label="Require" value="requiredFields" hide-details disabled></v-radio>
+                          <v-radio label="Skip" value="" hide-details disabled></v-radio>
+                        </v-radio-group>
+                      </v-flex>
+                      <v-flex xs6 sm3 md2 v-for="(field, i) in fieldChoices" :key="i">
+                        {{field.label}}
+                        <v-radio-group v-model="field.list" column>
+                          <v-radio label="Ask" value="fields" hide-details></v-radio>
+                          <v-radio label="Require" value="requiredFields" hide-details></v-radio>
+                          <v-radio label="Skip" value="" hide-details></v-radio>
+                        </v-radio-group>
+                      </v-flex>
+                    </v-layout>  
+                  </v-container>
+                </v-card-text>
+              </v-card>
               <!-- ADDITIONAL INFO -->
               <v-card>
                 <v-toolbar dense flat>
@@ -204,8 +252,8 @@
                         <v-text-field
                           full-width
                           multi-line
-                          textarea
                           auto-grow
+                          class="styledArea"
                           label="Additional Information i.e. prizes, play format, etc"
                           v-model="tournament.description"
                         ></v-text-field>
@@ -233,7 +281,7 @@
                 <v-card-text>
                   <v-container grid-list-md>
                     <v-layout row wrap justify-center>
-                      <v-btn>Save</v-btn>
+                      <v-btn @click.stop="saveTournament">Save</v-btn>
                       <v-btn @click.stop="closeMe">Cancel</v-btn>
                     </v-layout>
                   </v-container>
@@ -252,6 +300,7 @@ import Tournament from '../../../classes/Tournament'
 import { mapGetters } from 'vuex'
 import RegWindow from './RegistrationWindow.vue'
 import DivisionListSimple from './DivisionListSimple.vue'
+import SDK from '../../../VBL'
 
 export default {
   props: ['tournamentDto', 'open'],
@@ -262,7 +311,19 @@ export default {
       checkin: false,
       play: false,
       saving: false,
-      tournament: null
+      tournament: null,
+      forcedRadio: 'requiredFields',
+      fieldChoices: [
+        { label: 'Phone', value: 'phone', list: '' },
+        { label: 'Email', value: 'email', list: '' },
+        { label: 'City & State', value: 'cityState', list: '' },
+        { label: 'Date of birth', value: 'dob', list: '' },
+        { label: 'Club', value: 'club', list: '' },
+        { label: 'AAU', value: 'aau', list: '' },
+        { label: 'AVP', value: 'avp', list: '' },
+        { label: 'USAV', value: 'usav', list: '' },
+        { label: 'CBVA', value: 'cbva', list: '' }
+      ]
     }
   },
   computed: {
@@ -292,9 +353,35 @@ export default {
       if (this.organizations.length === 1) {
         this.tournament.organization = this.organizations[0]
       }
+
+      if (this.tournament.divisionTemplate && this.tournament.divisionTemplate.registrationFields) {
+        this.tournament.divisionTemplate.registrationFields.fields.forEach((f) => {
+          let item = this.fieldChoices.find((c) => {
+            return c.value === f
+          })
+          item.list = 'fields'
+        })
+        this.tournament.divisionTemplate.registrationFields.requiredFields.forEach((f) => {
+          let item = this.fieldChoices.find((c) => {
+            return c.value === f
+          })
+          item.list = 'requiredFields'
+        })
+      }
     },
     clearTournament () {
       this.tournament = null
+    },
+    saveTournament () {
+      const sdk = new SDK(this.axios)
+      sdk.tournament.save(this.tournament)
+        .then((response) => {
+          console.log('Save Success')
+        })
+        .catch((error) => {
+          console.log('Save Error')
+          console.log(error)
+        })
     },
     formatDate (date) {
       if (!date) return null
@@ -335,6 +422,21 @@ export default {
           this.tournament.organizationId = newVal.id
         }
       }
+    },
+    fieldChoices: {
+      handler (newVal, oldVal) {
+        this.tournament.divisionTemplate.registrationFields.fields = newVal.filter((f) => {
+          return f.list === 'fields'
+        }).map((m) => {
+          return m.value
+        })
+        this.tournament.divisionTemplate.registrationFields.requiredFields = newVal.filter((f) => {
+          return f.list === 'requiredFields'
+        }).map((m) => {
+          return m.value
+        })
+      },
+      deep: true
     }
   },
   components: {
@@ -345,7 +447,10 @@ export default {
 </script>
 
 <style>
-  .test textarea {
+  .styledArea textarea {
     border-bottom: 2px solid #ccc;
+  }
+  .styledArea textarea:focus {
+    border-bottom: 2px solid rgb(21, 42, 105);
   }
 </style>

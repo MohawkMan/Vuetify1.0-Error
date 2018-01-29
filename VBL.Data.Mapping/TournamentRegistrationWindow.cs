@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.EquivalencyExpression;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -25,6 +26,22 @@ namespace VBL.Data.Mapping
 
     }
 
+    public partial class TournamentRegistrationWindowDTOIncoming
+    {
+        public int Id { get; set; }
+        public double? Fee { get; set; }
+        public bool FeeIsPerTeam { get; set; }
+        public string StartDate { get; set; }
+        public string StartTime { get; set; }
+        public string EndDate { get; set; }
+        public string EndTime { get; set; }
+        public bool IsEarly { get; set; }
+        public bool IsLate { get; set; }
+        public bool CanPayAtEvent { get; set; }
+        public bool CanProcessPayment { get; set; }
+
+    }
+
     public class TournamentRegistrationWindowProfile : Profile
     {
         public TournamentRegistrationWindowProfile()
@@ -36,12 +53,15 @@ namespace VBL.Data.Mapping
                 .ForMember(d => d.EndDate, opt => opt.MapFrom(s => s.DtEnd.Value.ToString("yyyy-MM-dd")))
                 .ForMember(d => d.EndDateFormatted, opt => opt.MapFrom(s => s.DtEnd.Value.ToString("MM/dd/yyyy")))
                 .ForMember(d => d.EndTime, opt => opt.MapFrom(s => s.DtEnd.Value.ToString("h:mmtt").ToLower()))
-                //.ForMember(d => d.IsCurrent, opt => opt.Ignore())
-                //.ForMember(d => d.IsOpen, opt => opt.Ignore())
                 .ReverseMap()
                 .ForMember(s => s.DtStart, opt => opt.MapFrom(d => d.StartDate + " " + d.StartTime))
                 .ForMember(s => s.DtEnd, opt => opt.MapFrom(d => d.EndDate + " " + d.EndTime))
                 ;
+
+            CreateMap<TournamentRegistrationWindowDTOIncoming, TournamentRegistrationWindow>()
+                .ForMember(d => d.DtStart, opt => opt.MapFrom(s => s.StartDate + " " + s.StartTime))
+                .ForMember(d => d.DtEnd, opt => opt.MapFrom(s => s.EndDate + " " + s.EndTime))
+                .EqualityComparison((odto, o) => odto.Id == o.Id);
         }
     }
 }

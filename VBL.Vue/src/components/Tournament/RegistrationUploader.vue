@@ -1,6 +1,7 @@
 <template>
   <v-dialog
     v-model="open"
+    v-if="tournament"
     fullscreen
     transition="dialog-bottom-transition"
     :overlay="false"
@@ -21,7 +22,7 @@
       <v-card-text>
         <v-card>
           <v-card-text>
-            <h1>{{tourney.name}}</h1>
+            <h1>{{tournament.name}}</h1>
             <v-btn @click.stop="workingDialog = true" v-if="false">
               Test
             </v-btn>
@@ -144,7 +145,7 @@
                           </td>
                           <td style="text-align: left; width: 200px; min-width: 200px; max-width: 200px; white-space: nowrap; text-overflow: ellipsis;">
                             <v-select
-                              :items="tourney.divisions"
+                              :items="tournament.divisions"
                               v-model="divisionMap[props.item]"
                               item-text="name"
                               return-object
@@ -267,9 +268,9 @@
             <v-card-text v-if="parseResuls">
               <h3>
                 You are about to import the {{this.parseResuls.data.length}} registration 
-                records in {{currentFile.name}} to {{tourney.name}}
+                records in {{currentFile.name}} to {{tournament.name}}
               </h3>
-              <h3 v-if="tourney.teamCount > 0">
+              <h3 v-if="tournament.teamCount > 0">
                 <v-alert outline color="red" icon="priority_high" :value="true">
                   This tournament has existing teams.
                 </v-alert>
@@ -352,7 +353,7 @@ import moment from 'moment'
 import vbl from '../../VolleyballLife'
 
 export default {
-  props: ['open', 'tourney'],
+  props: ['open', 'tournament'],
   data () {
     return {
       overwrite: false,
@@ -537,7 +538,7 @@ export default {
       const map = this.fieldMap
       for (let record of this.parseResuls.data) {
         let registration = new Registration()
-        registration.tournamentId = this.tourney.id
+        registration.tournamentId = this.tournament.id
         registration.setDivision(this.divisionMap[record[this.divisionColumn]])
         let p1 = registration.players[0]
         let p2 = registration.players[1]

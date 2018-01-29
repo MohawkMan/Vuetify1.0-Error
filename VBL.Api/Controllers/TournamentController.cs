@@ -12,6 +12,7 @@ using VBL.Data.Mapping;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
+using System.IO;
 
 namespace VBL.Api.Controllers
 {
@@ -39,30 +40,21 @@ namespace VBL.Api.Controllers
         /// Get Tournament List
         /// </summary>
         [AllowAnonymous]
-        [HttpGet("list/{organizationId?}")]
+        [HttpGet("list")]
         [ProducesResponseType(typeof(TournamentDTO), 200)]
-        public async Task<IActionResult> GetAllTournaments([FromRoute] int? organizationId)
+        public async Task<IActionResult> GetAllTournaments()
         {
             try
             {
                 _logger.LogInformation($"GetAllTournaments");
-                List<TournamentDTO> list;
-                if (organizationId.HasValue)
+                List<int> organizationIds = new List<int>();
+                if (User != null)
                 {
-                    _logger.LogInformation($"GetAllTournaments - organizationId:{organizationId}");
-                    var publicOnly = true;
-                    if (User != null)
-                    {
-                        var userId = Convert.ToInt32(User.UserId(_config.Jwt.Issuer));
-                        publicOnly = !await _userManager.IsOrganizationMember(userId, organizationId.Value);
-                    }
-                    list = await _tournamentManager.GetTournamentListAsync(publicOnly, organizationId);
-
-                    return Ok(list);
+                    var userId = Convert.ToInt32(User.UserId(_config.Jwt.Issuer));
+                    organizationIds = await _userManager.GetOrganizationIdsAsync(userId);
                 }
 
-                list = await _tournamentManager.GetTournamentListAsync(true, organizationId);
-
+                var list = await _tournamentManager.GetTournamentListAsync(organizationIds);
                 return Ok(list);
             }
             catch (Exception e)
@@ -132,19 +124,27 @@ namespace VBL.Api.Controllers
         }
 
         /// <summary>
-        /// Get select options for Age, Gender, Division, and Location
+        /// Put a new tournament or edits to an existing tournament
         /// </summary>
-        [AllowAnonymous]
         [HttpPut()]
         [ProducesResponseType(typeof(TournamentDTO), 200)]
-        public async Task<IActionResult> AddTournament([FromBody] TournamentDTO dto)
+        public async Task<IActionResult> AddTournament([FromBody] TournamentDTOIncoming dto)
         {
+            var userId = Convert.ToInt32(User.UserId(_config.Jwt.Issuer));
+            if (!await _userManager.CanEditOrganizationTournament(userId, dto.OrganizationId))
+                return Unauthorized();
+
             try
             {
                 _logger.LogInformation($"AddTournament: {dto}");
-                var tourney = await _tournamentManager.CreateTournamentAsync(dto);
+                if(dto.Id == 0)
+                {
+                    var newTournament = await _tournamentManager.CreateTournamentAsync(dto);
 
-                return Ok(tourney);
+                    return Ok(newTournament);
+                }
+                var editedTournament = await _tournamentManager.EditTournamentAsync(dto);
+                return Ok(editedTournament);
             }
             catch (Exception e)
             {

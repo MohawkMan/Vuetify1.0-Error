@@ -124,6 +124,7 @@ namespace VBL.Api.Controllers
                 return BadRequest(e.Message);
             }
         }
+
         /// <summary>
         /// Add a member to an organization
         /// </summary>

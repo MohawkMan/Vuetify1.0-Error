@@ -41,6 +41,7 @@
         </v-list-tile-content>
         <v-list-tile-action>
           <v-btn 
+            v-if="division.currentRegistrationWindow"
             fab
             color="color3 white--text"
             @click="registerClick(division)"
@@ -49,7 +50,7 @@
           </v-btn>
         </v-list-tile-action>
       </v-list-tile>
-      <v-divider v-if="i + 1 < divisions.length" :key="i"></v-divider>
+      <v-divider v-if="i + 1 < divisions.length" :key="'divider' + i"></v-divider>
     </template>
 
   </v-list>

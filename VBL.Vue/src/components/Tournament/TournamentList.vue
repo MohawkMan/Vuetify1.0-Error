@@ -6,30 +6,19 @@
     >
     <template slot="items" slot-scope="props">
       <tr style="cursor: pointer">
-        <td @click="gotoDetails(props.item.link)">{{ props.item.date | formatDate }}</td>
+        <td @click="gotoDetails(props.item.link)">
+          {{ props.item.date | formatDate }}
+          <v-tooltip right v-if="!props.item.public">
+            <v-icon slot="activator">visibility_off</v-icon>
+            <span>Only you can see this</span>
+          </v-tooltip>
+        </td>
         <td @click="gotoDetails(props.item.link)" v-html="props.item.name"></td>
-        <!--
-        <td @click="gotoDetails(props.item.link)">{{ props.item.divisions }}</td>
-        -->
         <td @click="gotoDetails(props.item.link)">{{ props.item.locations }}</td>
         <td>
           <v-btn small :to="`${props.item.link}/register`" v-if="!admin && props.item.regOpen">
             Register
           </v-btn>
-          <v-btn 
-            small
-            dark
-            fab
-            color="color3"
-            v-if="admin"
-            @click="edit(props.item.id)"
-            >
-            <v-icon>edit</v-icon>
-          </v-btn>
-        </td>
-        <td v-if="admin">
-          <v-icon v-if="props.item.public">visibility</v-icon>
-          <v-icon v-else>visibility_off</v-icon>
         </td>
       </tr>
     </template>
@@ -75,7 +64,6 @@ export default {
           id: t.id,
           date: t.startDate,
           name: t.name,
-          divisions: t.divisionsString,
           locations: t.locationsString,
           link: `/${t.organization.username}/tournament/${t.id}`,
           public: t.isPublic,
@@ -87,8 +75,8 @@ export default {
       return [
         {text: 'Date', value: 'date', align: 'left'},
         {text: 'Name', value: 'name', align: 'left'},
-        // {text: 'Divisions', value: 'divisions', align: 'left'},
-        {text: 'Location', value: 'locations', align: 'left'}
+        {text: 'Location', value: 'locations', align: 'left'},
+        {text: '', value: '', align: 'left', sortable: 'false'}
       ]
     },
     pagination: {

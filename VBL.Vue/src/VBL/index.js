@@ -1,12 +1,10 @@
 import endpoints from './endpoints'
+import TournamentSDK from './tournament'
 
 export default class VBL {
-  constructor (axios) {
-    axios
+  constructor (http) {
     endpoints
-  }
-
-  getCurrentUser () {
-    return this.axios.get(endpoints.user.getCurrent)
+    this.http = http
+    this.tournament = new TournamentSDK(http)
   }
 }

@@ -20,7 +20,6 @@ export default {
     getById: (id) => `/tournament/${id}`,
     create: '/tournament',
     getAll: '/tournament/list',
-    getByOrganizationId: (organizationId) => `/tournament/list/${organizationId}`,
     getByOrganizationUserName: (username) => `/tournament/${username}/list`,
     register: '/tournament/register',
     bulkRegister: '/tournament/register/upload',
