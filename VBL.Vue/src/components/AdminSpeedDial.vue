@@ -21,6 +21,17 @@
         <v-icon>settings</v-icon>
         <v-icon>close</v-icon>
       </v-btn>
+      <!-- Copy Button -->
+      <v-btn
+        v-if="currentTournament && currentTournament.isEditable"
+        fab
+        dark
+        small
+        color="teal lighten-4"
+        @click.stop="copyTournament"
+      >
+        <v-icon>content_copy</v-icon>
+      </v-btn>
       <!-- Edit Button -->
       <v-btn
         v-if="currentTournament && currentTournament.isEditable"
@@ -43,6 +54,18 @@
       >
         <v-icon>cloud_upload</v-icon>
       </v-btn>
+      <!-- Copy Button -->
+      <v-btn
+        v-if="currentTournament"
+        fab
+        dark
+        small
+        color="teal lighten-4"
+        @click.stop="copyTournament"
+      >
+        <v-icon>content_copy</v-icon>
+      </v-btn>
+      <!-- ADD Button -->
       <v-btn
         fab
         dark
@@ -77,6 +100,7 @@
 // import Tournament from '../classes/Tournament'
 import RegistrationUploader from '../components/Tournament/RegistrationUploader.vue'
 import EditorSimple from '../components/Tournament/Edit/Simple.vue'
+import SDK from '../VBL'
 
 export default {
   props: ['currentTournament'],
@@ -97,6 +121,17 @@ export default {
     editTournament () {
       this.tournament = this.currentTournament
       this.editDialog = true
+    },
+    copyTournament () {
+      const sdk = new SDK(this.axios)
+      sdk.tournament.getTournamentCopyById(this.currentTournament.id)
+      .then((response) => {
+        this.tournament = response.data
+        this.editDialog = true
+      })
+      .catch((error) => {
+        console.log(error)
+      })
     },
     addTournament () {
       this.tournament = null

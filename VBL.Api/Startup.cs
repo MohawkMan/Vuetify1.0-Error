@@ -142,7 +142,7 @@ namespace VBL.Api
                 var basePath = PlatformServices.Default.Application.ApplicationBasePath;
                 var xmlPath = Path.Combine(basePath, "VBL.Api.xml");
                 c.IncludeXmlComments(xmlPath);
-                c.CustomSchemaIds(SwaggerSchemaIdStrategy);
+                c.CustomSchemaIds(x => x.FullName);
             });
 
             services.AddSingleton<IConfiguration>(Configuration);

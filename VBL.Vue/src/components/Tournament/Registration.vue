@@ -1,5 +1,5 @@
 <template>
-  <v-stepper v-if="!tourney.externalRegistrationUrl" v-model="currentStep" vertical>
+  <v-stepper v-if="!tournament.externalRegistrationUrl" v-model="currentStep" vertical>
     <!-- Division -->
     <v-stepper-step 
       :step="1"
@@ -13,7 +13,7 @@
         <v-card-text>
           <h3>Select your division</h3>
           <v-radio-group v-model="registration.division">
-            <v-radio v-for="(division,i) in tourney.divisions" :label="division.name" :value="division" :key="i"></v-radio>
+            <v-radio v-for="(division,i) in tournament.divisions" :label="division.name" :value="division" :key="i"></v-radio>
           </v-radio-group>
         </v-card-text>
       </v-card>
@@ -179,7 +179,7 @@
             <h2>This tournament's registration is on an external website</h2>
           </v-flex>
           <v-flex xs12>
-            <v-btn color="color3" dark @click="exreg(tourney.externalRegistrationUrl)">
+            <v-btn color="color3" dark @click="exreg(tournament.externalRegistrationUrl)">
               Continue to registration
               <v-icon class="ml-3">open_in_new</v-icon>
             </v-btn>
@@ -197,7 +197,7 @@ import AddOn from './AddOn.vue'
 import vbl from '../../VolleyballLife'
 
 export default {
-  props: ['tourney', 'registration'],
+  props: ['tournament', 'registration'],
   data () {
     return {
       currentStep: 1,
@@ -247,9 +247,9 @@ export default {
       this.axios.put(vbl.tournament.register, this.registration.dto)
         .then((response) => {
           this.successDialog = true
-          var tourney = response.data
-          // console.log(tourney)
-          this.$emit('registered', tourney)
+          var tournament = response.data
+          // console.log(tournament)
+          this.$emit('registered', tournament)
           this.reset()
           this.processing = false
         })

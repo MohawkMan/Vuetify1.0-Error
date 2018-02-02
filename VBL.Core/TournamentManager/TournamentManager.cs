@@ -98,13 +98,50 @@ namespace VBL.Core
                 .ProjectTo<TournamentDTO>()
                 .FirstOrDefaultAsync();
 
-            if(tourney.StatusId == 100) //COMPLETE
+            if (tourney.StatusId == 100) //COMPLETE
             {
                 tourney.Divisions.RemoveAll(r => !r.Teams.Any());
-                foreach(var d in tourney.Divisions)
+                foreach (var d in tourney.Divisions)
                 {
                     d.RegistrationWindows.Clear();
                 }
+            }
+
+            return tourney;
+        }
+        public async Task<TournamentDTO> GetRawTournamentAsync(int id)
+        {
+            var tourney = await _db.Tournaments
+                .Where(w => w.Id == id)
+                .ProjectTo<TournamentDTO>()
+                .FirstOrDefaultAsync();
+            return tourney;
+        }
+        public async Task<TournamentDTO> GetTournamentCopyAsync(int id)
+        {
+            var tourney = await _db.Tournaments
+                .Where(w => w.Id == id)
+                .ProjectTo<TournamentDTO>()
+                .FirstOrDefaultAsync();
+
+            tourney.Id = 0;
+            tourney.ExternalRegistrationUrl = null;
+            tourney.IsPublic = false;
+            tourney.StatusId = 0;
+            //Ensure all do not have Ids
+            foreach (var division in tourney.Divisions)
+            {
+                division.Id = 0;
+                foreach (var day in division.Days)
+                {
+                    day.Id = 0;
+                }
+                division.RegistrationFields.Id = 0;
+                foreach (var window in division.RegistrationWindows)
+                {
+                    window.Id = 0;
+                }
+                division.Teams.Clear();
             }
 
             return tourney;

@@ -9,5 +9,6 @@ namespace VBL.Core
     {
         public string Jwt { get; set; }
         public string SparkPost { get; set; }
+        public string PayPal { get; set; }
     }
 }

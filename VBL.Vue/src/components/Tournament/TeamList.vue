@@ -10,9 +10,9 @@
     >
       <template slot="items" slot-scope="props">
         <tr style="cursor: pointer">
-          <td>{{ props.item.finish }}</td>
+          <td class="text-xs-center">{{ props.item.finish }}</td>
           <td>{{props.item.name}}</td>
-          <td>{{ props.item.points }}</td>
+          <td class="text-xs-center">{{ props.item.points }}</td>
         </tr>
       </template>
       <template slot="no-data">
@@ -39,11 +39,16 @@ export default {
           : 'table'
     },
     tableHeaders () {
-      return [
-        {text: 'Finish', value: '_finish', align: 'left'},
-        {text: 'Name', value: 'name', align: 'left', sortable: false},
-        {text: 'Points Earned', value: 'points', align: 'left', sortable: false}
+      let headers = [
+        {text: 'Finish', value: '_finish', align: 'center'},
+        {text: 'Name', value: 'name', align: 'left', sortable: false}
       ]
+      if (this.division.sanctioningBodyId.startsWith('AVP')) {
+        headers.push({text: 'AVP Points Earned*', value: 'points', align: 'center', sortable: false})
+      } else {
+        headers.push({text: 'Points Earned', value: 'points', align: 'center', sortable: false})
+      }
+      return headers
     },
     rows () {
       return this.division.teams.map((team) => {

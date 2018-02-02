@@ -46,6 +46,7 @@ namespace VBL.Api.Controllers
                     .ThenInclude(t => t.User)
                 .Where(w => w.DtFinalized.HasValue)
                 .Where(w => !w.TournamentTeam.IsDeleted)
+                .Where(w => w.SanctioningBodyId == "AAU")
                 .Select(s => new
                 {
                     PlayerProfileId = s.PlayerProfileId,
@@ -62,6 +63,7 @@ namespace VBL.Api.Controllers
                     PlayerProfileId = s.Key.PlayerProfileId,
                     Name = s.Key.Name,
                     IsMale = s.Key.IsMale,
+                    //CurrentPoints = s.Sum(x => x.Points.Value),
                     CurrentPoints = s.Sum(x => Convert.ToInt32(x.Points)),
                     Events = s.Count()
                 })
@@ -113,6 +115,7 @@ namespace VBL.Api.Controllers
         public async Task<IActionResult> GetPoints()
         {
             var points = await _db.PointValues
+                .Where(w => w.SanctioningBodyId == "AAU")
                 .ProjectTo<PointValueDTO>()
                 .ToListAsync();
 
@@ -128,6 +131,7 @@ namespace VBL.Api.Controllers
         public async Task<IActionResult> GetTeamMultiplier()
         {
             var points = await _db.TeamCountMultipliers
+                .Where(w => w.SanctioningBodyId == "AAU")
                 .ProjectTo<TeamCountMultiplierDTO>()
                 .ToListAsync();
 

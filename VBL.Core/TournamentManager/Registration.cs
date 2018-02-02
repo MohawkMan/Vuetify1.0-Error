@@ -19,6 +19,10 @@ namespace VBL.Core
 
             //Map Registration
             var registration = _mapper.Map<TournamentRegistration>(dto);
+            registration.TournamentDivision = await _db.TournamentDivisions
+                .Include(i => i.Gender)
+                .FirstOrDefaultAsync(f => f.Id == dto.TournamentDivisionId);
+
             //Map all players that did not register with VblId
             await MapPlayersAsync(registration);
             //Add Team Record
@@ -112,12 +116,12 @@ namespace VBL.Core
         }
         private async Task<bool> GetMaleFlag (TournamentRegistration registration)
         {
-            if (!_db.Entry(registration).Reference(r => r.Division).IsLoaded)
-                await _db.Entry(registration).Reference(r => r.Division).LoadAsync();
-            if (!_db.Entry(registration.Division).Reference(r => r.Gender).IsLoaded)
-                await _db.Entry(registration.Division).Reference(r => r.Gender).LoadAsync();
+            //if (!_db.Entry(registration).Reference(r => r.TournamentDivision).IsLoaded)
+            //    await _db.Entry(registration).Reference(r => r.TournamentDivision).LoadAsync();
+            //if (!_db.Entry(registration.TournamentDivision).Reference(r => r.Gender).IsLoaded)
+            //    await _db.Entry(registration.TournamentDivision).Reference(r => r.Gender).LoadAsync();
 
-            return registration.Division.Gender.Male.HasValue ? registration.Division.Gender.Male.Value : false;
+            return registration.TournamentDivision.Gender.Male.HasValue ? registration.TournamentDivision.Gender.Male.Value : false;
 
         }
         private void AddTournamentTeam(TournamentRegistration registration)
@@ -130,7 +134,7 @@ namespace VBL.Core
             };
             foreach (var player in registration.Players)
             {
-                team.Players.Add(new TournamentTeamMember { PlayerProfile = player.Profile });
+                team.Players.Add(new TournamentTeamMember { PlayerProfile = player.Profile, SanctioningBodyId = registration.Division.SanctioningBodyId });
             }
 
             registration.TournamentTeam = team;

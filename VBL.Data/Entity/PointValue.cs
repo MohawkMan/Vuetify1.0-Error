@@ -11,5 +11,7 @@ namespace VBL.Data
         public int DivisionId { get; set; }
         public Division Division { get; set; }
         public int Points { get; set; }
+        public string SanctioningBodyId { get; set; }
+        public bool PerTeam { get; set; }
     }
 }

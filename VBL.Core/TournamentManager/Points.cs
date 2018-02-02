@@ -65,11 +65,12 @@ namespace VBL.Core
             if (division == null) return;
 
             var basePoints = await _db.PointValues
-                .Where(w => w.DivisionId == division.DivisionId)
+                .Where(w => w.DivisionId == division.DivisionId && w.SanctioningBodyId == division.SanctioningBodyId)
                 .ToListAsync();
             if (!basePoints.Any()) return;
 
             var teamMultiplier = await _db.TeamCountMultipliers
+                .Where(w => w.SanctioningBodyId == division.SanctioningBodyId)
                 .OrderBy(o => o.TeamCap)
                 .FirstOrDefaultAsync(f => f.TeamCap >= division.Teams.Count());
 
@@ -87,6 +88,7 @@ namespace VBL.Core
                 {
                     player.Finish = team.Finish;
                     player.VblBasePointsEarned = points.Points;
+                    player.SanctioningBodyId = division.SanctioningBodyId;
                     player.DtEarned = division.Days.OrderByDescending(o => o.Date).First().Date;
                     player.DtFinalized = DateTime.Now;
 
@@ -118,6 +120,18 @@ namespace VBL.Core
                             });
                             player.VblTotalPointsEarned = player.VblBasePointsEarned * teamMultiplier.Multiplier;
                         }
+                    }
+
+                    if(points.PerTeam)
+                    {
+                        player.Multipliers.Add(new PointValueMultiplier
+                        {
+                            Type = "PerTeamMultiplier",
+                            Description = "Points awarded are paer team.",
+                            Value = .5,
+                            TournamentTeamMember = player
+                        });
+                        player.VblTotalPointsEarned = player.VblTotalPointsEarned * .5;
                     }
                 }
             }

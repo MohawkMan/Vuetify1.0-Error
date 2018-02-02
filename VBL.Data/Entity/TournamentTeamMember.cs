@@ -20,6 +20,7 @@ namespace VBL.Data
         public int? Finish { get; set; }
         public double? VblBasePointsEarned { get; set; }
         public double? VblTotalPointsEarned { get; set; }
+        public string SanctioningBodyId { get; set; }
         public double? OrganizationPointsEarned { get; set; }
         public DateTime? DtEarned { get; set; }
         public DateTime? DtFinalized { get; set; }

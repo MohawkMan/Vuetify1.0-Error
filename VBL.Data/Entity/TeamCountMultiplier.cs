@@ -10,5 +10,6 @@ namespace VBL.Data
         public int TeamCap { get; set; }
         public double Multiplier { get; set; }
         public string Description { get; set; }
+        public string SanctioningBodyId { get; set; }
     }
 }

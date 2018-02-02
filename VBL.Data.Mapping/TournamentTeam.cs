@@ -21,7 +21,7 @@ namespace VBL.Data.Mapping
         public TournamentTeamProfile()
         {
             CreateMap<TournamentTeam, TournamentTeamDTO>()
-                .ForMember(d => d.Points, opt => opt.MapFrom(s => s.Players.Sum(p => Convert.ToInt32(p.VblTotalPointsEarned.HasValue ? p.VblTotalPointsEarned.Value : 0))))
+                .ForMember(d => d.Points, opt => opt.MapFrom(s => Convert.ToInt32(Math.Round(s.Players.Sum(p => p.VblTotalPointsEarned.HasValue ? p.VblTotalPointsEarned.Value : 0), MidpointRounding.AwayFromZero))))
                 .ReverseMap();
 
             CreateMap<TournamentRegistration, TournamentTeam>()

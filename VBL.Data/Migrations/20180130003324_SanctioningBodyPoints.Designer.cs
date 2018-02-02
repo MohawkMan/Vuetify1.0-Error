@@ -11,9 +11,10 @@ using VBL.Data;
 namespace VBL.Data.Migrations
 {
     [DbContext(typeof(VBLDbContext))]
-    partial class VBLDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180130003324_SanctioningBodyPoints")]
+    partial class SanctioningBodyPoints
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -573,8 +574,6 @@ namespace VBL.Data.Migrations
                     b.Property<DateTime?>("DtModified");
 
                     b.Property<int>("Finish");
-
-                    b.Property<bool>("PerTeam");
 
                     b.Property<int>("Points");
 
@@ -1201,8 +1200,6 @@ namespace VBL.Data.Migrations
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate();
-
-                    b.Property<string>("SanctioningBodyId");
 
                     b.Property<int>("TournamentTeamId");
 

@@ -79,6 +79,39 @@ namespace VBL.Data
                 .IsRequired(false);
             #endregion
 
+            #region PayPalPaymentResponse
+            builder.Entity<PayPalPaymentResponse>().HasOne(a => a.UserCreated)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdCreated)
+                .IsRequired(false);
+            builder.Entity<PayPalPaymentResponse>().HasOne(a => a.UserModified)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdModified)
+                .IsRequired(false);
+            #endregion
+
+            #region PayPalToken
+            builder.Entity<PayPalToken>().HasOne(a => a.UserCreated)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdCreated)
+                .IsRequired(false);
+            builder.Entity<PayPalToken>().HasOne(a => a.UserModified)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdModified)
+                .IsRequired(false);
+            #endregion
+
+            #region PayPalTransaction
+            builder.Entity<PayPalTransaction>().HasOne(a => a.UserCreated)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdCreated)
+                .IsRequired(false);
+            builder.Entity<PayPalTransaction>().HasOne(a => a.UserModified)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdModified)
+                .IsRequired(false);
+            #endregion
+
             #region PlayerProfile
             builder.Entity<PlayerProfile>().HasOne(a => a.UserCreated)
                 .WithMany()

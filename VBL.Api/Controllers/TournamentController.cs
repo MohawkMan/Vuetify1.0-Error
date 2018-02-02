@@ -122,6 +122,48 @@ namespace VBL.Api.Controllers
                 return BadRequest(e.Message);
             }
         }
+        /// <summary>
+        /// Get Tournament Details
+        /// </summary>
+        [AllowAnonymous]
+        [HttpGet("{id}/raw")]
+        [ProducesResponseType(typeof(TournamentDTO), 200)]
+        public async Task<IActionResult> GetRawTournament([FromRoute] int id)
+        {
+            try
+            {
+                _logger.LogInformation($"GetTournament Id: {id}");
+                var tourney = await _tournamentManager.GetRawTournamentAsync(id);
+
+                return Ok(tourney);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(-1, e, "ERROR: ");
+                return BadRequest(e.Message);
+            }
+        }
+        /// <summary>
+        /// Get Tournament Details
+        /// </summary>
+        [AllowAnonymous]
+        [HttpGet("{id}/copy")]
+        [ProducesResponseType(typeof(TournamentDTO), 200)]
+        public async Task<IActionResult> GetTournamentCopy([FromRoute] int id)
+        {
+            try
+            {
+                _logger.LogInformation($"GetTournament Id: {id}");
+                var tourney = await _tournamentManager.GetTournamentCopyAsync(id);
+
+                return Ok(tourney);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(-1, e, "ERROR: ");
+                return BadRequest(e.Message);
+            }
+        }
 
         /// <summary>
         /// Put a new tournament or edits to an existing tournament

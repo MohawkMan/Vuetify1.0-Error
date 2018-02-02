@@ -185,7 +185,7 @@ export default {
       return this.tournament.statusId === StatusEnum.COMPLETE
     },
     upcoming () {
-      return this.tournament.statusId === StatusEnum.UPCOMING
+      return this.tournament.dateStatus === StatusEnum.UPCOMING
     }
   },
   methods: {
