@@ -84,6 +84,7 @@ namespace VBL.Core
                     .ThenInclude(t => t.Tournament)
                         .ThenInclude(t => t.Organization)
                             .ThenInclude(t => t.TournamentDefaults)
+                                .ThenInclude(t => t.TournamentDirector)
                 .Include(i => i.TournamentDivision)
                     .ThenInclude(t => t.Days)
                 .Include(i => i.TournamentDivision)

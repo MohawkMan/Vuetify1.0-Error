@@ -28,6 +28,10 @@ export default {
       if (i !== -1) {
         state.cart.items.splice(i, 1)
       }
+    },
+    [mutations.CLEAR_CART] (state) {
+      state.cart.items = []
+      state.cart.organization = null
     }
   },
   actions: {

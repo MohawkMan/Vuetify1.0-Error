@@ -11,9 +11,10 @@ using VBL.Data;
 namespace VBL.Data.Migrations
 {
     [DbContext(typeof(VBLDbContext))]
-    partial class VBLDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180208160750_shopping4")]
+    partial class shopping4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -256,40 +257,6 @@ namespace VBL.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("FacebookProfiles");
-                });
-
-            modelBuilder.Entity("VBL.Data.Feedback", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime?>("DtCreated");
-
-                    b.Property<DateTime?>("DtModified");
-
-                    b.Property<string>("Email");
-
-                    b.Property<string>("Message");
-
-                    b.Property<string>("Name");
-
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
-
-                    b.Property<string>("Subject");
-
-                    b.Property<int?>("UserIdCreated");
-
-                    b.Property<int?>("UserIdModified");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserIdCreated");
-
-                    b.HasIndex("UserIdModified");
-
-                    b.ToTable("Feedback");
                 });
 
             modelBuilder.Entity("VBL.Data.Gender", b =>
@@ -825,8 +792,6 @@ namespace VBL.Data.Migrations
                     b.Property<DateTime?>("DtCreated");
 
                     b.Property<DateTime?>("DtModified");
-
-                    b.Property<string>("EmailReceiptTo");
 
                     b.Property<int>("OrganizationId");
 
@@ -1856,17 +1821,6 @@ namespace VBL.Data.Migrations
                 });
 
             modelBuilder.Entity("VBL.Data.ApplicationUser", b =>
-                {
-                    b.HasOne("VBL.Data.ApplicationUser", "UserCreated")
-                        .WithMany()
-                        .HasForeignKey("UserIdCreated");
-
-                    b.HasOne("VBL.Data.ApplicationUser", "UserModified")
-                        .WithMany()
-                        .HasForeignKey("UserIdModified");
-                });
-
-            modelBuilder.Entity("VBL.Data.Feedback", b =>
                 {
                     b.HasOne("VBL.Data.ApplicationUser", "UserCreated")
                         .WithMany()

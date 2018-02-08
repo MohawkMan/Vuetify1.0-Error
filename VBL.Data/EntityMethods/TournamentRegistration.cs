@@ -13,7 +13,7 @@ namespace VBL.Data
         public TournamentDivision Division => TournamentDivision;
         public Location Location => TournamentDivision.Location;
         public TournamentDay Day1 => TournamentDivision.Days.OrderBy(o => o.Date).FirstOrDefault();
-        public ApplicationUser TD => TournamentDivision.TournamentDirector ?? Tournament.TournamentDirector;
+        public ApplicationUser TD => TournamentDivision.TournamentDirector ?? Tournament.TournamentDirector ?? Organization.TournamentDefaults.TournamentDirector;
         public SparkPostEmailTemplate EmailTemplate => TournamentDivision.SparkPostEmailTemplate ?? Tournament.SparkPostEmailTemplate;
         public string EmailNote
         {

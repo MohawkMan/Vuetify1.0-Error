@@ -9,6 +9,17 @@ namespace VBL.Data
     {
         public void BuildRelationships(ModelBuilder builder)
         {
+            #region Feedback
+            builder.Entity<Feedback>().HasOne(a => a.UserCreated)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdCreated)
+                .IsRequired(false);
+            builder.Entity<Feedback>().HasOne(a => a.UserModified)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdModified)
+                .IsRequired(false);
+            #endregion
+
             #region Location
             builder.Entity<Location>().HasOne(a => a.UserCreated)
                 .WithMany()
@@ -54,6 +65,21 @@ namespace VBL.Data
             builder.Entity<OrganizationMember>().HasOne(a => a.User)
                 .WithMany(u => u.OrganizationMemberships)
                 .HasForeignKey(a => a.UserId)
+                .IsRequired(true);
+            #endregion
+
+            #region OrganizationTournamentDefaults
+            builder.Entity<OrganizationTournamentDefaults>().HasOne(a => a.UserCreated)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdCreated)
+                .IsRequired(false);
+            builder.Entity<OrganizationTournamentDefaults>().HasOne(a => a.UserModified)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdModified)
+                .IsRequired(false);
+            builder.Entity<OrganizationTournamentDefaults>().HasOne(a => a.TournamentDirector)
+                .WithMany()
+                .HasForeignKey(a => a.TournamentDirectorUserId)
                 .IsRequired(true);
             #endregion
 

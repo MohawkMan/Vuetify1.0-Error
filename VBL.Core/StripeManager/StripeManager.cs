@@ -144,21 +144,23 @@ namespace VBL.Core
 
         public async Task<StripeChargeRecord> ProcessBagPayment(ShoppingBag bag)
         {
-            StripeConfiguration.SetApiKey(_config.AppKeys.StripeTest);
+            StripeConfiguration.SetApiKey(_config.AppKeys.Stripe);
             var chargeService = new StripeChargeService();
             var chargeOptions = new StripeChargeCreateOptions()
             {
                 Amount = Convert.ToInt32(bag.Total * 100),
                 Currency = "usd",
                 Description = $"Volleyball Life OrderId: {bag.Id}",
-                SourceTokenOrExistingSourceId = bag.PaymentToken.Id
+                SourceTokenOrExistingSourceId = bag.PaymentToken.Id,
+                ReceiptEmail = bag.EmailReceiptTo
             };
+            var fee = bag.Items.Count(c => !string.IsNullOrWhiteSpace(c.RawRegistrationData)) * 100;
             var account = await GetPaymentAccountInfo(bag.OrganizationId);
             if(account != null)
             {
                 //use organization account and application fee
                 chargeOptions.Destination = account.Id;
-                chargeOptions.ApplicationFee = 100;
+                chargeOptions.ApplicationFee = fee;
             }
             var payment = await chargeService.CreateAsync(chargeOptions);
             var record = new StripeChargeRecord()

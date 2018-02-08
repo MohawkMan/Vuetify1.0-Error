@@ -13,6 +13,34 @@
       </v-flex>
     </v-layout>
   </v-container>
+  <v-container fill-height v-else-if="purchaseComplete">
+    <v-layout row wrap align-center>
+      <v-flex xs8 offset-xs2>
+        <v-layout row wrap text-xs-center>
+          <v-flex xs12 class="display-2">
+            <h3>Thank you!</h3>
+          </v-flex>
+          <v-flex xs12 class="headline">
+            Your purchase is complete!
+          </v-flex>
+          <v-flex xs12 class="headline">
+            Your confirmation code is: {{confirmation}}
+          </v-flex>
+          <v-flex xs12 class="headline">
+            You should be receiving a receipt at {{emailReceipt}} shortly
+          </v-flex>
+          <template v-if="registrationEmails.length > 0">
+            <v-flex xs12 class="headline">
+              We have also sent tournament registration emails to:
+            </v-flex>
+            <v-flex xs12 v-for="(e,i) in registrationEmails" :key="i" class="headline">
+              {{e}}
+            </v-flex>
+          </template>
+        </v-layout>
+      </v-flex>
+    </v-layout>
+  </v-container>
   <v-container v-else grid-list-md>
     <v-layout row wrap>
       <v-flex xs12 sm10 offset-sm1>
@@ -73,6 +101,11 @@
                   combobox
                   class="eSelect"
                   hide-details
+                  required
+                  :rules="[
+                    () => $v.emailReceipt.required || 'An email is required',
+                    () => $v.emailReceipt.email || 'A valid email is required'
+                  ]"
                 ></v-select>
               </v-flex>
             </v-layout>
@@ -93,7 +126,7 @@
                 <v-btn
                   color="color2 white--text" 
                   class="ml-0" 
-                  :disabled="!complete"
+                  :disabled="!complete || !valid"
                   :loading="processing"
                   @click="getPaymentToken"
                   >Submit payment
@@ -125,8 +158,16 @@ import { Card, createToken } from 'vue-stripe-elements-plus'
 import * as mutations from '../../store/MutationTypes'
 import SDK from '../../VBL'
 import CartItem from '../../classes/CartItem'
+import { validationMixin } from 'vuelidate'
+import { required, email } from 'vuelidate/lib/validators'
 
 export default {
+  mixins: [validationMixin],
+  validations () {
+    return {
+      emailReceipt: { required, email }
+    }
+  },
   data () {
     return {
       deleteDialog: false,
@@ -138,10 +179,14 @@ export default {
       focus: false,
       stripeOptions: {
       },
-      emailReceipt: null
+      emailReceipt: null,
+      purchaseComplete: false,
+      registrationEmails: [],
+      confirmation: null
     }
   },
   computed: {
+    valid () { return !this.$v.$invalid },
     cart () {
       return this.$store.getters.cart
     },
@@ -171,7 +216,8 @@ export default {
           card_brand: this.token.card.brand,
           client_ip: this.token.client_ip
         },
-        total: this.total
+        total: this.total,
+        emailReceiptTo: this.emailReceipt
       }
     }
   },
@@ -207,6 +253,10 @@ export default {
       sdk.cart.process(this.bag)
         .then((response) => {
           console.log(response.data)
+          this.confirmation = response.data
+          this.registrationEmails = this.playerEmails
+          this.purchaseComplete = true
+          this.$store.commit(mutations.CLEAR_CART)
           this.processing = false
         })
         .catch((error) => {

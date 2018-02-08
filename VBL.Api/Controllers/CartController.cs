@@ -40,8 +40,9 @@ namespace VBL.Api.Controllers
         {
             try
             {
-                await _cart.ProcessBag(bag);
-                return Ok();
+                var order = await _cart.ProcessBag(bag);
+                var orderId = $"{order.DtCreated.Value.ToString("yyyyMMdd")}-{order.Id}";
+                return Ok(orderId);
             }
             catch(StripeException e)
             {

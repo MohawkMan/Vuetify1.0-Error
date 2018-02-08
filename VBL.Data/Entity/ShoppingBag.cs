@@ -11,5 +11,6 @@ namespace VBL.Data
         public List<ShoppingBagItem> Items { get; set; } = new List<ShoppingBagItem>();
         public StripePaymentToken PaymentToken { get; set; }
         public double Total { get; set; }
+        public string EmailReceiptTo { get; set; }
     }
 }

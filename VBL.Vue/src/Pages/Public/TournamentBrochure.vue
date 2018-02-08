@@ -206,12 +206,19 @@ export default {
   },
   methods: {
     fetchTourney () {
+      if (this.$store.getters.tournamentList) {
+        let t = this.$store.getters.getTournamentById(this.tournamentId)
+        if (t) {
+          this.setTourney(t)
+          this.loading = false
+          return
+        }
+      }
       this.loading = true
       const sdk = new SDK(this.axios)
       sdk.tournament.getTournamentById(this.tournamentId)
         .then((response) => {
           this.setTourney(response.data)
-          if (this.complete) this.activeTab = 'results'
           this.loading = false
         })
         .catch((response) => {
@@ -223,6 +230,7 @@ export default {
     setTourney (dto) {
       this.tournament = new Tourney(dto)
       this.registration = this.tournament.newRegistration()
+      if (this.complete) this.activeTab = 'results'
     },
     register (division) {
       this.registration.setDivision(division)

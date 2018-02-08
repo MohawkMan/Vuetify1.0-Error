@@ -11,4 +11,7 @@ export default class VBL {
     this.organization = new OrganizationSDK(http)
     this.cart = new CartSDK(http)
   }
+  putFeedback (dto) {
+    return this.http.put(endpoints.feedback, dto)
+  }
 }

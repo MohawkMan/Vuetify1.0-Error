@@ -1,5 +1,5 @@
 <template>
-  <v-stepper v-if="!tournament.externalRegistrationUrl || true" v-model="currentStep" vertical>
+  <v-stepper v-if="!tournament.externalRegistrationUrl || me" v-model="currentStep" vertical>
     <!-- Division -->
     <v-stepper-step 
       :step="1"
@@ -186,6 +186,9 @@ export default {
     }
   },
   computed: {
+    me () {
+      return this.$store.getters.user && this.$store.getters.user.id === 1
+    },
     reviewStep () {
       return this.registration.players.length + 2
     },

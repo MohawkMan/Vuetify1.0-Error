@@ -16,5 +16,6 @@ namespace VBL.Data
 
         public int LocationId { get; set; }
         public int TournamentDirectorUserId { get; set; }
+        public ApplicationUser TournamentDirector { get; set; }
     }
 }

@@ -13,6 +13,7 @@ namespace VBL.Data.Mapping
         public List<ShoppingBagItemDTO> Items { get; set; } = new List<ShoppingBagItemDTO>();
         public StripePaymentTokenDTO PaymentToken { get; set; }
         public double Total { get; set; }
+        public string EmailReceiptTo { get; set; }
     }
     public partial class ShoppingBagItemDTO
     {

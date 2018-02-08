@@ -10,6 +10,7 @@ export default {
   email: {
     confirm: (emailId) => `email/confirm/${emailId}`
   },
+  feedback: '/Feedback',
   organization: {
     get: (usernameOrId) => `/organization/${usernameOrId}`,
     getSettingsById: (id) => `/organization/${id}/settings`,

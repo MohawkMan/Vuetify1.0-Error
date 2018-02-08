@@ -8,7 +8,7 @@ namespace VBL.Data.Mapping
 {
     public class ApplicationUserDTO
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Gender { get; set; }
@@ -20,7 +20,7 @@ namespace VBL.Data.Mapping
     }
     public class ApplicationUserPublicDTO
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public List<PhoneDTO> Phones { get; set; } = new List<PhoneDTO>();

@@ -11,6 +11,7 @@ namespace VBL.Data
         public DbSet<AgeType> AgeTypes { get; set; }
         public DbSet<Division> Divisions { get; set; }
         public DbSet<FacebookProfile> FacebookProfiles { get; set; }
+        public DbSet<Feedback> Feedback { get; set; }
         public DbSet<Gender> Genders { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<Organization> Organizations { get; set; }

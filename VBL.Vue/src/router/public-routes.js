@@ -9,6 +9,8 @@ import Organizations from '@/Pages/Public/Organizations'
 import Join from '@/Pages/Public/Account/Register'
 import SignIn from '@/Pages/Public/Account/Login'
 import Privacy from '@/Pages/Public/Privacy.vue'
+import Feedback from '@/Pages/Public/Feedback.vue'
+import FeedbackThanks from '@/Pages/Public/FeedbackThanks.vue'
 import EmailConfirm from '@/Pages/Public/Confirm.vue'
 import JuniorPoints from '@/Pages/Public/JuniorPoints.vue'
 
@@ -54,6 +56,16 @@ export default [
     path: '/privacy',
     name: 'privacy',
     component: Privacy
+  },
+  {
+    path: '/feedback',
+    name: 'feedback',
+    component: Feedback
+  },
+  {
+    path: '/feedback/thanks',
+    name: 'feedback-thanks',
+    component: FeedbackThanks
   },
   {
     path: '/juniorpoints',

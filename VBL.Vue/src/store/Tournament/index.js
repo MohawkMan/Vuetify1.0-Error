@@ -57,7 +57,7 @@ export default {
   },
   getters: {
     getTournamentById: (state) => (id) => {
-      return state.tournamentList.find(t => t.id === id)
+      return state.tournamentList.find(t => +t.id === +id)
     },
     selectedTourney: state => {
       return state.selectedTourney
