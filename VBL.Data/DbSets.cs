@@ -23,7 +23,14 @@ namespace VBL.Data
         public DbSet<PointValue> PointValues { get; set; }
         public DbSet<PointValueMultiplier> PointValueMultipliers { get; set; }
         public DbSet<SanctioningBody> SanctioningBodies { get; set; }
+        public DbSet<ShoppingBag> ShoppingBags { get; set; }
+        public DbSet<ShoppingBagItem> ShoppingBagItems { get; set; }
         public DbSet<SparkPostEmailTemplate> SparkPostEmailTemplates { get; set; }
+        public DbSet<StripeAccountDetails> StripeAccountDetails { get; set; }
+        public DbSet<StripeAuthToken> StripeAuthTokens { get; set; }
+        public DbSet<StripeConnectClick> StripeConnectClicks { get; set; }
+        public DbSet<StripeChargeRecord> StripeChargeRecords { get; set; }
+        public DbSet<StripePaymentToken> StripePaymentTokens { get; set; }
         public DbSet<TeamCountMultiplier> TeamCountMultipliers { get; set; }
         public DbSet<Tournament> Tournaments { get; set; }
         public DbSet<TournamentDay> TournamentDays { get; set; }

@@ -33,6 +33,26 @@ namespace VBL.Data.Mapping
         public string Username { get; set; }
     }
 
+    public partial class OrganizationSettingsDTO
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Username { get; set; }
+        public string LogoUrl { get; set; }
+        public string Description { get; set; }
+        public bool IsActive { get; set; }
+        public bool IsPublic { get; set; }
+
+        public string WebsiteUrl { get; set; }
+        public string Contact { get; set; }
+        public string Facebook { get; set; }
+        public string Twitter { get; set; }
+        public string Instagram { get; set; }
+        public string Snapchat { get; set; }
+
+        public List<StripeAccountDetailsDTO> StripeAccounts { get; set; }
+    }
+
     public class OrganizationProfile : Profile
     {
         public OrganizationProfile()
@@ -41,6 +61,8 @@ namespace VBL.Data.Mapping
                 .ReverseMap();
 
             CreateMap<Organization, OrganizationDTOSkinny>();
+
+            CreateMap<Organization, OrganizationSettingsDTO>();
         }
     }
 }

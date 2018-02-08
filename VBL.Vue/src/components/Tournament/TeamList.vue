@@ -15,6 +15,11 @@
           <td class="text-xs-center">{{ props.item.points }}</td>
         </tr>
       </template>
+      <template slot="footer">
+        <td colspan="100%" class="text-xs-center" style="rgba(0,0,0,0.54); font-size: 11px;">
+          *This is not the official AVP points reporting site. Please check the <a href="http://avpnext.avp.com/rankings.aspx" target="_blank">AVP Site</a> for offical results
+        </td>
+      </template>
       <template slot="no-data">
         <loading-data grid-list-md v-if="loading"></loading-data>
       </template>

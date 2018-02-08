@@ -85,7 +85,14 @@ namespace VBL.Core
         }
         public async Task<bool> CanEditOrganizationTournament(int userId, int organizationId)
         {
-            return true;
+            return await IsOrganizationMember(userId, organizationId);
+        }
+        public async Task<bool> CanEditTournament(int userId, int tournamentId)
+        {
+            return await _db.Tournaments
+                .Where(w => w.Id == tournamentId)
+                .Where(w => w.Organization.OrganizationMembers.Any(a => a.UserId == userId && a.IsActive))
+                .AnyAsync();
         }
     }
 }

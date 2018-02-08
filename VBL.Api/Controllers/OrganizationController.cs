@@ -136,10 +136,34 @@ namespace VBL.Api.Controllers
             {
                 _logger.LogInformation($"AddMemeber dto: {dto}");
 
-                //if(!User.IsInRole("Admin"))
+                var userId = Convert.ToInt32(User.UserId(_config.Jwt.Issuer));
+                if (!await _userManager.IsOrganizationMember(userId, dto.OrganizationId))
+                    return Unauthorized();
 
                 var member = await _organizationManager.AddMemberAsync(dto);
                 return Ok(member);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(-1, e, "ERROR: ");
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpGet("{id}/settings")]
+        [ProducesResponseType(typeof(OrganizationSettingsDTO), 200)]
+        public async Task<IActionResult> GetSettings([FromRoute]int id)
+        {
+            try
+            {
+                _logger.LogInformation($"GetSettings for OrganizationId: {id}");
+
+                var userId = Convert.ToInt32(User.UserId(_config.Jwt.Issuer));
+                if (!await _userManager.IsOrganizationMember(userId, id))
+                    return Unauthorized();
+
+                var org = await _organizationManager.GetOrganizationSettings(id);
+                return Ok(org);
             }
             catch (Exception e)
             {

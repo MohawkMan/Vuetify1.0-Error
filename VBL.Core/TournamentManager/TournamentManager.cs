@@ -26,10 +26,9 @@ namespace VBL.Core
             _logger = logger;
         }
 
-        public async Task<TournamentDTO> Register(TournamentRegistrationDTO dto, bool sendEmailConfirmation)
+        public async Task<TournamentRegistration> Register(TournamentRegistrationDTO dto, bool sendEmailConfirmation)
         {
-            var registration = await DoRegistration(dto, sendEmailConfirmation);
-            return await GetTournamentAsync(registration.TournamentId);
+            return await DoRegistration(dto, sendEmailConfirmation);
         }
         public async Task<TournamentDTO> BulkRegister(List<TournamentRegistrationDTO> dto, bool overwrite = false)
         {
@@ -170,7 +169,6 @@ namespace VBL.Core
 
             return await GetTournamentAsync(tourney.Id);
         }
-
         public async Task<TournamentDTO> EditTournamentAsync(TournamentDTOIncoming dto)
         {
             var tournament = await _db.Tournaments
@@ -188,6 +186,15 @@ namespace VBL.Core
             _mapper.Map(dto, tournament);
             await _db.SaveChangesAsync();
             return await GetTournamentAsync(tournament.Id);
+        }
+
+        public async Task<bool> PublishAsync(int id, bool isPublic)
+        {
+            var tournament = await _db.Tournaments.FindAsync(id);
+
+            tournament.IsPublic = isPublic;
+            await _db.SaveChangesAsync();
+            return isPublic;
         }
     }
 }

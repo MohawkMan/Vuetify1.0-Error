@@ -3,7 +3,7 @@
     <public-nav v-if="nav == 'public'"></public-nav>
     <private-nav v-if="nav == 'private'"></private-nav>
     <v-content>
-      <v-container fill-height v-if="isLoading">
+      <v-container fill-height v-if="loading">
         <v-layout row wrap align-center>
           <v-flex xs8 offset-xs2>
             <v-layout row wrap text-xs-center>

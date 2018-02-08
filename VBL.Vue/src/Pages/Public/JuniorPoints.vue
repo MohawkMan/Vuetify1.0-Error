@@ -18,16 +18,16 @@
       <v-flex xs12 sm10 offset-sm1>
         <v-card>
           <v-toolbar dark color="color3" class="mx-auto">
-            <v-toolbar-title>Juniors Point System</v-toolbar-title>
+            <v-toolbar-title>AAU Point System</v-toolbar-title>
           </v-toolbar>
           <v-card-text>
             <v-container fluid grid-list-sm>
               <v-layout row wrap>
                 <v-flex>
                   <v-card flat>
-                    <h2>The Juniors Point System</h2>
+                    <h2>The AAU Point System</h2>
                     <p>
-                    Points are awarded for all participating 12U, 14U, 16U, and 18U juniors tournaments.  The amount of points awarded at each event will be determined by combining our "Base Point Scale" with any approved multipliers for the event. Every event will be subject to the "Team Participation Multiplier" detailed below.
+                    Points are awarded for all participating 12U, 14U, 16U, and 18U AAU juniors tournaments.  The amount of points awarded at each event will be determined by combining our "Base Point Scale" with any approved multipliers for the event. Every event will be subject to the "Team Participation Multiplier" detailed below.
                     </p>
                     <p>
                     Points are awarded to 1st through 9th place for each event. All players who finish outside of 9th place will receive 5 points for participating in the event. Points are cumulative and rankings are calculated by the sum of all points earned within the last calendar year.

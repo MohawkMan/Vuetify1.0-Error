@@ -30,7 +30,8 @@ namespace VBL.Data
 
                 return !string.IsNullOrWhiteSpace(TournamentDivision.EmailNote) ? TournamentDivision.EmailNote :
                        !string.IsNullOrWhiteSpace(Tournament.EmailNote) ? Tournament.EmailNote :
-                       Organization.TournamentDefaults.EmailNote;
+                       !string.IsNullOrWhiteSpace(Organization.TournamentDefaults.EmailNote) ? Organization.TournamentDefaults.EmailNote :
+                       "";
             }
         }
 

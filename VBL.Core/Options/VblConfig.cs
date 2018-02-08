@@ -11,5 +11,8 @@ namespace VBL.Core
         public JwtConfig Jwt { get; set; }
         public PayPalConfig PayPal { get; set; }
         public SparkPostConfig SparkPost { get; set; }
+        public StripeConfig Stripe { get; set; }
+        public string BaseURL { get; set; }
+
     }
 }

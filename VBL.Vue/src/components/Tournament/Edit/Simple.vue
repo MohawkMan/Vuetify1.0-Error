@@ -4,7 +4,7 @@
       <v-toolbar color="color2" dark>
         <v-toolbar-title>Tournament Edit</v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-btn icon @click.native="closeMe">
+        <v-btn icon @click.native="closeMe" :disabled="saving">
           <v-icon>close</v-icon>
         </v-btn>        
       </v-toolbar>
@@ -32,6 +32,7 @@
                           item-value="id"
                           required
                           return-object
+                          :disabled="saving"
                         ></v-select>
                       </v-flex>
                     </v-layout>
@@ -54,10 +55,11 @@
                           label="Tournament Name"
                           required
                           v-model="tournament.name"
+                          :disabled="saving"
                         ></v-text-field>
                       </v-flex>
                       <v-flex xs12 sm2 offset-sm4 v-if="false">
-                        <v-switch label="Advanced" v-model="advanced" light hide-details></v-switch>
+                        <v-switch label="Advanced" v-model="advanced" light hide-details :disabled="saving"></v-switch>
                       </v-flex>
                     </v-layout>
                     <!-- DATE & TIMES (IF 1 DAY) -->
@@ -74,6 +76,7 @@
                           :nudge-right="40"
                           max-width="290px"
                           min-width="290px"
+                          :disabled="saving"
                         >
                           <v-text-field
                             slot="activator"
@@ -82,6 +85,7 @@
                             readonly
                             v-model="tournament.divisionTemplate.days[0].dateFormatted"
                             required
+                            :disabled="saving"
                             @blur="tournament.divisionTemplate.days[0].date = parseDate(tournament.divisionTemplate.days[0].dateFormatted)"
                           ></v-text-field>
                           <v-date-picker 
@@ -89,7 +93,8 @@
                             scrollable 
                             actions 
                             v-model="tournament.divisionTemplate.days[0].date"
-                            @input="tournament.divisionTemplate.days[0].dateFormatted = formatDate($event)">
+                            @input="tournament.divisionTemplate.days[0].dateFormatted = formatDate($event)"
+                            :disabled="saving">
                             <template slot-scope="{ save, cancel }">
                               <v-card-actions>
                                 <v-spacer></v-spacer>
@@ -112,6 +117,7 @@
                           :nudge-right="40"
                           max-width="290px"
                           min-width="290px"
+                          :disabled="saving"
                         >
                           <v-text-field
                             slot="activator"
@@ -119,6 +125,7 @@
                             prepend-icon="access_time"
                             readonly
                             v-model="tournament.divisionTemplate.days[0].checkInTime"
+                            :disabled="saving"
                           ></v-text-field>
                           <v-time-picker actions v-model="tournament.divisionTemplate.days[0].checkInTime">
                             <template slot-scope="{ save, cancel }">
@@ -143,6 +150,7 @@
                           :nudge-right="40"
                           max-width="290px"
                           min-width="290px"
+                          :disabled="saving"
                         >
                           <v-text-field
                             slot="activator"
@@ -150,6 +158,7 @@
                             prepend-icon="access_time"
                             readonly
                             v-model="tournament.divisionTemplate.days[0].playTime"
+                            :disabled="saving"
                           ></v-text-field>
                           <v-time-picker actions v-model="tournament.divisionTemplate.days[0].playTime">
                             <template slot-scope="{ save, cancel }">
@@ -175,6 +184,7 @@
                           return-object
                           required
                           v-model="tournament.divisionTemplate.location"
+                          :disabled="saving"
                         ></v-select>
                       </v-flex>
                     </v-layout>
@@ -229,9 +239,9 @@
                       <v-flex xs6 sm3 md2 v-for="(field, i) in fieldChoices" :key="i">
                         {{field.label}}
                         <v-radio-group v-model="field.list" column>
-                          <v-radio label="Ask" value="fields" hide-details></v-radio>
-                          <v-radio label="Require" value="requiredFields" hide-details></v-radio>
-                          <v-radio label="Skip" value="" hide-details></v-radio>
+                          <v-radio label="Ask" value="fields" hide-details :disabled="saving"></v-radio>
+                          <v-radio label="Require" value="requiredFields" hide-details :disabled="saving"></v-radio>
+                          <v-radio label="Skip" value="" hide-details :disabled="saving"></v-radio>
                         </v-radio-group>
                       </v-flex>
                     </v-layout>  
@@ -256,6 +266,7 @@
                           class="styledArea"
                           label="Additional Information i.e. prizes, play format, etc"
                           v-model="tournament.description"
+                          :disabled="saving"
                         ></v-text-field>
                       </v-flex>
                     </v-layout>
@@ -281,8 +292,16 @@
                 <v-card-text>
                   <v-container grid-list-md>
                     <v-layout row wrap justify-center>
-                      <v-btn @click.stop="saveTournament">Save</v-btn>
-                      <v-btn @click.stop="closeMe">Cancel</v-btn>
+                      <v-btn
+                        color="color3 white--text"
+                        @click.stop="saveTournament"
+                        :loading="saving"
+                        :disabled="saving || !dirty"
+                      >Save</v-btn>
+                      <v-btn
+                        @click.stop="closeMe"
+                        :disabled="saving"
+                      >Cancel</v-btn>
                     </v-layout>
                   </v-container>
                 </v-card-text>
@@ -301,9 +320,10 @@ import { mapGetters } from 'vuex'
 import RegWindow from './RegistrationWindow.vue'
 import DivisionListSimple from './DivisionListSimple.vue'
 import SDK from '../../../VBL'
+import * as mutations from '../../../store/MutationTypes'
 
 export default {
-  props: ['tournamentDto', 'open'],
+  props: ['tournamentIn', 'open'],
   data () {
     return {
       advanced: false,
@@ -323,7 +343,8 @@ export default {
         { label: 'AVP', value: 'avp', list: '' },
         { label: 'USAV', value: 'usav', list: '' },
         { label: 'CBVA', value: 'cbva', list: '' }
-      ]
+      ],
+      oDto: ''
     }
   },
   computed: {
@@ -345,11 +366,15 @@ export default {
           username: p.username
         }
       })
+    },
+    dirty () {
+      return this.oDto !== JSON.stringify(this.tournament.dto)
     }
   },
   methods: {
     loadTournament () {
-      this.tournament = new Tournament(this.tournamentDto)
+      this.oDto = JSON.stringify(this.tournamentIn.dto)
+      this.tournament = new Tournament(this.tournamentIn)
       if (this.organizations.length === 1) {
         this.tournament.organization = this.organizations[0]
       }
@@ -371,16 +396,29 @@ export default {
     },
     clearTournament () {
       this.tournament = null
+      this.oDto = ''
     },
     saveTournament () {
+      this.saving = true
       const sdk = new SDK(this.axios)
       sdk.tournament.save(this.tournament)
         .then((response) => {
           console.log('Save Success')
+          this.$store.commit(mutations.UPDATE_TOURNAMENT, response.data)
+          this.closeMe()
+          this.$router.push({
+            name: 'tournament-brochure',
+            params: {
+              tournamentId: response.data.id,
+              username: response.data.organization.username
+            }
+          })
+          this.saving = false
         })
         .catch((error) => {
           console.log('Save Error')
           console.log(error)
+          this.saving = false
         })
     },
     formatDate (date) {

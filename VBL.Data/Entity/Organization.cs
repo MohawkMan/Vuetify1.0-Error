@@ -26,6 +26,7 @@ namespace VBL.Data
         
         public List<OrganizationMember> OrganizationMembers { get; set; } = new List<OrganizationMember>();
         public List<OrganizationPhoto> Photos { get; set; } = new List<OrganizationPhoto>();
+        public List<StripeAccountDetails> StripeAccounts { get; set; } = new List<StripeAccountDetails>();
         public OrganizationTournamentDefaults TournamentDefaults { get; set; }
     }
 }

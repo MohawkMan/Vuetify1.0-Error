@@ -4,11 +4,16 @@ export default {
     : 'https://localhost:44351/api/v1.0',
 //  baseURL: 'https://api.volleyballlife.com/api/v1.0',
 //  baseURL: 'https://localhost:44351/api/v1.0',
+  cart: {
+    process: 'cart/process'
+  },
   email: {
     confirm: (emailId) => `email/confirm/${emailId}`
   },
   organization: {
-    get: (usernameOrId) => `/organization/${usernameOrId}`
+    get: (usernameOrId) => `/organization/${usernameOrId}`,
+    getSettingsById: (id) => `/organization/${id}/settings`,
+    getConnectURLById: (id) => `/stripe/connect/${id}`
   },
   rankings: {
     all: 'Ranking',
@@ -26,7 +31,8 @@ export default {
     getByOrganizationUserName: (username) => `/tournament/${username}/list`,
     register: '/tournament/register',
     bulkRegister: '/tournament/register/upload',
-    bulkRegisterOverwrite: '/tournament/register/upload/true'
+    bulkRegisterOverwrite: '/tournament/register/upload/true',
+    publish: (id, val) => `/tournament/${id}/publish/${val}`
   },
   user: {
     login: '/account/Login',

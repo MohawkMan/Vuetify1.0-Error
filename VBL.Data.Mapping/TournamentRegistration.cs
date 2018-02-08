@@ -5,6 +5,11 @@ using System.Text;
 
 namespace VBL.Data.Mapping
 {
+    public partial class TournamentRegistrationWithPayDTO
+    {
+        public TournamentRegistrationDTO Registration { get; set; }
+        public StripePaymentTokenDTO PaymentToken { get; set; }
+    }
     public partial class TournamentRegistrationDTO
     {
         public int Id { get; set; }

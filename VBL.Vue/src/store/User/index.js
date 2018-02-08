@@ -10,7 +10,11 @@ export default {
   },
   mutations: {
     [mutations.SET_USER] (state, payload) {
-      state.user = new User(payload)
+      if (payload) {
+        state.user = new User(payload)
+      } else {
+        state.user = null
+      }
     }
   },
   actions: {

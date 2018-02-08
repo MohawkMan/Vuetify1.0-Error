@@ -53,10 +53,7 @@ export default {
   props: ['username'],
   data () {
     return {
-      pastPagination: {
-        sortBy: 'date',
-        descending: true
-      }
+      pastPagination: { sortBy: 'date', page: 1, rowsPerPage: 5, descending: true, totalItems: 0 }
     }
   },
   computed: {

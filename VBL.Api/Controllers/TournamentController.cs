@@ -225,12 +225,13 @@ namespace VBL.Api.Controllers
 
         [AllowAnonymous]
         [HttpPut("register")]
-        public async Task<IActionResult> Register([FromBody]TournamentRegistrationDTO dto)
+        [ProducesResponseType(typeof(TournamentDTO), 200)]
+        public async Task<IActionResult> Register([FromBody]TournamentRegistrationWithPayDTO dto)
         {
             try
             {
                 _logger.LogInformation($"Register TournamentRegistrationDTO: {dto}");
-                var result = await _tournamentManager.Register(dto, true);
+                var result = await _tournamentManager.Register(dto.Registration, true);
 
                 return Ok(result);
             }
@@ -242,6 +243,7 @@ namespace VBL.Api.Controllers
         }
 
         [HttpPut("register/upload/{overwrite?}")]
+        [ProducesResponseType(typeof(TournamentDTO), 200)]
         public async Task<IActionResult> Register([FromBody]List<TournamentRegistrationDTO> dto, [FromRoute] bool overwrite = false)
         {
             try
@@ -259,7 +261,8 @@ namespace VBL.Api.Controllers
             }
         }
 
-        [HttpPut("{tournamentId}/LockResults")]
+        [HttpPost("{tournamentId}/LockResults")]
+        [ProducesResponseType(typeof(TournamentDTO), 200)]
         public async Task<IActionResult> LockResults([FromRoute] int tournamentId)
         {
             try
@@ -269,6 +272,28 @@ namespace VBL.Api.Controllers
                 await _tournamentManager.LockTournamentResults(tournamentId);
 
                 return await GetTournament(tournamentId);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(-1, e, "ERROR: ");
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpPost("{tournamentId}/publish/{isPublic}")]
+        [ProducesResponseType(typeof(bool), 200)]
+        public async Task<IActionResult> Publish([FromRoute] int tournamentId, [FromRoute] bool isPublic)
+        {
+            try
+            {
+                var userId = Convert.ToInt32(User.UserId(_config.Jwt.Issuer));
+                if (!await _userManager.CanEditTournament(userId, tournamentId))
+                    return Unauthorized();
+
+                _logger.LogInformation($"Publish tournamentId: {tournamentId}, isPublic: {isPublic}");
+                await _tournamentManager.PublishAsync(tournamentId, isPublic);
+
+                return Ok(isPublic);
             }
             catch (Exception e)
             {

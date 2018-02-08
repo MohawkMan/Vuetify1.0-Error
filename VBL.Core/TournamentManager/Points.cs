@@ -74,6 +74,15 @@ namespace VBL.Core
                 .OrderBy(o => o.TeamCap)
                 .FirstOrDefaultAsync(f => f.TeamCap >= division.Teams.Count());
 
+            var bottomAwarded = division.Teams.Max(m => m.Finish);
+            var nextPlace = basePoints
+                    .OrderBy(o => o.Finish)
+                    .Where(w => w.Finish > bottomAwarded)
+                    .First().Finish;
+            foreach (var team in division.Teams.Where(w => !w.IsDeleted && w.Finish == null))
+            {
+                team.Finish = nextPlace;
+            }
             foreach (var team in division.Teams.Where(w => !w.IsDeleted))
             {
                 var points = basePoints

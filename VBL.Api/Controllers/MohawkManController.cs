@@ -44,9 +44,8 @@ namespace VBL.Api.Controllers
         {
             try
             {
-                var test = DateTime.Now.AddHours(-4).ToVblRefundFormat();
-                //await _emailManager.SendTournamentRegistrationEmailsAsync(363);
-                //await _emailManager.SendSiteRegistrationEmailAsync(1);
+                var aau = new AAUManager();
+                aau.SoapRequest();
             }
             catch(Exception e)
             {

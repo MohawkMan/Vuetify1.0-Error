@@ -39,6 +39,13 @@ namespace VBL.Core
                 .ProjectTo<OrganizationDTO>()
                 .FirstOrDefaultAsync();
         }
+        public async Task<OrganizationSettingsDTO> GetOrganizationSettings(int id)
+        {
+            return await _db.Organizations
+                .Where(w => w.Id == id)
+                .ProjectTo<OrganizationSettingsDTO>()
+                .FirstOrDefaultAsync();
+        }
         public async Task<OrganizationDTO> CreateOrganizationAsync(OrganizationDTO dto)
         {
             var newOrg = _mapper.Map<Organization>(dto);

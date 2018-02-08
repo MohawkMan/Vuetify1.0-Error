@@ -10,5 +10,7 @@ namespace VBL.Core
         public string Jwt { get; set; }
         public string SparkPost { get; set; }
         public string PayPal { get; set; }
+        public string Stripe { get; set; }
+        public string StripeTest { get; set; }
     }
 }

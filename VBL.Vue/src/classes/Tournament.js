@@ -36,6 +36,7 @@ export default class Tournament {
     let r = new Registration()
     r.tournamentId = this.id
     r.divisionId = divisionId
+    r.organization = this.organization
     return r
   }
   cascadeTemplateChange () {
@@ -92,6 +93,9 @@ export default class Tournament {
 
     return moment.min(this.divisions.map(d => d.startDate))
   }
+  get startDateDisplay () {
+    return this.startDate && moment(this.startDate).format('dddd, MMMM Do YYYY')
+  }
   get endDate () {
     return moment.max(this.divisions.map(d => d.endDate))
   }
@@ -135,5 +139,21 @@ export default class Tournament {
   }
   get isEditable () {
     return !this.isComplete && !this.isCanceled
+  }
+  get isAAU () {
+    return this.divisions && this.divisions.some((d) => {
+      return d.sanctioningBodyId === 'AAU'
+    })
+  }
+  get isAVP () {
+    return this.divisions && this.divisions.some((d) => {
+      return d.sanctioningBodyId.startsWith('AVP')
+    })
+  }
+  get sanctionedBy () {
+    var division = this.divisions && this.divisions.find((d) => {
+      return d.sanctioningBodyId
+    })
+    return (division && division.sanctioningBodyId) || ''
   }
 }

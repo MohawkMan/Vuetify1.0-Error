@@ -15,6 +15,20 @@
   </v-container>
   <v-container v-else grid-list-sm>
     <admin-speed-dial :currentTournament="tournament"></admin-speed-dial>
+    <v-layout row v-if="userIsAdmin">
+      <v-flex xs12 sm12 md10 offset-md1>
+        <v-switch label="Published"
+          v-model="tournament.isPublic"
+          color="success"
+          @click.stop="onPublish"
+          hide-details></v-switch>
+      </v-flex>
+    </v-layout>
+    <v-layout row v-if="!tournament.isPublic">
+      <v-flex xs12 sm12 md10 offset-md1>
+        <v-icon class="mr-1">visibility_off</v-icon>Only you can see this. This tournament is not yet published.
+      </v-flex>
+    </v-layout>
     <v-layout row>
       <v-flex xs12 sm12 md10 offset-md1>
         <v-card color="grey lighten-1">
@@ -109,6 +123,7 @@
                     :tournament="tournament"
                     :registration="registration"
                     @registered="onRegistered"
+                    @addedToCart="onAddToCart"
                   ></tournament-registration>
                 </v-card>
               </v-tabs-content>
@@ -163,7 +178,8 @@ export default {
       registering: true,
       registration: null,
       loading: true,
-      activeTab: null
+      activeTab: null,
+      publish: false
     }
   },
   computed: {
@@ -193,7 +209,6 @@ export default {
       this.loading = true
       const sdk = new SDK(this.axios)
       sdk.tournament.getTournamentById(this.tournamentId)
-      // this.axios.get(vbl.tournament.getById(this.tournamentId))
         .then((response) => {
           this.setTourney(response.data)
           if (this.complete) this.activeTab = 'results'
@@ -216,6 +231,19 @@ export default {
     onRegistered (dto) {
       this.setTourney(dto)
       this.activeTab = 'information'
+    },
+    onAddToCart () {
+      this.registration = this.tournament.newRegistration()
+    },
+    onPublish () {
+      const sdk = new SDK(this.axios)
+      sdk.tournament.publish(this.tournament.id, !this.tournament.isPublic)
+        .then((response) => {
+          this.tournament.isPublic = response.data
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     }
   },
   filters: {
@@ -230,6 +258,14 @@ export default {
     'simple-editor': EditorSimple,
     'registration-uploader': RegistrationUploader,
     'admin-speed-dial': AdminSpeedDial
+  },
+  watch: {
+    '$route.params': {
+      handler: function () {
+        this.fetchTourney()
+      },
+      deep: true
+    }
   },
   created () {
     console.log('Calling fetch tournament')

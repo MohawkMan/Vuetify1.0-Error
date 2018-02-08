@@ -20,6 +20,17 @@ export default {
     },
     [mutations.SET_TOURNAMENT_LIST_LOADING] (state, payload) {
       state.tournamentListLoading = payload
+    },
+    [mutations.UPDATE_TOURNAMENT] (state, payload) {
+      if (payload.id === 0) return
+      const i = state.tournamentList.indexOf((t) => {
+        return t.id === payload.id
+      })
+      if (i === -1) {
+        state.tournamentList.push(payload)
+      } else {
+        state.tournamentList[i] = payload
+      }
     }
   },
   actions: {

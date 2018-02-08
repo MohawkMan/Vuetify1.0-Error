@@ -513,6 +513,128 @@ namespace VBL.Data.Migrations
                     b.ToTable("OrganizationTournamentDefaults");
                 });
 
+            modelBuilder.Entity("VBL.Data.PayPalPaymentResponse", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Acct");
+
+                    b.Property<decimal>("Amt");
+
+                    b.Property<string>("AuthCode");
+
+                    b.Property<byte>("CardType");
+
+                    b.Property<string>("CorrelationId");
+
+                    b.Property<string>("Cvv2Match");
+
+                    b.Property<DateTime?>("DtCreated");
+
+                    b.Property<DateTime?>("DtModified");
+
+                    b.Property<string>("Pnref");
+
+                    b.Property<string>("Ppref");
+
+                    b.Property<string>("RespMsg");
+
+                    b.Property<string>("Result");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.Property<string>("SecureToken");
+
+                    b.Property<string>("SecureTokenId");
+
+                    b.Property<string>("TransTime");
+
+                    b.Property<int?>("UserIdCreated");
+
+                    b.Property<int?>("UserIdModified");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserIdCreated");
+
+                    b.HasIndex("UserIdModified");
+
+                    b.ToTable("PayPalPaymentResponses");
+                });
+
+            modelBuilder.Entity("VBL.Data.PayPalToken", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime?>("DtCreated");
+
+                    b.Property<DateTime?>("DtModified");
+
+                    b.Property<int>("PayPalTransactionId");
+
+                    b.Property<string>("RespMsg");
+
+                    b.Property<string>("Result");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.Property<string>("SecureToken");
+
+                    b.Property<string>("SecureTokenId");
+
+                    b.Property<int?>("UserIdCreated");
+
+                    b.Property<int?>("UserIdModified");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PayPalTransactionId");
+
+                    b.HasIndex("UserIdCreated");
+
+                    b.HasIndex("UserIdModified");
+
+                    b.ToTable("PayPalTokens");
+                });
+
+            modelBuilder.Entity("VBL.Data.PayPalTransaction", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description");
+
+                    b.Property<DateTime?>("DtCreated");
+
+                    b.Property<DateTime?>("DtModified");
+
+                    b.Property<string>("RawData");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.Property<float>("Total");
+
+                    b.Property<int?>("UserIdCreated");
+
+                    b.Property<int?>("UserIdModified");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserIdCreated");
+
+                    b.HasIndex("UserIdModified");
+
+                    b.ToTable("PayPalTransactions");
+                });
+
             modelBuilder.Entity("VBL.Data.PlayerProfile", b =>
                 {
                     b.Property<int>("Id")
@@ -663,6 +785,86 @@ namespace VBL.Data.Migrations
                     b.ToTable("SanctioningBodies");
                 });
 
+            modelBuilder.Entity("VBL.Data.ShoppingBag", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime?>("DtCreated");
+
+                    b.Property<DateTime?>("DtModified");
+
+                    b.Property<int>("OrganizationId");
+
+                    b.Property<string>("PaymentTokenId");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.Property<double>("Total");
+
+                    b.Property<int?>("UserIdCreated");
+
+                    b.Property<int?>("UserIdModified");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PaymentTokenId");
+
+                    b.HasIndex("UserIdCreated");
+
+                    b.HasIndex("UserIdModified");
+
+                    b.ToTable("ShoppingBags");
+                });
+
+            modelBuilder.Entity("VBL.Data.ShoppingBagItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<double>("Amount");
+
+                    b.Property<string>("Description");
+
+                    b.Property<DateTime?>("DtCreated");
+
+                    b.Property<DateTime?>("DtModified");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("Quantity");
+
+                    b.Property<string>("RawProductData");
+
+                    b.Property<string>("RawRegistrationData");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.Property<int>("ShoppingBagId");
+
+                    b.Property<int?>("TournamentRegistrationId");
+
+                    b.Property<int?>("UserIdCreated");
+
+                    b.Property<int?>("UserIdModified");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ShoppingBagId");
+
+                    b.HasIndex("TournamentRegistrationId");
+
+                    b.HasIndex("UserIdCreated");
+
+                    b.HasIndex("UserIdModified");
+
+                    b.ToTable("ShoppingBagItems");
+                });
+
             modelBuilder.Entity("VBL.Data.SparkPostEmailTemplate", b =>
                 {
                     b.Property<int>("Id")
@@ -695,6 +897,235 @@ namespace VBL.Data.Migrations
                     b.HasIndex("UserIdModified");
 
                     b.ToTable("SparkPostEmailTemplates");
+                });
+
+            modelBuilder.Entity("VBL.Data.StripeAccountDetails", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("BusinessLogoFileId");
+
+                    b.Property<string>("BusinessName");
+
+                    b.Property<string>("BusinessPrimaryColor");
+
+                    b.Property<string>("BusinessUrl");
+
+                    b.Property<bool>("ChargesEnabled");
+
+                    b.Property<string>("Country");
+
+                    b.Property<bool>("DebitNegativeBalances");
+
+                    b.Property<string>("DefaultCurrency");
+
+                    b.Property<bool>("DetailsSubmitted");
+
+                    b.Property<string>("DisplayName");
+
+                    b.Property<DateTime?>("DtCreated");
+
+                    b.Property<DateTime?>("DtModified");
+
+                    b.Property<string>("Email");
+
+                    b.Property<bool>("IsDefault");
+
+                    b.Property<string>("Object");
+
+                    b.Property<int?>("OrganizationId");
+
+                    b.Property<string>("PayoutStatementDescriptor");
+
+                    b.Property<bool>("PayoutsEnabled");
+
+                    b.Property<string>("ProductDescription");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.Property<string>("StatementDescriptor");
+
+                    b.Property<int>("StripeAuthTokenId");
+
+                    b.Property<string>("SupportEmail");
+
+                    b.Property<string>("SupportPhone");
+
+                    b.Property<string>("SupportUrl");
+
+                    b.Property<string>("Timezone");
+
+                    b.Property<string>("Type");
+
+                    b.Property<int?>("UserIdCreated");
+
+                    b.Property<int?>("UserIdModified");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrganizationId");
+
+                    b.HasIndex("StripeAuthTokenId")
+                        .IsUnique();
+
+                    b.HasIndex("UserIdCreated");
+
+                    b.HasIndex("UserIdModified");
+
+                    b.ToTable("StripeAccountDetails");
+                });
+
+            modelBuilder.Entity("VBL.Data.StripeAuthToken", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AccessToken");
+
+                    b.Property<DateTime?>("DtCreated");
+
+                    b.Property<DateTime?>("DtModified");
+
+                    b.Property<string>("Error");
+
+                    b.Property<string>("ErrorDescription");
+
+                    b.Property<bool>("LiveMode");
+
+                    b.Property<string>("RefreshToken");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.Property<string>("Scope");
+
+                    b.Property<string>("StripePublishableKey");
+
+                    b.Property<string>("StripeUserId");
+
+                    b.Property<string>("TokenType");
+
+                    b.Property<int?>("UserIdCreated");
+
+                    b.Property<int?>("UserIdModified");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserIdCreated");
+
+                    b.HasIndex("UserIdModified");
+
+                    b.ToTable("StripeAuthTokens");
+                });
+
+            modelBuilder.Entity("VBL.Data.StripeChargeRecord", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime?>("DtCreated");
+
+                    b.Property<DateTime?>("DtModified");
+
+                    b.Property<string>("RawResponse");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.Property<int>("ShoppingBagId");
+
+                    b.Property<int?>("UserIdCreated");
+
+                    b.Property<int?>("UserIdModified");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ShoppingBagId");
+
+                    b.HasIndex("UserIdCreated");
+
+                    b.HasIndex("UserIdModified");
+
+                    b.ToTable("StripeChargeRecords");
+                });
+
+            modelBuilder.Entity("VBL.Data.StripeConnectClick", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("ApplicationUserId");
+
+                    b.Property<string>("Code");
+
+                    b.Property<DateTime?>("DtCreated");
+
+                    b.Property<DateTime?>("DtModified");
+
+                    b.Property<int>("OrganizationId");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.Property<string>("Scope");
+
+                    b.Property<int?>("StripeAuthTokenId");
+
+                    b.Property<int?>("UserIdCreated");
+
+                    b.Property<int?>("UserIdModified");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrganizationId");
+
+                    b.HasIndex("StripeAuthTokenId");
+
+                    b.HasIndex("UserIdCreated");
+
+                    b.HasIndex("UserIdModified");
+
+                    b.ToTable("StripeConnectClicks");
+                });
+
+            modelBuilder.Entity("VBL.Data.StripePaymentToken", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("CardBrand");
+
+                    b.Property<string>("CardId");
+
+                    b.Property<string>("CardLast4");
+
+                    b.Property<string>("ClientIP");
+
+                    b.Property<DateTime?>("DtCreated");
+
+                    b.Property<DateTime?>("DtModified");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.Property<int?>("UserIdCreated");
+
+                    b.Property<int?>("UserIdModified");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserIdCreated");
+
+                    b.HasIndex("UserIdModified");
+
+                    b.ToTable("StripePaymentTokens");
                 });
 
             modelBuilder.Entity("VBL.Data.TeamCountMultiplier", b =>
@@ -1497,6 +1928,44 @@ namespace VBL.Data.Migrations
                         .HasForeignKey("UserModifiedId");
                 });
 
+            modelBuilder.Entity("VBL.Data.PayPalPaymentResponse", b =>
+                {
+                    b.HasOne("VBL.Data.ApplicationUser", "UserCreated")
+                        .WithMany()
+                        .HasForeignKey("UserIdCreated");
+
+                    b.HasOne("VBL.Data.ApplicationUser", "UserModified")
+                        .WithMany()
+                        .HasForeignKey("UserIdModified");
+                });
+
+            modelBuilder.Entity("VBL.Data.PayPalToken", b =>
+                {
+                    b.HasOne("VBL.Data.PayPalTransaction", "PayPalTransaction")
+                        .WithMany("Tokens")
+                        .HasForeignKey("PayPalTransactionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("VBL.Data.ApplicationUser", "UserCreated")
+                        .WithMany()
+                        .HasForeignKey("UserIdCreated");
+
+                    b.HasOne("VBL.Data.ApplicationUser", "UserModified")
+                        .WithMany()
+                        .HasForeignKey("UserIdModified");
+                });
+
+            modelBuilder.Entity("VBL.Data.PayPalTransaction", b =>
+                {
+                    b.HasOne("VBL.Data.ApplicationUser", "UserCreated")
+                        .WithMany()
+                        .HasForeignKey("UserIdCreated");
+
+                    b.HasOne("VBL.Data.ApplicationUser", "UserModified")
+                        .WithMany()
+                        .HasForeignKey("UserIdModified");
+                });
+
             modelBuilder.Entity("VBL.Data.PlayerProfile", b =>
                 {
                     b.HasOne("VBL.Data.ApplicationUser", "User")
@@ -1555,7 +2024,120 @@ namespace VBL.Data.Migrations
                         .HasForeignKey("UserIdModified");
                 });
 
+            modelBuilder.Entity("VBL.Data.ShoppingBag", b =>
+                {
+                    b.HasOne("VBL.Data.StripePaymentToken", "PaymentToken")
+                        .WithMany()
+                        .HasForeignKey("PaymentTokenId");
+
+                    b.HasOne("VBL.Data.ApplicationUser", "UserCreated")
+                        .WithMany()
+                        .HasForeignKey("UserIdCreated");
+
+                    b.HasOne("VBL.Data.ApplicationUser", "UserModified")
+                        .WithMany()
+                        .HasForeignKey("UserIdModified");
+                });
+
+            modelBuilder.Entity("VBL.Data.ShoppingBagItem", b =>
+                {
+                    b.HasOne("VBL.Data.ShoppingBag", "Bag")
+                        .WithMany("Items")
+                        .HasForeignKey("ShoppingBagId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("VBL.Data.TournamentRegistration", "TournamentRegistration")
+                        .WithMany()
+                        .HasForeignKey("TournamentRegistrationId");
+
+                    b.HasOne("VBL.Data.ApplicationUser", "UserCreated")
+                        .WithMany()
+                        .HasForeignKey("UserIdCreated");
+
+                    b.HasOne("VBL.Data.ApplicationUser", "UserModified")
+                        .WithMany()
+                        .HasForeignKey("UserIdModified");
+                });
+
             modelBuilder.Entity("VBL.Data.SparkPostEmailTemplate", b =>
+                {
+                    b.HasOne("VBL.Data.ApplicationUser", "UserCreated")
+                        .WithMany()
+                        .HasForeignKey("UserIdCreated");
+
+                    b.HasOne("VBL.Data.ApplicationUser", "UserModified")
+                        .WithMany()
+                        .HasForeignKey("UserIdModified");
+                });
+
+            modelBuilder.Entity("VBL.Data.StripeAccountDetails", b =>
+                {
+                    b.HasOne("VBL.Data.Organization", "Organization")
+                        .WithMany("StripeAccounts")
+                        .HasForeignKey("OrganizationId");
+
+                    b.HasOne("VBL.Data.StripeAuthToken", "StripeAuthToken")
+                        .WithOne("AccountDetails")
+                        .HasForeignKey("VBL.Data.StripeAccountDetails", "StripeAuthTokenId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("VBL.Data.ApplicationUser", "UserCreated")
+                        .WithMany()
+                        .HasForeignKey("UserIdCreated");
+
+                    b.HasOne("VBL.Data.ApplicationUser", "UserModified")
+                        .WithMany()
+                        .HasForeignKey("UserIdModified");
+                });
+
+            modelBuilder.Entity("VBL.Data.StripeAuthToken", b =>
+                {
+                    b.HasOne("VBL.Data.ApplicationUser", "UserCreated")
+                        .WithMany()
+                        .HasForeignKey("UserIdCreated");
+
+                    b.HasOne("VBL.Data.ApplicationUser", "UserModified")
+                        .WithMany()
+                        .HasForeignKey("UserIdModified");
+                });
+
+            modelBuilder.Entity("VBL.Data.StripeChargeRecord", b =>
+                {
+                    b.HasOne("VBL.Data.ShoppingBag", "ShoppingBag")
+                        .WithMany()
+                        .HasForeignKey("ShoppingBagId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("VBL.Data.ApplicationUser", "UserCreated")
+                        .WithMany()
+                        .HasForeignKey("UserIdCreated");
+
+                    b.HasOne("VBL.Data.ApplicationUser", "UserModified")
+                        .WithMany()
+                        .HasForeignKey("UserIdModified");
+                });
+
+            modelBuilder.Entity("VBL.Data.StripeConnectClick", b =>
+                {
+                    b.HasOne("VBL.Data.Organization", "Organization")
+                        .WithMany()
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("VBL.Data.StripeAuthToken", "StripeAuthToken")
+                        .WithMany()
+                        .HasForeignKey("StripeAuthTokenId");
+
+                    b.HasOne("VBL.Data.ApplicationUser", "UserCreated")
+                        .WithMany()
+                        .HasForeignKey("UserIdCreated");
+
+                    b.HasOne("VBL.Data.ApplicationUser", "UserModified")
+                        .WithMany()
+                        .HasForeignKey("UserIdModified");
+                });
+
+            modelBuilder.Entity("VBL.Data.StripePaymentToken", b =>
                 {
                     b.HasOne("VBL.Data.ApplicationUser", "UserCreated")
                         .WithMany()

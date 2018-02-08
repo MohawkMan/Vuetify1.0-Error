@@ -134,12 +134,89 @@ namespace VBL.Data
                 .IsRequired(false);
             #endregion
 
+            #region ShoppingBag
+            builder.Entity<ShoppingBag>().HasOne(a => a.UserCreated)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdCreated)
+                .IsRequired(false);
+            builder.Entity<ShoppingBag>().HasOne(a => a.UserModified)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdModified)
+                .IsRequired(false);
+            #endregion
+
+            #region ShoppingBagItem
+            builder.Entity<ShoppingBagItem>().HasOne(a => a.UserCreated)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdCreated)
+                .IsRequired(false);
+            builder.Entity<ShoppingBagItem>().HasOne(a => a.UserModified)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdModified)
+                .IsRequired(false);
+            #endregion
+
             #region SparkPostEmailTemplate
             builder.Entity<SparkPostEmailTemplate>().HasOne(a => a.UserCreated)
                 .WithMany()
                 .HasForeignKey(a => a.UserIdCreated)
                 .IsRequired(false);
             builder.Entity<SparkPostEmailTemplate>().HasOne(a => a.UserModified)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdModified)
+                .IsRequired(false);
+            #endregion
+
+            #region StripeAccountDetails
+            builder.Entity<StripeAccountDetails>().HasOne(a => a.UserCreated)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdCreated)
+                .IsRequired(false);
+            builder.Entity<StripeAccountDetails>().HasOne(a => a.UserModified)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdModified)
+                .IsRequired(false);
+            #endregion
+
+            #region StripeAuthToken
+            builder.Entity<StripeAuthToken>().HasOne(a => a.UserCreated)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdCreated)
+                .IsRequired(false);
+            builder.Entity<StripeAuthToken>().HasOne(a => a.UserModified)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdModified)
+                .IsRequired(false);
+            #endregion
+
+            #region StripeChargeRecord
+            builder.Entity<StripeChargeRecord>().HasOne(a => a.UserCreated)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdCreated)
+                .IsRequired(false);
+            builder.Entity<StripeChargeRecord>().HasOne(a => a.UserModified)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdModified)
+                .IsRequired(false);
+            #endregion
+
+            #region StripeConnectClick
+            builder.Entity<StripeConnectClick>().HasOne(a => a.UserCreated)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdCreated)
+                .IsRequired(false);
+            builder.Entity<StripeConnectClick>().HasOne(a => a.UserModified)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdModified)
+                .IsRequired(false);
+            #endregion
+
+            #region StripePaymentToken
+            builder.Entity<StripePaymentToken>().HasOne(a => a.UserCreated)
+                .WithMany()
+                .HasForeignKey(a => a.UserIdCreated)
+                .IsRequired(false);
+            builder.Entity<StripePaymentToken>().HasOne(a => a.UserModified)
                 .WithMany()
                 .HasForeignKey(a => a.UserIdModified)
                 .IsRequired(false);

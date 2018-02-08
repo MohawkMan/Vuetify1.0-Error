@@ -151,6 +151,8 @@ namespace VBL.Api
             services.AddScoped<TournamentManager>();
             services.AddScoped<OrganizationManager>();
             services.AddScoped<EmailManager>();
+            services.AddScoped<StripeManager>();
+            services.AddScoped<CartManager>();
 
             //App Settings/ Options
             services.Configure<VblConfig>(Configuration);

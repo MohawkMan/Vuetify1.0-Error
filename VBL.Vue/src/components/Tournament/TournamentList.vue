@@ -2,10 +2,14 @@
   <v-data-table
     :headers="headers"
     :items="rows"
-    :pagination.sync="pagination"
+    :pagination.sync="_pagination"
     >
     <template slot="items" slot-scope="props">
       <tr style="cursor: pointer">
+        <td class="text-xs-center">
+          <img src="/static/AAU.png" height="40px" :alt="props.item.sanctionedBy" v-if="props.item.sanctionedBy === 'AAU'">
+          <img src="/static/avpfirstlogo.png" height="40px" :alt="props.item.sanctionedBy" v-else-if="props.item.sanctionedBy.startsWith('AVP')">
+        </td>
         <td @click="gotoDetails(props.item.link)">
           {{ props.item.date | formatDate }}
           <v-tooltip right v-if="!props.item.public">
@@ -56,7 +60,7 @@ export default {
       return this.$route.params.username
     },
     admin () {
-      return this.user ? this.user.isPageAdmin(this.pageName) : false
+      return this.user && this.user.isPageAdmin(this.pageName)
     },
     rows () {
       return this.tourneys ? this.tourneys.map((t) => {
@@ -67,26 +71,19 @@ export default {
           locations: t.locationsString,
           link: `/${t.organization.username}/tournament/${t.id}`,
           public: t.isPublic,
-          regOpen: t.regOpen
+          regOpen: t.regOpen,
+          sanctionedBy: t.sanctionedBy
         }
       }) : []
     },
     headers () {
       return [
+        {text: '', value: 'sanctionedBy', align: 'left'},
         {text: 'Date', value: 'date', align: 'left'},
         {text: 'Name', value: 'name', align: 'left'},
         {text: 'Location', value: 'locations', align: 'left'},
         {text: '', value: '', align: 'left', sortable: 'false'}
       ]
-    },
-    pagination: {
-      get: () => {
-        if (!this._pagination) this._pagination = this.page
-        return this._pagination
-      },
-      set: (newVal) => {
-        this._pagination = newVal
-      }
     }
   },
   methods: {
@@ -103,6 +100,9 @@ export default {
     formatDate (date) {
       return moment(date).format('dddd, MMMM Do YYYY')
     }
+  },
+  created () {
+    this._pagination = this.page || { sortBy: 'date', page: 1, rowsPerPage: 5, descending: false, totalItems: 0 }
   }
 }
 </script>

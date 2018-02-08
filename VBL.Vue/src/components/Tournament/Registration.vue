@@ -1,10 +1,10 @@
 <template>
-  <v-stepper v-if="!tournament.externalRegistrationUrl" v-model="currentStep" vertical>
+  <v-stepper v-if="!tournament.externalRegistrationUrl || true" v-model="currentStep" vertical>
     <!-- Division -->
     <v-stepper-step 
       :step="1"
       :complete="!!registration.division"
-      :editable="!!registration.division && !processing"
+      :editable="!!registration.division"
       >
       Select your division
     </v-stepper-step>
@@ -23,13 +23,13 @@
     <template v-for="(player,i) in registration.players">
       <v-stepper-step 
         :step="i+2"
-        :key="i"
+        :key="i+'step'"
         :complete="player.valid"
-        :editable="player.valid && !processing"
+        :editable="player.valid"
       >
         Player {{i+1}}
       </v-stepper-step>
-      <v-stepper-content :step="i+2" :key="i">
+      <v-stepper-content :step="i+2" :key="i+'stepContent'">
         <v-card color="grey lighten-4">
           <v-card-text class="pt-0">
             <registration-fields
@@ -48,42 +48,16 @@
         <v-btn flat @click.native="onBack">Back</v-btn>
       </v-stepper-content>
     </template>
-    <!-- AddOn and Payment -->
-    <v-stepper-step 
-      :step="addOnStep"
-      :complete="addOnComplete"
-      :editable="addOnComplete && !processing"
-      >
-      Suggested For You
-    </v-stepper-step>
-    <v-stepper-content :step="addOnStep">
-      <registration-addon v-if="addOn" :addOn="addOn"></registration-addon>
-      <v-btn color="color2" dark @click.native="onNext">Continue</v-btn>
-      <v-btn flat @click.native="onBack">Back</v-btn>
-    </v-stepper-content>
     <!-- Review -->
     <v-stepper-step 
       :step="reviewStep"
       :complete="registration.confirmed"
-      :editable="currentStep > reviewStep && !processing"
+      :editable="currentStep > reviewStep"
       >
       Review
     </v-stepper-step>
     <v-stepper-content :step="reviewStep">
       <v-card color="grey lighten-4">
-          <!-- Division Review -->
-          <v-toolbar dense color="color4">
-            <v-toolbar-title>
-              Division
-            </v-toolbar-title>
-          </v-toolbar>
-          <v-container fluid>
-            <v-layout row wrap>
-              <v-flex xs12>
-                {{registration.division ? registration.division.divisionsString : ''}}
-              </v-flex>
-            </v-layout>
-          </v-container>
           <!-- Players Review -->
           <template v-for="(player,i) in registration.players">
             <registration-fields-review
@@ -94,31 +68,66 @@
             >
             </registration-fields-review>
           </template>
-          <!-- Cart Review -->
+          <!-- Tournament/Division Review -->
           <v-toolbar dense color="color4">
             <v-toolbar-title>
-              Cart Items
+              Registration
             </v-toolbar-title>
           </v-toolbar>
-          <v-container fluid>
-            <v-layout row>
-              <v-flex xs2 class="text-xs-center">Qty</v-flex>
-              <v-flex xs6>Item</v-flex>
-              <v-flex xs4 class="text-xs-right">Price</v-flex>
+          <v-container fluid class="hidden-sm-and-up">
+            <v-layout row wrap>
+              <v-flex xs12>
+                <strong>Tournament: </strong>{{tournament.name}} 
+              </v-flex>
             </v-layout>
-            <v-layout row>
-              <v-flex xs2 class="text-xs-center">1</v-flex>
-              <v-flex xs6>Entry Fee</v-flex>
-              <v-flex xs4 class="text-xs-right">{{entryFee | usDollars}}</v-flex>
+            <v-layout row wrap>
+              <v-flex xs12>
+                <strong>Date: </strong>{{tournament.startDateDisplay}} 
+              </v-flex>
             </v-layout>
-            <v-layout row v-if="addOn && addOn.qty">
-              <v-flex xs2 class="text-xs-center">{{addOn.qty}}</v-flex>
-              <v-flex xs6 class="hideOverflow">{{addOn.name}}</v-flex>
-              <v-flex xs4 class="text-xs-right">{{addOn.subtotal | usDollars}}</v-flex>
+            <v-layout row wrap>
+              <v-flex xs12>
+                <strong>Division: </strong>{{registration.division ? registration.division.divisionsString : ''}}
+              </v-flex>
             </v-layout>
-            <v-layout>
-              <v-flex xs8 class="text-xs-right"><strong>Total:</strong></v-flex>
-              <v-flex xs4 class="text-xs-right"><strong>{{total | usDollars}}</strong></v-flex>
+            <v-layout row wrap>
+              <v-flex xs12>
+                <strong>Entry Fee: </strong>{{entryFee | usDollars}}
+              </v-flex>
+            </v-layout>
+          </v-container>
+          <v-container fluid class="hidden-xs-only">
+            <v-layout row wrap>
+              <v-flex xs2 text-xs-right>
+                <strong>Tournament:</strong>
+              </v-flex>
+              <v-flex xs10>
+                {{tournament.name}}
+              </v-flex>
+            </v-layout>
+            <v-layout row wrap>
+              <v-flex xs2 text-xs-right>
+                <strong>Date:</strong>
+              </v-flex>
+              <v-flex xs10>
+                {{tournament.startDateDisplay}}
+              </v-flex>
+            </v-layout>
+            <v-layout row wrap>
+              <v-flex xs2 text-xs-right>
+                <strong>Division:</strong>
+              </v-flex>
+              <v-flex xs10>
+                {{registration.division ? registration.division.divisionsString : ''}}
+              </v-flex>
+            </v-layout>
+            <v-layout row wrap>
+              <v-flex xs2 text-xs-right>
+                <strong>Entry Fee:</strong>
+              </v-flex>
+              <v-flex xs10>
+                {{entryFee | usDollars}}
+              </v-flex>
             </v-layout>
           </v-container>
       </v-card>
@@ -126,47 +135,19 @@
         label="All information is accurate"
         v-model="registration.confirmed"
       ></v-checkbox>
-      <v-btn color="color3 white--text" @click.native="onNext" :disabled="!registration.confirmed">Continue</v-btn>
+      <v-btn color="color3 white--text" @click.native="addToCart" :disabled="!registration.confirmed">Add To Cart</v-btn>
       <v-btn flat @click.native="onBack">Back</v-btn>
     </v-stepper-content>
-    <v-stepper-step :step="paymentStep">Payment</v-stepper-step>
-    <v-stepper-content :step="paymentStep">
-        <v-card color="grey lighten-4">
-          <v-card-text class="pt-0">
-            <v-radio-group v-model="registration.paymentType" column>
-              <v-radio
-                v-if="registration.division && registration.division.currentRegistrationWindow.canPayAtEvent"
-                label="Pay at the tournament" 
-                value="event"></v-radio>
-              <v-radio
-                v-if="registration.division && registration.division.currentRegistrationWindow.canProcessPayment"
-                label="Pay now" 
-                value="process"></v-radio>
-            </v-radio-group>
-          </v-card-text>
-        </v-card>
-        <v-btn
-          color="color3 white--text"
-          @click.native="register"
-          :disabled="!registration.valid"
-          :loading="processing"
-        >Complete</v-btn>
-        <v-btn flat @click.native="onBack" :disabled="processing">Back</v-btn>      
-    </v-stepper-content>
-    <v-dialog v-model="successDialog" max-width="350">
+    <v-dialog v-model="cartDialog" max-width="350">
       <v-card>
-        <v-card-title class="headline color3 white--text">
-          Boom... You are registered!
+        <v-card-title class="headline color3--text text-xs-center">
+          Your registration has been added to the cart!
         </v-card-title>
-        <v-card-text>
-          You and your {{pratnerString}} will be receiving confirmation emails any minute now.
-        </v-card-text>
-        <v-card-text>
-          Good luck and... See ya on the beach.
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="primary" flat @click.stop="successDialog=false">Close</v-btn>
+        <v-card-actions class="text-xs-center">
+          <v-layout justify-center>
+            <v-btn color="color2" dark :to="{name: 'checkout'}">Check Out Now</v-btn>
+            <v-btn color="color1" dark @click.stop="cartDialog=false">Add Another</v-btn>
+          </v-layout>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -193,42 +174,35 @@
 <script>
 import RegFields from './RegistrationFields.vue'
 import RegFieldsReview from './RegistrationFieldsReview.vue'
-import AddOn from './AddOn.vue'
-import vbl from '../../VolleyballLife'
+import CartItem from '../../classes/CartItem'
+import * as mutations from '../../store/MutationTypes'
 
 export default {
   props: ['tournament', 'registration'],
   data () {
     return {
       currentStep: 1,
-      processing: false,
-      addOnComplete: false,
-      successDialog: false,
-      pratnerString: 'partner'
+      cartDialog: false
     }
   },
   computed: {
-    addOnStep () {
-      return this.registration.players.length + 2
-    },
     reviewStep () {
-      return this.addOnStep + 1
-    },
-    paymentStep () {
-      return this.reviewStep + 1
-    },
-    addOn () {
-      return this.registration.division
-      ? this.registration.division.currentRegistrationWindow
-      ? this.registration.division.currentRegistrationWindow.addOn
-      : null
-      : null
+      return this.registration.players.length + 2
     },
     entryFee () {
       return this.registration.division ? this.registration.division.currentEntryFee : 0
     },
-    total () {
-      return this.addOn ? this.addOn.subtotal + this.entryFee : this.entryFee
+    dto () {
+      return {
+        registration: this.registration.dto,
+        paymentToken: {
+          id: this.token.id,
+          card_id: this.token.card.id,
+          card_last4: this.token.card.last4,
+          card_brand: this.token.card.brand,
+          client_ip: this.token.client_ip
+        }
+      }
     }
   },
   methods: {
@@ -241,22 +215,17 @@ export default {
     onBack () {
       this.currentStep -= 1
     },
-    register () {
-      this.processing = true
-      console.log(this.registration.dto)
-      this.axios.put(vbl.tournament.register, this.registration.dto)
-        .then((response) => {
-          this.successDialog = true
-          var tournament = response.data
-          // console.log(tournament)
-          this.$emit('registered', tournament)
-          this.reset()
-          this.processing = false
-        })
-        .catch((response) => {
-          console.log(`Error => response: ${response}`)
-          this.processing = false
-        })
+    addToCart () {
+      const item = new CartItem()
+      item.organization = this.registration.organization
+      item.name = 'Tournament Registration'
+      item.description = `${this.tournament.name} ${this.registration.division.divisionsString} ${this.registration._teamName}`
+      item.amount = this.entryFee
+      item.registration = this.registration.dto
+      this.$store.commit(mutations.ADD_CART_ITEM, item)
+      this.cartDialog = true
+      this.reset()
+      this.$emit('addedToCart')
     },
     exreg (url) {
       window.open(url)
@@ -268,16 +237,15 @@ export default {
   },
   components: {
     'registration-fields': RegFields,
-    'registration-fields-review': RegFieldsReview,
-    'registration-addon': AddOn
+    'registration-fields-review': RegFieldsReview
   },
   watch: {
     'registration.division': function (newVal, oldVal) {
       if (newVal) {
         this.registration.initPlayers()
-        this.pratnerString = 'partner'
+        this.partnerString = 'partner'
         if (this.registration.division.numOfPlayers > 2) {
-          this.pratnerString = 'teammates'
+          this.partnerString = 'teammates'
         }
       }
     }

@@ -74,6 +74,12 @@
         <router-link to="/" tag="span" class="hidden-xs-only" style="cursor: pointer">Volleyball Life</router-link>
       </v-toolbar-title>
       <div class="d-flex align-center" style="margin-left: auto">
+        <v-badge color="red" overlap v-if="cart.items.length > 0">
+          <span slot="badge">{{cart.items.length}}</span>
+          <v-avatar class="color3" @click="goToCart">
+            <v-icon>shopping_cart</v-icon>
+          </v-avatar>
+        </v-badge>
         <v-btn flat router to="/signin" active-class="color3--text">
           <v-icon class="mr-1">lock_open</v-icon>
           Sign In
@@ -100,6 +106,16 @@
         { icon: 'lock_open', text: 'Sign In', to: { name: 'signin' } } // ,
         // { icon: 'account_circle', text: 'Join', to: { name: 'join' } }
       ]
-    })
+    }),
+    computed: {
+      cart () {
+        return this.$store.getters.cart
+      }
+    },
+    methods: {
+      goToCart () {
+        this.$router.push({name: 'checkout'})
+      }
+    }
   }
 </script>

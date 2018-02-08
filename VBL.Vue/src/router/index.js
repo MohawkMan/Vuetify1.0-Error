@@ -4,25 +4,28 @@ import AuthGuard from './auth-guard'
 import BeforeEach from './before-each'
 
 // Public Views
+import Checkout from '@/Pages/Public/Checkout.vue'
 import Tournaments from '@/Pages/Public/Tournaments'
 import TourneyBrochure from '@/Pages/Public/TournamentBrochure.vue'
-import OrgBrochure from '@/Pages/Public/OrganizationBrochure.vue'
 
 // Private Views
 import Profile from '@/Pages/Private/User/Profile'
 import MyTournaments from '@/Pages/Private/User/Tournaments'
-import OrganizationHome from '@/Pages/Private/Organization/Home.vue'
 import OrganizationCreate from '@/Pages/Private/Organization/Create.vue'
-// import OrgTourneys from '@/Pages/Private/Organization/TournamentList.vue'
 import TournamentCreator from '@/Pages/Private/Organization/TournamentCreate.vue'
-import ResultsEditor from '@/Pages/Private/Organization/ResultsEdit.vue'
 
 import PublicPages from './public-routes'
+import AdminPages from './organization-admin'
 Vue.use(Router)
 
 const router = new Router({
   routes: [
     ...PublicPages,
+    {
+      path: '/checkout',
+      name: 'checkout',
+      component: Checkout
+    },
     {
       path: '/organization/create',
       name: 'organization-create',
@@ -60,20 +63,6 @@ const router = new Router({
       props: true
     },
     {
-      path: '/:username/admin',
-      name: 'organization-home',
-      component: OrganizationHome,
-      beforeEnter: AuthGuard,
-      props: true
-    },
-    {
-      path: '/:username/admin/results',
-      name: 'organization-results-edit',
-      component: ResultsEditor,
-      beforeEnter: AuthGuard,
-      props: true
-    },
-    {
       path: '/:username/tournament/:tournamentId',
       name: 'tournament-brochure',
       component: TourneyBrochure,
@@ -97,12 +86,7 @@ const router = new Router({
       component: TourneyBrochure,
       props: (route) => { return {tournamentId: route.params.tournamentId, mode: 'teams', username: route.params.username} }
     },
-    {
-      path: '/:username',
-      name: 'organization-brochure',
-      component: OrgBrochure,
-      props: true
-    }
+    ...AdminPages
   ],
   mode: 'history'
 })

@@ -20,4 +20,7 @@ export default class TournamentSDK {
     console.log(tournament)
     return this.http.put(endpoints.tournament.put, tournament)
   }
+  publish (id, isPublic) {
+    return this.http.post(endpoints.tournament.publish(id, isPublic))
+  }
 }

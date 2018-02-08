@@ -21,17 +21,6 @@
         <v-icon>settings</v-icon>
         <v-icon>close</v-icon>
       </v-btn>
-      <!-- Copy Button -->
-      <v-btn
-        v-if="currentTournament && currentTournament.isEditable"
-        fab
-        dark
-        small
-        color="teal lighten-4"
-        @click.stop="copyTournament"
-      >
-        <v-icon>content_copy</v-icon>
-      </v-btn>
       <!-- Edit Button -->
       <v-btn
         v-if="currentTournament && currentTournament.isEditable"
@@ -43,24 +32,13 @@
       >
         <v-icon>edit</v-icon>
       </v-btn>
-      <!-- Reg Upload Button -->
-      <v-btn
-        v-if="currentTournament && currentTournament.isEditable"
-        fab
-        dark
-        small
-        color="indigo"
-        @click.stop="uploadDialog = true"
-      >
-        <v-icon>cloud_upload</v-icon>
-      </v-btn>
       <!-- Copy Button -->
       <v-btn
         v-if="currentTournament"
         fab
         dark
         small
-        color="teal lighten-4"
+        color="teal darken-4"
         @click.stop="copyTournament"
       >
         <v-icon>content_copy</v-icon>
@@ -75,11 +53,22 @@
       >
         <v-icon>add</v-icon>
       </v-btn>
+      <!-- Reg Upload Button -->
+      <v-btn
+        v-if="currentTournament && currentTournament.isEditable"
+        fab
+        dark
+        small
+        color="indigo"
+        @click.stop="uploadDialog = true"
+      >
+        <v-icon>cloud_upload</v-icon>
+      </v-btn>
     </v-speed-dial>
     <!-- EDIT DIALOG START -->
     <simple-editor 
       v-if="userIsAdmin"
-      :tournamentDto="tournament" 
+      :tournamentIn="tournament" 
       :open="editDialog" 
       @closeClick="editDialog = false" 
     ></simple-editor>

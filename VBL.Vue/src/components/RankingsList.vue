@@ -27,7 +27,7 @@ export default {
       headers: [
         {text: 'Rank', value: 'rank', align: 'left', sortable: 'false'},
         {text: 'Player', value: 'name', align: 'left', sortable: 'false'},
-        {text: 'Events', value: 'events', align: 'left', sortable: 'false'},
+        {text: 'AAU Events', value: 'events', align: 'left', sortable: 'false'},
         {text: 'Points', value: 'currentPoints', align: 'left', sortable: 'false'}
       ],
       pager: {sortBy: 'rank', descending: false, rowsPerPage: 50}

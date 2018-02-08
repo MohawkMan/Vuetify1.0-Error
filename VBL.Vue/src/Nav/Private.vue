@@ -94,6 +94,12 @@
             <v-icon>notifications</v-icon>
           </v-avatar>
         </v-badge>
+        <v-badge color="red" overlap v-if="cart.items.length > 0">
+          <span slot="badge">{{cart.items.length}}</span>
+          <v-btn fab dark color=color3>
+            <v-icon>shopping_cart</v-icon>
+          </v-btn>
+        </v-badge>
         <v-menu bottom open-on-hover offset-y>
           <v-btn flat slot="activator">
             <v-icon class="mr-1">account_circle</v-icon>
@@ -139,6 +145,9 @@
       user () {
         return this.$store.getters.user
       },
+      cart () {
+        return this.$store.getters.cart
+      },
       sideItems () {
         let items = [
         { icon: 'people', text: 'Players', to: { name: 'players' } },
@@ -162,7 +171,8 @@
                 children: [
                   { icon: 'dashboard', text: 'Dashboard', to: { name: 'organization-home', params: {username: page.username} } },
                   { icon: 'date_range', text: 'Tournaments', to: { name: 'organization-tournaments', params: {username: page.username} } },
-                  { icon: 'update', text: 'Update Results', to: { name: 'organization-results-edit', params: {username: page.username} } }
+                  { icon: 'update', text: 'Update Results', to: { name: 'organization-results-edit', params: {username: page.username} } },
+                  { icon: 'settings', text: 'Account Settings', to: { name: 'organization-settings', params: {username: page.username} } }
                 ]
               }
             })

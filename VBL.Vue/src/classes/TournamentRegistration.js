@@ -2,12 +2,14 @@ import Player from './TournamentRegistrationPlayer'
 export default class TournamentRegistration {
   constructor () {
     this.tournamentId = 0
+    this.organization = null
     this.division = null
     this.players = []
     this.teamName = null
     this.confirmed = false
     this.paymentType = null
     this.finish = null
+    this.token = null
   }
 
   setDivision (division) {
@@ -29,10 +31,15 @@ export default class TournamentRegistration {
   get valid () {
     // console.log(!!this.division)
     // console.log(this.players.every(player => player.valid))
-    return !!this.division && this.players.every(player => player.valid) && this.confirmed && !!this.paymentType
+    return !!this.division && this.players.every(player => player.valid) && this.confirmed
   }
   get addOnQty () {
     return this.division && this.division.addOn ? this.division.addOn.qty : 0
+  }
+  get _teamName () {
+    return this.teamName ? this.teamName : this.players.map((p) => {
+      return p.fullname
+    }).join('/')
   }
   get dto () {
     return {

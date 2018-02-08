@@ -18,7 +18,7 @@
       <v-flex xs12 sm10 offset-sm1>
         <v-card>
           <v-toolbar dark color="color3" class="mx-auto">
-            <v-toolbar-title>Current Player Rankings</v-toolbar-title>
+            <v-toolbar-title>Current AAU Player Rankings</v-toolbar-title>
             <v-spacer></v-spacer>
             <v-text-field
               append-icon="search"
