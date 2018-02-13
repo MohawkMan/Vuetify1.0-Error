@@ -1,34 +1,34 @@
 <template>
   <v-list two-line>
-    <v-list-tile v-for="(phone,i) in list" :key="i">
+    <v-list-tile v-for="(email,i) in list" :key="i">
       <v-list-tile-action>
         <v-icon color="color1" v-if="i === 0">
-          local_phone
+          mail
         </v-icon>
       </v-list-tile-action>
       <v-list-tile-content>
         <v-list-tile-title>
-          {{phone.number | usPhone }}
+          {{email.address}}
         </v-list-tile-title>
         <v-list-tile-sub-title>
-          {{phone.propsString}}
+          {{email.propsString}}
         </v-list-tile-sub-title>
       </v-list-tile-content>
-      <v-list-tile-action @click="selectPhone(phone)">
+      <v-list-tile-action @click="selectEmail(email)">
         <v-btn flat icon ripple color="color3">
           <v-icon>settings</v-icon>
         </v-btn>
       </v-list-tile-action>
     </v-list-tile>
-    <v-list-tile v-if="phonelist.length == 0">
+    <v-list-tile v-if="emailList.length == 0">
       <v-list-tile-action>
         <v-icon color="color1">
-          local_phone
+          mail
         </v-icon>
       </v-list-tile-action>
       <v-list-tile-content>
         <v-list-tile-title>
-          No phone number on file
+          No email address on file
         </v-list-tile-title>
       </v-list-tile-content>
       <v-list-tile-action>
@@ -36,43 +36,43 @@
       </v-list-tile-action>
     </v-list-tile>
 
-    <phone-editor :phone="selectedPhone" :listCount="phonelist.length" @cancel="onCancel"></phone-editor>
+    <email-editor :email="selectedEmail" :listCount="emailList.length" @cancel="onCancel"></email-editor>
 
   </v-list>
 </template>
 
 <script>
-import Phone from '../../classes/Phone'
-import Editor from './PhoneEditDialog.vue'
+import Email from '../../classes/Email'
+import Editor from './EmailEditDialog.vue'
 
 export default {
-  props: ['phonelist'],
+  props: ['emailList'],
   data () {
     return {
-      selectedPhone: null
+      selectedEmail: null
     }
   },
   computed: {
     list () {
-      return this.phonelist.map(p => new Phone(p))
+      return this.emailList.map(p => new Email(p))
     },
     mode () {
-      return this.selectedPhone.id > 0 ? 'add' : 'edit'
+      return this.selectedEmail.id > 0 ? 'add' : 'edit'
     }
   },
   methods: {
-    selectPhone (phone) {
-      this.selectedPhone = new Phone(phone)
+    selectEmail (email) {
+      this.selectedEmail = new Email(email)
     },
     onCancel () {
-      this.selectedPhone = null
+      this.selectedEmail = null
     },
-    addPhone () {
-      this.selectedPhone = new Phone()
+    add () {
+      this.selectedEmail = new Email()
     }
   },
   components: {
-    'phone-editor': Editor
+    'email-editor': Editor
   }
 }
 </script>

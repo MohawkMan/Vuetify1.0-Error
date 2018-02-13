@@ -94,12 +94,7 @@
             <v-icon>notifications</v-icon>
           </v-avatar>
         </v-badge>
-        <v-badge color="red" overlap v-if="cart.items.length > 0">
-          <span slot="badge">{{cart.items.length}}</span>
-          <v-btn fab dark color=color3>
-            <v-icon>shopping_cart</v-icon>
-          </v-btn>
-        </v-badge>
+        <cart-fab></cart-fab>
         <v-menu bottom open-on-hover offset-y>
           <v-btn flat slot="activator">
             <v-icon class="mr-1">account_circle</v-icon>
@@ -135,6 +130,7 @@
 
 <script>
   import * as actions from '../store/ActionTypes'
+  import CartFab from '../components/Utils/CartFab.vue'
 
   export default {
     data: () => ({
@@ -196,6 +192,9 @@
           this.$router.push({ name: 'signin' })
         })
       }
+    },
+    components: {
+      'cart-fab': CartFab
     }
   }
 </script>

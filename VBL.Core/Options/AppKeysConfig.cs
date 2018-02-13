@@ -12,5 +12,7 @@ namespace VBL.Core
         public string PayPal { get; set; }
         public string Stripe { get; set; }
         public string StripeTest { get; set; }
+        public string AAUUserId { get; set; }
+        public string AAURecordSource { get; set; }
     }
 }

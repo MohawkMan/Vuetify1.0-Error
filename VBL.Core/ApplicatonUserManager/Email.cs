@@ -14,19 +14,16 @@ namespace VBL.Core
     {
         public async Task<EmailDTO> AddEmailAsync(ApplicationUser user, EmailDTO dto)
         {
-            var email = await _db.UserEmails
-                .Where(w => w.Address == dto.Address)
-                .FirstOrDefaultAsync();
+            if (dto.Id != 0)
+                throw new Exception("Can not add an existing email");
 
-            if (email != null)
-            {
-                if (email.UserId != user.Id)
-                    throw new Exception("Email belongs to another user.");
+            user = await EnsureUserEmails(user);
 
+            if(user.UserEmails.Any(a => a.Address == dto.Address))
                 throw new Exception("Email already exists.");
-            }
 
             var newEmail = _mapper.Map<UserEmail>(dto);
+            newEmail.IsPrimary = false;
             user.UserEmails.Add(newEmail);
             await IdentityManager.UpdateAsync(user);
             return _mapper.Map<EmailDTO>(newEmail);
@@ -44,14 +41,21 @@ namespace VBL.Core
 
         public async Task<EmailDTO> UpdateEmailAsync(ApplicationUser user, EmailDTO dto)
         {
-            var email = await _db.UserEmails
-                .Where(w => w.Address == dto.Address && w.UserId == user.Id)
-                .FirstOrDefaultAsync();
+            user = await EnsureUserEmails(user);
 
+            var email = user.UserEmails.Find(f => f.Id == dto.Id);
             if (email == null)
                 throw new Exception($"User with Id: {user.Id} does not have Email: {dto.Address}");
 
             email.IsPublic = dto.IsPublic;
+            if(dto.IsPrimary && email.IsVerified)
+            {
+                foreach(var e in user.UserEmails.Where(w => w.IsPrimary && w.Id != dto.Id))
+                {
+                    e.IsPrimary = false;
+                }
+                email.IsPrimary = true;
+            }
 
             await _db.SaveChangesAsync();
             return _mapper.Map<EmailDTO>(email);
@@ -98,5 +102,13 @@ namespace VBL.Core
             }
             return result;
         }
+
+        private async Task<ApplicationUser> EnsureUserEmails(ApplicationUser user)
+        {
+            if (!_db.Entry(user).Collection(u => u.UserEmails).IsLoaded)
+                await _db.Entry(user).Collection(u => u.UserEmails).LoadAsync();
+            return user;
+        }
+
     }
 }

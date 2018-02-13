@@ -153,6 +153,7 @@ namespace VBL.Api
             services.AddScoped<EmailManager>();
             services.AddScoped<StripeManager>();
             services.AddScoped<CartManager>();
+            services.AddScoped<AAUManager>();
 
             //App Settings/ Options
             services.Configure<VblConfig>(Configuration);

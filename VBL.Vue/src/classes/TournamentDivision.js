@@ -40,6 +40,8 @@ export default class TournamentDivision {
 
   updateFromTemplate (template) {
     this.location = template.location
+    this.registrationFields.fields = template.registrationFields.fields
+    this.registrationFields.requiredFields = template.registrationFields.requiredFields
     template.days.forEach((d, i) => {
       this.days[i].updateFromTemplate(d)
     })

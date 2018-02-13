@@ -23,7 +23,7 @@
               <a href="#!" class="body-2 black--text">EDIT</a>
             </v-flex>
           </v-layout>
-          <v-list-group v-else-if="item.children" v-model="item.model" no-action>
+          <v-list-group v-else-if="item.children" v-model="item.model" no-action :key="i">
             <v-list-tile slot="item" router :to="item.to">
               <v-list-tile-action>
                 <v-icon>{{ item.model ? item.icon : item['icon-alt'] }}</v-icon>
@@ -49,7 +49,7 @@
               </v-list-tile-content>
             </v-list-tile>
           </v-list-group>
-          <v-list-tile v-else router :to="item.to">
+          <v-list-tile v-else router :to="item.to" :key="i">
             <v-list-tile-action>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-tile-action>
@@ -74,12 +74,7 @@
         <router-link to="/" tag="span" class="hidden-xs-only" style="cursor: pointer">Volleyball Life</router-link>
       </v-toolbar-title>
       <div class="d-flex align-center" style="margin-left: auto">
-        <v-badge color="red" overlap v-if="cart.items.length > 0">
-          <span slot="badge">{{cart.items.length}}</span>
-          <v-avatar class="color3" @click="goToCart">
-            <v-icon>shopping_cart</v-icon>
-          </v-avatar>
-        </v-badge>
+        <cart-fab></cart-fab>
         <v-btn flat router to="/signin" active-class="color3--text">
           <v-icon class="mr-1">lock_open</v-icon>
           Sign In
@@ -94,6 +89,8 @@
 </template>
 
 <script>
+  import CartFab from '../components/Utils/CartFab.vue'
+
   export default {
     data: () => ({
       drawer: null,
@@ -116,6 +113,9 @@
       goToCart () {
         this.$router.push({name: 'checkout'})
       }
+    },
+    components: {
+      'cart-fab': CartFab
     }
   }
 </script>

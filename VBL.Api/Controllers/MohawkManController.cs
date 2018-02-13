@@ -10,6 +10,7 @@ using VBL.Data;
 using Microsoft.AspNetCore.Authorization;
 using VBL.Core;
 using Microsoft.EntityFrameworkCore;
+using AAU;
 
 namespace VBL.Api.Controllers
 {
@@ -44,8 +45,8 @@ namespace VBL.Api.Controllers
         {
             try
             {
-                var aau = new AAUManager();
-                aau.SoapRequest();
+                var aau = new MembershipLookupServiceClient();
+                var response = await aau.Membership_Verify_LastName_SecuredAsync("2894774d-6d07-e811-966d-a4badb131cf0", "56985473", "54T57FA8", "Oliverson");
             }
             catch(Exception e)
             {

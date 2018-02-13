@@ -35,7 +35,7 @@ export default {
   },
   actions: {
     [actions.LOAD_TOURNAMENT_LIST] ({commit, dispatch, getters}, payload) {
-      if (getters.tournamentListLoading) return
+      // if (getters.tournamentListLoading) return
 
       console.log('loading list')
       commit(mutations.SET_TOURNAMENT_LIST_LOADING, true) // set loading = true

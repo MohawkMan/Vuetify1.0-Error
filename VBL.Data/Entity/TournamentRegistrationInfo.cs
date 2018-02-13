@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace VBL.Data
@@ -12,7 +13,7 @@ namespace VBL.Data
         public string Fields { get; set; }
         public string RequiredFields { get; set; }
 
-        public string[] FieldList => Fields.Split(',');
-        public string[] RequiredFieldList => RequiredFields.Split(',');
+        public List<string> FieldList => string.IsNullOrWhiteSpace(Fields) ? new List<string>() : Fields.Split(',').ToList();
+        public List<string> RequiredFieldList => string.IsNullOrWhiteSpace(RequiredFields) ? new List<string>() : RequiredFields.Split(',').ToList();
     }
 }

@@ -11,6 +11,8 @@ using System.Text;
 using System.Threading.Tasks;
 using VBL.Data;
 using Hangfire;
+using Newtonsoft.Json;
+using VBL.Data.Mapping;
 
 namespace VBL.Core
 {
@@ -144,25 +146,30 @@ namespace VBL.Core
 
         public async Task<StripeChargeRecord> ProcessBagPayment(ShoppingBag bag)
         {
-            StripeConfiguration.SetApiKey(_config.AppKeys.Stripe);
-            var chargeService = new StripeChargeService();
+            var partnerAccount = await GetPaymentAccountInfo(bag.OrganizationId);
+            var appFee = bag.Items.Count(c => !string.IsNullOrWhiteSpace(c.RawRegistrationData)) * 100;
+            var desc = $"Volleyball Life OrderId: {bag.DtCreated.Value.ToString("yyyyMMdd")}-{bag.Id}";
+            if(bag.Items.Count() == 1)
+            {
+                desc = bag.Items[0].Description;
+            }
+
+            var requestOptions = new StripeRequestOptions();
+            requestOptions.ApiKey = _config.AppKeys.Stripe;
+            requestOptions.StripeConnectAccountId = partnerAccount.Id;
+
             var chargeOptions = new StripeChargeCreateOptions()
             {
                 Amount = Convert.ToInt32(bag.Total * 100),
                 Currency = "usd",
-                Description = $"Volleyball Life OrderId: {bag.Id}",
+                Description = $"Volleyball Life OrderId: {bag.DtCreated.Value.ToString("yyyyMMdd")}-{bag.Id}",
                 SourceTokenOrExistingSourceId = bag.PaymentToken.Id,
-                ReceiptEmail = bag.EmailReceiptTo
+                ReceiptEmail = bag.EmailReceiptTo,
+                ApplicationFee = appFee
             };
-            var fee = bag.Items.Count(c => !string.IsNullOrWhiteSpace(c.RawRegistrationData)) * 100;
-            var account = await GetPaymentAccountInfo(bag.OrganizationId);
-            if(account != null)
-            {
-                //use organization account and application fee
-                chargeOptions.Destination = account.Id;
-                chargeOptions.ApplicationFee = fee;
-            }
-            var payment = await chargeService.CreateAsync(chargeOptions);
+
+            var chargeService = new StripeChargeService();
+            var payment = await chargeService.CreateAsync(chargeOptions, requestOptions);
             var record = new StripeChargeRecord()
             {
                 Id = payment.Id,

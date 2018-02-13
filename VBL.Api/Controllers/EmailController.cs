@@ -43,9 +43,14 @@ namespace VBL.Api.Controllers
         {
             try
             {
-                _logger.LogInformation($"UpdateEmail User.ID: {User.UserId(_config.Jwt.Issuer)}, dto: {JsonConvert.SerializeObject(dto)}");
+                var myId = Convert.ToInt32(User.UserId(_config.Jwt.Issuer));
+                _logger.LogInformation($"UpdateEmail User.ID: {myId}, dto: {JsonConvert.SerializeObject(dto)}");
+                if(dto.Id == 0)
+                {
+                    return await AddEmail(dto);
+                }
                 var email = await _userManager.UpdateEmailAsync(User, dto);
-                return Ok(email);
+                return Ok(await _userManager.GetMe(myId));
             }
             catch (Exception e)
             {
@@ -63,9 +68,10 @@ namespace VBL.Api.Controllers
         {
             try
             {
-                _logger.LogInformation($"AddEmail User.ID: {User.UserId(_config.Jwt.Issuer)}, dto: {JsonConvert.SerializeObject(dto)}");
+                var myId = Convert.ToInt32(User.UserId(_config.Jwt.Issuer));
+                _logger.LogInformation($"AddEmail User.ID: {myId}, dto: {JsonConvert.SerializeObject(dto)}");
                 var email = await _userManager.AddEmailAsync(User, dto);
-                return Ok(email);
+                return Ok(await _userManager.GetMe(myId));
             }
             catch (Exception e)
             {
@@ -83,10 +89,10 @@ namespace VBL.Api.Controllers
         {
             try
             {
-                var userId = Convert.ToInt32(User.UserId(_config.Jwt.Issuer));
-                _logger.LogInformation($"DeleteEmail User.ID: {userId}, Address: {address}");
-                var result = await _userManager.DeleteEmailAsync(userId, address);
-                return Ok();
+                var myId = Convert.ToInt32(User.UserId(_config.Jwt.Issuer));
+                _logger.LogInformation($"DeleteEmail User.ID: {myId}, Address: {address}");
+                var result = await _userManager.DeleteEmailAsync(myId, address);
+                return Ok(await _userManager.GetMe(myId));
             }
             catch (Exception e)
             {

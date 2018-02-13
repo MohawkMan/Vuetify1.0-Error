@@ -91,9 +91,9 @@
               Secure Payment
             </v-toolbar-title>
           </v-toolbar>
-          <v-card-text>
+          <v-card-text class="text-xs-center">
             <v-layout row>
-              <v-flex>
+              <v-flex xs12 md6 offset-md3>
                 <v-select
                   v-model="emailReceipt"
                   label="Email receipt to:"
@@ -111,18 +111,29 @@
             </v-layout>
 
             <v-layout row>
-              <v-flex>
+              <v-flex text-xs-left xs12 md6 offset-md3>
                 <label class="color1--text">Credit or Debit Card</label>
                 <stripe-card class='stripe-card'
                   :class='{ complete }'
-                  stripe='pk_test_ow84DPhRZgYFYFJHBogIxDuw'
+                  stripe='pk_live_0Egtaqiqypfs3i3fcOCSls49'
                   :options='stripeOptions'
                   @change='complete = $event.complete'
                 />
               </v-flex>
             </v-layout>
+
+            <v-layout row v-if="!!paymentError" class="error--text">
+              <v-flex  xs12 md6 offset-md3>
+                <strong>Oops we have an error</strong>
+              </v-flex>
+            </v-layout>
+            <v-layout row v-if="!!paymentError" class="error--text">
+              <v-flex  xs12 md6 offset-md3>
+                {{paymentError}}
+              </v-flex>
+            </v-layout>
             <v-layout row>
-              <v-flex>
+              <v-flex xs12 md6 offset-md3>
                 <v-btn
                   color="color2 white--text" 
                   class="ml-0" 
@@ -260,7 +271,8 @@ export default {
           this.processing = false
         })
         .catch((error) => {
-          console.log(error)
+          console.log(error.response.data)
+          this.paymentError = error.response.data.message
           this.processing = false
         })
     }
@@ -273,12 +285,10 @@ export default {
 
 <style>
 .eSelect {
-  max-width: 400px;
   background-color: white;
   border-radius: 4px;
 }
 .stripe-card {
-  max-width: 400px;
   background-color: white;
   height: 40px;
   padding: 10px 12px;

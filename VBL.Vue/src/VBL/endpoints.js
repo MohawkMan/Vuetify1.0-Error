@@ -39,6 +39,7 @@ export default {
     login: '/account/Login',
     register: '/account/register',
     getCurrent: '/Me',
-    phone: '/phone/me'
+    phone: '/phone/me',
+    email: '/email/me'
   }
 }

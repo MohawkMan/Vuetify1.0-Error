@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AAU;
+using Microsoft.Extensions.Options;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -10,32 +12,27 @@ namespace VBL.Core
 {
     public partial class AAUManager
     {
-        HttpClient _client = new HttpClient();
+        private readonly MembershipLookupServiceClient _aau = new MembershipLookupServiceClient();
+        private readonly VblConfig _config;
 
-        public AAUManager()
+        public AAUManager(IOptions<VblConfig> config)
         {
-
+            _config = config.Value;
         }
 
-        public async Task SoapRequest()
+        public async Task<bool> VerifyByLastNameAsync(string membershipID, string lastName)
         {
-            var body = @"<soapenv:Envelope xmlns:soapenv=""http://schemas.xmlsoap.org/soap/envelope/"" xmlns:tem=""http://tempuri.org/"">
-                <soapenv:Header/>
-                <soapenv:Body>
-                    <tem:Membership_Verify_LastName_Secured>
-                        <tem:uUserID>2894774d-6d07-e811-966d-a4badb131cf0</tem:uUserID>
-                        <tem:iRecordSource>56985473</tem:iRecordSource>
-                        <tem:MembershipID>54T57FA8</tem:MembershipID>
-                        <tem:LastName>Oliverson</tem:LastName>
-                    </tem:Membership_Verify_LastName_Secured>
-                </soapenv:Body>
-            </soapenv:Envelope>";
+            return await _aau.Membership_Verify_LastName_SecuredAsync(_config.AppKeys.AAUUserId, _config.AppKeys.AAURecordSource, membershipID, lastName);
+        }
 
-            _client.DefaultRequestHeaders.Clear();
-           // _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("text/xml"));
-           // _client.DefaultRequestHeaders.Add("SOAPAction", "Membership_Verify_LastName_Secured");
+        public async Task<bool> VerifyByZipAsync(string membershipID, string zip)
+        {
+            return await _aau.Membership_Verify_SecuredAsync(_config.AppKeys.AAUUserId, _config.AppKeys.AAURecordSource, membershipID, zip);
+        }
 
-            var response = await _client.PostAsync("https://websrv1.aausports.org/Membership/svcMembershipLookup.svc/Membership/svcMembershipLookup.svc", new StringContent(body, Encoding.UTF8, "text/xml"));
+        public async Task<bool> VerifyByDobAsync(string membershipID, string dob)
+        {
+            return await _aau.Membership_Verify_LastName_SecuredAsync(_config.AppKeys.AAUUserId, _config.AppKeys.AAURecordSource, membershipID, dob);
         }
     }
 }

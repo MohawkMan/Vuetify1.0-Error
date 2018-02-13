@@ -7,10 +7,15 @@
           <v-card-text>
             <v-layout row wrap>
               <v-flex text-xs-center>
+                <h2>Sign in</h2>
+              </v-flex>
+            </v-layout>
+            <v-layout row wrap v-if="false">
+              <v-flex text-xs-center>
                 <h2>Sign in using</h2>
               </v-flex>
             </v-layout>
-            <v-layout row wrap justify-center>
+            <v-layout row wrap justify-center v-if="false">
               <v-flex xs2 text-xs-center fill-height>
                 <form ref="auth" action="https://localhost:44351/Auth/facebook">
                   <v-avatar class="blue" @click="auth('Facebook')">
@@ -29,7 +34,7 @@
                 </v-avatar>
               </v-flex>
             </v-layout>
-            <v-layout row wrap my-4>
+            <v-layout row wrap my-4  v-if="false">
               <v-flex text-xs-center xs12 sm8 offset-sm2>
                 <h2 class="lined"><span>Or</span></h2>
               </v-flex>
@@ -54,7 +59,7 @@
                     :rules="[v => !!v || 'Password is required']"
                   >
                   </v-text-field>
-                  <v-btn :disabled="loading" color="color3" @click="login">
+                  <v-btn :disabled="loading" color="color3 white--text" @click="login">
                   Log In
                   </v-btn>
                 </v-form>

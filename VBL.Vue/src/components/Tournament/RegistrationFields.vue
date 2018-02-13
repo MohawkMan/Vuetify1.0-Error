@@ -3,6 +3,7 @@
     <v-layout row wrap v-if="true">
       <v-flex xs12 sm6 md4>
         <v-text-field
+          v-if="false"
           name="vblId"
           label="Quick Register Id"
           v-model="player.vblId"
