@@ -288,7 +288,7 @@
           Invalid {{ sanctioningBody }} Number
         </v-flex>
       </v-layout>
-      <v-layout row wrap>
+      <v-layout row wrap v-if="!aau.valid">
         <v-flex xs12 sm6 md4>
           <v-alert outline color="error" icon="warning" :value="true">
             The {{sanctioningBody}} number and last name you provided do not match. 
@@ -298,9 +298,13 @@
           </v-alert>
         </v-flex>
       </v-layout>
-      <v-layout row wrap>
+      <v-layout row wrap v-if="!aau.valid">
         <v-flex xs12>
-          <v-checkbox v-model="skipVerification" :label="`I will provide a valid ${sanctioningBody} number at the tournamen check-in`"></v-checkbox>
+          <v-checkbox 
+            v-model="skipVerification" 
+            :label="`I will provide a valid ${sanctioningBody} number at the tournamen check-in`"
+            @change="setValid"
+          ></v-checkbox>
         </v-flex>
       </v-layout>
     </template>
@@ -415,12 +419,17 @@ export default {
           console.log(error.response.data)
           this.verifying = false
         })
+    },
+    setValid () {
+      this.player.valid = !this.$v.$invalid && this.verified
     }
   },
   watch: {
     '$v.$invalid': function () {
-      this.player.valid = !this.$v.$invalid
-      this.$v.$invalid ? this.$emit('invalid') : this.$emit('valid')
+      this.setValid()
+    },
+    verified: function () {
+      this.setValid()
     }
   }
 }
