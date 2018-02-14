@@ -8,6 +8,7 @@ namespace VBL.Data
     {
         Active = 0,
         Complete = 100,
-        Canceled = 101
+        Canceled = 101,
+        Deleted = 999
     }
 }

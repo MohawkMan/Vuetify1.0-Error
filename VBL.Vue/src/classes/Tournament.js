@@ -106,7 +106,7 @@ export default class Tournament {
     return uniq(this.divisions.map(d => d.location && d.location.name)).length
   }
   get isOneLocation () {
-    return this.locationCount < 2
+    return this.locationCount === 1
   }
   get locationsString () {
     return uniq(this.divisions.map(d => d.location.name)).join(', ')
@@ -115,6 +115,7 @@ export default class Tournament {
     return sum(this.divisions.map(d => d.teams.length))
   }
   get dateStatus () {
+    if (!this.startDate) return StatusEnum.UPCOMING
     if (this.startDate.isAfter()) return StatusEnum.UPCOMING
     if (moment().isBetween(this.startDate, this.endDate, 'd', '[]')) return StatusEnum.INPROCESS
     return StatusEnum.PAST

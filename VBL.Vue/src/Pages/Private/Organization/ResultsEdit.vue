@@ -177,7 +177,7 @@
       v-if="selectedTourney"
       :open="uploadDialog" 
       @close="uploadDialog = false"
-      :tourney="selectedTourney"
+      :tournament="selectedTourney"
       @complete="onUploadComplete"
     ></results-uploader>
     <!-- RESULTS DIALOG END -->

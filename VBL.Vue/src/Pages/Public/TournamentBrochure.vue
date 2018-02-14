@@ -129,7 +129,7 @@
               </v-tabs-content>
               <v-tabs-content id="results" v-if="!upcoming">
                 <team-list-ex 
-                  :divisions="tournament.divisions"
+                  :divisions="tournament.divisionsWithTeams"
                   :expandId="6"
                    v-if="complete">
                 </team-list-ex>
@@ -282,6 +282,7 @@ export default {
     if (this.mode) {
       this.activeTab = this.mode
     }
+    if (this.complete) this.activeTab = 'results'
   }
 }
 </script>

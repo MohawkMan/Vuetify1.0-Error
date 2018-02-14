@@ -62,6 +62,7 @@ namespace VBL.Core
         {
             var query = _db.Tournaments
                  .ProjectTo<TournamentDTO>()
+                 .Where(w => w.StatusId != (int)TournamentStatus.Deleted)
                  .Where(w => w.IsPublic || organizationIds.Contains(w.OrganizationId));
 
             return await query.ToListAsync();

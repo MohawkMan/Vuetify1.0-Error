@@ -2,11 +2,11 @@
   <v-data-table
     :headers="headers"
     :items="rows"
-    :pagination.sync="_pagination"
+    :pagination.sync="myPager"
     >
     <template slot="items" slot-scope="props">
       <tr style="cursor: pointer">
-        <td class="text-xs-center">
+        <td class="text-xs-center" @click="gotoDetails(props.item.link)">
           <img src="/static/AAU.png" height="40px" :alt="props.item.sanctionedBy" v-if="props.item.sanctionedBy === 'AAU'">
           <img src="/static/avpfirstlogo.png" height="40px" :alt="props.item.sanctionedBy" v-else-if="props.item.sanctionedBy.startsWith('AVP')">
         </td>
@@ -17,7 +17,7 @@
             <span>Only you can see this</span>
           </v-tooltip>
         </td>
-        <td @click="gotoDetails(props.item.link)" v-html="props.item.name"></td>
+        <td @click="gotoDetails(props.item.link)">{{ props.item.name }}</td>
         <td @click="gotoDetails(props.item.link)">{{ props.item.locations }}</td>
         <td>
           <v-btn small :to="`${props.item.link}/register`" v-if="!admin && props.item.regOpen">
@@ -38,14 +38,23 @@ import moment from 'moment'
 import * as mutations from '../../store/MutationTypes'
 
 export default {
-  props: ['tourneys', 'loading', 'page'],
+  props: {
+    tourneys: Array,
+    loading: Boolean,
+    page: {
+      type: Object,
+      default: function () {
+        return { sortBy: 'date', page: 1, rowsPerPage: 5, descending: false, totalItems: 0 }
+      }
+    }
+  },
   data () {
     return {
       agefilter: '',
       genderFilter: '',
       divisionFilter: '',
       locationFilter: '',
-      _pagination: null
+      myPager: this.page
     }
   },
   computed: {
@@ -100,9 +109,6 @@ export default {
     formatDate (date) {
       return moment(date).format('dddd, MMMM Do YYYY')
     }
-  },
-  created () {
-    this._pagination = this.page || { sortBy: 'date', page: 1, rowsPerPage: 5, descending: false, totalItems: 0 }
   }
 }
 </script>

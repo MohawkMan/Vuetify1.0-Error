@@ -15,7 +15,7 @@
           <td class="text-xs-center">{{ props.item.points }}</td>
         </tr>
       </template>
-      <template slot="footer">
+      <template slot="footer" v-if="division.sanctioningBodyId && division.sanctioningBodyId.startsWith('AVP')">
         <td colspan="100%" class="text-xs-center" style="rgba(0,0,0,0.54); font-size: 11px;">
           *This is not the official AVP points reporting site. Please check the <a href="http://avpnext.avp.com/rankings.aspx" target="_blank">AVP Site</a> for offical results
         </td>
@@ -58,7 +58,7 @@ export default {
     rows () {
       return this.division.teams.map((team) => {
         return {
-          finish: team.finish,
+          finish: team.finish < 999 ? team.finish : '',
           _finish: team.finish ? team.finish : 999,
           name: team.name,
           points: team.points
