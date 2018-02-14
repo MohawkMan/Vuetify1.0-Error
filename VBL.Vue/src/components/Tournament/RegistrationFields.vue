@@ -15,7 +15,7 @@
     <!-- Sanctioning Body -->
     <v-layout row wrap v-if="!!sanctioningBodyId">
       <!-- AAU -->
-      <v-flex xs12 sm6 md4 v-if="sanctioningBodyId.toLowerCase() === 'aau'">
+      <v-flex xs12 sm6 md4 v-if="sanctioningBody.toLowerCase() === 'aau'">
         <v-text-field
           name="aau"
           label="AAU Number"
@@ -25,10 +25,11 @@
           validate-on-blur
           :required="requiredFields.includes('aau')"
           :rules="requiredFields.includes('aau') ? [() => $v.player.aau.required || 'An AAU Number is required'] : []"
+          @blur="sbVerifyCheck"
         ></v-text-field>
       </v-flex>
       <!-- AVP -->
-      <v-flex xs12 sm6 md4 v-if="sanctioningBodyId.toLowerCase().startsWith('avp')">
+      <v-flex xs12 sm6 md4 v-if="sanctioningBody.toLowerCase() === 'avp'">
         <v-text-field
           name="avp"
           label="AVP Number"
@@ -41,7 +42,7 @@
         ></v-text-field>
       </v-flex>
       <!-- USAV -->
-      <v-flex xs12 sm6 md4 v-if="sanctioningBodyId.toLowerCase() === 'usav'">
+      <v-flex xs12 sm6 md4 v-if="sanctioningBody.toLowerCase() === 'usav'">
         <v-text-field
           name="usav"
           label="USAV Number"
@@ -54,7 +55,7 @@
         ></v-text-field>
       </v-flex>
       <!-- CBVA -->
-      <v-flex xs12 sm6 md4 v-if="sanctioningBodyId.toLowerCase() === 'cbva'">
+      <v-flex xs12 sm6 md4 v-if="sanctioningBody.toLowerCase() === 'cbva'">
         <v-text-field
           name="cbva"
           label="CBVA Number"
@@ -85,6 +86,7 @@
           v-model="player.lastName"
           required
           :rules="[() => $v.player.lastName.required || 'A last name is required']"
+          @blur="sbVerifyCheck"
         ></v-text-field>
       </v-flex>
     </v-layout>
@@ -162,7 +164,6 @@
           :nudge-right="40"
           max-width="290px"
           min-width="290px"
-          @input="test"
         >
           <v-text-field
             ref="dateTextField"
@@ -210,7 +211,7 @@
     </v-layout>
     <v-layout row wrap>
       <!-- AAU -->
-      <v-flex xs12 sm6 md4 v-if="_fields.includes('aau') && sanctioningBodyId.toLowerCase() !== 'aau'">
+      <v-flex xs12 sm6 md4 v-if="_fields.includes('aau') && sanctioningBody.toLowerCase() !== 'aau'">
         <v-text-field
           name="aau"
           label="AAU Number"
@@ -223,7 +224,7 @@
         ></v-text-field>
       </v-flex>
       <!-- AVP -->
-      <v-flex xs12 sm6 md4 v-if="_fields.includes('avp') && sanctioningBodyId.toLowerCase() !== 'avp'">
+      <v-flex xs12 sm6 md4 v-if="_fields.includes('avp') && sanctioningBody.toLowerCase() !== 'avp'">
         <v-text-field
           name="avp"
           label="AVP Number"
@@ -236,7 +237,7 @@
         ></v-text-field>
       </v-flex>
       <!-- USAV -->
-      <v-flex xs12 sm6 md4 v-if="_fields.includes('usav') && sanctioningBodyId.toLowerCase() !== 'usav'">
+      <v-flex xs12 sm6 md4 v-if="_fields.includes('usav') && sanctioningBody.toLowerCase() !== 'usav'">
         <v-text-field
           name="usav"
           label="USAV Number"
@@ -249,7 +250,7 @@
         ></v-text-field>
       </v-flex>
       <!-- CBVA -->
-      <v-flex xs12 sm6 md4 v-if="_fields.includes('cbva') && sanctioningBodyId.toLowerCase() !== 'cbva'">
+      <v-flex xs12 sm6 md4 v-if="_fields.includes('cbva') && sanctioningBody.toLowerCase() !== 'cbva'">
         <v-text-field
           name="cbva"
           label="CBVA Number"
@@ -262,6 +263,47 @@
         ></v-text-field>
       </v-flex>
     </v-layout>
+    <v-layout row wrap v-if="verifying">
+      <v-flex xs12 sm6 md4 class="color1--text">
+        <v-btn icon color="color1 white--text" :loading="true">
+          <v-icon>check_circle</v-icon>
+        </v-btn>
+        Verifying {{ sanctioningBody }} Number
+      </v-flex>
+    </v-layout>
+    <template v-else-if="aau.dto.id">
+      <v-layout row wrap v-if="aau.valid">
+        <v-flex xs12 sm6 md4 class="green--text">
+          <v-btn icon color="green white--text">
+            <v-icon>check_circle</v-icon>
+          </v-btn>
+          {{ sanctioningBody }} Number Confirmed
+        </v-flex>
+      </v-layout>
+      <v-layout row wrap v-if="!aau.valid">
+        <v-flex xs12 sm6 md4 class="red--text">
+          <v-btn icon color="red white--text">
+            <v-icon>error</v-icon>
+          </v-btn>
+          Invalid {{ sanctioningBody }} Number
+        </v-flex>
+      </v-layout>
+      <v-layout row wrap>
+        <v-flex xs12 sm6 md4>
+          <v-alert outline color="error" icon="warning" :value="true">
+            The {{sanctioningBody}} number and last name you provided do not match. 
+            Please double check the number and the spelling of the last name.
+            If you believe both are correct or you do not have the correct information now
+            please check the box below.
+          </v-alert>
+        </v-flex>
+      </v-layout>
+      <v-layout row wrap>
+        <v-flex xs12>
+          <v-checkbox v-model="skipVerification" :label="`I will provide a valid ${sanctioningBody} number at the tournamen check-in`"></v-checkbox>
+        </v-flex>
+      </v-layout>
+    </template>
   </v-container>
 </template>
 
@@ -269,6 +311,7 @@
 import States from '../../json/states.json'
 import { validationMixin } from 'vuelidate'
 import { required, numeric, minLength, maxLength, email } from 'vuelidate/lib/validators'
+import SDK from '../../VBL'
 
 export default {
   props: ['fields', 'requiredFields', 'player', 'sanctioningBodyId'],
@@ -294,13 +337,33 @@ export default {
   data () {
     return {
       states: States,
-      dobPicker: false
+      dobPicker: false,
+      verifying: false,
+      aau: {
+        dto: {
+          id: '',
+          lastname: '',
+          zipcode: '',
+          dob: '',
+          by: 'lastname'
+        },
+        valid: false
+      },
+      skipVerification: false
     }
   },
   computed: {
     valid () { return !this.$v.$invalid },
     _fields () {
       return this.fields.concat(this.requiredFields)
+    },
+    verified () {
+      if (!this.sanctioningBody) return true
+      if (this.verifying) return false
+      return this.aau.valid || this.skipVerification
+    },
+    sanctioningBody () {
+      return this.sanctioningBodyId ? this.sanctioningBodyId.toLowerCase().startsWith('avp') ? 'AVP' : this.sanctioningBodyId : ''
     }
   },
   methods: {
@@ -316,9 +379,42 @@ export default {
       const [month, day, year] = date.split('/')
       return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
     },
-    test () {
-      // console.log(this.$refs.datePicker)
-      // this.$refs.datePicker.activePicker = 'YEAR'
+    sbVerifyCheck () {
+      console.log('calling sbVerifyCheck')
+      if (!this.sanctioningBody) {
+        console.log('No Sanctioning Body')
+        return
+      }
+      if (this.sanctioningBody.toLowerCase() === 'aau') {
+        console.log('Sanctioning Body is AAU')
+        if (this.player.aau && this.player.lastName) {
+          console.log('Has AAU and LastName')
+          if (this.player.aau !== this.aau.dto.id || this.player.lastName !== this.aau.dto.lastname) {
+            console.log('AAU or LastName has changed')
+            this.reset()
+            this.aauValidate()
+          }
+        }
+      }
+    },
+    reset () {
+      this.skipVerification = false
+      this.aau.valid = false
+      this.aau.dto.id = this.player.aau
+      this.aau.dto.lastname = this.player.lastName
+    },
+    aauValidate () {
+      this.verifying = true
+      const sdk = new SDK(this.axios)
+      sdk.verifyAAU(this.aau.dto)
+        .then((response) => {
+          this.aau.valid = response.data
+          this.verifying = false
+        })
+        .catch((error) => {
+          console.log(error.response.data)
+          this.verifying = false
+        })
     }
   },
   watch: {

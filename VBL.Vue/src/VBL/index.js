@@ -16,4 +16,14 @@ export default class VBL {
   putFeedback (dto) {
     return this.http.put(endpoints.feedback, dto)
   }
+  verifyAAU (dto) {
+    // {
+    //   "id": "string",
+    //   "lastname": "string",
+    //   "zipcode": "string",
+    //   "dob": "string",
+    //   "by": "string"
+    // }
+    return this.http.post(endpoints.aau.verify, dto)
+  }
 }
