@@ -273,6 +273,11 @@ export default {
         this.fetchTourney()
       },
       deep: true
+    },
+    activeTab: function (newTab, oldTab) {
+      if (oldTab) {
+        this.$ga.page(`${this.$route.name}#${newTab}`)
+      }
     }
   },
   created () {

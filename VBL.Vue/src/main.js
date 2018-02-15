@@ -129,6 +129,13 @@ import router from './router'
 import { store } from './store'
 // import * as aTypes from './store/ActionTypes'
 
+import VueAnalytics from 'vue-analytics'
+let gaId = process.env.NODE_ENV === 'production' ? 'UA-114195278-1' : 'UA-114195278-2'
+Vue.use(VueAnalytics, {
+  id: gaId,
+  router
+})
+
 Vue.config.productionTip = false
 
 import { usDollars, usPhone, ordinal } from './Filters'
