@@ -1,7 +1,8 @@
 export default {
-  baseURL: process.env.NODE_ENV === 'production'
-    ? 'https://api.volleyballlife.com/api/v1.0'
-    : 'https://localhost:44351/api/v1.0',
+  aau: {
+    verify: '/AAU/Verify'
+  },
+  baseURL: process.env.NODE_ENV === 'production' ? 'https://api.volleyballlife.com/api/v1.0' : 'https://localhost:44351/api/v1.0',
 //  baseURL: 'https://api.volleyballlife.com/api/v1.0',
 //  baseURL: 'https://localhost:44351/api/v1.0',
   cart: {
