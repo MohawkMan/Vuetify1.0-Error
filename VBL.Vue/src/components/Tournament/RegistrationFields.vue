@@ -223,7 +223,7 @@
         ></v-text-field>
       </v-flex>
       <!-- AVP -->
-      <v-flex xs12 sm6 md4 v-if="_fields.includes('avp') && sanctioningBodyId.toLowerCase() !== 'avp'">
+      <v-flex xs12 sm6 md4 v-if="_fields.includes('avp') && !sanctioningBodyId.toLowerCase().startsWith('avp')">
         <v-text-field
           name="avp"
           label="AVP Number"
