@@ -162,7 +162,7 @@
           :nudge-right="40"
           max-width="290px"
           min-width="290px"
-          @input="test"
+          v-if="false"
         >
           <v-text-field
             ref="dateTextField"
@@ -191,6 +191,16 @@
             </template>
           </v-date-picker>
         </v-menu>
+        <v-text-field
+          ref="dateTextField"
+          label="Birthdate"
+          v-model="dob"
+          mask="##/##/####"
+          :required="requiredFields.includes('dob')"
+          :rules="requiredFields.includes('dob') ? [() => $v.player.dob.required || 'A birthdate is required'] : []"
+          @change="setDob"
+          validate-on-blur
+        ></v-text-field>
       </v-flex>
     </v-layout>
     <!-- Club -->
@@ -294,7 +304,8 @@ export default {
   data () {
     return {
       states: States,
-      dobPicker: false
+      dobPicker: false,
+      dob: null
     }
   },
   computed: {
@@ -304,6 +315,19 @@ export default {
     }
   },
   methods: {
+    setDob () {
+      if (!this.dob || this.dob.length !== 8) {
+        this.player.dobFormatted = null
+        this.player.dob = null
+      } else {
+        const month = this.dob.substring(0, 2)
+        const day = this.dob.substring(2, 4)
+        const year = this.dob.substring(4, 8)
+        this.player.dobFormatted = `${month}/${day}/${year}`
+        this.player.dob = `${year}-${month}-${day}`
+      }
+      this.$v.player.dob.$touch()
+    },
     formatDate (date) {
       if (!date) return null
 
