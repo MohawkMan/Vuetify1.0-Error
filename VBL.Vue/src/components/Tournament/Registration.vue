@@ -256,7 +256,7 @@ export default {
       }
     },
     currentStep: function (newVal, oldVal) {
-      this.$ga.event('Registration', 'Step', this.$route.name, newVal)
+      this.$ga.event('Registration', `Step ${newVal}`, this.$route.name, newVal)
     }
   }
 }
