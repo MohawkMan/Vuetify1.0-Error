@@ -115,7 +115,7 @@ export default {
       'locationOptions'
     ]),
     sanctionOptions () {
-      return ['AAU', 'AVP Tier 4']
+      return ['AAU', 'AVP Tier 4', 'AVP Next']
     },
     genders () {
       if (!this.division.ageType) return this.genderOptions

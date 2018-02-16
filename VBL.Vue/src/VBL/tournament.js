@@ -23,4 +23,7 @@ export default class TournamentSDK {
   publish (id, isPublic) {
     return this.http.post(endpoints.tournament.publish(id, isPublic))
   }
+  getSeededTeams (id) {
+    return this.http.get(endpoints.tournament.getSeededTeams(id))
+  }
 }

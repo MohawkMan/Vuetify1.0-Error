@@ -10,6 +10,60 @@ namespace VBL.Core
 {
     public partial class TournamentManager
     {
+        public async Task<List<TournamentDivision>> GetSeededDivisions(int tournamentId)
+        {
+            var divisions = await _db.TournamentDivisions
+                .Include(i => i.Teams)
+                    .ThenInclude(t => t.Players)
+                .Include(i => i.Days)
+                .Where(w => w.TournamentId == tournamentId)
+                .Where(w => w.Teams.Any(a => !a.IsDeleted))
+                .ToListAsync();
+
+            foreach (var division in divisions)
+            {
+                await SeedDivision(division);
+            }
+            return divisions;
+        }
+        public async Task SeedDivision(TournamentDivision division)
+        {
+            // Load teams
+            if (!_db.Entry(division).Collection(c => c.Teams).IsLoaded)
+                await _db.Entry(division).Collection(c => c.Teams).LoadAsync();
+            // If no team we are done
+            if (!division.Teams.Any())
+                return;
+            // Load days 
+            if (!_db.Entry(division).Collection(c => c.Days).IsLoaded)
+                await _db.Entry(division).Collection(c => c.Days).LoadAsync();
+            // Get 1st day as start date
+            var divisionStartDate = division.Days.OrderBy(o => o.Date).First().Date;
+            var pointWindowStartDate = divisionStartDate.AddYears(-1);
+
+            foreach(var team in division.Teams.Where(w => !w.IsDeleted))
+            {
+                // Load team members
+                if (!_db.Entry(team).Collection(c => c.Players).IsLoaded)
+                    await _db.Entry(team).Collection(c => c.Players).LoadAsync();
+
+                foreach (var player in team.Players)
+                {
+                    // Load player profile
+                    if (!_db.Entry(player).Reference(r => r.PlayerProfile).IsLoaded)
+                        await _db.Entry(player).Reference(r => r.PlayerProfile).LoadAsync();
+
+                    var points = await _db.TournamentTeamMembers
+                        .Where(w => w.PlayerProfileId == player.PlayerProfileId)
+                        .Where(w => w.DtEarned >= pointWindowStartDate)
+                        .Where(w => w.DtEarned < divisionStartDate)
+                        .ToListAsync();
+
+                    player.AauSeedingPoints = points.Where(w => w.SanctioningBodyId == "AAU").Sum(s => s.VblTotalPointsEarned);
+                    player.AvpSeedingPoints = points.Where(w => w.SanctioningBodyId.StartsWith("AVP")).Sum(s => s.VblTotalPointsEarned);
+                }
+            }
+        }
         public async Task SeedDivision(int tournamentDivisionId)
         {
             var division = await _db.TournamentDivisions

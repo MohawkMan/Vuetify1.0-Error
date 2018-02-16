@@ -22,7 +22,7 @@
           </v-toolbar>
           <v-container>
             <v-layout>
-              <tourney-list :tourneys="upcomingTourneys" :loading="tournamentListLoading"></tourney-list>
+              <tourney-list :tourneys="upcomingTourneys" :loading="tournamentListLoading" :page="upcomingPagination"></tourney-list>
             </v-layout>
           </v-container>
         </v-card>
@@ -53,7 +53,8 @@ export default {
   props: ['username'],
   data () {
     return {
-      pastPagination: { sortBy: 'date', page: 1, rowsPerPage: 5, descending: true, totalItems: 0 }
+      upcomingPagination: { sortBy: 'date', page: 1, rowsPerPage: 25, descending: false, totalItems: 0 },
+      pastPagination: { sortBy: 'date', page: 1, rowsPerPage: 25, descending: true, totalItems: 0 }
     }
   },
   computed: {

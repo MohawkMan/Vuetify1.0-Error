@@ -49,11 +49,20 @@ namespace VBL.Data.Mapping
         public string SanctioningBodyId { get; set; }
         public int? TournamentDirectorUserId { get; set; }
     }
+    public class TournamentDivisionTeams
+    {
+        public int TournamentDivisionId { get; set; }
+        public List<TournamentTeamWithPlayersDTO> Teams { get; set; } = new List<TournamentTeamWithPlayersDTO>();
+    }
 
     public class TournamentDivisionProfile : Profile
     {
         public TournamentDivisionProfile()
         {
+            CreateMap<TournamentDivision, TournamentDivisionTeams>()
+                .ForMember(d => d.TournamentDivisionId, opt => opt.MapFrom(d => d.Id))
+                .ForMember(d => d.Teams, opt => opt.MapFrom(d => d.Teams.Where(w => !w.IsDeleted)));
+
             CreateMap<TournamentDivision, TournamentDivisionDTO>()
                 .ForMember(d => d.Teams, opt => opt.MapFrom(s => s.Teams.Where(w => !w.IsDeleted)))
                 //.ForMember(s => s.Offset, opt => opt.MapFrom(d => TimeZoneInfo.FindSystemTimeZoneById(d.Location.TimeZoneName).GetUtcOffset(DateTime.Now)))

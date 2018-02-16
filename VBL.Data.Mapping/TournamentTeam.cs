@@ -15,11 +15,22 @@ namespace VBL.Data.Mapping
         public int? Finish { get; set; }
         //public List<TournamentTeamMember> Players { get; set; } = new List<TournamentTeamMember>();
     }
-
+    public partial class TournamentTeamWithPlayersDTO
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int? AauSeedingPoints { get; set; }
+        public int? AvpSeedingPoints { get; set; }
+        public List<TournamentTeamMemberDTO> Players { get; set; } = new List<TournamentTeamMemberDTO>();
+    }
     public class TournamentTeamProfile : Profile
     {
         public TournamentTeamProfile()
         {
+            CreateMap<TournamentTeam, TournamentTeamWithPlayersDTO>()
+                .ForMember(d => d.AauSeedingPoints, opt => opt.MapFrom(s => s.Players.Sum(x => x.AauSeedingPoints)))
+                .ForMember(d => d.AvpSeedingPoints, opt => opt.MapFrom(s => s.Players.Sum(x => x.AvpSeedingPoints)));
+
             CreateMap<TournamentTeam, TournamentTeamDTO>()
                 .ForMember(d => d.Points, opt => opt.MapFrom(s => Convert.ToInt32(Math.Round(s.Players.Sum(p => p.VblTotalPointsEarned.HasValue ? p.VblTotalPointsEarned.Value : 0), MidpointRounding.AwayFromZero))))
                 .ReverseMap();

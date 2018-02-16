@@ -24,6 +24,7 @@ export default class TournamentDivision {
     }
     this.registrationWindows = [new RegWindow()]
     this.sanctioningBodyId = null
+    this.teams = null
     this.tournamentDirectorUserId = null
 
     if (dto) {

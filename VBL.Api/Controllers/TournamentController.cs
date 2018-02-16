@@ -302,14 +302,25 @@ namespace VBL.Api.Controllers
             }
         }
 
-        [HttpGet("{id}/registrations")]
+        [HttpGet("{id}/seededDivisions")]
+        [ProducesResponseType(typeof(List<TournamentDivisionDTO>), 200)]
         public async Task<IActionResult> GetRegistrations([FromRoute] int id)
         {
-            var userId = Convert.ToInt32(User.UserId(_config.Jwt.Issuer));
-            if (!await _userManager.CanEditTournament(userId, id))
-                return Unauthorized();
+            try
+            { 
+                var userId = Convert.ToInt32(User.UserId(_config.Jwt.Issuer));
+                if (!await _userManager.CanEditTournament(userId, id))
+                    return Unauthorized();
 
-            return Ok();
+                var divisions = await _tournamentManager.GetSeededDivisions(id);
+                var result = _mapper.Map<List<TournamentDivisionTeams>>(divisions);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(-1, e, "ERROR: ");
+                return BadRequest(e.Message);
+            }
         }
         [AllowAnonymous]
         [HttpPut("test")]

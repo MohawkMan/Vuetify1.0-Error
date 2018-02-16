@@ -8,6 +8,7 @@
       <tr style="cursor: pointer">
         <td class="text-xs-center" @click="gotoDetails(props.item.link)">
           <img src="/static/AAU.png" height="40px" :alt="props.item.sanctionedBy" v-if="props.item.sanctionedBy === 'AAU'">
+          <img src="/static/avpnext_icon.png" height="40px" class="avpYellow1" style="border-radius: 7px" :alt="props.item.sanctionedBy" v-else-if="props.item.sanctionedBy === 'AVP Next'">
           <img src="/static/avpfirstlogo.png" height="40px" :alt="props.item.sanctionedBy" v-else-if="props.item.sanctionedBy.startsWith('AVP')">
         </td>
         <td @click="gotoDetails(props.item.link)">

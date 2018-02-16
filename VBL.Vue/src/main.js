@@ -93,7 +93,9 @@ Vue.use(Vuetify, {
     color3: '#189ebb',
     color4: '#92becb',
     color5: '#e1dad0',
-    color6: '#fffced'
+    color6: '#fffced',
+    avpYellow1: '#fcd538',
+    avpYellow2: '#ffd400'
   }
 })
 

@@ -34,7 +34,8 @@ export default {
     register: '/tournament/register',
     bulkRegister: '/tournament/register/upload',
     bulkRegisterOverwrite: '/tournament/register/upload/true',
-    publish: (id, val) => `/tournament/${id}/publish/${val}`
+    publish: (id, val) => `/tournament/${id}/publish/${val}`,
+    getSeededTeams: (id) => `/tournament/${id}/seededDivisions`
   },
   user: {
     login: '/account/Login',

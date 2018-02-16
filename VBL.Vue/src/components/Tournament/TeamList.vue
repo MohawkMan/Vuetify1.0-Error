@@ -6,13 +6,27 @@
     <v-data-table
       v-if="type === 'registrations'"
       :headers="regHeaders"
-      :items="rows"
+      :items="regRows"
       hide-actions
+      :pagination.sync="paging"
+      item-key="name"
     >
       <template slot="items" slot-scope="props">
-        <tr>
-          <td>{{props.item.name}}</td>
+        <tr @click="props.expanded = !props.expanded">
+          <td width="50%">{{props.item.name}}</td>
+          <td width="25%">{{props.item.aau}}</td>
+          <td width="25%">{{props.item.avp}}</td>
         </tr>
+      </template>
+      <template slot="expand" slot-scope="props">
+        <table width="100%">
+          <tr v-for="(player, i) in props.item.players" :key="i">
+            <td width="10%"></td>
+            <td width="40%">{{player.name}}</td>
+            <td width="25%">{{player.aauSeedingPoints}}</td>
+            <td width="25%">{{player.avpSeedingPoints}}</td>
+          </tr>
+        </table>
       </template>
     </v-data-table>
     <v-data-table
@@ -45,7 +59,8 @@ export default {
   props: ['division', 'mode', 'toolbar', 'type'],
   data () {
     return {
-      loading: false
+      loading: false,
+      paging: { sortBy: 'aau', descending: true }
     }
   },
   computed: {
@@ -80,8 +95,20 @@ export default {
     },
     regHeaders () {
       return [
-        {text: 'Name', value: 'name', align: 'left', sortable: false}
+        {text: 'Name', value: 'name', align: 'left', sortable: false},
+        {text: 'AAU Points', value: 'aau', align: 'left', sortable: true},
+        {text: 'AVP Points', value: 'avp', align: 'left', sortable: true}
       ]
+    },
+    regRows () {
+      return this.division.teams.map((team) => {
+        return {
+          name: team.name,
+          aau: team.aauSeedingPoints,
+          avp: team.avpSeedingPoints,
+          players: team.players
+        }
+      })
     }
   }
 }

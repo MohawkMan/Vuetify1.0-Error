@@ -154,7 +154,23 @@
                   <v-toolbar color="color1" dark>
                     <v-toolbar-title>Registered Teams</v-toolbar-title>
                   </v-toolbar>
-                  <v-card-text>
+                  <v-card-text v-if="loadingTeams">
+                    <v-container fill-height>
+                      <v-layout row wrap align-center>
+                        <v-flex xs8 offset-xs2>
+                          <v-layout row wrap text-xs-center>
+                            <v-flex xs12>
+                              <h3>Updating Teams</h3>
+                            </v-flex>
+                            <v-flex xs12>
+                              <v-progress-linear v-bind:indeterminate="true"></v-progress-linear>
+                            </v-flex>
+                          </v-layout>
+                        </v-flex>
+                      </v-layout>
+                    </v-container>
+                  </v-card-text>
+                  <v-card-text v-else>
                     <team-list
                       v-for="(division, i) in tournament.divisionsWithTeams"
                       :key="i"
@@ -199,7 +215,8 @@ export default {
       registration: null,
       loading: true,
       activeTab: null,
-      publish: false
+      publish: false,
+      loadingTeams: false
     }
   },
   computed: {
@@ -251,7 +268,11 @@ export default {
     setTourney (dto) {
       this.tournament = new Tourney(dto)
       this.registration = this.tournament.newRegistration()
-      if (this.complete) this.activeTab = 'results'
+      if (this.complete) {
+        this.activeTab = 'results'
+      } else {
+        this.fetchTeams()
+      }
     },
     register (division) {
       this.registration.setDivision(division)
@@ -272,6 +293,20 @@ export default {
         })
         .catch((error) => {
           console.log(error)
+        })
+    },
+    fetchTeams () {
+      this.loadingTeams = true
+      const sdk = new SDK(this.axios)
+      sdk.tournament.getSeededTeams(this.tournamentId)
+        .then((response) => {
+          console.log(response.data)
+          this.tournament.updateTeams(response.data)
+          this.loadingTeams = false
+        })
+        .catch((error) => {
+          console.log(error)
+          this.loadingTeams = false
         })
     }
   },

@@ -44,6 +44,17 @@ export default class Tournament {
       d.updateFromTemplate(this.divisionTemplate)
     })
   }
+  updateTeams (dto) {
+    // dto = aray of {tournamentDivisionId: 0, teams: []}
+    dto.forEach((item) => {
+      let division = this.divisions.find((d) => {
+        return d.id === item.tournamentDivisionId
+      })
+      if (division) {
+        division.teams = item.teams
+      }
+    })
+  }
 
   // getters
   get dto () {
