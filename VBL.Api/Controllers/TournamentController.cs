@@ -302,15 +302,15 @@ namespace VBL.Api.Controllers
             }
         }
 
-        //[HttpGet("registrations/{tournamentId}")]
-        //public async Task<IActionResult> GetRegistrations([FromRoute] int tournamentId)
-        //{
-        //    var userId = Convert.ToInt32(User.UserId(_config.Jwt.Issuer));
-        //    if (!await _userManager.CanEditTournament(userId, tournamentId))
-        //        return Unauthorized();
-            
+        [HttpGet("{id}/registrations")]
+        public async Task<IActionResult> GetRegistrations([FromRoute] int id)
+        {
+            var userId = Convert.ToInt32(User.UserId(_config.Jwt.Issuer));
+            if (!await _userManager.CanEditTournament(userId, id))
+                return Unauthorized();
 
-        //}
+            return Ok();
+        }
         [AllowAnonymous]
         [HttpPut("test")]
         public async Task<IActionResult> Test()

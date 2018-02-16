@@ -4,6 +4,19 @@
       <v-toolbar-title>{{division.divisionsString}}</v-toolbar-title>
     </v-toolbar>
     <v-data-table
+      v-if="type === 'registrations'"
+      :headers="regHeaders"
+      :items="rows"
+      hide-actions
+    >
+      <template slot="items" slot-scope="props">
+        <tr>
+          <td>{{props.item.name}}</td>
+        </tr>
+      </template>
+    </v-data-table>
+    <v-data-table
+      v-else
       :headers="tableHeaders"
       :items="rows"
       hide-actions
@@ -29,7 +42,7 @@
 
 <script>
 export default {
-  props: ['division', 'mode', 'toolbar'],
+  props: ['division', 'mode', 'toolbar', 'type'],
   data () {
     return {
       loading: false
@@ -64,6 +77,11 @@ export default {
           points: team.points
         }
       })
+    },
+    regHeaders () {
+      return [
+        {text: 'Name', value: 'name', align: 'left', sortable: false}
+      ]
     }
   }
 }

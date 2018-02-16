@@ -55,7 +55,7 @@ namespace VBL.Data.Mapping
         public TournamentDivisionProfile()
         {
             CreateMap<TournamentDivision, TournamentDivisionDTO>()
-                .ForMember(d => d.Teams, opt => opt.MapFrom(s =>s.Teams.Where(w => !w.IsDeleted)))
+                .ForMember(d => d.Teams, opt => opt.MapFrom(s => s.Teams.Where(w => !w.IsDeleted)))
                 //.ForMember(s => s.Offset, opt => opt.MapFrom(d => TimeZoneInfo.FindSystemTimeZoneById(d.Location.TimeZoneName).GetUtcOffset(DateTime.Now)))
                 .ReverseMap()
                 .ForMember(s => s.AgeTypeId, opt => opt.MapFrom(d => d.AgeType.Id))

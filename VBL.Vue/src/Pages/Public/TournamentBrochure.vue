@@ -96,6 +96,10 @@
                 <v-icon>group</v-icon>
                 <span class="hidden-xs-only">Results</span>
               </v-tabs-item>
+              <v-tabs-item href="#teams" ripple v-if="upcoming && userIsAdmin">
+                <v-icon>group</v-icon>
+                <span class="hidden-xs-only">Teams</span>
+              </v-tabs-item>
             </v-tabs-bar>
             <v-tabs-items>
               <v-tabs-content id="information" v-if="!complete">
@@ -145,6 +149,22 @@
                     </v-layout>
                   </v-container>
               </v-tabs-content>
+              <v-tabs-content id="teams" v-if="upcoming && userIsAdmin">
+                <v-card>
+                  <v-toolbar color="color1" dark>
+                    <v-toolbar-title>Registered Teams</v-toolbar-title>
+                  </v-toolbar>
+                  <v-card-text>
+                    <team-list
+                      v-for="(division, i) in tournament.divisionsWithTeams"
+                      :key="i"
+                      :division="division"
+                      :toolbar="true"
+                      type="registrations"
+                    ></team-list>
+                  </v-card-text>
+                </v-card>
+              </v-tabs-content>
             </v-tabs-items>
           </v-tabs>
         </v-card>
@@ -159,12 +179,13 @@ import Tourney from '../../classes/Tournament'
 import moment from 'moment'
 import Divisions from '../../components/Tournament/DivisionList.vue'
 import RegistrationUI from '../../components/Tournament/Registration.vue'
-import Teams from '../../components/Tournament/TeamListExpansion.vue'
+import TeamListExpansion from '../../components/Tournament/TeamListExpansion.vue'
 import * as StatusEnum from '../../classes/TournamentStatus'
 import EditorSimple from '../../components/Tournament/Edit/Simple.vue'
 import RegistrationUploader from '../../components/Tournament/RegistrationUploader.vue'
 import AdminSpeedDial from '../../components/AdminSpeedDial.vue'
 import SDK from '../../VBL'
+import TeamList from '../../components/Tournament/TeamList.vue'
 
 export default {
   props: ['tournamentId', 'username', 'mode'],
@@ -262,10 +283,11 @@ export default {
   components: {
     'division-list': Divisions,
     'tournament-registration': RegistrationUI,
-    'team-list-ex': Teams,
+    'team-list-ex': TeamListExpansion,
     'simple-editor': EditorSimple,
     'registration-uploader': RegistrationUploader,
-    'admin-speed-dial': AdminSpeedDial
+    'admin-speed-dial': AdminSpeedDial,
+    'team-list': TeamList
   },
   watch: {
     '$route.params': {

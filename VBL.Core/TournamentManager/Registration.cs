@@ -12,7 +12,7 @@ namespace VBL.Core
 {
     public partial class TournamentManager
     {
-        public async Task GetRegistrations(int TournamentId)
+        public async Task GetRegistrations(int tournamentId)
         {
 
         }
