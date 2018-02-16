@@ -162,7 +162,6 @@ import RegistrationUI from '../../components/Tournament/Registration.vue'
 import Teams from '../../components/Tournament/TeamListExpansion.vue'
 import * as StatusEnum from '../../classes/TournamentStatus'
 import EditorSimple from '../../components/Tournament/Edit/Simple.vue'
-import * as actions from '../../store/ActionTypes'
 import RegistrationUploader from '../../components/Tournament/RegistrationUploader.vue'
 import AdminSpeedDial from '../../components/AdminSpeedDial.vue'
 import SDK from '../../VBL'
@@ -216,6 +215,7 @@ export default {
       }
       this.loading = true
       const sdk = new SDK(this.axios)
+      console.log('here')
       sdk.tournament.getTournamentById(this.tournamentId)
         .then((response) => {
           this.setTourney(response.data)
@@ -282,7 +282,6 @@ export default {
   },
   created () {
     console.log('Calling fetch tournament')
-    this.$store.dispatch(actions.LOAD_SELECT_OPTIONS)
     this.fetchTourney()
     if (this.mode) {
       this.activeTab = this.mode

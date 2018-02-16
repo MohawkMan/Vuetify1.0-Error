@@ -59,6 +59,7 @@
   import PublicNav from './Nav/Public.vue'
   import PrivateNav from './Nav/Private.vue'
   import * as actions from './store/ActionTypes'
+  import * as mutations from './store/MutationTypes'
   import { mapGetters } from 'vuex'
 
   export default {
@@ -81,10 +82,12 @@
       'private-nav': PrivateNav
     },
     created () {
+      this.$store.commit(mutations.SET_ERROR, null)
       if (this.$auth.isAuthenticated()) {
         this.$store.dispatch(actions.LOAD_USER)
       }
       this.$store.dispatch(actions.LOAD_TOURNAMENT_LIST)
+      this.$store.dispatch(actions.LOAD_SELECT_OPTIONS)
     }
   }
 </script>

@@ -62,7 +62,10 @@
           <template v-for="(player,i) in registration.players">
             <registration-fields-review
             :key="i"
+            :fields="registration.division.registrationFields.fields"
+            :requiredFields="registration.division.registrationFields.requiredFields"
             :player="player"
+            :sanctioningBodyId="registration.division.sanctioningBodyId"
             :i="i+1"
             bgColor="grey lighten-4"
             >
@@ -251,6 +254,9 @@ export default {
           this.partnerString = 'teammates'
         }
       }
+    },
+    currentStep: function (newVal, oldVal) {
+      this.$ga.event('Registration', 'Step', this.$route.name, newVal)
     }
   }
 }

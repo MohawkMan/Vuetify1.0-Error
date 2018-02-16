@@ -30,13 +30,16 @@ namespace VBL.Core
             _tournamentManager = tournamentManager;
         }
 
-        public async Task<ShoppingBag> ProcessBag(ShoppingBagDTO dto)
+        public async Task<ShoppingBag> ProcessBag(ShoppingBagDTO dto, bool skipPayment = false)
         {
             //save the bag
             var bag = await SaveBag(dto);
             //process the payment
-            var payment = await _stripe.ProcessBagPayment(bag);
-            foreach(var item in bag.Items)
+            if(!skipPayment)
+            {
+                var payment = await _stripe.ProcessBagPayment(bag);
+            }
+            foreach (var item in bag.Items)
             {
                 if(! string.IsNullOrWhiteSpace(item.RawRegistrationData))
                 {

@@ -24,6 +24,7 @@ namespace VBL.Data.Mapping
         public string Usav { get; set; }
         public string Club { get; set; }
         public bool Valid { get; set; }
+        public bool ValidNumber { get; set; } = true;
     }
 
     public class TournamentRegistrationPlayerProfile : Profile

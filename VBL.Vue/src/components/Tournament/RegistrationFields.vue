@@ -364,7 +364,7 @@ export default {
         },
         valid: false
       },
-      skipVerification: false
+      skipVerification: false,
       dob: null
     }
   },
@@ -455,6 +455,9 @@ export default {
     },
     verified: function () {
       this.setValid()
+    },
+    'aau.valid': function () {
+      this.player.validNumber = this.aau.valid
     }
   }
 }

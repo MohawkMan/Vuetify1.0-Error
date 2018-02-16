@@ -21,6 +21,7 @@ namespace VBL.Data
         public string CbvaNumber { get; set; }
         public string UsavNumber { get; set; }
         public string Club { get; set; }
+        public bool ValidNumber { get; set; }
 
         public bool NeedsMatchReview { get; set; }
 

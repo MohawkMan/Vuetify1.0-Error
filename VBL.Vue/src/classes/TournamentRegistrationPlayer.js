@@ -17,6 +17,7 @@ export default class TournamentRegistrationPlayer {
     this.usav = null
     this.club = null
     this.valid = false
+    this.validNumber = false
   }
   get fullname () {
     return `${this.firstName} ${this.lastName}`

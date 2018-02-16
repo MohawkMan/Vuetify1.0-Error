@@ -63,7 +63,7 @@ export default {
       return state.selectedTourney
     },
     tournamentList: state => {
-      return state.tournamentList.map(t => new Tournament(t))
+      return state.tournamentList && state.tournamentList.map(t => new Tournament(t))
     },
     tournamentListLoading: state => {
       return state.tournamentListLoading

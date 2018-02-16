@@ -12,6 +12,11 @@ namespace VBL.Core
 {
     public partial class TournamentManager
     {
+        public async Task GetRegistrations(int TournamentId)
+        {
+
+        }
+
         private async Task<TournamentRegistration> DoRegistration(TournamentRegistrationDTO dto, bool sendEmailConfirmation)
         {
             //Map info from VblId if provided

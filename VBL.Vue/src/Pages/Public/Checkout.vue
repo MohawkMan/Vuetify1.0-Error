@@ -248,13 +248,24 @@ export default {
       this.processing = true
       createToken()
         .then((data) => {
-          console.log(data.token)
-          this.token = data.token
-          this.processCart()
+          if (data.token) {
+            console.log(data.token)
+            this.token = data.token
+            this.processCart()
+          } else {
+            this.paymentError = 'An unknown error has occured please try again.'
+            if (data.error) {
+              this.paymentError = data.error.message
+            }
+            this.processing = false
+          }
         })
-        .catch((result) => {
-          console.log(result)
-          this.paymentError = result.error.message
+        .catch((response) => {
+          console.log(response)
+          this.paymentError = 'An unknown error has occured please try again.'
+          if (response && response.error && response.error.message) {
+            this.paymentError = response.error.message
+          }
           this.processing = false
         })
     },

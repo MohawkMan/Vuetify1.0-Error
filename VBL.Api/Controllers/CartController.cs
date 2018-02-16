@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -24,14 +25,16 @@ namespace VBL.Api.Controllers
         private readonly VblConfig _config;
         private readonly VblUserManager _userManager;
         private readonly CartManager _cart;
+        private readonly IHostingEnvironment _environment;
 
-        public CartController(IMapper mapper, ILogger<TournamentController> logger, IOptions<VblConfig> config, VblUserManager userManager, CartManager cart)
+        public CartController(IMapper mapper, ILogger<TournamentController> logger, IOptions<VblConfig> config, VblUserManager userManager, CartManager cart, IHostingEnvironment environment)
         {
             _mapper = mapper;
             _logger = logger;
             _config = config.Value;
             _userManager = userManager;
             _cart = cart;
+            _environment = environment;
         }
 
         [AllowAnonymous]
@@ -40,7 +43,8 @@ namespace VBL.Api.Controllers
         {
             try
             {
-                var order = await _cart.ProcessBag(bag);
+                var skipPay = User.IsMohawkMan() && _environment.IsDevelopment();
+                var order = await _cart.ProcessBag(bag, skipPay);
                 var orderId = $"{order.DtCreated.Value.ToString("yyyyMMdd")}-{order.Id}";
                 return Ok(orderId);
             }
