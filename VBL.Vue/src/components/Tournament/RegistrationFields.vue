@@ -375,6 +375,7 @@ export default {
     },
     verified () {
       if (!this.sanctioningBody) return true
+      if (this.sanctioningBody.toLowerCase() !== 'aau') return true
       if (this.verifying) return false
       return this.aau.valid || this.skipVerification
     },
