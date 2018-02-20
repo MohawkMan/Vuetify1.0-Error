@@ -1,5 +1,3 @@
-import 'es6-promise/auto'
-import 'babel-polyfill'
 import Vue from 'vue'
 
 // Vuetify and individual components
@@ -105,40 +103,12 @@ Vue.use(Vuetify, {
 import Vuelidate from 'vuelidate'
 Vue.use(Vuelidate)
 
-import vbl from './VolleyballLife'
-
 // Http/Ajax
 import VueAxios from 'vue-axios'
 import axios from 'axios'
 Vue.use(VueAxios, axios)
-axios.defaults.baseURL = vbl.baseURL
-
-// Auth
-import VueAuthenticate from 'vue-authenticate'
-Vue.use(VueAuthenticate, {
-  baseUrl: vbl.baseURL,
-  loginUrl: vbl.user.login,
-  signupUrl: vbl.user.register,
-
-  providers: {
-    facebook: {
-      clientId: '710675772455419',
-      redirectUri: 'https://localhost:44351/api/v1.0/Auth/Callback'
-    }
-  }
-})
 
 import App from './App'
-import router from './router'
-import { store } from './store'
-// import * as aTypes from './store/ActionTypes'
-
-import VueAnalytics from 'vue-analytics'
-let gaId = process.env.NODE_ENV === 'production' ? 'UA-114195278-1' : 'UA-114195278-2'
-Vue.use(VueAnalytics, {
-  id: gaId,
-  router
-})
 
 Vue.config.productionTip = false
 
@@ -147,15 +117,8 @@ Vue.filter('usDollars', usDollars)
 Vue.filter('usPhone', usPhone)
 Vue.filter('ordinal', ordinal)
 
-import PageTitle from './components/Utils/PageTitle.vue'
-Vue.component('page-title', PageTitle)
-import Loading from './components/Utils/Loading.vue'
-Vue.component('loading-data', Loading)
-
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
-  router,
-  store,
   render: h => h(App)
 })
