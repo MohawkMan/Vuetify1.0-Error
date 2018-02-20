@@ -64,6 +64,32 @@ namespace VBL.Api.Controllers
             }
         }
 
+        [AllowAnonymous]
+        [HttpGet("summaries")]
+        [ProducesResponseType(typeof(TournamentSummaryDTO), 200)]
+        public async Task<IActionResult> GetAllTournamentSummaries()
+        {
+            try
+            {
+                _logger.LogInformation($"GetAllTournaments");
+                List<int> organizationIds = new List<int>();
+                if (User != null)
+                {
+                    var userId = Convert.ToInt32(User.UserId(_config.Jwt.Issuer));
+                    organizationIds = await _userManager.GetOrganizationIdsAsync(userId);
+                }
+
+                var list = await _tournamentManager.GetTournamentSummariesAsync(organizationIds);
+                return Ok(list);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(-1, e, "ERROR: ");
+                return BadRequest(e.Message);
+            }
+        }
+
+
         /// <summary>
         /// Get Tournament List
         /// </summary>
@@ -322,6 +348,7 @@ namespace VBL.Api.Controllers
                 return BadRequest(e.Message);
             }
         }
+
         [AllowAnonymous]
         [HttpPut("test")]
         public async Task<IActionResult> Test()

@@ -42,7 +42,7 @@ namespace VBL.Core
                 location = division.Location.Name,
                 tournamentlink = $"volleyballlife.com/{tourney.Organization.Username}/tournament/{tourney.Id}",
                 division = $"{division.Gender.Name} {division.Division.Name}",
-                dtrefund = division.DtRefundCutoff.ToVblRefundFormat(),
+                dtrefund = startDay.Date.AddHours(-7).ToVblRefundFormat(),
                 td = new
                 {
                     fullname = td.FullName,

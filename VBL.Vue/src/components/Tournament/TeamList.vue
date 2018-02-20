@@ -1,15 +1,15 @@
 <template>
   <v-card>
-    <v-toolbar color="color3" v-if="toolbar">
+    <v-toolbar color="color3" dark v-if="toolbar">
       <v-toolbar-title>{{division.divisionsString}}</v-toolbar-title>
     </v-toolbar>
     <v-data-table
       v-if="type === 'registrations'"
       :headers="regHeaders"
       :items="regRows"
-      hide-actions
       :pagination.sync="paging"
       item-key="name"
+      hide-actions
     >
       <template slot="items" slot-scope="props">
         <tr @click="props.expanded = !props.expanded">
@@ -60,7 +60,7 @@ export default {
   data () {
     return {
       loading: false,
-      paging: { sortBy: 'aau', descending: true }
+      paging: { sortBy: 'aau', descending: true, rowsPerPage: -1 }
     }
   },
   computed: {

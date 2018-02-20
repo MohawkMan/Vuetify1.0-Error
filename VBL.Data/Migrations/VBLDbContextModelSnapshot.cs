@@ -1231,6 +1231,8 @@ namespace VBL.Data.Migrations
 
                     b.Property<int>("StatusId");
 
+                    b.Property<string>("SummaryJSON");
+
                     b.Property<int?>("TournamentDirectorUserId");
 
                     b.Property<int?>("UserIdCreated");

@@ -4,6 +4,9 @@ export default class TournamentSDK {
   constructor (http) {
     this.http = http
   }
+  getAllSummaries () {
+    return this.http.get(endpoints.tournament.getAllSummaries)
+  }
   getTournamentById (id) {
     return this.http.get(endpoints.tournament.getById(id))
   }

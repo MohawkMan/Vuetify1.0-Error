@@ -21,7 +21,7 @@
         <td @click="gotoDetails(props.item.link)">{{ props.item.name }}</td>
         <td @click="gotoDetails(props.item.link)">{{ props.item.locations }}</td>
         <td>
-          <v-btn small :to="`${props.item.link}/register`" v-if="!admin && props.item.regOpen">
+          <v-btn small :to="`${props.item.link}/register`" v-if="!admin">
             Register
           </v-btn>
         </td>
@@ -70,7 +70,7 @@ export default {
       return this.$route.params.username
     },
     admin () {
-      return this.user && this.user.isPageAdmin(this.pageName)
+      return this.user && this.pageName && this.user.isPageAdmin(this.pageName)
     },
     rows () {
       return this.tourneys ? this.tourneys.map((t) => {

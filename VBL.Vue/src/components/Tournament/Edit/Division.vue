@@ -245,7 +245,6 @@
 <script>
 import { mapGetters } from 'vuex'
 import RegWindow from './RegistrationWindow.vue'
-import * as actions from '../../../store/ActionTypes'
 
 export default {
   props: ['division'],
@@ -338,9 +337,6 @@ export default {
   },
   components: {
     'registration-window': RegWindow
-  },
-  created () {
-    this.$store.dispatch(actions.LOAD_SELECT_OPTIONS)
   }
 }
 </script>

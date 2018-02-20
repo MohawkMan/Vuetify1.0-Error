@@ -29,5 +29,7 @@ namespace VBL.Data
 
         public string ExternalRegistrationUrl { get; set; }
         public string Description { get; set; }
+
+        public string SummaryJSON { get; set; }
     }
 }

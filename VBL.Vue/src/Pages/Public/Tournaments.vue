@@ -1,6 +1,6 @@
 <template>
   <v-container grid-list-md>
-    <v-layout row wrap>
+    <v-layout row wrap v-if="runningTournaments.length > 0">
       <v-flex xs12 sm10 offset-sm1>
         <v-card>
           <v-toolbar dark color="color2" class="mx-auto">
@@ -8,7 +8,7 @@
           </v-toolbar>
           <v-container>
             <v-layout>
-              <tourney-list :tourneys="runningTourneys" :loading="tournamentListLoading"></tourney-list>
+              <tourney-list :tourneys="runningTournaments" :loading="loading"></tourney-list>
             </v-layout>
           </v-container>
         </v-card>
@@ -22,7 +22,7 @@
           </v-toolbar>
           <v-container>
             <v-layout>
-              <tourney-list :tourneys="upcomingTourneys" :loading="tournamentListLoading" :page="upcomingPagination"></tourney-list>
+              <tourney-list :tourneys="upcomingTournaments" :loading="loading" :page="upcomingPagination"></tourney-list>
             </v-layout>
           </v-container>
         </v-card>
@@ -36,7 +36,7 @@
           </v-toolbar>
           <v-container>
             <v-layout>
-              <tourney-list :tourneys="pastTourneys" :loading="tournamentListLoading" :page="pastPagination"></tourney-list>
+              <tourney-list :tourneys="pastTournaments" :loading="loading" :page="pastPagination"></tourney-list>
             </v-layout>
           </v-container>
         </v-card>
@@ -48,31 +48,32 @@
 <script>
 import TourneyList from '../../components/Tournament/TournamentList.vue'
 import { mapGetters } from 'vuex'
+import SDK from '../../VBL'
+import Summary from '../../classes/TournamentSummary'
+import * as StatusEnum from '../../classes/TournamentStatus'
 
 export default {
   props: ['username'],
   data () {
     return {
+      loading: false,
+      summaries: null,
       upcomingPagination: { sortBy: 'date', page: 1, rowsPerPage: 25, descending: false, totalItems: 0 },
       pastPagination: { sortBy: 'date', page: 1, rowsPerPage: 25, descending: true, totalItems: 0 }
     }
   },
   computed: {
     ...mapGetters([
-      'user',
-      'tournamentListLoading',
-      'runningTournaments',
-      'upcomingTournaments',
-      'pastTournaments'
+      'user'
     ]),
-    runningTourneys () {
-      return this.runningTournaments(this.username)
+    pastTournaments () {
+      return this.filterList(StatusEnum.PAST)
     },
-    upcomingTourneys () {
-      return this.upcomingTournaments(this.username)
+    runningTournaments () {
+      return this.filterList(StatusEnum.INPROCESS)
     },
-    pastTourneys () {
-      return this.pastTournaments(this.username)
+    upcomingTournaments () {
+      return this.filterList(StatusEnum.UPCOMING)
     },
     xsClass () {
       return {
@@ -82,10 +83,30 @@ export default {
     }
   },
   methods: {
+    getList () {
+      const sdk = new SDK(this.axios)
+      this.loading = true
+      sdk.tournament.getAllSummaries()
+        .then((response) => {
+          this.summaries = response.data.map(s => new Summary(s))
+          this.loading = false
+        })
+        .catch((error) => {
+          console.log(error)
+          this.loading = false
+        })
+    },
+    filterList (status) {
+      if (this.username) return this.summaries && this.summaries.filter(t => t.dateStatus === status && t.organization.username === this.username)
 
+      return this.summaries && this.summaries.filter(t => t.dateStatus === status)
+    }
   },
   components: {
     'tourney-list': TourneyList
+  },
+  created () {
+    this.getList()
   }
 }
 </script>

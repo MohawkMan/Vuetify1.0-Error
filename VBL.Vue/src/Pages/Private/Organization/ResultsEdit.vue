@@ -289,7 +289,6 @@ export default {
   created () {
     console.log('calling created')
     if (!this.tournamentList) {
-      this.$store.dispatch(actions.LOAD_SELECT_OPTIONS)
       this.$store.dispatch(actions.LOAD_TOURNAMENT_LIST, this.username)
     }
   }

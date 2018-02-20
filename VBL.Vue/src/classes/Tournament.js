@@ -168,4 +168,11 @@ export default class Tournament {
     })
     return (division && division.sanctioningBodyId) || ''
   }
+  get teamList () {
+    let list = []
+    this.divisions.forEach((d) => {
+      list = list.concat(d.teamList)
+    })
+    return list
+  }
 }

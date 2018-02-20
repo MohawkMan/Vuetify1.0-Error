@@ -31,8 +31,17 @@ namespace VBL.Data.Mapping
         public int StatusId { get; set; }
     }
 
-    public class TournamentListItem
+    public class TournamentSummaryDTO
     {
+        public int Id { get; set; }
+        public string StartDate { get; set; }
+        public string EndDate { get; set; }
+        public string Name { get; set; }
+        public List<string> Locations { get; set; }
+        public OrganizationDTOSkinny Organization { get; set; }
+        public bool IsPublic { get; set; }
+        public string SanctionedBy { get; set; }
+        public int StatusId { get; set; }
 
     }
     public class TournamentProfile: Profile
@@ -44,6 +53,8 @@ namespace VBL.Data.Mapping
                 .ForMember(s => s.Organization, opt => opt.Ignore());
 
             CreateMap<TournamentDTOIncoming, Tournament>().EqualityComparison((odto, o) => odto.Id == o.Id);
+
+            CreateMap<Tournament, TournamentSummaryDTO>();
         }
     }
 }

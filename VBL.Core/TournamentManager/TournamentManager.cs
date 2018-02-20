@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using VBL.Data;
 using VBL.Data.Mapping;
 using Hangfire;
+using Newtonsoft.Json;
 
 namespace VBL.Core
 {
@@ -67,6 +68,18 @@ namespace VBL.Core
 
             return await query.ToListAsync();
         }
+        public async Task<List<TournamentSummaryDTO>> GetTournamentSummariesAsync(List<int> organizationIds)
+        {
+            var tournaments = _db.Tournaments
+                 .Where(w => w.StatusId != (int)TournamentStatus.Deleted)
+                 .Where(w => w.IsPublic || organizationIds.Contains(w.OrganizationId))
+                 .Where(w => !string.IsNullOrWhiteSpace(w.SummaryJSON))
+                 .Select(s => JsonConvert.DeserializeObject<TournamentSummaryDTO>(s.SummaryJSON))
+                 .ToListAsync();
+
+            return await tournaments;
+        }
+
         public async Task<List<TournamentDTO>> GetTournamentListAsync(bool publicOnly = true, int? organizationId = null)
         {
             var query = _db.Tournaments
@@ -83,7 +96,7 @@ namespace VBL.Core
         public async Task<List<TournamentDTO>> GetTournamentListAsync(bool publicOnly, string organizationUsername)
         {
             var query = _db.Tournaments
-                .Where(w=>w.Organization.Username == organizationUsername)
+                .Where(w => w.Organization.Username == organizationUsername)
                 .ProjectTo<TournamentDTO>();
 
             if (publicOnly)
@@ -91,6 +104,7 @@ namespace VBL.Core
 
             return await query.ToListAsync();
         }
+
         public async Task<TournamentDTO> GetTournamentAsync(int id)
         {
             var tourney = await _db.Tournaments
@@ -164,11 +178,12 @@ namespace VBL.Core
                 }
             }
 
-            var tourney = _mapper.Map<Tournament>(dto);
-            _db.Tournaments.Add(tourney);
+            var tournament = _mapper.Map<Tournament>(dto);
+            _db.Tournaments.Add(tournament);
+            BackgroundJob.Enqueue<TournamentManager>(t => t.SummarizeTournamentAsync(tournament.Id));
             await _db.SaveChangesAsync();
 
-            return await GetTournamentAsync(tourney.Id);
+            return await GetTournamentAsync(tournament.Id);
         }
         public async Task<TournamentDTO> EditTournamentAsync(TournamentDTOIncoming dto)
         {
@@ -185,8 +200,29 @@ namespace VBL.Core
                 throw new Exception($"Could not find tournament with Id: {dto.Id}");
 
             _mapper.Map(dto, tournament);
+            BackgroundJob.Enqueue<TournamentManager>(t => t.SummarizeTournamentAsync(tournament.Id));
             await _db.SaveChangesAsync();
             return await GetTournamentAsync(tournament.Id);
+        }
+        public void SummarizeTournament(Tournament tournament)
+        {
+            var sum = _mapper.Map<TournamentSummaryDTO>(tournament);
+            tournament.SummaryJSON = JsonConvert.SerializeObject(sum);
+        }
+
+        [Queue("default")]
+        public async Task SummarizeTournamentAsync(int tournamentId)
+        {
+            var tournament = await _db.Tournaments
+                .Include(i => i.Divisions)
+                    .ThenInclude(t => t.Days)
+                .Include(i => i.Divisions)
+                    .ThenInclude(t => t.Location)
+                .Include(i => i.Organization)
+                .FirstOrDefaultAsync(f => f.Id == tournamentId);
+
+            SummarizeTournament(tournament);
+            await _db.SaveChangesAsync();
         }
 
         public async Task<bool> PublishAsync(int id, bool isPublic)
@@ -195,6 +231,7 @@ namespace VBL.Core
 
             tournament.IsPublic = isPublic;
             await _db.SaveChangesAsync();
+            BackgroundJob.Enqueue<TournamentManager>(t => t.SummarizeTournamentAsync(tournament.Id));
             return isPublic;
         }
     }

@@ -76,6 +76,25 @@ export default class TournamentDivision {
       tournamentDirectorUserId: this.tournamentDirectorUserId
     }
   }
+  get teamList () {
+    let list = []
+    this.teams.forEach((t) => {
+      let team = {
+        Division: this.name,
+        'Team Name': t.name,
+        'AAU Points': t.aauSeedingPoints,
+        'AVP Points': t.avpSeedingPoints
+      }
+      for (let i = 0; i < t.players.length; i++) {
+        team[`Player${i + 1} Name`] = t.players[i].name
+        team[`Player${i + 1} AAU Points`] = t.players[i].aauSeedingPoints
+        team[`Player${i + 1} AVP Points`] = t.players[i].avpSeedingPoints
+        team[`Player${i + 1} ProfileId`] = t.players[i].playerProfileId
+      }
+      list.push(team)
+    })
+    return list
+  }
   get name () {
     return `${this.gender.name} ${this.division.name}`
   }

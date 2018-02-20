@@ -68,8 +68,6 @@
                     </v-card-text>
                   </v-card>
                 </v-flex>
-              </v-layout>
-              <v-layout row wrap>
                 <v-flex xs12 sm6>
                   <v-card class="text-xs-center">
                     <v-toolbar dense color="color4">
@@ -92,6 +90,8 @@
                     </v-card-text>
                   </v-card>
                 </v-flex>
+              </v-layout>
+              <v-layout row wrap>
               </v-layout>
             </v-container>
           </v-card-text>

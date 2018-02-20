@@ -57,7 +57,6 @@
 
 <script>
 import DivisionList from './DivisionList.vue'
-import * as actions from '../../../store/ActionTypes'
 import vbl from '../../../VolleyballLife'
 
 export default {
@@ -89,9 +88,6 @@ export default {
   },
   components: {
     'division-list': DivisionList
-  },
-  created () {
-    this.$store.dispatch(actions.LOAD_SELECT_OPTIONS)
   }
 }
 </script>

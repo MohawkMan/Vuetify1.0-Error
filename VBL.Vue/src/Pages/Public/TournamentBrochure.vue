@@ -153,6 +153,12 @@
                 <v-card>
                   <v-toolbar color="color1" dark>
                     <v-toolbar-title>Registered Teams</v-toolbar-title>
+                    <div class="d-flex align-center" style="margin-left: auto">
+                      <v-btn flat @click="exportTeams">
+                        <v-icon class="mr-3">cloud_download</v-icon>
+                        download
+                      </v-btn>
+                    </div>
                   </v-toolbar>
                   <v-card-text v-if="loadingTeams">
                     <v-container fill-height>
@@ -202,6 +208,7 @@ import RegistrationUploader from '../../components/Tournament/RegistrationUpload
 import AdminSpeedDial from '../../components/AdminSpeedDial.vue'
 import SDK from '../../VBL'
 import TeamList from '../../components/Tournament/TeamList.vue'
+import Papa from 'papaparse'
 
 export default {
   props: ['tournamentId', 'username', 'mode'],
@@ -239,6 +246,9 @@ export default {
     },
     upcoming () {
       return this.tournament.dateStatus === StatusEnum.UPCOMING
+    },
+    teamList () {
+      return this.tournament.teamList
     }
   },
   methods: {
@@ -308,6 +318,18 @@ export default {
           console.log(error)
           this.loadingTeams = false
         })
+    },
+    exportTeams () {
+      var fileName = this.tournament.name.replace(/ /g, '_') + 'TeamList.csv'
+      var csv = Papa.unparse(this.tournament.teamList)
+      console.log(csv)
+      var blob = new Blob([csv])
+      var a = window.document.createElement('a')
+      a.href = window.URL.createObjectURL(blob, {type: 'text/plain'})
+      a.download = fileName
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
     }
   },
   filters: {
@@ -338,7 +360,6 @@ export default {
     }
   },
   created () {
-    console.log('Calling fetch tournament')
     this.fetchTourney()
     if (this.mode) {
       this.activeTab = this.mode

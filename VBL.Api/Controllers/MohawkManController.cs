@@ -23,20 +23,41 @@ namespace VBL.Api.Controllers
         private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly EmailManager _emailManager;
         private readonly VBLDbContext _db;
+        private readonly TournamentManager _tournamentManager;
 
-        public MohawkManController(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager, VBLDbContext db, EmailManager emailManager)
+        public MohawkManController(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager, VBLDbContext db, EmailManager emailManager, TournamentManager tournamentManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _db = db;
             _emailManager = emailManager;
+            _tournamentManager = tournamentManager;
         }
         [AllowAnonymous]
         [HttpGet("Init")]
         public async Task<IActionResult> Init()
         {
-            await _db.EnsureSeedData(_userManager, _roleManager);
-            return Ok("Created");
+            try
+            {
+                var tournaments = await _db.Tournaments
+                    .Include(i => i.Divisions)
+                        .ThenInclude(t => t.Days)
+                    .Include(i => i.Divisions)
+                        .ThenInclude(t => t.Location)
+                    .Include(i => i.Organization)
+                    .ToListAsync();
+
+                foreach (var tournament in tournaments)
+                {
+                    _tournamentManager.SummarizeTournament(tournament);
+                }
+                await _db.SaveChangesAsync();
+                return Ok(tournaments.Select(s => s.SummaryJSON).ToList());
+            }
+            catch(Exception e)
+            {
+                return BadRequest();
+            }
         }
 
         [AllowAnonymous]

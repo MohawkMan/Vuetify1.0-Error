@@ -29,6 +29,7 @@ export default {
     getRawById: (id) => `/tournament/${id}/raw`,
     put: '/tournament',
     getAll: '/tournament/list',
+    getAllSummaries: '/tournament/summaries',
     getByOrganizationId: (organizationId) => `/tournament/list/${organizationId}`,
     getByOrganizationUserName: (username) => `/tournament/${username}/list`,
     register: '/tournament/register',

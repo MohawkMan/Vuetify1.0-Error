@@ -86,14 +86,13 @@
                             v-model="tournament.divisionTemplate.days[0].dateFormatted"
                             required
                             :disabled="saving"
-                            @blur="tournament.divisionTemplate.days[0].date = parseDate(tournament.divisionTemplate.days[0].dateFormatted)"
                           ></v-text-field>
                           <v-date-picker 
                             no-title
                             scrollable 
                             actions 
                             v-model="tournament.divisionTemplate.days[0].date"
-                            @input="tournament.divisionTemplate.days[0].dateFormatted = formatDate($event)"
+                            @input="onDateChange"
                             :disabled="saving">
                             <template slot-scope="{ save, cancel }">
                               <v-card-actions>
@@ -321,6 +320,7 @@ import RegWindow from './RegistrationWindow.vue'
 import DivisionListSimple from './DivisionListSimple.vue'
 import SDK from '../../../VBL'
 import * as mutations from '../../../store/MutationTypes'
+import moment from 'moment'
 
 export default {
   props: ['tournamentIn', 'open'],
@@ -435,6 +435,14 @@ export default {
     },
     closeMe () {
       this.$emit('closeClick')
+    },
+    onDateChange () {
+      const date = moment(this.tournament.divisionTemplate.days[0].date)
+      this.tournament.divisionTemplate.days[0].dateFormatted = date.format('MM/DD/YYYY')
+
+      let dayBefore = moment(date).subtract(1, 'days')
+      this.tournament.divisionTemplate.registrationWindows[0].endDate = dayBefore.format('YYYY-MM-DD')
+      this.tournament.divisionTemplate.registrationWindows[0].endDateFormatted = dayBefore.format('MM/DD/YYYY')
     }
   },
   watch: {
